@@ -13,7 +13,13 @@ const getDir = (file: string, dir: string = 'log') => {
   const newDate = new Date();
   const pathLike = resolve(
     rDir,
-    newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate() + '-' + file
+    newDate.getFullYear() +
+      '-' +
+      (newDate.getMonth() + 1) +
+      '-' +
+      newDate.getDate() +
+      '-' +
+      file
   );
   try {
     if (!fs.existsSync(rDir)) {
@@ -21,18 +27,18 @@ const getDir = (file: string, dir: string = 'log') => {
       fs.appendFileSync(pathLike, '');
     }
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
   return fs.createWriteStream(pathLike);
-}
+};
 
-const infoStream =  getDir('info.txt');
+const infoStream = getDir('info.txt');
 const errorStream = getDir('error.txt');
 const debugStream = getDir('debug.txt');
 
 export const Logger: Logger = {
   info: msg => {
-    var message = new Date().toISOString() + " : " + msg + "\n";
+    var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
       infoStream.write(message);
     } else {
@@ -40,16 +46,15 @@ export const Logger: Logger = {
     }
   },
   debug: msg => {
-    var message = new Date().toISOString() + " : " + msg + "\n";
+    var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
       debugStream.write(message);
     } else {
       console.debug(msg);
     }
-
   },
   error: msg => {
-    var message = new Date().toISOString() + " : " + msg + "\n";
+    var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
       errorStream.write(message);
     } else {

@@ -11,7 +11,7 @@ export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunc
   const visitorId = req.signedCookies['visitID'];
   const uniqID = uuidv4();
   const newDate = new Date();
-  const now = newDate.toISOString();
+  const now = newDate.toLocaleString();
   if (!visitorId) {
     res.cookie('visitID', uniqID, { signed: true, expires: new Date(newDate.getFullYear() + 99, newDate.getMonth(), newDate.getDay()) });
   }
