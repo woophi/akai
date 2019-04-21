@@ -45,7 +45,6 @@ i18nInstance
         // serve locales for client
         appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
         import('./lib/db');
-        // import('./lib/redis');
 
         router(appExpress, handle);
 

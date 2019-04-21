@@ -7,6 +7,8 @@ export default {
 
   DEV_MODE: process.env.NODE_ENV !== 'production',
 
-  COOKIE_SECRET: process.env.COOKIE_SECRET || '123'
+  COOKIE_SECRET: process.env.COOKIE_SECRET || '123',
+
+
 
 }
