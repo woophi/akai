@@ -15,9 +15,9 @@ export const createUser = async (
   Logger.debug(`starting validate new user ${new Date().toLocaleTimeString()}`);
 
   const userData = {
-    email: String(req.body.email),
-    name: String(req.body.name),
-    password: String(req.body.password)
+    email: req.body.email,
+    name: req.body.name,
+    password: req.body.password
   };
   async.series(
     [
@@ -32,17 +32,23 @@ export const createUser = async (
           cb
         ),
 
-      async cb => {
+      cb => {
         Logger.debug(`trying to find existing user`);
 
-        const user = await UserModel
+        UserModel
           .findOne({ email: userData.email.toLowerCase() })
           .lean()
-          .exec();
+          .exec((err, user) => {
+            if (err) {
+              Logger.error(err);
+              return next();
+            }
+            if (user) {
+              return res.send({ error: 'User already exists' }).status(400);
+            }
+            return cb();
+          });
 
-        if (user)
-          return res.send({ error: 'User already exists' }).status(400);
-        return cb();
       }
     ],
     async () => {

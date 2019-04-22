@@ -1,3 +1,2 @@
-import { Document } from 'mongoose';
-
-export type Model<T> = T & Document;
+export * from './mongoModel';
+export * from './user';

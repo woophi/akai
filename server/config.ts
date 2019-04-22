@@ -9,6 +9,5 @@ export default {
 
   COOKIE_SECRET: process.env.COOKIE_SECRET || '123',
 
-
-
+  ACCESS_SECRET: process.env.ACCESS_SECRET || '124'
 }

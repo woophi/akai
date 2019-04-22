@@ -14,6 +14,7 @@ const Backend = require('i18next-node-fs-backend');
 import { i18nInstance } from './lib/i18n';
 import { registerSocket } from './lib/sockets';
 import { router } from './router';
+import { initExpressSession } from './identity';
 
 i18nInstance
   .use(Backend)
@@ -41,6 +42,7 @@ i18nInstance
           appExpress.set('trust proxy', 1);
         }
         appExpress.use(cookieParser(config.COOKIE_SECRET));
+        appExpress.use(initExpressSession());
         appExpress.use(i18nextMiddleware.handle(i18nInstance));
         // serve locales for client
         appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));

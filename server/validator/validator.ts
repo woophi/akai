@@ -1,6 +1,5 @@
 
 import { Request, Response, NextFunction } from 'express';
-import { Logger } from '../logger';
 import { isEmpty } from 'ramda';
 
 export class Validator {
@@ -57,6 +56,10 @@ export class Validator {
       const err = 'email is invalid';
       return err;
     }
+  }
+
+  typeOfString = (value: any) => {
+    return typeof value === 'string'
   }
 
 }

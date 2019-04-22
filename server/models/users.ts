@@ -14,6 +14,12 @@ export const UsersSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
+    },
+    refershToken: {
+      type: String
+    },
+    accessToken: {
+      type: String
     }
   },
 	{ collection: 'users' }

@@ -1,10 +1,13 @@
 import * as crypto from 'crypto';
 import * as util from 'util';
+import { Encryption } from './encryption';
 
 const pbkdf2Async = util.promisify(crypto.pbkdf2);
 
-export class Hashing {
-  constructor() {}
+export class Hashing extends Encryption {
+  constructor() {
+    super();
+  }
   private iteration = 10000;
   async verifyPassword(password: string, hashedPassword: string) {
     let decodedBuffer: Buffer = null;

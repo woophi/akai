@@ -5,6 +5,7 @@ import { getBlogData } from './controllers/blog';
 import { IncomingMessage, ServerResponse } from 'http';
 import { UrlLike } from 'next/router';
 import * as admin from './controllers/admin';
+import * as auth from './auth';
 
 export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
 
@@ -13,6 +14,9 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
   app.get('/api/health', health.get);
   app.post('/api/guest/visit', connectedUniqVisitor);
   app.get('/api/guest/blog?', getBlogData);
+
+  // user
+  app.post('/api/app/user/login', auth.login)
 
   // admin
   app.post('/api/admin/new/user', admin.createUser);
