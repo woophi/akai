@@ -6,12 +6,13 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { UrlLike } from 'next/router';
 import * as admin from './controllers/admin';
 import * as auth from './auth';
+import * as identity from './identity';
 
 export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
 
   app.use('/favicon.ico', (req, res) => res.status(200).send());
 
-  app.get('/api/health', health.get);
+  app.get('/api/health', identity.authorizedForSuperAdmin, health.get);
   app.post('/api/guest/visit', connectedUniqVisitor);
   app.get('/api/guest/blog?', getBlogData);
 
@@ -19,7 +20,7 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
   app.post('/api/app/user/login', auth.login)
 
   // admin
-  app.post('/api/admin/new/user', admin.createUser);
+  app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
 
   app.get('*', (req, res) => {
     return handle(req, res);

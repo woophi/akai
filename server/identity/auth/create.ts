@@ -81,12 +81,17 @@ export class Auth extends Hashing {
         id: user.id,
         roles: user.roles
       }
-      const accessToken = setAccessToken(tokenParams);
+      let payload: {
+        accessToken: string;
+        refershToken?: string;
+      } = {
+        accessToken: setAccessToken(tokenParams)
+      };
+      if (!user.refershToken) {
+        payload.refershToken = setRefreshToken(tokenParams)
+      }
       user
-        .set({
-          accessToken,
-          refershToken: setRefreshToken(tokenParams)
-        })
+        .set(payload)
         .save((err) => {
           if (err) {
             Logger.error(err);
@@ -99,8 +104,10 @@ export class Auth extends Hashing {
         httpOnly: true,
         maxAge: this.tenDays,
       };
+      req.session.cookie.maxAge = this.tenDays;
+      // req.session.cookie.httpOnly = true;
       res.cookie('akai.uid', userToken, cookieOpts);
-      onSuccess(accessToken);
+      onSuccess(payload.accessToken);
     });
   }
 }
