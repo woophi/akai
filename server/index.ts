@@ -1,3 +1,9 @@
+const dotenv = require('dotenv');
+const result = dotenv.config();
+if (result.error) {
+  throw result.error
+}
+
 import { join } from 'path';
 import * as express from 'express';
 import * as next from 'next';
@@ -7,6 +13,7 @@ import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
 import { createServer } from 'http';
 import config from './config';
+
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
 const i18nextMiddleware = require('i18next-express-middleware')

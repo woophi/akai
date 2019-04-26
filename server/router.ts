@@ -7,6 +7,7 @@ import { UrlLike } from 'next/router';
 import * as admin from './controllers/admin';
 import * as auth from './auth';
 import * as identity from './identity';
+import * as mails from './mails';
 
 export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
 
@@ -21,6 +22,15 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
+
+
+  // TODO: remove
+  app.post('/api/testMail', async (req, res, next) => {
+
+    const mailer = new mails.Mailer();
+    await mailer.init();
+    return res.sendStatus(204);
+  })
 
   app.get('*', (req, res) => {
     return handle(req, res);
