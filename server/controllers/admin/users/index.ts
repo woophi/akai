@@ -57,7 +57,12 @@ export const createUser = async (
         `creating hash for new user password ${new Date().toLocaleTimeString()}`
       );
 
-      userData.password = await hashing.hashPassword(userData.password);
+      try {
+        userData.password = await hashing.hashPassword(userData.password);
+      } catch (e) {
+        new Error(e);
+        return res.send().status(500);
+      }
 
       Logger.debug(
         `created hash for new user password ${new Date().toLocaleTimeString()}`

@@ -32,7 +32,7 @@ export class Auth extends Hashing {
     this.onFail = onFail;
   }
 
-  private generalError = new Error('Incorrect email or password');
+  public generalError = new Error('Incorrect email or password');
   private tenDays = 10 * 24 * 60 * 60 * 1000;
 
   public signin = async () => {
@@ -52,9 +52,13 @@ export class Auth extends Hashing {
       .findOne({ email: String(data.email).toLowerCase() })
       .exec(async (err, user: User) => {
         if (user) {
-          const passMatch = await this.verifyPassword(String(data.password), user.password);
-          if (passMatch) {
-            return await this.proceedUserSession(user);
+          try {
+            const passMatch = await this.verifyPassword(String(data.password), user.password);
+            if (passMatch) {
+              return await this.proceedUserSession(user);
+            }
+          } catch {
+            return onFail(generalError);
           }
         }
         if (err) {
@@ -98,16 +102,20 @@ export class Auth extends Hashing {
             return onFail(generalError);
           }
         });
-      var userToken = user.id + ':' + await encrypt(user.password, user.password);
-      var cookieOpts = {
-        signed: true,
-        httpOnly: true,
-        maxAge: this.tenDays,
-      };
-      req.session.cookie.maxAge = this.tenDays;
-      // req.session.cookie.httpOnly = true;
-      res.cookie('akai.uid', userToken, cookieOpts);
-      onSuccess(payload.accessToken);
+      try {
+        const userToken = user.id + ':' + await encrypt(user.password, user.password);
+        const cookieOpts = {
+          signed: true,
+          httpOnly: true,
+          maxAge: this.tenDays,
+        };
+        req.session.cookie.maxAge = this.tenDays;
+        // req.session.cookie.httpOnly = true;
+        res.cookie('akai.uid', userToken, cookieOpts);
+        onSuccess(payload.accessToken);
+      } catch {
+        return onFail(generalError);
+      }
     });
   }
 }

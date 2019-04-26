@@ -1,8 +1,5 @@
 import * as crypto from 'crypto';
-import * as util from 'util';
 import { Encryption } from './encryption';
-
-const pbkdf2Async = util.promisify(crypto.pbkdf2);
 
 export class Hashing extends Encryption {
   constructor() {
@@ -21,37 +18,41 @@ export class Hashing extends Encryption {
     if (saltLength < 128 / 8) {
       return false;
     }
+    try {
 
-    let salt = await crypto.randomBytes(16);
+      let salt = await crypto.randomBytes(16);
 
-    // take the salt from the stored hash in the database.
-    // we effectively overwrite the bytes here from our random buffer.
-    decodedBuffer.copy(salt, 0, 13, 13 + saltLength);
+      // take the salt from the stored hash in the database.
+      // we effectively overwrite the bytes here from our random buffer.
+      decodedBuffer.copy(salt, 0, 13, 13 + saltLength);
 
-    let subkeyLength = decodedBuffer.length - 13 - saltLength;
+      let subkeyLength = decodedBuffer.length - 13 - saltLength;
 
-    if (subkeyLength < 128 / 8) {
-      return false;
+      if (subkeyLength < 128 / 8) {
+        return false;
+      }
+
+      let expectedSubkey = Buffer.alloc(32);
+
+      decodedBuffer.copy(
+        expectedSubkey,
+        0,
+        13 + saltLength,
+        13 + saltLength + expectedSubkey.length
+      );
+
+      let acutalSubkey = await crypto.pbkdf2Sync(
+        String(password),
+        salt,
+        this.iteration,
+        32,
+        'sha256'
+      );
+
+      return Buffer.compare(acutalSubkey, decodedBuffer);
+    } catch (e) {
+      new Error(e);
     }
-
-    let expectedSubkey = Buffer.alloc(32);
-
-    decodedBuffer.copy(
-      expectedSubkey,
-      0,
-      13 + saltLength,
-      13 + saltLength + expectedSubkey.length
-    );
-
-    let acutalSubkey = await pbkdf2Async(
-      password,
-      salt,
-      this.iteration,
-      32,
-      'sha256'
-    );
-
-    return Buffer.compare(acutalSubkey, decodedBuffer);
   }
 
   async hashPassword(password: string) {
@@ -59,7 +60,7 @@ export class Hashing extends Encryption {
       // Create a salt with cryptographically secure method.
       let salt = await crypto.randomBytes(16);
 
-      let subkey = await pbkdf2Async(password, salt, this.iteration, 32, 'sha256');
+      let subkey = await crypto.pbkdf2Sync(String(password), salt, this.iteration, 32, 'sha256');
 
       let outputBytes = Buffer.alloc(13 + salt.length + subkey.length);
 

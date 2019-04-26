@@ -4,7 +4,7 @@ import * as kia from '../validator';
 import * as identity from '../identity';
 import * as async from 'async';
 
-export const login = async (
+export const login = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -47,7 +47,11 @@ export const login = async (
       Logger.debug(
         `proceed with signin ${new Date().toLocaleTimeString()}`
       );
-      await auth.signin();
+      try {
+        await auth.signin();
+      } catch {
+        return onFail(auth.generalError)
+      }
     }
   );
 };
