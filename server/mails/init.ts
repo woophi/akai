@@ -1,5 +1,6 @@
 import * as nodemailer from 'nodemailer';
 import config from '../config';
+import { Logger } from '../logger';
 
 /**
  * TODO: create queue to send mails
@@ -25,11 +26,11 @@ export class Mailer {
     });
     let info = await transporter.sendMail({
       from: '"👻"', // sender address
-      to: 'konstantin.mikheev@icord.cz', // list of receivers
+      to: 'attendentofsky@gmail.com', // list of receivers
       subject: 'Hello ✔✔✔', // Subject line
       text: 'Hello world?', // plain text body
       html: '<b>Hello world?</b>' // html body
     });
-    console.log('Message sent: %s', info.messageId);
+    Logger.debug('Message sent: ' + info.messageId);
   };
 }

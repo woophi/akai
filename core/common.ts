@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 export type HTTPMethod = 'get' | 'post' | 'put' | 'delete';
 
-export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any, auth?: string): Promise<T> => {
+export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any = null, auth?: string): Promise<T> => {
   const rc: AxiosRequestConfig = {
     url: 'http://localhost:3003' + url,
     headers: {
