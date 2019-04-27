@@ -8,6 +8,7 @@ import * as admin from './controllers/admin';
 import * as auth from './auth';
 import * as identity from './identity';
 import * as mails from './mails';
+import { EmailTemplate } from './mails/types';
 
 export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
 
@@ -27,8 +28,14 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
   // TODO: remove
   app.post('/api/testMail', async (req, res, next) => {
 
-    const mailer = new mails.Mailer();
-    await mailer.init();
+    const mailer = new mails.Mailer(
+      'test emails',
+      EmailTemplate.email,
+      req.body.to.split(', '),
+      'test subject ````o¶¶¶¶_````q¶¶_',
+      'privetiki'
+    );
+    mailer.performQueue();
     return res.sendStatus(204);
   })
 

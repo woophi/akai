@@ -13,7 +13,7 @@ import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
 import { createServer } from 'http';
 import config from './config';
-
+import { agenda } from './lib/agenda';
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
 const i18nextMiddleware = require('i18next-express-middleware')
@@ -54,7 +54,7 @@ i18nInstance
         // serve locales for client
         appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
         import('./lib/db');
-
+        agenda.start();
         router(appExpress, handle);
 
         const server = createServer(appExpress);
@@ -92,6 +92,7 @@ i18nInstance
 
 process.on('uncaughtException', (err) => {
   console.error(err);
+  agenda.stop();
   process.exit(1);
 });
 

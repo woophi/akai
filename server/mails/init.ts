@@ -1,21 +1,25 @@
 import * as nodemailer from 'nodemailer';
 import config from '../config';
 import { Logger } from '../logger';
-
-/**
- * TODO: create queue to send mails
- * TODO: send general mail
- * TODO: gracefull template
- * TODO: i don't want to wait for all mails when sending posts
- */
+import { agenda } from '../lib/agenda';
+import { EmailTemplate } from './types';
+const hbs = require('nodemailer-express-handlebars');
 
 export class Mailer {
-  constructor() {}
+  constructor(
+    protected job: string,
+    protected templateName: EmailTemplate,
+    protected to: string[],
+    protected subject: string,
+    protected shortText: string,
+    protected context?: { [key: string]: any }
+  ) {
+    this.init();
+  }
+  private transporter;
 
-  init = async () => {
-
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
+  private init = () => {
+    this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
       secure: true,
@@ -24,13 +28,49 @@ export class Mailer {
         pass: config.GMAIL_APP_PASS
       }
     });
-    let info = await transporter.sendMail({
-      from: '"👻"', // sender address
-      to: 'attendentofsky@gmail.com', // list of receivers
-      subject: 'Hello ✔✔✔', // Subject line
-      text: 'Hello world?', // plain text body
-      html: '<b>Hello world?</b>' // html body
+    agenda.define(this.job, (job, done) => {
+      this.to.forEach(emailAddress => {
+        this.sendMail(emailAddress, done);
+      });
     });
-    Logger.debug('Message sent: ' + info.messageId);
   };
+
+  private handlebarOptions = {
+    viewEngine: {
+      extName: '.hbs',
+      partialsDir: 'server/mails/views',
+      layoutsDir: 'server/mails/views',
+      defaultLayout: 'email.hbs',
+    },
+    viewPath: 'server/mails/views',
+    extName: '.hbs',
+  };
+
+
+  sendMail = async (to: string, done?: (err?: Error) => void) => {
+    try {
+      this.transporter.use('compile', hbs(this.handlebarOptions));
+      let info = await this.transporter.sendMail({
+        from: '"👻"',
+        to,
+        subject: this.subject,
+        text: this.shortText,
+        template: this.templateName,
+        context: this.context
+      });
+      Logger.debug('Message sent: ' + info.messageId);
+      if (done) {
+        done();
+      }
+    } catch (error) {
+      Logger.error(error);
+      if (done) {
+        done(error);
+      }
+    }
+  };
+
+  performQueue = () => {
+    agenda.now(this.job);
+  }
 }

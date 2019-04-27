@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import config from '../../config';
 import { Logger } from '../../logger';
 mongoose.set('useCreateIndex', true);
-const databaseUri = config.PORT_MONGO + '/turbodrive';
+export const databaseUri = config.PORT_MONGO + '/turbodrive';
 export const connection = mongoose.connect(databaseUri, { useNewUrlParser: true });
 
 connection
