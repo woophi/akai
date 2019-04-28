@@ -9,7 +9,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { zaeb } from 'core/operations';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -30,10 +29,6 @@ class Index extends React.Component<Props, LocalState> {
   state: LocalState = {
     open: false
   };
-
-  componentDidMount() {
-    zaeb();
-  }
 
   handleClose = () => {
     this.setState({

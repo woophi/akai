@@ -3,7 +3,7 @@ const result = dotenv.config();
 if (result.error) {
   throw result.error
 }
-
+import * as fs from 'fs';
 import { join } from 'path';
 import * as express from 'express';
 import * as next from 'next';
@@ -22,6 +22,7 @@ import { i18nInstance } from './lib/i18n';
 import { registerSocket } from './lib/sockets';
 import { router } from './router';
 import { initExpressSession } from './identity';
+import * as fileUpload from 'express-fileupload';
 
 i18nInstance
   .use(Backend)
@@ -40,6 +41,7 @@ i18nInstance
         const appExpress = express();
         appExpress.use(bodyParser.urlencoded({ extended: true }));
         appExpress.use(bodyParser.json());
+        appExpress.use(fileUpload())
         if (config.DEV_MODE) {
           appExpress.use(logger('dev'));
         } else {
@@ -54,6 +56,9 @@ i18nInstance
         // serve locales for client
         appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
         import('./lib/db');
+        if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
+          fs.mkdirSync(join(__dirname, 'storage/temp'))
+        }
         agenda.start();
         router(appExpress, handle);
 

@@ -1,7 +1,6 @@
 import { Server } from 'http';
 import * as socket from 'socket.io';
 import { Logger } from '../../logger';
-import { ClientCallback } from '../events';
 
 export const registerSocket = (server: Server) => {
   const io = socket(server);
@@ -12,7 +11,5 @@ export const registerSocket = (server: Server) => {
       Logger.info('user disconnected')
     });
     socket.emit('welcome');
-
-    ClientCallback.on('testCb', () => socket.emit('testCb'));
   });
 }

@@ -9,6 +9,7 @@ import * as auth from './auth';
 import * as identity from './identity';
 import * as mails from './mails';
 import { EmailTemplate } from './mails/types';
+import { Storage } from './storage';
 
 export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
 
@@ -36,6 +37,11 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
       'privetiki'
     );
     mailer.performQueue();
+    return res.sendStatus(204);
+  });
+
+  app.post('/storage/upload', (req, res, next) => {
+    new Storage(req.files);
     return res.sendStatus(204);
   })
 

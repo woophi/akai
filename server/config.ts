@@ -12,5 +12,9 @@ export default {
   ACCESS_SECRET: process.env.ACCESS_SECRET || '124',
 
   GMAIL_APP_PASS: process.env.GMAIL_APP_PASS,
-  GMAIL_USER: process.env.GMAIL_USER
+  GMAIL_USER: process.env.GMAIL_USER,
+
+  FS_CLOUD_NAME: process.env.FS_CLOUD_NAME,
+  FS_API_KEY: process.env.FS_API_KEY,
+  FS_API_SECRET: process.env.FS_API_SECRET
 }

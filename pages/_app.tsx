@@ -38,6 +38,7 @@ class MyApp extends App {
       jssStyles.parentNode.removeChild(jssStyles);
     }
     import('core/socket');
+    import('core/fire-callbacks');
   }
   render () {
     const { Component, pageProps, store, i18nProviderProps } = this.props as any;
