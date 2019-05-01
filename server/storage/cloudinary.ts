@@ -24,6 +24,8 @@ export const upload_stream = (fileName: string) =>
   });
 
 export const registerCloudinaryEvents = () => {
+  Logger.debug('Register Cloudinary Events');
+
   ClientCallback.on(FStorageEvents.CLOUDINARY_ASK, fileName => {
     fs.createReadStream(resolve(__dirname, 'temp', fileName)).pipe(
       upload_stream(fileName)

@@ -3,11 +3,16 @@ import { resolve } from 'path';
 import { FileArray, UploadedFile } from 'express-fileupload';
 import { ClientCallback } from '../lib/events';
 import * as cl from './cloudinary';
+import * as ig from '../instagram';
 import { FStorageEvents } from './types';
+import { Logger } from '../logger';
 
 export class Storage {
   constructor(protected files: FileArray) {
+    Logger.debug('Storage register events');
     cl.registerCloudinaryEvents();
+    ig.registerInstagramEvents();
+    Logger.debug('Storage init');
     this.init();
   }
 
@@ -19,7 +24,8 @@ export class Storage {
       if (!fs.existsSync(path)) {
         fs.createWriteStream(path).write(file.data);
       }
-      ClientCallback.emit(FStorageEvents.CLOUDINARY_ASK, fileName);
+      Logger.debug('Storage process -> ' + FStorageEvents.INSTAGRAM_ASK);
+      ClientCallback.emit(FStorageEvents.INSTAGRAM_ASK, fileName);
     });
   };
 }
