@@ -42,7 +42,7 @@ export const Logger: Logger = {
     if (config.DEV_MODE) {
       infoStream.write(message);
     } else {
-      console.debug(msg);
+      // console.debug(msg);
     }
   },
   debug: msg => {
@@ -50,7 +50,7 @@ export const Logger: Logger = {
     if (config.DEV_MODE) {
       debugStream.write(message);
     } else {
-      console.debug(msg);
+      // console.debug(msg);
     }
   },
   error: msg => {
@@ -58,7 +58,7 @@ export const Logger: Logger = {
     if (config.DEV_MODE) {
       errorStream.write(message);
     } else {
-      console.debug('ERROR ', msg);
+      console.trace('ERROR ', msg);
     }
   }
 };

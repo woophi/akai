@@ -1,7 +1,7 @@
 import { IgApiClient } from 'instagram-private-api';
 import * as fs from 'fs';
 import { resolve } from 'path';
-import { ClientCallback } from '../lib/events';
+import { EventBus } from '../lib/events';
 import { FStorageEvents } from '../storage/types';
 import { Logger } from '../logger';
 import config from '../config';
@@ -34,11 +34,11 @@ export const postToInstagram = async (fileName: string) => {
     });
     Logger.debug('Instagram process event -> ' + FStorageEvents.CLOUDINARY_ASK);
 
-    ClientCallback.emit(FStorageEvents.CLOUDINARY_ASK, fileName);
+    EventBus.emit(FStorageEvents.CLOUDINARY_ASK, fileName);
   });
 }
 
 export const registerInstagramEvents = () => {
   Logger.debug('Register Instagram Events');
-  ClientCallback.on(FStorageEvents.INSTAGRAM_ASK, postToInstagram)
+  EventBus.on(FStorageEvents.INSTAGRAM_ASK, postToInstagram)
 }

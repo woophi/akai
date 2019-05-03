@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { resolve } from 'path';
 import { FileArray, UploadedFile } from 'express-fileupload';
-import { ClientCallback } from '../lib/events';
+import { EventBus } from '../lib/events';
 import * as cl from './cloudinary';
 import * as ig from '../instagram';
 import { FStorageEvents } from './types';
@@ -25,7 +25,7 @@ export class Storage {
         fs.createWriteStream(path).write(file.data);
       }
       Logger.debug('Storage process -> ' + FStorageEvents.INSTAGRAM_ASK);
-      ClientCallback.emit(FStorageEvents.INSTAGRAM_ASK, fileName);
+      EventBus.emit(FStorageEvents.INSTAGRAM_ASK, fileName);
     });
   };
 }

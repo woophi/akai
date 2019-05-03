@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2;
 import config from '../config';
-import { ClientCallback } from '../lib/events';
+import { EventBus } from '../lib/events';
 import * as fs from 'fs';
 import { resolve } from 'path';
 import { Logger } from '../logger';
@@ -20,19 +20,19 @@ export const upload_stream = (fileName: string) =>
       Logger.error(err);
     }
     Logger.debug('* Same image, uploaded via stream');
-    ClientCallback.emit(FStorageEvents.DELETE_TEMP_FILE, fileName);
+    EventBus.emit(FStorageEvents.DELETE_TEMP_FILE, fileName);
   });
 
 export const registerCloudinaryEvents = () => {
   Logger.debug('Register Cloudinary Events');
 
-  ClientCallback.on(FStorageEvents.CLOUDINARY_ASK, fileName => {
+  EventBus.on(FStorageEvents.CLOUDINARY_ASK, fileName => {
     fs.createReadStream(resolve(__dirname, 'temp', fileName)).pipe(
       upload_stream(fileName)
     );
   });
 
-  ClientCallback.on(FStorageEvents.DELETE_TEMP_FILE, fileName => {
+  EventBus.on(FStorageEvents.DELETE_TEMP_FILE, fileName => {
     fs.unlink(resolve(__dirname, 'temp', fileName), err => {
       Logger.debug('delete file ' + fileName);
       if (err) {

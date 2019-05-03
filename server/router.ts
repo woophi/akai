@@ -11,6 +11,9 @@ import * as mails from './mails';
 import { EmailTemplate } from './mails/types';
 import { Storage } from './storage';
 
+import { getLoginUrl, callApi } from './facebook';
+import config from './config';
+
 export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
 
   app.use('/favicon.ico', (req, res) => res.status(200).send());
@@ -44,6 +47,22 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
     new Storage(req.files);
     return res.sendStatus(204);
   })
+
+  app.get('/setup/fb', (req, response, next) => {
+    return response.redirect(getLoginUrl(config.SITE_URI + '/processLogin/fb/at', false, ['manage_pages', 'email', 'publish_pages']))
+  });
+
+  app.get('/processLogin/fb/at', async (req, response, next) => {
+    const code = req.query['code'] || '';
+    await callApi('get', 'oauth/access_token', [
+      {'client_id': config.FB_APP_ID},
+      {'client_secret': config.FB_APP_SECRET},
+      {'redirect_uri': config.SITE_URI + '/processLogin/fb/at'},
+      {'code': code}
+    ]);
+    return response.sendStatus(204);
+  })
+
 
   app.get('*', (req, res) => {
     return handle(req, res);

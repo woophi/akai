@@ -6,4 +6,4 @@ class ClientCallbackClass extends events.EventEmitter {
   }
 }
 
-export const ClientCallback = new ClientCallbackClass();
+export const EventBus = new ClientCallbackClass();
