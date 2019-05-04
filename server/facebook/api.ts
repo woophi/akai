@@ -44,7 +44,7 @@ export const callApi = async (
     const errMessage = result.error.message;
     if (errMessage) {
       Logger.error(errMessage);
-      return;
+      return {};
     }
   }
   return result.data;

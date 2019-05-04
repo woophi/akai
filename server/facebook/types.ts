@@ -9,3 +9,9 @@ export const enum HTTPStatus {
   BadRequest = 400,
   ServerError = 500
 }
+
+export type Page = {
+  id: number;
+  name: string;
+  accessToken: string;
+}

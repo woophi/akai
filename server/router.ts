@@ -11,11 +11,18 @@ import * as mails from './mails';
 import { EmailTemplate } from './mails/types';
 import { Storage } from './storage';
 
-import { getLoginUrl, callApi } from './facebook';
+import * as FB from './facebook';
+import * as async from 'async';
 import config from './config';
 
-export function router(app: express.Application, handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlLike) => Promise<void>) {
-
+export function router(
+  app: express.Application,
+  handle: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    parsedUrl?: UrlLike
+  ) => Promise<void>
+) {
   app.use('/favicon.ico', (req, res) => res.status(200).send());
 
   app.get('/api/health', identity.authorizedForSuperAdmin, health.get);
@@ -23,15 +30,13 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
   app.get('/api/guest/blog?', getBlogData);
 
   // user
-  app.post('/api/app/user/login', auth.login)
+  app.post('/api/app/user/login', auth.login);
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
 
-
   // TODO: remove
   app.post('/api/testMail', async (req, res, next) => {
-
     const mailer = new mails.Mailer(
       'test emails',
       EmailTemplate.email,
@@ -46,23 +51,27 @@ export function router(app: express.Application, handle: (req: IncomingMessage, 
   app.post('/storage/upload', (req, res, next) => {
     new Storage(req.files);
     return res.sendStatus(204);
-  })
+  });
+
+  // TODO: add controller
 
   app.get('/setup/fb', (req, response, next) => {
-    return response.redirect(getLoginUrl(config.SITE_URI + '/processLogin/fb/at', false, ['manage_pages', 'email', 'publish_pages']))
+    return response.redirect(
+      FB.getLoginUrl(config.SITE_URI + '/processLogin/fb/at', false, [
+        'manage_pages',
+        'email',
+        'publish_pages'
+      ])
+    );
   });
 
   app.get('/processLogin/fb/at', async (req, response, next) => {
     const code = req.query['code'] || '';
-    await callApi('get', 'oauth/access_token', [
-      {'client_id': config.FB_APP_ID},
-      {'client_secret': config.FB_APP_SECRET},
-      {'redirect_uri': config.SITE_URI + '/processLogin/fb/at'},
-      {'code': code}
-    ]);
+    const accessToken = await FB.getAccessToken(code);
+    const pages = await FB.getPagesData(accessToken);
+    await async.forEach(pages, FB.subscribePage);
     return response.sendStatus(204);
-  })
-
+  });
 
   app.get('*', (req, res) => {
     return handle(req, res);
