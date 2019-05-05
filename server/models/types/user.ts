@@ -1,12 +1,14 @@
 import { Model } from './mongoModel';
 import { ROLES } from '../../identity/access/constants';
 
-export type User = Model<{
+export type UserModel = {
   email: string;
-  name: string;
-  avatarUrl: string;
   roles: ROLES[];
   password: string;
-  refershToken: string;
-  accessToken: string;
-}>;
+  name?: string;
+  avatarUrl?: string;
+  refreshToken?: string;
+  accessToken?: string;
+};
+
+export type User = Model<UserModel>;

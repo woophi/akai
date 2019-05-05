@@ -47,7 +47,11 @@ export const VisitorsSchema = new mongoose.Schema(
         type: String,
 			  lowercase: true
       }
-		}
+    },
+    comments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'comment'
+    }]
 	},
 	{ collection: 'visitors' }
 );
@@ -56,4 +60,4 @@ VisitorsSchema.plugin(timestamps);
 
 VisitorsSchema.index({ visitorId: 1 });
 
-export default mongoose.model('Visitors', VisitorsSchema);
+export default mongoose.model('visitors', VisitorsSchema);

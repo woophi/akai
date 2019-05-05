@@ -15,7 +15,7 @@ export const UsersSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    refershToken: {
+    refreshToken: {
       type: String
     },
     accessToken: {
@@ -26,6 +26,6 @@ export const UsersSchema = new mongoose.Schema(
 );
 
 UsersSchema.plugin(timestamps);
-UsersSchema.index({ title: 1 });
+UsersSchema.index({ email: 1 });
 
-export default mongoose.model('Users', UsersSchema);
+export default mongoose.model('users', UsersSchema);
