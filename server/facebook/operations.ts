@@ -3,6 +3,7 @@ import config from '../config';
 import { Page } from './types';
 import { Logger } from '../logger';
 import FBIModel from '../models/facebookPages';
+import { FacebookModel } from '../models/types';
 
 export const getAccessToken = async (code: string): Promise<string> => {
   const { access_token } = await callApi('get', 'oauth/access_token', [
@@ -40,11 +41,9 @@ export const getLongLivedToken = async (accessToken: string) => {
     { grant_type: 'fb_exchange_token' }
   ]);
 
-  console.warn('getLongLivedToken', result);
   return result.access_token ? result.access_token : '';
 };
 
-// TODO: update if exists
 const subscribeAndSavePage = async (
   pageId: Page['id'],
   longLiveToken: string,
@@ -60,7 +59,19 @@ const subscribeAndSavePage = async (
     return false;
   }
 
-  const newFBI = {
+  const fbPage = await FBIModel.findOne().where({ pageId });
+
+  if (fbPage) {
+    return fbPage.set('longLiveToken', longLiveToken).save(err => {
+      if (err) {
+        Logger.error(err);
+        return false;
+      }
+      return true;
+    });
+  }
+
+  const newFBI: FacebookModel = {
     pageName: name,
     pageId,
     longLiveToken

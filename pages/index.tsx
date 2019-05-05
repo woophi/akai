@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,16 +13,24 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 const styles = (theme: Theme): any => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20,
+    paddingTop: theme.spacing.unit * 20
+  },
+  block: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  m3: {
+    margin: '16px auto'
   }
 });
 
 type Props = {
-  classes: any
+  classes: any;
 } & WithTranslation;
 
 type LocalState = {
-  open: boolean
+  open: boolean;
 };
 
 class Index extends React.Component<Props, LocalState> {
@@ -32,14 +40,18 @@ class Index extends React.Component<Props, LocalState> {
 
   handleClose = () => {
     this.setState({
-      open: false,
+      open: false
     });
   };
 
   handleClick = () => {
     this.setState({
-      open: true,
+      open: true
     });
+  };
+
+  handleFbLogin = () => {
+    window.open('/setup/fb', 'blank');
   };
 
   render() {
@@ -64,15 +76,24 @@ class Index extends React.Component<Props, LocalState> {
             <a>Go to the about page</a>
           </Link>
         </Typography>
-        <Typography gutterBottom>
-          <Link href="/prague">
-            <a>Go to the prague page</a>
-          </Link>
-        </Typography>
-        <Button variant="contained" color="secondary" onClick={this.handleClick}>
-          Super Secret Password
-        </Button>
-        {t('extendedComponent')}
+        <div className={classes.block}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this.handleClick}
+            className={classes.m3}
+          >
+            Super Secret Password
+          </Button>
+          {t('extendedComponent')}
+          <Button
+            color="primary"
+            onClick={this.handleFbLogin}
+            className={classes.m3}
+          >
+            login fb
+          </Button>
+        </div>
       </div>
     );
   }
