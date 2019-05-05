@@ -95,9 +95,9 @@ i18nInstance
       });
   });
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', async (err) => {
   console.error(err);
-  agenda.stop();
+  await agenda.stop();
   process.exit(1);
 });
 

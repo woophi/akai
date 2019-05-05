@@ -87,12 +87,12 @@ export class Auth extends Hashing {
       }
       let payload: {
         accessToken: string;
-        refershToken?: string;
+        refreshToken?: string;
       } = {
         accessToken: setAccessToken(tokenParams)
       };
-      if (!user.refershToken) {
-        payload.refershToken = setRefreshToken(tokenParams)
+      if (!user.refreshToken) {
+        payload.refreshToken = setRefreshToken(tokenParams)
       }
       user
         .set(payload)

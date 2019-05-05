@@ -1,13 +1,23 @@
 import { IgApiClient } from 'instagram-private-api';
 import * as fs from 'fs';
-import { resolve } from 'path';
 import { EventBus } from '../lib/events';
-import { FStorageEvents } from '../storage/types';
+import { FStorageEvents, FileEventParams } from '../storage/types';
 import { Logger } from '../logger';
 import config from '../config';
+import BlogModel from '../models/blog';
+import * as models from '../models/types';
+import { getFilePath } from '../storage/helpers';
 
-// TODO: get caption from db for particular blog
-export const postToInstagram = async (fileName: string) => {
+export const postToInstagram = async ({
+  fileName,
+  blogId,
+  done
+}: FileEventParams) => {
+  const path = getFilePath(fileName);
+  if (!fs.existsSync(path)) {
+    Logger.error('File not found ' + fileName);
+    return done();
+  }
   const ig = new IgApiClient();
   Logger.debug('Instagram generate device');
   ig.state.generateDevice(config.IG_USERNAME);
@@ -18,27 +28,44 @@ export const postToInstagram = async (fileName: string) => {
 
   process.nextTick(async () => await ig.simulate.postLoginFlow());
 
-  const fileStream = fs.createReadStream(resolve(__dirname, '../storage/temp', fileName));
+  Logger.debug('Fetching blog');
+
+  const blog: models.Blog = await BlogModel.findById(blogId).lean();
+
+  if (!blog) {
+    Logger.error('Blog not found');
+    return done();
+  }
+
+  if (!fs.existsSync(path)) {
+    Logger.error('File not found ' + fileName);
+    return done();
+  }
+
+  const fileStream = fs.createReadStream(path);
 
   Logger.debug('Instagram read photo');
 
   const bufs = [];
-  fileStream.on('data', (d) => { bufs.push(d); });
+  fileStream.on('data', d => {
+    bufs.push(d);
+  });
   fileStream.on('end', async () => {
     const fileBuf = Buffer.concat(bufs);
     Logger.debug('Instagram publish photo');
 
-    await ig.publish.photo({
-      file: fileBuf,
-      caption: 'test caption'
-    });
-    Logger.debug('Instagram process event -> ' + FStorageEvents.CLOUDINARY_ASK);
-
-    EventBus.emit(FStorageEvents.CLOUDINARY_ASK, fileName);
+    // await ig.publish.photo({
+    //   file: fileBuf,
+    //   caption: blog.title
+    // });
   });
-}
+  fileStream.on('close', () => {
+    Logger.debug('Instagram process event -> ' + FStorageEvents.CLOUDINARY_ASK);
+    EventBus.emit(FStorageEvents.CLOUDINARY_ASK, { fileName, blogId, done });
+  });
+};
 
 export const registerInstagramEvents = () => {
   Logger.debug('Register Instagram Events');
-  EventBus.on(FStorageEvents.INSTAGRAM_ASK, postToInstagram)
-}
+  EventBus.on(FStorageEvents.INSTAGRAM_ASK, postToInstagram);
+};

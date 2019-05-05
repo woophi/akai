@@ -4,6 +4,12 @@ export const enum FStorageEvents {
   INSTAGRAM_ASK = 'post to instagram'
 }
 
+export type FileEventParams = {
+  fileName: string;
+  blogId: string;
+  done: (err?: Error) => void;
+};
+
 export type CloudinaryImg = {
   public_id: string;
   version: number;

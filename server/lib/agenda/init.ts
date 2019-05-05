@@ -4,6 +4,9 @@ import { databaseUri } from '../db';
 export const agenda = new Agenda({
   db: {
     address: databaseUri,
-    collection: 'jobs_queue'
+    collection: 'jobs_queue',
+    options: {
+      useNewUrlParser: true
+    }
   }
 });

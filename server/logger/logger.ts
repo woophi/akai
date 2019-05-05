@@ -38,25 +38,24 @@ const debugStream = getDir('debug.txt');
 
 export const Logger: Logger = {
   info: msg => {
-    var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
+      var message = new Date().toLocaleString() + ' : ' + msg + '\n';
       infoStream.write(message);
-    } else {
-      // console.debug(msg);
+      console.debug(msg);
     }
   },
   debug: msg => {
-    var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
+      var message = new Date().toLocaleString() + ' : ' + msg + '\n';
       debugStream.write(message);
-    } else {
-      // console.debug(msg);
+      console.debug(msg);
     }
   },
   error: msg => {
     var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
       errorStream.write(message);
+      console.trace('ERROR ', msg);
     } else {
       console.trace('ERROR ', msg);
     }

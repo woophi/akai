@@ -1,31 +1,47 @@
 import * as fs from 'fs';
-import { resolve } from 'path';
 import { FileArray, UploadedFile } from 'express-fileupload';
 import { EventBus } from '../lib/events';
-import * as cl from './cloudinary';
-import * as ig from '../instagram';
 import { FStorageEvents } from './types';
 import { Logger } from '../logger';
+import { agenda } from '../lib/agenda';
+import { getFilePath } from './helpers';
 
 export class Storage {
-  constructor(protected files: FileArray) {
-    Logger.debug('Storage register events');
-    cl.registerCloudinaryEvents();
-    ig.registerInstagramEvents();
+  constructor(
+    protected files: FileArray,
+    protected job: string,
+    protected blogId?: string
+  ) {
     Logger.debug('Storage init');
-    this.init();
+    this.upload();
+    this.createJob();
   }
 
   private fileNames = Object.keys(this.files);
-  private init = () => {
+  private upload = () => {
     this.fileNames.forEach(fileName => {
       const file = this.files[fileName] as UploadedFile;
-      const path = resolve(__dirname, 'temp', fileName);
+      const path = getFilePath(fileName);
       if (!fs.existsSync(path)) {
-        fs.createWriteStream(path).write(file.data);
+        fs.writeFileSync(path, file.data);
       }
-      Logger.debug('Storage process -> ' + FStorageEvents.INSTAGRAM_ASK);
-      EventBus.emit(FStorageEvents.INSTAGRAM_ASK, fileName);
     });
+  };
+
+  private createJob = () => {
+    agenda.define(this.job, (job, done) => {
+      this.publishToIg(this.blogId, done);
+    });
+  };
+
+  publishToIg = (blogId: string, done: (err?: Error) => void) => {
+    this.fileNames.forEach(fileName => {
+      Logger.debug('Storage process -> ' + FStorageEvents.INSTAGRAM_ASK);
+      EventBus.emit(FStorageEvents.INSTAGRAM_ASK, { fileName, blogId, done });
+    });
+  };
+
+  performQueue = () => {
+    agenda.now(this.job);
   };
 }
