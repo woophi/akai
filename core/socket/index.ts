@@ -1,6 +1,9 @@
 import io from 'socket.io-client';
+import getConfig from 'next/config';
+const {publicRuntimeConfig} = getConfig();
+const {SITE_URL} = publicRuntimeConfig;
 
-const socket = io(`http://localhost:${process.env.PORT || 3003}`);
+const socket = io(SITE_URL);
 socket.on('connect', () => {
   console.debug('client connected');
   initCallbacks();

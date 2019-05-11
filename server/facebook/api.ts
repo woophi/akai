@@ -14,6 +14,8 @@ export const callApi = async (
     parameters
   )}`;
 
+  Logger.debug('FB url ' + url)
+
   const payloadString = payload != null ? JSON.stringify(payload) : null;
 
   const rc: axios.AxiosRequestConfig = {

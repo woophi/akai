@@ -14,5 +14,8 @@ module.exports = withTypescript({
     }
 
     return config;
+  },
+  publicRuntimeConfig: {
+    SITE_URL: process.env.SITE_URI
   }
 })

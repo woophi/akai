@@ -9,12 +9,14 @@ import { getFilePath } from './helpers';
 export class Storage {
   constructor(
     protected files: FileArray,
-    protected job: string,
+    protected job?: string,
     protected blogId?: string
   ) {
     Logger.debug('Storage init');
     this.upload();
-    this.createJob();
+    if (job) {
+      this.createJob();
+    }
   }
 
   private fileNames = Object.keys(this.files);

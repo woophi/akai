@@ -100,3 +100,20 @@ export const subscribePage = async (page: Page) => {
     Logger.error(error);
   }
 };
+
+export const createImgPost = async (link: string, message: string) => {
+
+  try {
+    // TODO: grace find
+    const Page: FacebookModel = await FBIModel.findOne().where({pageName: '123'}).lean();
+    await callApi('post', `${Page.pageId}/feed`, [
+      // {picture: link},
+      // {full_picture: link},
+      {link},
+      {message},
+      {access_token: Page.longLiveToken}
+    ])
+  } catch (error) {
+    Logger.error('createImgPost '+ error);
+  }
+}

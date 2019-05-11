@@ -60,7 +60,7 @@ i18nInstance
           fs.mkdirSync(join(__dirname, 'storage/temp'))
         }
         agenda.start();
-        router(appExpress, handle);
+        router(appExpress, handle, appNext);
 
         const server = createServer(appExpress);
         registerSocket(server);

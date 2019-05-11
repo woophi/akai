@@ -39,15 +39,17 @@ export const upload_stream = (
               image.secure_url.substr(indexOfUpload);
           }
           BlogModel.findById(blogId).exec((err, blog: models.Blog) => {
+            const newPhoto: models.PhotoModel = {
+              name: fileName,
+              url: image.secure_url,
+              thumbnail: thumbnail ? thumbnail : image.secure_url
+            };
+
             blog
               .set({
                 photos: [
                   ...blog.photos,
-                  {
-                    name: fileName,
-                    url: image.secure_url,
-                    thumbnail: thumbnail ? thumbnail : image.secure_url
-                  }
+                  newPhoto
                 ]
               })
               .save(cb);

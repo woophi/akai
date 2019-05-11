@@ -1,10 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import getConfig from 'next/config';
+
+const {publicRuntimeConfig} = getConfig();
+const {SITE_URL} = publicRuntimeConfig;
 
 export type HTTPMethod = 'get' | 'post' | 'put' | 'delete';
 
 export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any = null, auth?: string): Promise<T> => {
   const rc: AxiosRequestConfig = {
-    url: 'http://localhost:3003' + url,
+    url: SITE_URL + url,
     headers: {
       'Accept': 'application/json'
     },
@@ -38,7 +42,7 @@ export const uploadFiles = (files: File[]) => {
       const formData = new FormData();
       formData.append(f.name, f);
 
-      const url = 'http://localhost:3003/storage/upload';
+      const url = `${SITE_URL}/storage/upload?blogId=5ccdc0783445783634f76611`;
 
       const request = new XMLHttpRequest();
       request.onload = () => {

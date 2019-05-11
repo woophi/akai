@@ -76,6 +76,11 @@ class Index extends React.Component<Props, LocalState> {
             <a>Go to the about page</a>
           </Link>
         </Typography>
+        <Typography gutterBottom>
+          <Link href="/blog">
+            <a>Go to the blog page</a>
+          </Link>
+        </Typography>
         <div className={classes.block}>
           <Button
             variant="contained"
