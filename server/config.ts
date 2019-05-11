@@ -1,15 +1,15 @@
 
 
 export default {
-  PORT_CORE: parseInt(process.env.PORT, 10) || 3003,
-  SITE_URI: process.env.SITE_URI || 'http://localhost:3003',
-  PORT_MONGO: process.env.MONGO_URI || 'mongodb://localhost:27017',
+  PORT_CORE: parseInt(process.env.PORT, 10),
+  SITE_URI: process.env.SITE_URI,
+  PORT_MONGO: process.env.MONGO_URI,
 
   DEV_MODE: process.env.NODE_ENV !== 'production',
 
-  COOKIE_SECRET: process.env.COOKIE_SECRET || '123',
+  COOKIE_SECRET: process.env.COOKIE_SECRET,
 
-  ACCESS_SECRET: process.env.ACCESS_SECRET || '124',
+  ACCESS_SECRET: process.env.ACCESS_SECRET,
 
   // gmail
   GMAIL_APP_PASS: process.env.GMAIL_APP_PASS,

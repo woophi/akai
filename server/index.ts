@@ -23,6 +23,9 @@ import { registerSocket } from './lib/sockets';
 import { router } from './router';
 import { initExpressSession } from './identity';
 import * as fileUpload from 'express-fileupload';
+import { checkConfiguration } from './utils/helpers';
+
+checkConfiguration(config);
 
 i18nInstance
   .use(Backend)
