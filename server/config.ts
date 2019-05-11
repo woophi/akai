@@ -1,7 +1,7 @@
 
 
 export default {
-  PORT_CORE: parseInt(process.env.PORT, 10),
+  PORT_CORE: parseInt(process.env.PORT || '3000', 10),
   SITE_URI: process.env.SITE_URI,
   PORT_MONGO: process.env.MONGO_URI || process.env.MONGODB_URI,
 
