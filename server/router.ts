@@ -12,6 +12,7 @@ import { EmailTemplate } from './mails/types';
 import { Storage } from './storage';
 import { createImgPost } from './facebook';
 import { Server } from 'next';
+import config from './config';
 
 export function router(
   app: express.Express,
@@ -33,7 +34,7 @@ export function router(
   app.post('/api/app/user/login', auth.login);
 
   // admin
-  app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
+  app.post('/api/admin/new/user', /*identity.authorizedForAdmin,*/ admin.createUser);
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, admin.createNewPost);
 
   // TODO: remove
@@ -65,7 +66,8 @@ export function router(
   app.get('/setup/fb', admin.fbLogin);
   app.get('/processLogin/fb/at', admin.processLogin);
   app.get('/test/fb', async (req, res, next) => {
-    await createImgPost('http://localhost:3003/p/5ccdc0783445783634f76611', 'alooooo');
+    const id = req.query['id'];
+    await createImgPost(`${config.SITE_URI}/p/${id}`, 'alooooo');
     res.sendStatus(200);
   });
 
