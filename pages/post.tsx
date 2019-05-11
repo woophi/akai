@@ -23,7 +23,7 @@ type Props = {
 
 class Page extends React.PureComponent<Props> {
   static async getInitialProps(context) {
-    const data = await callApi<any>('get', `/api/guest/blog?id=${context.query.id}`);
+    const data = await callApi<any>('get', `api/guest/blog?id=${context.query.id}`);
 
     return { data };
   }

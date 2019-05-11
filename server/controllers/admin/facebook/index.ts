@@ -5,7 +5,7 @@ import * as async from 'async';
 
 export const fbLogin = async (req: Request, res: Response, next: NextFunction) => {
   return res.redirect(
-    FB.getLoginUrl(config.SITE_URI + '/processLogin/fb/at', false, [
+    FB.getLoginUrl(config.SITE_URI + 'processLogin/fb/at', false, [
       'manage_pages',
       'email',
       'publish_pages'

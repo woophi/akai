@@ -31,7 +31,7 @@ type Props = {
 
 class Blog extends React.PureComponent<Props> {
   static async getInitialProps() {
-    const data = await callApi<BlogData[]>('get', '/api/guest/blogs');
+    const data = await callApi<BlogData[]>('get', 'api/guest/blogs');
 
     return { data };
   }

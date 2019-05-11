@@ -9,7 +9,7 @@ export const getAccessToken = async (code: string): Promise<string> => {
   const { access_token } = await callApi('get', 'oauth/access_token', [
     { client_id: config.FB_APP_ID },
     { client_secret: config.FB_APP_SECRET },
-    { redirect_uri: config.SITE_URI + '/processLogin/fb/at' },
+    { redirect_uri: config.SITE_URI + 'processLogin/fb/at' },
     { code: code }
   ]);
   Logger.debug('Getting access_token');

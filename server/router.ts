@@ -67,7 +67,7 @@ export function router(
   app.get('/processLogin/fb/at', admin.processLogin);
   app.get('/test/fb', async (req, res, next) => {
     const id = req.query['id'];
-    await createImgPost(`${config.SITE_URI}/p/${id}`, 'alooooo');
+    await createImgPost(`${config.SITE_URI}p/${id}`, 'alooooo');
     res.sendStatus(200);
   });
 
