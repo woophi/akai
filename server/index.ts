@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const result = dotenv.config();
 if (result.error) {
+  console.warn(__dirname);
   throw result.error
 }
 import * as fs from 'fs';

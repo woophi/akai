@@ -1,4 +1,4 @@
-import thunk from "redux-thunk";
+import thunk from 'redux-thunk';
 import {
   applyMiddleware,
   combineReducers,
@@ -6,10 +6,10 @@ import {
   Reducer,
   ReducersMapObject,
   Store
-} from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { initialState, reducer as count } from "core/reducers";
-import { AppState, AppDispatch } from "core/models";
+} from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { initialState, reducer as count } from 'core/reducers';
+import { AppState, AppDispatch } from 'core/models';
 
 const middleware = applyMiddleware(thunk);
 
