@@ -54,10 +54,10 @@ export const postToInstagram = async ({
     const fileBuf = Buffer.concat(bufs);
     Logger.debug('Instagram publish photo');
 
-    // await ig.publish.photo({
-    //   file: fileBuf,
-    //   caption: blog.title
-    // });
+    await ig.publish.photo({
+      file: fileBuf,
+      caption: blog.title
+    });
   });
   fileStream.on('close', () => {
     Logger.debug('Instagram process event -> ' + FStorageEvents.CLOUDINARY_ASK);
