@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
-const result = dotenv.config();
+const result = dotenv.config({debug: true});
 if (result.error) {
-  console.warn(__dirname);
+  console.warn(__dirname + '../.env', 'kek',  process.cwd());
   throw result.error
 }
 import * as fs from 'fs';
