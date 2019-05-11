@@ -4,7 +4,16 @@
   "scripts": {
     "dev": "nodemon --exec ts-node --project tsconfig.server.json server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js"
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "heroku-prebuild": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woophi/akai"
+  },
+  "engines": {
+    "node": "10.15.3",
+    "yarn": "1.15.2"
   },
   "dependencies": {
     "@material-ui/core": "^3.9.3",
