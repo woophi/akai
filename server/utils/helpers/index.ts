@@ -11,7 +11,7 @@ export const getUserIp = (req: Request) => {
 export const checkConfiguration = (config: { [key: string]: any}) => {
   const missingConfigs = [];
   Object.keys(config).forEach(key => {
-    if (!config[key]) {
+    if (config[key] === undefined) {
       missingConfigs.push(key);
     }
   });
