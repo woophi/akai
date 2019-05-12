@@ -32,6 +32,7 @@ export function router(
 
   // user
   app.post('/api/app/user/login', auth.login);
+  app.post('/api/app/user/check', auth.checkUser);
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
@@ -63,7 +64,7 @@ export function router(
   // facebook connect
   app.get('/setup/fb', admin.fbLogin);
   app.get('/processLogin/fb/at', admin.processLogin);
-  app.get('/test/fb', async (req, res, next) => {
+  app.get('/test/fb', identity.authorizedForAdmin, async (req, res, next) => {
     const id = req.query['id'];
     await createImgPost(`${config.SITE_URI}p/${id}`, 'alooooo');
     res.sendStatus(200);

@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import getConfig from 'next/config';
+import { checkAuth } from 'core/operations';
 const {publicRuntimeConfig} = getConfig();
 const {SITE_URL} = publicRuntimeConfig;
 
@@ -7,6 +8,7 @@ const socket = io(SITE_URL);
 socket.on('connect', () => {
   console.debug('client connected');
   initCallbacks();
+  checkAuth()
 });
 
 socket.on('disconnect', () => console.debug('client disconnect'));

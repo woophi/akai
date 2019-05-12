@@ -6,6 +6,9 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import { Input, TextField } from '@material-ui/core';
 import { uploadFilesForBlog } from 'core/common';
 import { createBlog } from 'core/operations';
+import { compose } from 'redux';
+import { connect as redux } from 'react-redux';
+import { AppState } from 'core/models';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -24,6 +27,7 @@ const styles = (theme: Theme): any => ({
 
 type Props = {
   classes?: any;
+  token: string;
 };
 
 type LocalState = {
@@ -127,4 +131,9 @@ class About extends React.PureComponent<Props, LocalState> {
   }
 }
 
-export default withStyles(styles)(About);
+export default compose(
+  redux((state: AppState) => ({
+    token: state.ui.token
+  })),
+  withStyles(styles)
+)(About);

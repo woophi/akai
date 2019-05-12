@@ -4,6 +4,7 @@ import UserModel from '../../models/users';
 import { Hashing } from '../hashing';
 import { User } from '../../models/types';
 import { Logger } from '../../logger';
+import config from '../../config';
 import { setAccessToken, setRefreshToken } from '../access';
 
 type Data = {
@@ -106,11 +107,13 @@ export class Auth extends Hashing {
         const userToken = user.id + ':' + await encrypt(user.password, user.password);
         const cookieOpts = {
           signed: true,
-          httpOnly: true,
+          httpOnly: !config.DEV_MODE,
           maxAge: this.tenDays,
         };
         req.session.cookie.maxAge = this.tenDays;
-        // req.session.cookie.httpOnly = true;
+        if (!config.DEV_MODE) {
+          req.session.cookie.httpOnly = true;
+        }
         res.cookie('akai.uid', userToken, cookieOpts);
         onSuccess(payload.accessToken);
       } catch {

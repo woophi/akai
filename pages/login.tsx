@@ -3,6 +3,8 @@ import { compose } from 'redux';
 import * as React from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { login } from 'core/operations';
+import { connect as redux } from 'react-redux';
+import { AppState } from 'core/models';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -19,6 +21,7 @@ const styles = (theme: Theme): any => ({
 
 type Props = {
   classes?: any,
+  token: string
 };
 type LocalState = {
   email: string;
@@ -31,7 +34,7 @@ class Login extends React.PureComponent<Props, LocalState> {
   state: LocalState = {
     email: '',
     password: '',
-    token: ''
+    token: this.props.token
   };
 
   changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,5 +90,8 @@ class Login extends React.PureComponent<Props, LocalState> {
 }
 
 export default compose(
+  redux((state: AppState) => ({
+    token: state.ui.token
+  })),
   withStyles(styles)
 )(Login)

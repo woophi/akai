@@ -8,6 +8,7 @@ import * as async from 'async';
 import BlogModel from '../models/blog';
 import * as models from '../models/types';
 import { getFilePath } from './helpers';
+import { createImgPost } from '../facebook';
 
 cloudinary.config({
   cloud_name: config.FS_CLOUD_NAME,
@@ -45,6 +46,8 @@ export const upload_stream = (
               thumbnail: thumbnail ? thumbnail : image.secure_url
             };
 
+
+
             blog
               .set({
                 photos: [
@@ -56,7 +59,11 @@ export const upload_stream = (
           });
         }
       ],
-      () => EventBus.emit(FStorageEvents.DELETE_TEMP_FILE, { fileName, done })
+      () => {
+        // TODO: change text
+        createImgPost(`${config.SITE_URI}p/${blogId}`, 'test from cloudinary process')
+        EventBus.emit(FStorageEvents.DELETE_TEMP_FILE, { fileName, done })
+      }
     );
   });
 
