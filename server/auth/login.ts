@@ -9,6 +9,9 @@ export const login = (
   res: Response,
   next: NextFunction
 ) => {
+  if (req.session.user) {
+    return res.send({}).status(200);
+  }
   const validate = new kia.Validator(req, res, next);
 
   Logger.debug(`starting authenticate user ${new Date().toLocaleTimeString()}`);

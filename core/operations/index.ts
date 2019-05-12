@@ -15,11 +15,7 @@ export const createBlog = async (data: { body: string; title: string }) => {
 }
 
 export const checkAuth = async () => {
-  const user = getCookie('akai.uid');
-  if (!user) {
-    return;
-  }
-  const data = await callApi<{token: string}>('post', 'api/app/user/check', {cookie: user});
+  const data = await callApi<{token: string}>('post', 'api/app/user/check');
   if (!data) {
     return;
   }
