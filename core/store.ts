@@ -43,17 +43,14 @@ export function injectReducers(reducers: ReducersMapObject) {
   return store;
 }
 
-export let store: Store<AppState, AppDispatch> = createStore(
+export const store: Store<AppState, AppDispatch> = createStore(
   combineReducers(rootReducerMap),
+  { ui: initialState },
   composeWithDevTools(middleware)
 );
 
 export const initStore = (
   initState = { ui: initialState }
 ): Store<AppState, AppDispatch> => {
-  return (store = createStore(
-    combineReducers(rootReducerMap),
-    initState,
-    composeWithDevTools(middleware)
-  ));
+  return store;
 };
