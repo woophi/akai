@@ -36,13 +36,13 @@ export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any =
     });
 }
 
-export const uploadFiles = (files: File[]) => {
+export const uploadFilesForBlog = (files: File[], blogId: string) => {
   const uploads = files.map(f => {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       formData.append(f.name, f);
 
-      const url = `${SITE_URL}/storage/upload?blogId=5ccdc0783445783634f76611`;
+      const url = `${SITE_URL}storage/upload?blogId=${blogId}`;
 
       const request = new XMLHttpRequest();
       request.onload = () => {

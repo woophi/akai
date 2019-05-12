@@ -3,7 +3,8 @@ import * as models from 'core/models';
 export const initialState = {
   lastUpdate: 0,
   light: false,
-  count: 0
+  count: 0,
+  token: ''
 }
 
 export const reducer = (state = initialState, dispatch: models.AppDispatch) => {
@@ -19,6 +20,12 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch) => {
       return {
         ...state,
         count: state.count + 1
+      };
+    }
+    case 'SET_TOKEN': {
+      return {
+        ...state,
+        token: dispatch.payload
       };
     }
 

@@ -34,7 +34,7 @@ export function router(
   app.post('/api/app/user/login', auth.login);
 
   // admin
-  app.post('/api/admin/new/user', /*identity.authorizedForAdmin,*/ admin.createUser);
+  app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, admin.createNewPost);
 
   // TODO: remove
@@ -50,9 +50,7 @@ export function router(
     return res.sendStatus(204);
   });
 
-
-  // TODO: auth for admin
-  app.post('/storage/upload', (req, res, next) => {
+  app.post('/storage/upload', identity.authorizedForAdmin, (req, res, next) => {
     const blogId = req.query['blogId'];
     if (!blogId) {
       return res.status(400);

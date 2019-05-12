@@ -34,13 +34,13 @@ export const createNewPost = async (
     ],
     async () => {
       const newBlogPost = new BlogModel(blogPost);
-      return newBlogPost.save(err => {
+      return newBlogPost.save((err, post) => {
         if (err) {
           Logger.error('err to save new blog post ' + err);
           return res.send().status(500);
         }
         Logger.debug('new blog post saved');
-        return res.send().status(200);
+        return res.send({id: post._id}).status(200);
       });
     }
   );
