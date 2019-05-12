@@ -26,6 +26,7 @@ import { router } from './router';
 import { initExpressSession } from './identity';
 import * as fileUpload from 'express-fileupload';
 import { checkConfiguration } from './utils/helpers';
+import { createAdminUser } from './lib/updates';
 
 checkConfiguration(config);
 
@@ -70,6 +71,7 @@ i18nInstance
         const server = createServer(appExpress);
         registerSocket(server);
 
+        createAdminUser();
         server.listen(config.PORT_CORE, () => {
           console.log(`> Ready on http://localhost:${config.PORT_CORE}`)
         });
