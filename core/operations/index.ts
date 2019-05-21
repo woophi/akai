@@ -1,6 +1,6 @@
 import { store } from 'core/store';
 import { callApi } from 'core/common';
-import { getCookie } from 'core/cookieManager';
+import Router from 'next/router';
 
 export const login = async (email: string, password: string) => {
   const { token } = await callApi<{token: string}>('post', 'api/app/user/login', {email, password});
@@ -15,9 +15,12 @@ export const createBlog = async (data: { body: string; title: string }) => {
 }
 
 export const checkAuth = async () => {
-  const data = await callApi<{token: string}>('post', 'api/app/user/check');
-  if (!data) {
+  const data = await callApi<{token: string, redirect: boolean}>('post', 'api/app/user/check');
+  if (!data || data.token) {
     return;
+  }
+  if (data.redirect) {
+    Router.push('/login');
   }
   store.dispatch({ type: 'SET_TOKEN', payload: data.token });
 }

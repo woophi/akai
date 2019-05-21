@@ -27,7 +27,7 @@ export const checkUser = async (
     const verification = await identity.verifyToken(token);
     if (verification.verificaitionError) {
       options.set('prevUrl', req.url);
-      return res.redirect('/login');
+      return res.send({ redirect: true });
     }
     const access = await identity.verifyToken(accessToken);
     if (access.verificaitionError) {

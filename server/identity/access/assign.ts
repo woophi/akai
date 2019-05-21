@@ -4,7 +4,7 @@ import { Claims } from './constants';
 import { verifyToken } from './verify';
 
 const oneDay = 86400;
-const tenDays = 10 * 24 * 60 * 60 * 1000;
+const tenDays = '10d';
 export const setAccessToken = (params: Claims = {}) => {
 	return jwt.sign(params, config.ACCESS_SECRET, {
 		expiresIn: oneDay
