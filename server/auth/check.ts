@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Logger } from '../logger';
 import * as identity from '../identity';
+import * as options from '../options';
 
 const decrypt = new identity.Encryption().decrypt;
 export const checkUser = async (
@@ -20,16 +21,22 @@ export const checkUser = async (
     return res.sendStatus(204);
   }
   const encryptedData = splitCookie[1];
-
+  let accessToken = req.session.user.accessToken;
   try {
-    const value = await decrypt(encryptedData, req.session.user.password);
-    console.warn(value, 'value');
-    if (value !== req.session.user.password) {
-      return res.sendStatus(204);
+    const token = await decrypt(encryptedData, req.session.user.password);
+    const verification = await identity.verifyToken(token);
+    if (verification.verificaitionError) {
+      options.set('prevUrl', req.url);
+      return res.redirect('/login');
     }
+    const access = await identity.verifyToken(accessToken);
+    if (access.verificaitionError) {
+      accessToken = await identity.setAccessToken({ id: userId, roles: req.session.user.roles });
+    }
+
   } catch (error) {
     Logger.error(error);
     return res.sendStatus(204);
   }
-  return res.send({ token: req.session.user.accessToken });
+  return res.send({ token: accessToken });
 };

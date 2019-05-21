@@ -15,7 +15,7 @@ export const getRoles = async (userId: string) => {
 export const requireUser = (req: Request, res: Response) => {
 	if (!req.session.user) {
 		options.set('prevUrl', req.url);
-		res.redirect('/signin');
+		res.redirect('/login');
 		return false;
 	}
 	return true;

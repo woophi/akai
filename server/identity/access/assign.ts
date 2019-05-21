@@ -1,6 +1,7 @@
 import config from '../../config';
 import * as jwt from 'jsonwebtoken';
 import { Claims } from './constants';
+import { verifyToken } from './verify';
 
 const oneDay = 86400;
 const tenDays = 10 * 24 * 60 * 60 * 1000;
@@ -9,7 +10,13 @@ export const setAccessToken = (params: Claims = {}) => {
 		expiresIn: oneDay
 	});
 }
-export const setRefreshToken = (params: Claims = {}) => {
+export const setRefreshToken = async (params: Claims = {}, token?: string) => {
+  if (token) {
+    const { verificaitionError } = await verifyToken(token);
+    if (!verificaitionError) {
+      return token;
+    }
+  }
 	return jwt.sign(params, config.ACCESS_SECRET, {
 		expiresIn: tenDays
 	});
