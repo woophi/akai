@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ROLES } from './constants';
 
 const getToken = (req: Request) => {
-  return req.headers.authorization || (req.session.user && req.session.user.accessToken) || '';
+  return req.headers.authorization || (req.session.user && req.session.accessToken) || '';
 }
 
 export const validateToken = (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +26,7 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
 export const authorizedForAdmin = (req: Request,  res: Response,  next: NextFunction) => {
 	if (!requireUser(req, res)) return;
   const token = getToken(req);
-	const { claims, verificaitionError } = verifyToken(token);
+  const { claims, verificaitionError } = verifyToken(token);
 	if (verificaitionError)
 		return res.send({ error: 'Authentication failed' }).status(403);
 
