@@ -9,5 +9,5 @@
       "dom"
     ]
   },
-  "include": ["server/*"]
+  "include": ["server/*", "server/migration/*"]
 }
