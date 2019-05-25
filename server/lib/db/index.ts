@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import config from '../../config';
 import { Logger } from '../../logger';
 mongoose.set('useCreateIndex', true);
-export const databaseUri = config.DEV_MODE ? config.PORT_MONGO + '/turbodrive' : config.PORT_MONGO;
+export const databaseUri = config.PORT_MONGO;
 export const connection = mongoose.connect(databaseUri, { useNewUrlParser: true });
 
 connection
@@ -13,7 +13,7 @@ connection
 			} mode.`,
 		);
 		return db;
-	})
+  })
 	.catch(err => {
 		if (err.message.code === 'ETIMEDOUT') {
 			Logger.error('Attempting to re-establish database connection.');

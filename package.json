@@ -42,6 +42,7 @@
     "i18next-xhr-backend": "^2.0.1",
     "instagram-private-api": "^1.9.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-core": "^3.2.6",
     "mongoose": "^5.5.11",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.9.1",

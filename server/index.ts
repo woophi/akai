@@ -15,7 +15,7 @@ import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
 import { createServer } from 'http';
 import config from './config';
-import { agenda } from './lib/agenda';
+// import { agenda } from './lib/agenda';
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
 const i18nextMiddleware = require('i18next-express-middleware')
@@ -26,7 +26,8 @@ import { router } from './router';
 import { initExpressSession } from './identity';
 import * as fileUpload from 'express-fileupload';
 import { checkConfiguration } from './utils/helpers';
-import { createAdminUser } from './lib/updates';
+import { applyMigration } from './lib/updates';
+import connection from './lib/db';
 
 checkConfiguration(config);
 
@@ -43,7 +44,7 @@ i18nInstance
       }
   }, () => {
     appNext.prepare()
-      .then(() => {
+      .then(async () => {
         const appExpress = express();
         appExpress.use(bodyParser.urlencoded({ extended: true }));
         appExpress.use(bodyParser.json());
@@ -61,17 +62,16 @@ i18nInstance
         appExpress.use(i18nextMiddleware.handle(i18nInstance));
         // serve locales for client
         appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
-        import('./lib/db');
+        await connection;
         if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
           fs.mkdirSync(join(__dirname, 'storage/temp'))
         }
-        agenda.start();
         router(appExpress, handle, appNext);
 
         const server = createServer(appExpress);
         registerSocket(server);
 
-        createAdminUser();
+        applyMigration();
         server.listen(config.PORT_CORE, () => {
           console.log(`> Ready on http://localhost:${config.PORT_CORE}`)
         });
@@ -104,7 +104,7 @@ i18nInstance
 
 process.on('uncaughtException', async (err) => {
   console.error(err);
-  await agenda.stop();
+  // await agenda.stop();
   process.exit(1);
 });
 

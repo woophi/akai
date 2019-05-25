@@ -1,1 +1,1 @@
-export * from './createDefaultUser';
+export * from './migration';

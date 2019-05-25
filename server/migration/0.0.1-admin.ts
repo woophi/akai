@@ -1,12 +1,12 @@
-import UserModel from '../../models/users';
-import { Logger } from '../../logger';
-import * as identity from '../../identity';
+import UserModel from '../models/users';
+import { Logger } from '../logger';
+import * as identity from '../identity';
 import * as async from 'async';
 
-export const createAdminUser = () => {
+const createAdminUser = (done) => {
   if (!process.env.SUPER_MAIL && !process.env.SUPER_PASS) {
     Logger.debug('no super provided');
-    return;
+    return done();
   }
   const userData = {
     email: process.env.SUPER_MAIL,
@@ -38,7 +38,7 @@ export const createAdminUser = () => {
     ],
     async (err) => {
       if (err) {
-        return;
+        return done();
       }
       const hashing = new identity.Hashing();
       Logger.debug(
@@ -49,7 +49,7 @@ export const createAdminUser = () => {
         userData.password = await hashing.hashPassword(userData.password);
       } catch (e) {
         new Error(e);
-        return;
+        return done(e);
       }
 
       Logger.debug(
@@ -60,11 +60,13 @@ export const createAdminUser = () => {
       return newUser.save(err => {
         if (err) {
           Logger.error('err to save new user ' + err);
-          return;
+          return done(err);
         }
         Logger.debug('new user saved');
-        return;
+        return done();
       });
     }
   );
 }
+
+module.exports = (done) => createAdminUser(done);
