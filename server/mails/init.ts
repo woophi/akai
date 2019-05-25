@@ -1,7 +1,7 @@
 import * as nodemailer from 'nodemailer';
 import config from '../config';
 import { Logger } from '../logger';
-import { agenda } from '../lib/agenda';
+import { agenda } from '../lib/db';
 import { EmailTemplate } from './types';
 const hbs = require('nodemailer-express-handlebars');
 

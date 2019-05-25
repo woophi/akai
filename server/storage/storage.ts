@@ -3,7 +3,7 @@ import { FileArray, UploadedFile } from 'express-fileupload';
 import { EventBus } from '../lib/events';
 import { FStorageEvents } from './types';
 import { Logger } from '../logger';
-import { agenda } from '../lib/agenda';
+import { agenda } from '../lib/db';
 import { getFilePath } from './helpers';
 
 export class Storage {

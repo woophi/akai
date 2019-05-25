@@ -15,7 +15,6 @@ import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
 import { createServer } from 'http';
 import config from './config';
-// import { agenda } from './lib/agenda';
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
 const i18nextMiddleware = require('i18next-express-middleware')
@@ -27,7 +26,7 @@ import { initExpressSession } from './identity';
 import * as fileUpload from 'express-fileupload';
 import { checkConfiguration } from './utils/helpers';
 import { applyMigration } from './lib/updates';
-import connection from './lib/db';
+import connection, { agenda } from './lib/db';
 
 checkConfiguration(config);
 
@@ -104,7 +103,7 @@ i18nInstance
 
 process.on('uncaughtException', async (err) => {
   console.error(err);
-  // await agenda.stop();
+  await agenda.stop();
   process.exit(1);
 });
 

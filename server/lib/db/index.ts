@@ -1,9 +1,12 @@
 import * as mongoose from 'mongoose';
 import config from '../../config';
 import { Logger } from '../../logger';
+import * as Agenda from 'agenda';
 mongoose.set('useCreateIndex', true);
 export const databaseUri = config.PORT_MONGO;
 export const connection = mongoose.connect(databaseUri, { useNewUrlParser: true });
+
+export let agenda: Agenda;
 
 connection
 	.then(db => {
@@ -11,7 +14,16 @@ connection
 			`Successfully connected to ${databaseUri} MongoDB cluster in ${
 				config.DEV_MODE ? 'dev': 'prod'
 			} mode.`,
-		);
+    );
+    agenda = new Agenda({
+      db: {
+        address: databaseUri,
+        collection: 'jobs_queue',
+        options: {
+          useNewUrlParser: true
+        }
+      }
+    }, () => agenda.start());
 		return db;
   })
 	.catch(err => {
