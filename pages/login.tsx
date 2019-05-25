@@ -9,7 +9,7 @@ import { AppState } from 'core/models';
 const styles = (theme: Theme): any => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20,
+    paddingTop: '20px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center'

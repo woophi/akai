@@ -1,6 +1,5 @@
 
 import { Request, Response, NextFunction } from 'express';
-import { isEmpty } from 'ramda';
 
 export class Validator {
   constructor(req?: Request, res?: Response, next?: NextFunction) {
@@ -27,7 +26,7 @@ export class Validator {
           errors[k] = invalid;
       }
     });
-    if (!isEmpty(errors)) {
+    if (this.notIsEmpty(errors)) {
       return this.Exception(errors, 400)
     }
     return cb();
@@ -60,6 +59,28 @@ export class Validator {
 
   typeOfString = (value: any) => {
     return typeof value === 'string'
+  }
+
+  isEmpty = <T>(value: T) => {
+    if (!value) {
+      return true;
+    }
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      for (let key in value) {
+        if (value.hasOwnProperty(key)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    if (Array.isArray(value) && !value.length) {
+      return true;
+    }
+    return false;
+  }
+
+  notIsEmpty = <T>(value: T) => {
+    return !this.isEmpty(value);
   }
 
 }

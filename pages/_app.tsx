@@ -3,12 +3,11 @@ import App, {Container} from 'next/app'
 import withRedux from 'next-redux-wrapper'
 import { initStore } from 'core/store';
 import * as React from 'react';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import JssProvider from 'react-jss/lib/JssProvider';
-import { getPageContext } from 'core/lib';
 const {I18nextProvider}  = require('react-i18next');
 import { getInitialProps as getI18nProps, I18n } from 'server/lib/i18n';
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { theme } from 'core/lib';
 
 class MyApp extends App {
   static async getInitialProps({Component, ctx}) {
@@ -30,11 +29,10 @@ class MyApp extends App {
       i18nProviderProps
     }
   }
-  pageContext = getPageContext();
 
   componentDidMount() {
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles && jssStyles.parentNode) {
+    if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
     import('core/socket');
@@ -47,24 +45,18 @@ class MyApp extends App {
     }
     return (
       <Container>
-        <JssProvider
-          registry={this.pageContext.sheetsRegistry}
-          generateClassName={this.pageContext.generateClassName}
+        <ThemeProvider
+          theme={theme}
         >
-          <MuiThemeProvider
-            theme={this.pageContext.theme}
-            sheetsManager={this.pageContext.sheetsManager}
-          >
-            <CssBaseline />
-            <Provider store={store}>
-              <I18nextProvider {...i18nProviderProps}>
-                <div>
-                  <Component pageContext={this.pageContext} {...pageProps} />
-                </div>
-              </I18nextProvider>
-            </Provider>
-          </MuiThemeProvider>
-        </JssProvider>
+          <CssBaseline />
+          <Provider store={store}>
+            <I18nextProvider {...i18nProviderProps}>
+              <div>
+                <Component {...pageProps} />
+              </div>
+            </I18nextProvider>
+          </Provider>
+        </ThemeProvider>
       </Container>
     );
   }

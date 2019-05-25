@@ -80,8 +80,6 @@ export class Auth extends Hashing {
         return onFail(generalError);
       }
 
-      req.session.user = user;
-      req.session.userId = user.id;
       // if the user has a password set, store a persistence cookie to resume sessions
       const tokenParams = {
         id: user.id,
@@ -95,7 +93,7 @@ export class Auth extends Hashing {
         refreshToken: await setRefreshToken(tokenParams, user.refreshToken)
       };
       user
-        .set(payload)
+        .set(payload.refreshToken)
         .save((err) => {
           if (err) {
             Logger.error(err);
@@ -104,13 +102,16 @@ export class Auth extends Hashing {
         });
 
       try {
-        const userToken = user.id + ':' + await encrypt(payload.refreshToken, user.password);
+        const userToken = user.id + ':' + await encrypt(req.sessionID, user.password);
         const cookieOpts = {
           signed: true,
           httpOnly: !config.DEV_MODE,
           maxAge: this.tenDays,
         };
         req.session.cookie.maxAge = this.tenDays;
+        req.session.user = user;
+        req.session.userId = user.id;
+        req.session.user.accessToken = payload.accessToken;
         if (!config.DEV_MODE) {
           req.session.cookie.httpOnly = true;
         }

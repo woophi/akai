@@ -56,7 +56,7 @@ export const postToInstagram = async ({
 
     await ig.publish.photo({
       file: fileBuf,
-      caption: blog.title
+      // caption: blog.title
     });
   });
   fileStream.on('close', () => {

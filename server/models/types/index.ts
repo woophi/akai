@@ -4,3 +4,7 @@ export * from './facebookPage';
 export * from './blog';
 export * from './comment';
 export * from './visitor';
+export * from './language';
+export * from './sketchBook';
+export * from './album';
+export * from './files';

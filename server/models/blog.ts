@@ -1,20 +1,35 @@
 import * as mongoose from 'mongoose';
 const timestamps = require('mongoose-timestamp');
 
+const language = {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'language'
+};
+
 export const BlogSchema = new mongoose.Schema(
 	{
-		title: {
-			type: String,
-			index: true,
-			required: true
-    },
-    photos: [{
-      name: String,
-      url: String,
-      thumbnail: String
+		title: [{
+      language,
+      content: String
     }],
-		body: {
-			type: String
+    photos: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'files'
+    }],
+		body: [{
+      language,
+      content: String
+    }],
+		topic: [{
+      language,
+      content: String
+    }],
+    socialShare: {
+      language,
+      photoUrl: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'files'
+      }
     },
     creationPictureDate: {
       type: Date
@@ -25,7 +40,8 @@ export const BlogSchema = new mongoose.Schema(
     },
     parameters: [{
       name: String,
-      value: String
+      value: String,
+      language
     }],
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -36,6 +52,5 @@ export const BlogSchema = new mongoose.Schema(
 );
 
 BlogSchema.plugin(timestamps);
-BlogSchema.index({ title: 1 });
 
 export default mongoose.model('blog', BlogSchema);

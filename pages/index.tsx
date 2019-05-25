@@ -9,11 +9,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { withTranslation, WithTranslation } from 'react-i18next';
+import ProTip from 'components/ProTip';
 
 const styles = (theme: Theme): any => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20
+    paddingTop: '20px'
   },
   block: {
     display: 'flex',
@@ -103,6 +104,7 @@ class Index extends React.Component<Props, LocalState> {
           >
             login fb
           </Button>
+          <ProTip />
         </div>
       </div>
     );

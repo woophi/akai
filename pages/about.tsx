@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { Input, TextField } from '@material-ui/core';
-import { uploadFilesForBlog } from 'core/common';
+import { uploadFiles } from 'core/common';
 import { createBlog } from 'core/operations';
 import { compose } from 'redux';
 import { connect as redux } from 'react-redux';
@@ -13,7 +13,7 @@ import { AppState } from 'core/models';
 const styles = (theme: Theme): any => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20
+    paddingTop: '20px'
   },
   block: {
     display: 'flex',
@@ -31,7 +31,10 @@ type Props = {
 };
 
 type LocalState = {
-  files: File[];
+  files: {
+    file: File,
+    uploading: boolean;
+  }[];
   title: string;
   body: string;
 };
@@ -46,7 +49,13 @@ class About extends React.PureComponent<Props, LocalState> {
   onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files['0'];
     if (file) {
-      this.setState(state => ({ files: [...state.files, file] }));
+      this.setState(state => ({ files: [...state.files, {
+        file,
+        uploading: true
+      }] }), () => {
+        console.warn('go upload');
+        uploadFiles(this.state.files.map(f => f.file));
+      });
     }
   };
 
@@ -62,7 +71,7 @@ class About extends React.PureComponent<Props, LocalState> {
       body: this.state.body,
       title: this.state.title
     });
-    await uploadFilesForBlog(this.state.files, id);
+    // await uploadFilesForBlog(this.state.files, id);
     this.setState({
       body: '',
       title: '',
@@ -122,8 +131,8 @@ class About extends React.PureComponent<Props, LocalState> {
             width="50px"
             height="50px"
             key={i + 123546}
-            src={URL.createObjectURL(f)}
-            alt={f.name}
+            src={URL.createObjectURL(f.file)}
+            alt={f.file.name}
           />
         ))}
       </div>

@@ -9,7 +9,7 @@ import * as auth from './auth';
 import * as identity from './identity';
 import * as mails from './mails';
 import { EmailTemplate } from './mails/types';
-import { Storage } from './storage';
+import * as storage from './storage';
 import { createImgPost } from './facebook';
 import { Server } from 'next';
 import config from './config';
@@ -51,15 +51,7 @@ export function router(
     return res.sendStatus(204);
   });
 
-  app.post('/storage/upload', identity.authorizedForAdmin, (req, res, next) => {
-    const blogId = req.query['blogId'];
-    if (!blogId) {
-      return res.status(400);
-    }
-    const storage = new Storage(req.files, 'process file', blogId);
-    storage.performQueue();
-    return res.sendStatus(204);
-  });
+  app.post('/storage/upload', identity.authorizedForAdmin, storage.startUpload);
 
   // facebook connect
   app.get('/setup/fb', admin.fbLogin);

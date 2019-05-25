@@ -17,16 +17,19 @@ export const createNewPost = async (
   );
 
   const blogPost: models.SaveBlogModel = {
-    body: req.body.text || undefined,
+    body: req.body.body || [],
     createdBy: req.session.user._id,
-    title: req.body.title
+    title: req.body.title,
+    topic: req.body.topic,
+    socialShare: null
   };
   async.series(
     [
       cb =>
         validate.check(
           {
-            title: validate.required
+            title: validate.notIsEmpty,
+            topic: validate.notIsEmpty,
           },
           blogPost,
           cb

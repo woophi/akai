@@ -1,1 +1,1 @@
-export * from './getPageContext';
+export * from './theme';

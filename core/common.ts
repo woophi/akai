@@ -36,28 +36,25 @@ export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any =
     });
 }
 
-export const uploadFilesForBlog = (files: File[], blogId: string) => {
-  const uploads = files.map(f => {
-    return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      formData.append(f.name, f);
+export const uploadFiles = (files: File[]) => {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    files.forEach(f => formData.append(f.name, f));
 
-      const url = `${SITE_URL}storage/upload?blogId=${blogId}`;
+    const url = `${SITE_URL}storage/upload`;
 
-      const request = new XMLHttpRequest();
-      request.onload = () => {
-        if (request.status < 400) {
-          resolve();
-        } else {
-          reject();
-        }
-      };
-      request.onerror = () => {
+    const request = new XMLHttpRequest();
+    request.onload = () => {
+      if (request.status < 400) {
+        resolve();
+      } else {
         reject();
-      };
-      request.open('POST', url);
-      request.send(formData);
-    });
-  }).filter(pr => !!pr);
-  return uploads.length > 0 ? Promise.all(uploads) : Promise.resolve();
+      }
+    };
+    request.onerror = () => {
+      reject();
+    };
+    request.open('POST', url);
+    request.send(formData);
+  });
 }

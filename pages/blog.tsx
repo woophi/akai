@@ -7,7 +7,7 @@ import Link from 'next/link';
 const styles = (theme: Theme): any => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20
+    paddingTop: '20px'
   }
 });
 

@@ -5,10 +5,9 @@ import * as fs from 'fs';
 import { Logger } from '../logger';
 import { CloudinaryImg, FStorageEvents, FileEventParams } from './types';
 import * as async from 'async';
-import BlogModel from '../models/blog';
+import FilesModel from '../models/files';
 import * as models from '../models/types';
 import { getFilePath } from './helpers';
-import { createImgPost } from '../facebook';
 
 cloudinary.config({
   cloud_name: config.FS_CLOUD_NAME,
@@ -18,7 +17,6 @@ cloudinary.config({
 
 export const upload_stream = (
   fileName: string,
-  blogId: string,
   done: FileEventParams['done']
 ) =>
   cloudinary.uploader.upload_stream({}, (err, image: CloudinaryImg) => {
@@ -39,29 +37,27 @@ export const upload_stream = (
               'h_400/' +
               image.secure_url.substr(indexOfUpload);
           }
-          BlogModel.findById(blogId).exec((err, blog: models.Blog) => {
-            const newPhoto: models.PhotoModel = {
-              name: fileName,
-              url: image.secure_url,
-              thumbnail: thumbnail ? thumbnail : image.secure_url
-            };
 
+          const newFile: models.FilesModel = {
+            name: fileName,
+            url: image.secure_url,
+            thumbnail: thumbnail ? thumbnail : image.secure_url
+          };
 
-
-            blog
-              .set({
-                photos: [
-                  ...blog.photos,
-                  newPhoto
-                ]
-              })
-              .save(cb);
+          const createFile = new FilesModel(newFile);
+          createFile.save((err, file) => {
+            if (err) {
+              Logger.error('err to save new file ' + err);
+              EventBus.emit(FStorageEvents.UPLOADED_FILE_ERROR, { fileName });
+              return cb();
+            }
+            Logger.debug('new file saved');
+            EventBus.emit(FStorageEvents.UPLOADED_FILE_SUCCESS, { fileId: file._id, fileName });
+            return cb();
           });
         }
       ],
       () => {
-        // TODO: change text
-        createImgPost(`${config.SITE_URI}p/${blogId}`, 'test from cloudinary process')
         EventBus.emit(FStorageEvents.DELETE_TEMP_FILE, { fileName, done })
       }
     );
@@ -72,9 +68,9 @@ export const registerCloudinaryEvents = () => {
 
   EventBus.on(
     FStorageEvents.CLOUDINARY_ASK,
-    ({ fileName, blogId, done }: FileEventParams) => {
+    ({ fileName, done }: FileEventParams) => {
       fs.createReadStream(getFilePath(fileName)).pipe(
-        upload_stream(fileName, blogId, done)
+        upload_stream(fileName, done)
       );
     }
   );

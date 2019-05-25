@@ -25,7 +25,7 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
 
 export const authorizedForAdmin = (req: Request,  res: Response,  next: NextFunction) => {
 	if (!requireUser(req, res)) return;
-	const token = getToken(req);
+  const token = getToken(req);
 	const { claims, verificaitionError } = verifyToken(token);
 	if (verificaitionError)
 		return res.send({ error: 'Authentication failed' }).status(403);

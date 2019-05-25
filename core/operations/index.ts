@@ -16,7 +16,7 @@ export const createBlog = async (data: { body: string; title: string }) => {
 
 export const checkAuth = async () => {
   const data = await callApi<{token: string, redirect: boolean}>('post', 'api/app/user/check');
-  if (!data || data.token) {
+  if (!data || !data.token) {
     return;
   }
   if (data.redirect) {
