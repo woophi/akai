@@ -93,7 +93,7 @@ export class Auth extends Hashing {
         refreshToken: await setRefreshToken(tokenParams, user.refreshToken)
       };
       user
-        .set(payload.refreshToken)
+        .set('refreshToken', payload.refreshToken)
         .save((err) => {
           if (err) {
             Logger.error(err);
@@ -111,7 +111,7 @@ export class Auth extends Hashing {
         req.session.cookie.maxAge = this.tenDays;
         req.session.user = user;
         req.session.userId = user.id;
-        req.session.user.accessToken = payload.accessToken;
+        req.session.accessToken = payload.accessToken;
         if (!config.DEV_MODE) {
           req.session.cookie.httpOnly = true;
         }

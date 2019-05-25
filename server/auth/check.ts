@@ -26,7 +26,7 @@ export const checkUser = async (
     return saveUrlAndRedirect(req, res);
   }
   const encryptedData = splitCookie[1];
-  let accessToken = req.session.user.accessToken;
+  let accessToken = req.session.accessToken;
   try {
     const sessionId = await decrypt(encryptedData, req.session.user.password);
     if (sessionId !== req.sessionID) {
@@ -39,7 +39,8 @@ export const checkUser = async (
     const access = await identity.verifyToken(accessToken);
     if (access.verificaitionError) {
       accessToken = await identity.setAccessToken({ id: userId, roles: req.session.user.roles });
-      req.session.user.accessToken = accessToken;
+      req.session.accessToken = accessToken;
+      req.session.save(() => Logger.debug('resave session'))
     }
 
   } catch (error) {
