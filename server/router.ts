@@ -37,6 +37,8 @@ export function router(
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, admin.createUser);
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, admin.createNewPost);
+  app.post('/api/admin/new/language', identity.authorizedForAdmin, admin.createNewLanguage);
+  app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, admin.toggleActivationLanguage);
 
   // TODO: remove
   app.post('/api/testMail', async (req, res, next) => {

@@ -10,7 +10,11 @@ export const LanguageSchema = new mongoose.Schema(
 		localeId: {
 			type: String,
       required: true,
-      index: true
+      index: true,
+      unique: true
+    },
+    deleted: {
+      type: Date,
     }
   },
 	{ collection: 'language' }
