@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import ProTip from 'components/ProTip';
-import { LinkButton, Layout } from 'components/ui';
+import { Layout, Carusel } from 'components/ui';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -62,7 +62,8 @@ class Index extends React.Component<Props, LocalState> {
 
     return (
       <Layout>
-        <div className={classes.root}>
+        <Carusel imgs={[]} />
+        {/* <div className={classes.root}>
 
           <Dialog open={open} onClose={this.handleClose}>
             <DialogTitle>Super Secret Password</DialogTitle>
@@ -113,7 +114,7 @@ class Index extends React.Component<Props, LocalState> {
             </Button>
             <ProTip />
           </div>
-        </div>
+        </div> */}
       </Layout>
     );
   }

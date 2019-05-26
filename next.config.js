@@ -1,5 +1,6 @@
 const withTypescript = require('@zeit/next-typescript');
-module.exports = withTypescript({
+const withCSS = require('@zeit/next-css');
+module.exports = withCSS(withTypescript({
   webpack(config, options) {
     config.resolve.modules.unshift(__dirname);
     const originalEntry = config.entry;
@@ -18,4 +19,4 @@ module.exports = withTypescript({
   publicRuntimeConfig: {
     SITE_URL: process.env.SITE_URI
   }
-})
+}));

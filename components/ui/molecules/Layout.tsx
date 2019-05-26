@@ -9,7 +9,7 @@ type Props = {
 
 const useStyles = makeStyles(theme => ({
   content: {
-    paddingTop: '100px',
+    paddingTop: '84px',
     height: '100vh'
   }
 }));
