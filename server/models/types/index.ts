@@ -8,3 +8,4 @@ export * from './language';
 export * from './sketchBook';
 export * from './album';
 export * from './files';
+export * from './slider';

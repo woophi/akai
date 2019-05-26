@@ -17,4 +17,4 @@ export const SketchBookSchema = new mongoose.Schema(
 
 SketchBookSchema.plugin(timestamps);
 
-export default mongoose.model('sketch_book', SketchBookSchema);
+export default mongoose.model('sketch_book', SketchBookSchema, 'sketch_book');

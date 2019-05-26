@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
 
-export function get(req: Request, res: Response) {
+export function getApiHealth(req: Request, res: Response) {
   return res.json({ health: 'ok' });
 }

@@ -23,4 +23,4 @@ export const LanguageSchema = new mongoose.Schema(
 LanguageSchema.plugin(timestamps);
 LanguageSchema.index({ localeId: 1 });
 
-export default mongoose.model('language', LanguageSchema);
+export default mongoose.model('language', LanguageSchema, 'language');

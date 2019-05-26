@@ -19,4 +19,4 @@ export const BlackListSchema = new mongoose.Schema(
 BlackListSchema.plugin(timestamps);
 BlackListSchema.index({ ip: 1 });
 
-export default mongoose.model('black_list', BlackListSchema);
+export default mongoose.model('black_list', BlackListSchema, 'black_list');

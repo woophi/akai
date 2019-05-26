@@ -48,4 +48,4 @@ export const BlogSchema = new mongoose.Schema(
 
 BlogSchema.plugin(timestamps);
 
-export default mongoose.model('blog', BlogSchema);
+export default mongoose.model('blog', BlogSchema, 'blog');

@@ -26,7 +26,7 @@ export class Validator {
           errors[k] = invalid;
       }
     });
-    if (this.notIsEmpty(errors)) {
+    if (!this.isEmpty(errors)) {
       return this.Exception(errors, 400)
     }
     return cb();
@@ -62,25 +62,30 @@ export class Validator {
   }
 
   isEmpty = <T>(value: T) => {
+    const empty = 'empty';
     if (!value) {
-      return true;
+      return empty;
     }
     if (typeof value === 'object' && !Array.isArray(value)) {
       for (let key in value) {
         if (value.hasOwnProperty(key)) {
-          return false;
+          return;
         }
       }
-      return true;
+      return empty;
     }
     if (Array.isArray(value) && !value.length) {
-      return true;
+      return empty;
     }
-    return false;
+    return;
   }
 
   notIsEmpty = <T>(value: T) => {
-    return !this.isEmpty(value);
+    const empty = this.isEmpty(value);
+    if (empty) {
+      return empty;
+    }
+    return;
   }
 
 }
