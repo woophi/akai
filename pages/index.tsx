@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import ProTip from 'components/ProTip';
+import { LinkButton, Layout } from 'components/ui';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -60,53 +61,60 @@ class Index extends React.Component<Props, LocalState> {
     const { open } = this.state;
 
     return (
-      <div className={classes.root}>
-        <Dialog open={open} onClose={this.handleClose}>
-          <DialogTitle>Super Secret Password</DialogTitle>
-          <DialogContent>
-            <DialogContentText>1-2-3-4-5</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={this.handleClose}>
-              OK
+      <Layout>
+        <div className={classes.root}>
+
+          <Dialog open={open} onClose={this.handleClose}>
+            <DialogTitle>Super Secret Password</DialogTitle>
+            <DialogContent>
+              <DialogContentText>1-2-3-4-5</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button color="primary" onClick={this.handleClose}>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Typography gutterBottom>
+            <Link href="/about">
+              <a>Go to the about page</a>
+            </Link>
+            <LinkButton
+              href="/about"
+              label="about"
+            />
+          </Typography>
+          <Typography gutterBottom>
+            <Link href="/blog">
+              <a>Go to the blog page</a>
+            </Link>
+          </Typography>
+          <Typography gutterBottom>
+            <Link href="/login">
+              <a>Go to the login page</a>
+            </Link>
+          </Typography>
+          <div className={classes.block}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.handleClick}
+              className={classes.m3}
+            >
+              Super Secret Password
             </Button>
-          </DialogActions>
-        </Dialog>
-        <Typography gutterBottom>
-          <Link href="/about">
-            <a>Go to the about page</a>
-          </Link>
-        </Typography>
-        <Typography gutterBottom>
-          <Link href="/blog">
-            <a>Go to the blog page</a>
-          </Link>
-        </Typography>
-        <Typography gutterBottom>
-          <Link href="/login">
-            <a>Go to the login page</a>
-          </Link>
-        </Typography>
-        <div className={classes.block}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={this.handleClick}
-            className={classes.m3}
-          >
-            Super Secret Password
-          </Button>
-          {t('extendedComponent')}
-          <Button
-            color="primary"
-            onClick={this.handleFbLogin}
-            className={classes.m3}
-          >
-            login fb
-          </Button>
-          <ProTip />
+            {t('extendedComponent')}
+            <Button
+              color="primary"
+              onClick={this.handleFbLogin}
+              className={classes.m3}
+            >
+              login fb
+            </Button>
+            <ProTip />
+          </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 }

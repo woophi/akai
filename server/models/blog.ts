@@ -1,15 +1,10 @@
 import * as mongoose from 'mongoose';
 const timestamps = require('mongoose-timestamp');
 
-const language = {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'language'
-};
-
 export const BlogSchema = new mongoose.Schema(
 	{
 		title: [{
-      language,
+      localeId: String,
       content: String
     }],
     photos: [{
@@ -17,15 +12,15 @@ export const BlogSchema = new mongoose.Schema(
       ref: 'files'
     }],
 		body: [{
-      language,
+      localeId: String,
       content: String
     }],
 		topic: [{
-      language,
+      localeId: String,
       content: String
     }],
     socialShare: {
-      language,
+      localeId: String,
       photoUrl: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'files'
@@ -41,7 +36,7 @@ export const BlogSchema = new mongoose.Schema(
     parameters: [{
       name: String,
       value: String,
-      language
+      localeId: String
     }],
     comments: [{
       type: mongoose.Schema.Types.ObjectId,

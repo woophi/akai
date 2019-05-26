@@ -1,8 +1,3 @@
-import { Model } from './mongoModel';
-import { UserModel } from './user';
-import { CommentModel } from './comment';
-import { FilesModel } from './files';
-
 export type Parameter = {
   name: string;
   value: string;
@@ -33,11 +28,3 @@ export type SaveBlogModel = GeneralBlogModel & {
   comments?: string[];
   photos: string[];
 };
-
-export type BlogModel = GeneralBlogModel & {
-  createdBy: UserModel;
-  comments: CommentModel[];
-  photos?: FilesModel[];
-};
-
-export type Blog = Model<BlogModel>;

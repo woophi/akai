@@ -4,10 +4,7 @@ const timestamps = require('mongoose-timestamp');
 export const SketchBookSchema = new mongoose.Schema(
 	{
 		name: [{
-      language: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'language'
-      },
+      localeId: String,
       content: String
     }],
 		content: [{

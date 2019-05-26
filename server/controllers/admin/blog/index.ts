@@ -16,12 +16,21 @@ export const createNewPost = async (
     `starting to create new blog post ${new Date().toLocaleTimeString()}`
   );
 
+  /**
+   * [{
+   *  localeId: 'en',
+   *  content: 'asdsddas'
+   * }]
+   */
   const blogPost: models.SaveBlogModel = {
     body: req.body.body || [],
     createdBy: req.session.user._id,
     title: req.body.title,
     topic: req.body.topic,
-    socialShare: null
+    socialShare: req.body.socialShare,
+    photos: req.body.photos,
+    creationPictureDate: req.body.creationPictureDate,
+    parameters: req.body.parameters
   };
   async.series(
     [
@@ -30,12 +39,13 @@ export const createNewPost = async (
           {
             title: validate.notIsEmpty,
             topic: validate.notIsEmpty,
+            socialShare: validate.notIsEmpty
           },
           blogPost,
           cb
         )
     ],
-    async () => {
+    () => {
       const newBlogPost = new BlogModel(blogPost);
       return newBlogPost.save((err, post) => {
         if (err) {

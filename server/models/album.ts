@@ -4,10 +4,7 @@ const timestamps = require('mongoose-timestamp');
 export const AlbumSchema = new mongoose.Schema(
 	{
 		title: [{
-      language: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'language'
-      },
+      localeId: String,
       content: String
     }],
     coverPhoto: {

@@ -11,5 +11,5 @@ export type SketchBookModel = {
 
 export type SketchBookSaveModel = {
   name: LanguageContent[];
-  content: string;
+  content: string[];
 }
