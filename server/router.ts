@@ -38,7 +38,7 @@ export function router(
   app.post('/api/admin/new/language', identity.authorizedForAdmin, controllers.createNewLanguage);
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);
 
-  app.post('/api/admin/new/slides', /*identity.authorizedForAdmin,*/ controllers.createNewSlides);
+  app.post('/api/admin/new/slides', identity.authorizedForAdmin, controllers.createNewSlides);
 
   // TODO: remove
   app.post('/api/testMail', async (req, res, next) => {

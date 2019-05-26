@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { Layout, Carusel } from 'components/ui';
+import { Layout, Carusel, Subscribe } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 
@@ -22,21 +22,27 @@ const styles = (theme: Theme): any => ({
 
 type Props = {
   classes: any;
-  data: models.SlideModel[];
 } & WithTranslation;
 
-class Index extends React.Component<Props> {
-  static async getInitialProps() {
-    const data = await callApi<models.SlideModel[]>('get', 'api/guest/slides');
-    return { data };
-  }
+type LocalState = {
+  data: models.SlideModel[];
+}
 
+class Index extends React.Component<Props, LocalState> {
+  state: LocalState = {
+    data: []
+  }
+  async componentDidMount() {
+    const data = await callApi<models.SlideModel[]>('get', 'api/guest/slides');
+    this.setState({ data })
+  }
   render() {
-    const { data } = this.props;
-    console.warn('JA EBAL ',data);
     return (
       <Layout>
-        <Carusel imgs={data || []} />
+        <div style={{height: '100vh'}}>
+          <Carusel imgs={this.state.data} />
+        </div>
+        <Subscribe />
       </Layout>
     );
   }

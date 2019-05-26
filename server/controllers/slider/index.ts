@@ -19,13 +19,15 @@ export const getSlidesForGuest = async (
         res.sendStatus(500);
       }
       if (!sliders) {
-        res.send({ slides: [] }).status(200);
+        res.send([]).status(200);
       }
-      const slides = sliders.map(slide => ({
-        src: slide.slide.url,
-        name: slide.slide.name
-      }));
+      const slides = sliders
+        .sort((first, second) => first.ordinal - second.ordinal)
+        .map(slide => ({
+          src: slide.slide.url,
+          name: slide.slide.name
+        }));
       Logger.debug('slides ' + slides);
-      return res.send({ slides }).status(200);
+      return res.send(slides).status(200);
     });
 };
