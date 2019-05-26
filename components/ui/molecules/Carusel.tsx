@@ -26,7 +26,7 @@ export const Carusel: React.FC<Props> = React.memo(({
     return <Spinner />
   }
   return (
-    <Carousel autoPlay infiniteLoop showThumbs={false} className={classes.carusel}>
+    <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false} className={classes.carusel}>
       {imgs.map((ig, index) => (
         <div key={`sl-${index}`} className={classes.carusel}>
           <img

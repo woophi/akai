@@ -27,32 +27,36 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     marginLeft: 8,
-    flex: 1,
+    flex: 1
   },
   iconButton: {
-    padding: 10,
+    padding: 10
   },
   divider: {
     width: 1,
     height: 28,
-    margin: 4,
-  },
+    margin: 4
+  }
 }));
 
 export const Subscribe: React.FC = React.memo(() => {
   const classes = useStyles();
   return (
-    <div className={classes.content}>
-      <Button color="primary" variant="contained" className={classes.button}>
+    <section className={classes.content}>
+      <Button href="mailto:akaidoart@gmail.com" color="primary" variant="contained" className={classes.button}>
         E-mail
       </Button>
       <Paper className={classes.root}>
-        <InputBase className={classes.input} placeholder="Subscribe" />
+        <InputBase className={classes.input} placeholder="Subscribe" type="email" />
         <Divider className={classes.divider} />
-        <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
+        <IconButton
+          color="primary"
+          className={classes.iconButton}
+          aria-label="Directions"
+        >
           <EmailIcon />
         </IconButton>
       </Paper>
-    </div>
+    </section>
   );
 });
