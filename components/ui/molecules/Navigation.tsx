@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { LinkButton, Logo } from '../atoms';
+import { LinkButton, Logo, ArrowTooltip } from '../atoms';
 import { ZIndexes } from '../constants';
 import { Languages } from './Languages';
-
-type Props = {};
 
 const useStyles = makeStyles(theme => ({
   nav: {
@@ -20,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Navigation: React.FC<Props> = React.memo(() => {
+export const Navigation: React.FC = React.memo(() => {
   const classes = useStyles();
 
   return (
@@ -28,8 +26,32 @@ export const Navigation: React.FC<Props> = React.memo(() => {
       <Logo />
       <div>
         <LinkButton href="/about" label="Biography" />
-        <LinkButton href="/gallery" label="gallery" />
-        <LinkButton href="/video" label="video" />
+        <ArrowTooltip
+          title={
+            <>
+              <LinkButton insideTooltip href="/gallery/graphics" label="graphics" />
+              <LinkButton insideTooltip href="/gallery/painting" label="painting" />
+            </>
+          }
+          interactive
+        >
+          <span>
+            <LinkButton href="/gallery" label="gallery" />
+          </span>
+        </ArrowTooltip>
+        <ArrowTooltip
+          title={
+            <>
+              <LinkButton insideTooltip href="/video/online" label="online" />
+              <LinkButton insideTooltip href="/video/youtube" label="youtube" />
+            </>
+          }
+          interactive
+        >
+          <span>
+            <LinkButton href="/video" label="video" />
+          </span>
+        </ArrowTooltip>
         <LinkButton href="/photo" label="photo" />
         <LinkButton href="/contact" label="contact" />
       </div>
