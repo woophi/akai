@@ -4,6 +4,6 @@
 .axis-horizontal {
   height: 100% !important;
 }
-.slider.animated {
+ul.slider {
   height: 100% !important;
 }

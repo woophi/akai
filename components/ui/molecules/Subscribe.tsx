@@ -52,7 +52,7 @@ export const Subscribe: React.FC = React.memo(() => {
         <IconButton
           color="primary"
           className={classes.iconButton}
-          aria-label="Directions"
+          aria-label="Subscribe"
         >
           <EmailIcon />
         </IconButton>

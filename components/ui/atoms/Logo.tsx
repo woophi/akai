@@ -1,6 +1,32 @@
 import * as React from 'react';
-import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
+
+type Props = {
+  classNameLogo?: string
+}
+
+
+
+export const Logo: React.FC<Props> = React.memo(({
+  classNameLogo = ''
+}) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.content}>
+      <img
+        className={`${classes.logoSign} ${classNameLogo}`}
+        src="/static/img/akaisign.png"
+        alt="logo_akai_akaev_sign"
+      />
+      <div className={classes.logoText}>
+        <Link href="/">
+          <a className={classes.link}>Akai akaev</a>
+        </Link>
+      </div>
+    </div>
+  );
+});
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -26,21 +52,3 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.primary
   }
 }));
-
-export const Logo: React.FC = React.memo(() => {
-  const classes = useStyles();
-  return (
-    <div className={classes.content}>
-      <img
-        className={classes.logoSign}
-        src="/static/img/akaisign.png"
-        alt="logo_akai_akaev_sign"
-      />
-      <div className={classes.logoText}>
-        <Link href="/">
-          <a className={classes.link}>Akai akaev</a>
-        </Link>
-      </div>
-    </div>
-  );
-});
