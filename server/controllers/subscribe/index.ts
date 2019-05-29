@@ -73,11 +73,8 @@ export const subscribeNewVisitor = (
 
       cb =>
         checkMailonPing(newSub.email, (err, valid) => {
-          if (err) {
-            Logger.error(err);
-            return res.sendStatus(500);
-          }
-          if (!valid) {
+          if (!valid || err) {
+            if (err) Logger.error(err);
             return res
               .send({ done: false, error: 'Email probably doesn\'t exist' })
               .status(200);
