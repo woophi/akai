@@ -9,3 +9,4 @@ export * from './sketchBook';
 export * from './album';
 export * from './files';
 export * from './slider';
+export * from './schemas';

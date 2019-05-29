@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const FacebookPagesSchema = new mongoose.Schema(
@@ -17,10 +18,10 @@ export const FacebookPagesSchema = new mongoose.Schema(
 			required: true
     }
   },
-	{ collection: 'facebook_pages' }
+	{ collection: SchemaNames.FB_PAGES }
 );
 
 FacebookPagesSchema.plugin(timestamps);
 FacebookPagesSchema.index({ pageId: 1 });
 
-export default mongoose.model('facebook_pages', FacebookPagesSchema);
+export default mongoose.model(SchemaNames.FB_PAGES, FacebookPagesSchema);

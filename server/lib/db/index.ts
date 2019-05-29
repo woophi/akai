@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose';
-import config from '../../config';
-import { Logger } from '../../logger';
+import config from 'server/config';
+import { Logger } from 'server/logger';
 import * as Agenda from 'agenda';
+import { SchemaNames } from 'server/models/types';
 mongoose.set('useCreateIndex', true);
 export const databaseUri = config.PORT_MONGO;
 export const connection = mongoose.connect(databaseUri, { useNewUrlParser: true });
@@ -18,7 +19,7 @@ connection
     agenda = new Agenda({
       db: {
         address: databaseUri,
-        collection: 'jobs_queue',
+        collection: SchemaNames.JOBS,
         options: {
           useNewUrlParser: true
         }

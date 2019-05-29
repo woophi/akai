@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const UsersSchema = new mongoose.Schema(
@@ -19,10 +20,10 @@ export const UsersSchema = new mongoose.Schema(
       type: String
     }
   },
-	{ collection: 'users' }
+	{ collection: SchemaNames.USERS }
 );
 
 UsersSchema.plugin(timestamps);
 UsersSchema.index({ email: 1 });
 
-export default mongoose.model('users', UsersSchema);
+export default mongoose.model(SchemaNames.USERS, UsersSchema);

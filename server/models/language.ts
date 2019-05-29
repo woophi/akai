@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const LanguageSchema = new mongoose.Schema(
@@ -17,10 +18,10 @@ export const LanguageSchema = new mongoose.Schema(
       type: Date,
     }
   },
-	{ collection: 'language' }
+	{ collection: SchemaNames.LANGUAGE }
 );
 
 LanguageSchema.plugin(timestamps);
 LanguageSchema.index({ localeId: 1 });
 
-export default mongoose.model('language', LanguageSchema, 'language');
+export default mongoose.model(SchemaNames.LANGUAGE, LanguageSchema, SchemaNames.LANGUAGE);

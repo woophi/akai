@@ -23,7 +23,7 @@ const updatelanguage = (language: models.Language, done) => {
 
 module.exports = (done) => {
 
-	const Language = mongoose.model('language');
+	const Language = mongoose.model(models.SchemaNames.LANGUAGE);
 
 	Language
 		.find()

@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const AlbumSchema = new mongoose.Schema(
@@ -9,24 +10,24 @@ export const AlbumSchema = new mongoose.Schema(
     }],
     coverPhoto: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'files'
+      ref: SchemaNames.FILES
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'users'
+      ref: SchemaNames.USERS
     },
     albums: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'album'
+      ref: SchemaNames.ALBUM
     }],
     blogs: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'blog'
+      ref: SchemaNames.BLOG
     }]
   },
-	{ collection: 'album' }
+	{ collection: SchemaNames.ALBUM }
 );
 
 AlbumSchema.plugin(timestamps);
 
-export default mongoose.model('album', AlbumSchema, 'album');
+export default mongoose.model(SchemaNames.ALBUM, AlbumSchema, SchemaNames.ALBUM);

@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const CommentSchema = new mongoose.Schema(
@@ -11,16 +12,16 @@ export const CommentSchema = new mongoose.Schema(
 		},
 		visitor: {
 			type: mongoose.Schema.Types.ObjectId,
-      ref: 'visitors'
+      ref: SchemaNames.VISITORS
     },
     blog: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'blog'
+      ref: SchemaNames.BLOG
     }
   },
-	{ collection: 'comment' }
+	{ collection: SchemaNames.COMMENT }
 );
 
 CommentSchema.plugin(timestamps);
 
-export default mongoose.model('comment', CommentSchema, 'comment');
+export default mongoose.model(SchemaNames.COMMENT, CommentSchema, SchemaNames.COMMENT);

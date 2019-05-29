@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const SketchBookSchema = new mongoose.Schema(
@@ -9,12 +10,12 @@ export const SketchBookSchema = new mongoose.Schema(
     }],
 		content: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'files'
+      ref: SchemaNames.FILES
     }]
   },
-	{ collection: 'sketch_book' }
+	{ collection: SchemaNames.SKETCH_BOOK }
 );
 
 SketchBookSchema.plugin(timestamps);
 
-export default mongoose.model('sketch_book', SketchBookSchema, 'sketch_book');
+export default mongoose.model(SchemaNames.SKETCH_BOOK, SketchBookSchema, SchemaNames.SKETCH_BOOK);

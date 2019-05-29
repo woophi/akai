@@ -5,6 +5,7 @@ import * as mongoose from 'mongoose';
 import * as path from 'path';
 import * as semver from 'semver';
 import config from '../../config';
+import { SchemaNames } from '../../models/types';
 
 const _dashes_ = '------------------------------------------------';
 
@@ -12,9 +13,9 @@ const UpdateModel = new mongoose.Schema({
 	key: { type: String, index: true },
 	appliedOn: { type: Date, default: Date.now },
 });
-mongoose.model('app_update', UpdateModel);
+mongoose.model(SchemaNames.MIGRATIONS, UpdateModel);
 
-const Update = mongoose.model('app_update');
+const Update = mongoose.model(SchemaNames.MIGRATIONS);
 
 let updatesPath = path.resolve(__dirname, '../../migration');
 

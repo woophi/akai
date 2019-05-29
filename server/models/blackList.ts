@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const BlackListSchema = new mongoose.Schema(
@@ -13,10 +14,10 @@ export const BlackListSchema = new mongoose.Schema(
       index: true
     }
   },
-	{ collection: 'black_list' }
+	{ collection: SchemaNames.BLACK_LIST }
 );
 
 BlackListSchema.plugin(timestamps);
 BlackListSchema.index({ ip: 1 });
 
-export default mongoose.model('black_list', BlackListSchema, 'black_list');
+export default mongoose.model(SchemaNames.BLACK_LIST, BlackListSchema, SchemaNames.BLACK_LIST);

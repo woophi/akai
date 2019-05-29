@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const BlogSchema = new mongoose.Schema(
@@ -9,7 +10,7 @@ export const BlogSchema = new mongoose.Schema(
     }],
     photos: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'files'
+      ref: SchemaNames.FILES
     }],
 		body: [{
       localeId: String,
@@ -23,7 +24,7 @@ export const BlogSchema = new mongoose.Schema(
       localeId: String,
       photoUrl: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'files'
+        ref: SchemaNames.FILES
       }
     },
     creationPictureDate: {
@@ -31,7 +32,7 @@ export const BlogSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'users'
+      ref: SchemaNames.USERS
     },
     parameters: [{
       name: String,
@@ -40,12 +41,12 @@ export const BlogSchema = new mongoose.Schema(
     }],
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'comment'
+      ref: SchemaNames.BLOG
     }]
   },
-	{ collection: 'blog' }
+	{ collection: SchemaNames.BLOG }
 );
 
 BlogSchema.plugin(timestamps);
 
-export default mongoose.model('blog', BlogSchema, 'blog');
+export default mongoose.model(SchemaNames.BLOG, BlogSchema, SchemaNames.BLOG);

@@ -2,6 +2,7 @@ import * as session from 'express-session';
 import config from '../../config';
 import * as ConnectMongo from 'connect-mongo';
 import * as mongoose from 'mongoose';
+import { SchemaNames } from '../../models/types';
 
 export const initExpressSession = () => {
   const MongoStore = ConnectMongo(session);
@@ -11,7 +12,7 @@ export const initExpressSession = () => {
     saveUninitialized: false,
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
-      collection: 'app_sessions'
+      collection: SchemaNames.APP_SESSIONS
     })
   };
   return session(sessionOptions);

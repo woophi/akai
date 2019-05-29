@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const FilesSchema = new mongoose.Schema(
@@ -15,9 +16,9 @@ export const FilesSchema = new mongoose.Schema(
 			type: String
     }
   },
-	{ collection: 'files' }
+	{ collection: SchemaNames.FILES }
 );
 
 FilesSchema.plugin(timestamps);
 
-export default mongoose.model('files', FilesSchema);
+export default mongoose.model(SchemaNames.FILES, FilesSchema);
