@@ -1,4 +1,4 @@
 export * from './Links';
 export * from './Logo';
-export * from './Spinner';
+export * from './spinner';
 export * from './HtmlTooltip';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { makeStyles } from '@material-ui/core/styles';
-import { Spinner } from '../atoms';
+import { Spinner } from 'ui/atoms';
 require('./override-carusel.css');
 
 type Props = {
