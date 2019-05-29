@@ -27,6 +27,7 @@ export function router(
   app.get('/api/guest/blogs', controllers.getAllBlogs);
   app.get('/api/guest/blog', controllers.getBlog);
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
+  app.post('/api/guest/subscribe', controllers.subscribeNewVisitor);
 
   // user
   app.post('/api/app/user/login', auth.login);

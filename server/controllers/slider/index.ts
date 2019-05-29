@@ -27,7 +27,6 @@ export const getSlidesForGuest = async (
           src: slide.slide.url,
           name: slide.slide.name
         }));
-      Logger.debug('slides ' + slides);
       return res.send(slides).status(200);
     });
 };

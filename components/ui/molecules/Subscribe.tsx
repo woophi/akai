@@ -1,10 +1,90 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
+import { Paper, InputBase, Divider, IconButton, Icon } from '@material-ui/core';
 import EmailIcon from '@material-ui/icons/Email';
+import { ResultSubscribe } from 'core/models';
+import { ArrowTooltip } from 'ui/atoms';
 
-type Props = {};
+type Props = {
+  onSubscribe: (email: string) => Promise<ResultSubscribe>;
+};
+
+export const Subscribe: React.FC<Props> = React.memo(({ onSubscribe }) => {
+  const classes = useStyles();
+  const [value, setValue] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [done, setDone] = React.useState(false);
+
+  const handleCliCk = React.useCallback(() => {
+    if (!value) return;
+    setError('');
+    setLoading(true);
+    onSubscribe(value)
+      .then(r => {
+        setDone(r.done);
+        setError(r.error || '');
+      })
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, [value]);
+  return (
+    <section className={classes.content}>
+      <Button
+        href="mailto:akaidoart@gmail.com"
+        color="primary"
+        variant="contained"
+        className={classes.button}
+      >
+        E-mail
+      </Button>
+      <Paper className={classes.root}>
+        <InputBase
+          className={classes.input}
+          placeholder="Enter your email address"
+          type="email"
+          value={value}
+          required
+          onChange={e => setValue(e.target.value)}
+          disabled={loading}
+        />
+        <Divider className={classes.divider} />
+        <IconButton
+          color="primary"
+          className={classes.iconButton}
+          aria-label="Subscribe"
+          onClick={handleCliCk}
+          disabled={loading}
+        >
+          <EmailIcon />
+        </IconButton>
+        {loading && (
+          <Icon
+            className={`${classes.statusIcon} fas fa-circle-notch fa-spin`}
+            color="primary"
+          />
+        )}
+        {error && (
+          <ArrowTooltip placement="top" title={JSON.stringify(error)}>
+            <Icon
+              className={`${classes.statusIcon} ${
+                classes.error
+              } fas fa-exclamation-triangle`}
+              color="primary"
+            />
+          </ArrowTooltip>
+        )}
+        {done && (
+          <Icon
+            className={`${classes.statusIcon} ${classes.success} fas fa-check`}
+            color="primary"
+          />
+        )}
+      </Paper>
+    </section>
+  );
+});
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -36,27 +116,15 @@ const useStyles = makeStyles(theme => ({
     width: 1,
     height: 28,
     margin: 4
+  },
+  statusIcon: {
+    margin: theme.spacing(1),
+    width: 'auto'
+  },
+  error: {
+    color: theme.palette.error.main
+  },
+  success: {
+    color: theme.palette.primary['100']
   }
 }));
-
-export const Subscribe: React.FC = React.memo(() => {
-  const classes = useStyles();
-  return (
-    <section className={classes.content}>
-      <Button href="mailto:akaidoart@gmail.com" color="primary" variant="contained" className={classes.button}>
-        E-mail
-      </Button>
-      <Paper className={classes.root}>
-        <InputBase className={classes.input} placeholder="Subscribe" type="email" />
-        <Divider className={classes.divider} />
-        <IconButton
-          color="primary"
-          className={classes.iconButton}
-          aria-label="Subscribe"
-        >
-          <EmailIcon />
-        </IconButton>
-      </Paper>
-    </section>
-  );
-});

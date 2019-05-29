@@ -1,6 +1,7 @@
 import { store } from 'core/store';
 import { callApi } from 'core/common';
 import Router from 'next/router';
+import * as models from 'core/models';
 
 export const login = async (email: string, password: string) => {
   const { token } = await callApi<{token: string}>('post', 'api/app/user/login', {email, password});
@@ -24,3 +25,6 @@ export const checkAuth = async () => {
   }
   store.dispatch({ type: 'SET_TOKEN', payload: data.token });
 }
+
+export const subscribe = async (email: string) =>
+  await callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });

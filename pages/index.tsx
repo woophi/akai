@@ -4,6 +4,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { Layout, Carusel, Subscribe, Footer } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
+import { subscribe } from 'core/operations';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -42,7 +43,7 @@ class Index extends React.Component<Props, LocalState> {
         <div style={{height: '100vh'}}>
           <Carusel imgs={this.state.data} />
         </div>
-        <Subscribe />
+        <Subscribe onSubscribe={subscribe} />
         <Footer />
       </Layout>
     );
