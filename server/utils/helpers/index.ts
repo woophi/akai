@@ -1,4 +1,5 @@
 import { Request } from 'express';
+export * from './validateEmail';
 
 export const getUserIp = (req: Request) => {
 	const ip = req.headers['x-forwarded-for'] ||
