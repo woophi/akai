@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Button, { ButtonProps } from '@material-ui/core/Button';
 
 type Props = {
   href: string;
   label: React.ReactNode;
   insideTooltip?: boolean;
-};
+} & ButtonProps;
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const LinkButton: React.FC<Props> = React.memo(
-  ({ href, label, insideTooltip = false }) => {
+  ({ href, label, insideTooltip = false, ...props }) => {
     const classes = useStyles();
     if (insideTooltip) {
       return (
@@ -46,6 +46,7 @@ export const LinkButton: React.FC<Props> = React.memo(
     return (
       <Button
         className={classes.button}
+        {...props}
       >
         <Link href={href}>
           <a className={classes.link}>

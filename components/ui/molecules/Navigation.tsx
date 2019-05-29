@@ -4,16 +4,14 @@ import { LinkButton, Logo, ArrowTooltip } from '../atoms';
 import { ZIndexes } from '../constants';
 import { Languages } from './Languages';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Drawer, IconButton } from '@material-ui/core';
+import { Drawer, IconButton, Divider } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-
 
 export const Navigation: React.FC = React.memo(() => {
   const classes = useStyles();
   const isSmallEnough = useMediaQuery('(max-width:800px)');
-  console.warn(isSmallEnough);
   if (isSmallEnough) {
-    return <MobileNavigation />
+    return <MobileNavigation />;
   }
   return (
     <nav className={classes.nav}>
@@ -61,47 +59,94 @@ const MobileNavigation: React.FC = React.memo(() => {
   return (
     <nav className={`${classes.nav} ${classes.navMobile}`}>
       <Logo classNameLogo={classes.mobileLogo} />
-      <IconButton
-        color="secondary"
-        className={classes.iconButton}
-        onClick={toggle}
-      >
+      <IconButton color="secondary" className={classes.iconButton} onClick={toggle}>
         <MenuIcon />
       </IconButton>
       <Drawer anchor="right" open={openedMenu} onClose={toggle}>
-        <LinkButton href="/about" label="Biography" />
-        <ArrowTooltip
-          title={
-            <>
-              <LinkButton insideTooltip href="/gallery/graphics" label="graphics" />
-              <LinkButton insideTooltip href="/gallery/painting" label="painting" />
-            </>
-          }
-          interactive
-        >
-          <span>
-            <LinkButton href="/gallery" label="gallery" />
-          </span>
-        </ArrowTooltip>
-        <ArrowTooltip
-          title={
-            <>
-              <LinkButton insideTooltip href="/video/online" label="online" />
-              <LinkButton insideTooltip href="/video/youtube" label="youtube" />
-            </>
-          }
-          interactive
-        >
-          <span>
-            <LinkButton href="/video" label="video" />
-          </span>
-        </ArrowTooltip>
-        <LinkButton href="/photo" label="photo" />
-        <LinkButton href="/contact" label="contact" />
-        <Languages />
+        <div className={classes.mobileContainer}>
+          <LinkButton
+            href="/about"
+            label="Biography"
+            variant={'contained'}
+            color="primary"
+            size="small"
+            fullWidth
+            className={classes.alignButton}
+          />
+          <ArrowTooltip
+            title={
+              <>
+                <LinkButton
+                  insideTooltip
+                  href="/gallery/graphics"
+                  label="graphics"
+                />
+                <LinkButton
+                  insideTooltip
+                  href="/gallery/painting"
+                  label="painting"
+                />
+              </>
+            }
+            interactive
+          >
+            <span>
+              <LinkButton
+                href="/gallery"
+                label="gallery"
+                variant={'contained'}
+                color="primary"
+                size="small"
+                fullWidth
+                className={classes.alignButton}
+              />
+            </span>
+          </ArrowTooltip>
+          <ArrowTooltip
+            title={
+              <>
+                <LinkButton insideTooltip href="/video/online" label="online" />
+                <LinkButton insideTooltip href="/video/youtube" label="youtube" />
+              </>
+            }
+            interactive
+          >
+            <span>
+              <LinkButton
+                href="/video"
+                label="video"
+                variant={'contained'}
+                color="primary"
+                size="small"
+                fullWidth
+                className={classes.alignButton}
+              />
+            </span>
+          </ArrowTooltip>
+          <LinkButton
+            href="/photo"
+            label="photo"
+            variant={'contained'}
+            color="primary"
+            size="small"
+            fullWidth
+            className={classes.alignButton}
+          />
+          <LinkButton
+            href="/contact"
+            label="contact"
+            variant={'contained'}
+            color="primary"
+            size="small"
+            fullWidth
+            className={classes.alignButton}
+          />
+          <Divider className={classes.divider} />
+          <Languages />
+        </div>
       </Drawer>
     </nav>
-  )
+  );
 });
 
 const useStyles = makeStyles(theme => ({
@@ -118,7 +163,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: 84
   },
   mobileLogo: {
-    right: '260px !important',
+    right: '85px !important',
     left: 'unset'
   },
   iconButton: {
@@ -126,5 +171,18 @@ const useStyles = makeStyles(theme => ({
   },
   navMobile: {
     justifyContent: 'space-between'
+  },
+  mobileContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '2rem',
+    height: '100%',
+    minWidth: '150px'
+  },
+  alignButton: {
+    margin: '8px auto'
+  },
+  divider: {
+    margin: '8px -2rem'
   }
 }));
