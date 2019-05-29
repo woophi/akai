@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "core/*": ["./core/*"],
+      "ui/*": ["./components/ui/*"],
       "server/*": ["./server/*"]
     }
   }

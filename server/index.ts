@@ -1,3 +1,4 @@
+import './moduleResolver';
 if (!process.env.NO_DV) {
   const dotenv = require('dotenv');
   const result = dotenv.config({debug: true});

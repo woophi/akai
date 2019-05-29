@@ -1,7 +1,9 @@
 const withTypescript = require('@zeit/next-typescript');
 const withCSS = require('@zeit/next-css');
+const path = require('path');
 module.exports = withCSS(withTypescript({
   webpack(config, options) {
+    config.resolve.alias['ui'] = path.join(__dirname, 'components/ui');
     config.resolve.modules.unshift(__dirname);
     const originalEntry = config.entry;
     config.entry = async () => {
