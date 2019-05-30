@@ -7,9 +7,8 @@ import * as identity from './identity';
 import * as mails from './mails';
 import { EmailTemplate } from './mails/types';
 import * as storage from './storage';
-import { createImgPost } from './facebook';
 import { Server } from 'next';
-import config from './config';
+import { userBruteforce } from './lib/rate-limiter';
 
 export function router(
   app: express.Express,
@@ -22,15 +21,15 @@ export function router(
 ) {
   app.use('/favicon.ico', (req, res) => res.status(200).send());
 
-  app.get('/api/health', identity.authorizedForSuperAdmin, controllers.getApiHealth);
-  app.post('/api/guest/visit', controllers.connectedUniqVisitor);
+  app.get('/api/health', userBruteforce.prevent, identity.authorizedForSuperAdmin, controllers.getApiHealth);
+  app.post('/api/guest/visit', userBruteforce.prevent, controllers.connectedUniqVisitor);
   app.get('/api/guest/blogs', controllers.getAllBlogs);
   app.get('/api/guest/blog', controllers.getBlog);
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
-  app.post('/api/guest/subscribe', controllers.subscribeNewVisitor);
+  app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
 
   // user
-  app.post('/api/app/user/login', auth.login);
+  app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
   app.post('/api/app/user/check', auth.checkUser);
 
   // admin
@@ -59,11 +58,6 @@ export function router(
   // facebook connect
   app.get('/setup/fb', controllers.fbLogin);
   app.get('/processLogin/fb/at', controllers.processLogin);
-  app.get('/test/fb', identity.authorizedForAdmin, async (req, res, next) => {
-    const id = req.query['id'];
-    await createImgPost(`${config.SITE_URI}p/${id}`, 'alooooo');
-    res.sendStatus(200);
-  });
 
 
   app.get('/p/:id', (req, res) => {

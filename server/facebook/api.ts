@@ -1,8 +1,8 @@
 import * as axios from 'axios';
-import { IDictionary, HTTPMethod, HTTPStatus } from './types';
 import { FB_API_VERSION } from './constants';
 import { buildQueryString } from './helpers';
 import { Logger } from '../logger';
+import { HTTPMethod, IDictionary, HTTPStatus } from 'server/lib/models';
 
 export const callApi = async (
   method: HTTPMethod,

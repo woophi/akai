@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import config from '../../../config';
-import * as FB from '../../../facebook';
+import config from 'server/config';
+import * as FB from 'server/facebook';
 import * as async from 'async';
 
 export const fbLogin = async (req: Request, res: Response, next: NextFunction) => {

@@ -14,5 +14,6 @@ export const enum SchemaNames {
 
   APP_SESSIONS = 'app_sessions',
   JOBS = 'jobs_queue',
-  MIGRATIONS = 'app_update'
+  MIGRATIONS = 'app_update',
+  BRUTE_FORCE = 'brute_force'
 }

@@ -1,6 +1,6 @@
 import { FB_API_VERSION } from './constants';
 import config from '../config';
-import { IDictionary } from './types';
+import { IDictionary } from 'server/lib/models';
 
 export const getLoginUrl = (
   redirectUrl: string,
