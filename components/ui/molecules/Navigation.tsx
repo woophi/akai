@@ -73,56 +73,24 @@ const MobileNavigation: React.FC = React.memo(() => {
             fullWidth
             className={classes.alignButton}
           />
-          <ArrowTooltip
-            title={
-              <>
-                <LinkButton
-                  insideTooltip
-                  href="/gallery/graphics"
-                  label="graphics"
-                />
-                <LinkButton
-                  insideTooltip
-                  href="/gallery/painting"
-                  label="painting"
-                />
-              </>
-            }
-            interactive
-          >
-            <span>
-              <LinkButton
-                href="/gallery"
-                label="gallery"
-                variant={'contained'}
-                color="primary"
-                size="small"
-                fullWidth
-                className={classes.alignButton}
-              />
-            </span>
-          </ArrowTooltip>
-          <ArrowTooltip
-            title={
-              <>
-                <LinkButton insideTooltip href="/video/online" label="online" />
-                <LinkButton insideTooltip href="/video/youtube" label="youtube" />
-              </>
-            }
-            interactive
-          >
-            <span>
-              <LinkButton
-                href="/video"
-                label="video"
-                variant={'contained'}
-                color="primary"
-                size="small"
-                fullWidth
-                className={classes.alignButton}
-              />
-            </span>
-          </ArrowTooltip>
+          <LinkButton
+            href="/gallery"
+            label="gallery"
+            variant={'contained'}
+            color="primary"
+            size="small"
+            fullWidth
+            className={classes.alignButton}
+          />
+          <LinkButton
+            href="/video"
+            label="video"
+            variant={'contained'}
+            color="primary"
+            size="small"
+            fullWidth
+            className={classes.alignButton}
+          />
           <LinkButton
             href="/photo"
             label="photo"

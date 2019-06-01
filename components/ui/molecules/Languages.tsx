@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   img: {
-    marginRight: '8px',
+    marginRight: '16px',
     cursor: 'pointer',
     width: '30px',
     height: '30px'

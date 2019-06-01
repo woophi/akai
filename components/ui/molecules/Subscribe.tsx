@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { Paper, InputBase, Divider, IconButton, Icon } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 import EmailIcon from '@material-ui/icons/Email';
 import { ResultSubscribe } from 'core/models';
 import { ArrowTooltip } from 'ui/atoms';

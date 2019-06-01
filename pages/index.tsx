@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { Layout, Carusel, Subscribe, Footer } from 'components/ui';
+import { Layout, Carusel, Subscribe } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 import { subscribe } from 'core/operations';
@@ -40,11 +40,10 @@ class Index extends React.Component<Props, LocalState> {
   render() {
     return (
       <Layout>
-        <div style={{height: '100vh'}}>
+        <div style={{height: '100%'}}>
           <Carusel imgs={this.state.data} />
         </div>
         <Subscribe onSubscribe={subscribe} />
-        <Footer />
       </Layout>
     );
   }
