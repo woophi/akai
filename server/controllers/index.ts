@@ -4,3 +4,4 @@ export * from './health';
 export * from './visitors';
 export * from './slider';
 export * from './subscribe';
+export * from './biography';

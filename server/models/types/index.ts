@@ -11,3 +11,4 @@ export * from './files';
 export * from './slider';
 export * from './schemas';
 export * from './bruteForce';
+export * from './biography';

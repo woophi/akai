@@ -27,6 +27,7 @@ export function router(
   app.get('/api/guest/blog', controllers.getBlog);
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
+  app.get('/api/guest/biography', userBruteforce.prevent, controllers.getBiography);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
@@ -39,6 +40,8 @@ export function router(
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);
 
   app.post('/api/admin/new/slides', identity.authorizedForAdmin, controllers.createNewSlides);
+
+  app.post('/api/admin/save/biography', identity.authorizedForAdmin, controllers.saveBiography);
 
   // TODO: remove
   app.post('/api/testMail', async (req, res, next) => {

@@ -9,12 +9,6 @@ export const login = async (email: string, password: string) => {
   return token;
 }
 
-export const createBlog = async (data: { body: string; title: string }) => {
-  const token = store.getState().ui.token;
-  const { id } = await callApi<{id: string}>('post', 'api/admin/new/blog', data, token);
-  return id;
-}
-
 export const checkAuth = async () => {
   const data = await callApi<{token: string, redirect: boolean}>('post', 'api/app/user/check');
   if (!data || (!data.token && !data.redirect)) {
@@ -26,5 +20,10 @@ export const checkAuth = async () => {
   store.dispatch({ type: 'SET_TOKEN', payload: data.token });
 }
 
-export const subscribe = async (email: string) =>
-  await callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
+export const subscribe = (email: string) =>
+  callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
+
+export const saveBio = (data: models.SaveBioModel) =>
+  callApi<void>('post', 'api/admin/save/biography', data, store.getState().ui.token);
+export const getBio = (localeId: models.LocaleIds) =>
+  callApi<models.BioModel>('get', `api/guest/biography?localeId=${localeId}`);
