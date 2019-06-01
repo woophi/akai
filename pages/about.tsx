@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Layout, BoxMain } from 'ui/index';
+import { Layout, BoxMain, AboutLayout } from 'ui/index';
+
 class About extends React.PureComponent {
 
   render() {
     return (
       <Layout>
         <BoxMain>
-          hui
+          <AboutLayout />
         </BoxMain>
       </Layout>
     );

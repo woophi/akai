@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Layout, Carusel, Subscribe, BoxMain } from 'components/ui';
+import { Layout, Carusel, Subscribe, BoxMain, Footer } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 import { subscribe } from 'core/operations';
@@ -24,6 +24,7 @@ class Index extends React.Component<unknown, LocalState> {
           <Carusel imgs={this.state.data} />
         </BoxMain>
         <Subscribe onSubscribe={subscribe} />
+        <Footer />
       </Layout>
     );
   }

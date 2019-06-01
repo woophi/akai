@@ -14,10 +14,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Footer: React.FC = React.memo(() => {
+type Props = {
+  className?: string;
+}
+
+export const Footer: React.FC<Props> = React.memo(({
+  className = ''
+}) => {
   const classes = useStyles();
   return (
-    <footer className={classes.footer}>
+    <footer className={`${classes.footer} ${className}`}>
       <Typography variant="subtitle2" gutterBottom>
         © Akai Akaev {new Date().getFullYear()} Все права защищены.
       </Typography>
