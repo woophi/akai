@@ -18,19 +18,7 @@ export const Navigation: React.FC = React.memo(() => {
       <Logo />
       <div>
         <LinkButton href="/about" label="Biography" />
-        <ArrowTooltip
-          title={
-            <>
-              <LinkButton insideTooltip href="/gallery/graphics" label="graphics" />
-              <LinkButton insideTooltip href="/gallery/painting" label="painting" />
-            </>
-          }
-          interactive
-        >
-          <span>
-            <LinkButton href="/gallery" label="gallery" />
-          </span>
-        </ArrowTooltip>
+        <LinkButton href="/gallery" label="gallery" />
         <ArrowTooltip
           title={
             <>

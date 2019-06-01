@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { H1, SocialButtons, Spinner } from 'ui/atoms';
-import { Footer } from 'ui/molecules';
+import { Footer, Subscribe } from 'ui/molecules';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
+import { subscribe } from 'core/operations';
 
 type Props = {
   photoUrl: string;
@@ -43,6 +44,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
           )}
         </div>
       </div>
+      <Subscribe onSubscribe={subscribe} />
       <Footer className={classes.footer} />
     </div>
   );
@@ -59,11 +61,12 @@ const useStyles = makeStyles<Theme, StyleProps>(theme => ({
     flexDirection: 'column',
     height: '100%'
   },
-  wrap: {
+  wrap: props => ({
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap'
-  },
+    flexWrap: 'wrap',
+    marginBottom: props.isSmallEnough ? 'unset' : '3rem'
+  }),
   wrapChild: props => ({
     width: 'auto',
     margin: props.isSmallEnough ? '0 auto 1rem' : '0 1rem 1rem auto',
