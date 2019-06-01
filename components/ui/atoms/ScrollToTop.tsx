@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import NavigationIcon from '@material-ui/icons/Navigation';
 
@@ -75,9 +75,9 @@ type Props = {
 const ActionButton: React.FC<Props> = React.memo(({ onClick, visible }) => {
   const classes = useStyles({ visible });
   return (
-    <Fab color="secondary" className={classes.scrollTotop} onClick={onClick}>
+    <IconButton color="secondary" className={classes.scrollTotop} onClick={onClick}>
       <NavigationIcon />
-    </Fab>
+    </IconButton>
   );
 });
 

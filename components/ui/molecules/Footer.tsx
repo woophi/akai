@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
     padding: '7rem 0',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: theme.palette.secondary.light
   }
 }));
 

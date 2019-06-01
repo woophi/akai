@@ -12,7 +12,7 @@ export const theme = createMuiTheme({
     },
     secondary: {
       main: grey[900],
-
+      light: "#efefef"
     },
     error: {
       main: red.A200,
