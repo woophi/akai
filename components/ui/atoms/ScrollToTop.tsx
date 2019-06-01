@@ -9,6 +9,7 @@ type LocalState = {
 
 export class ScrollButton extends React.PureComponent<unknown, LocalState> {
   timeInterval: any = null;
+  mounted: boolean = false;
 
   state: LocalState = {
     show: false
@@ -20,15 +21,17 @@ export class ScrollButton extends React.PureComponent<unknown, LocalState> {
   };
 
   componentDidMount() {
+    this.mounted = true;
     if (this.checkWindow) {
-      this.handleShow()
+      this.handleShow();
       window.addEventListener('scroll', this.handleShow);
       window.addEventListener('wheel', this.stopScrolling);
       window.addEventListener('touchstart', this.stopScrolling);
     }
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
+    this.mounted = false;
     if (this.checkWindow) {
       window.removeEventListener('scroll', this.handleShow);
       window.removeEventListener('wheel', this.stopScrolling);
@@ -38,7 +41,9 @@ export class ScrollButton extends React.PureComponent<unknown, LocalState> {
   }
 
   handleShow = () => {
-    this.setState({ show: window.pageYOffset > 100 });
+    if (this.mounted) {
+      this.setState({ show: window.pageYOffset > 100 });
+    }
   };
 
   stopScrolling = () => {

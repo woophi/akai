@@ -1,52 +1,32 @@
 import * as React from 'react';
-import { withStyles, Theme } from '@material-ui/core/styles';
-import { withTranslation, WithTranslation } from 'react-i18next';
-import { Layout, Carusel, Subscribe } from 'components/ui';
+import { Layout, Carusel, Subscribe, BoxMain } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 import { subscribe } from 'core/operations';
-
-const styles = (theme: Theme): any => ({
-  root: {
-    textAlign: 'center',
-    paddingTop: '20px'
-  },
-  block: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center'
-  },
-  m3: {
-    margin: '16px auto'
-  }
-});
-
-type Props = {
-  classes: any;
-} & WithTranslation;
 
 type LocalState = {
   data: models.SlideModel[];
 }
 
-class Index extends React.Component<Props, LocalState> {
+class Index extends React.Component<unknown, LocalState> {
   state: LocalState = {
     data: []
   }
-  async componentDidMount() {
-    const data = await callApi<models.SlideModel[]>('get', 'api/guest/slides');
-    this.setState({ data })
+  componentDidMount() {
+    callApi<models.SlideModel[]>('get', 'api/guest/slides')
+      .then(data => this.setState({ data }));
+
   }
   render() {
     return (
       <Layout>
-        <div style={{height: '100%'}}>
+        <BoxMain>
           <Carusel imgs={this.state.data} />
-        </div>
+        </BoxMain>
         <Subscribe onSubscribe={subscribe} />
       </Layout>
     );
   }
 }
 
-export default withTranslation(['common'])(withStyles(styles)(Index));
+export default Index;

@@ -4,3 +4,4 @@ export * from './spinner';
 export * from './HtmlTooltip';
 export * from './SocialButtons';
 export * from './ScrollToTop';
+export * from './BoxMain';
