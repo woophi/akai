@@ -11,7 +11,8 @@ export class Mailer {
     protected templateName: EmailTemplate,
     protected to: string[],
     protected subject: string,
-    protected shortText: string,
+    protected shortText?: string,
+    protected from?: string,
     protected context?: { [key: string]: any }
   ) {
     this.init();
@@ -51,10 +52,10 @@ export class Mailer {
     try {
       this.transporter.use('compile', hbs(this.handlebarOptions));
       let info = await this.transporter.sendMail({
-        from: '"👻"',
+        from: `${this.from} <${config.GMAIL_USER}>`,
         to,
         subject: this.subject,
-        text: this.shortText,
+        text: this.shortText || '',
         template: this.templateName,
         context: this.context
       });

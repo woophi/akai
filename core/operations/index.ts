@@ -27,3 +27,6 @@ export const saveBio = (data: models.SaveBioModel) =>
   callApi<void>('post', 'api/admin/save/biography', data, store.getState().ui.token);
 export const getBio = (localeId: models.LocaleIds) =>
   callApi<models.BioModel>('get', `api/guest/biography?localeId=${localeId}`);
+
+export const sendMessage = (data: models.MessageModel) =>
+  callApi<void>('post', `api/guest/send/message`, data);

@@ -4,8 +4,8 @@ import { UrlLike } from 'next/router';
 import * as controllers from './controllers';
 import * as auth from './auth';
 import * as identity from './identity';
-import * as mails from './mails';
-import { EmailTemplate } from './mails/types';
+
+
 import * as storage from './storage';
 import { Server } from 'next';
 import { userBruteforce } from './lib/rate-limiter';
@@ -28,6 +28,7 @@ export function router(
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
   app.get('/api/guest/biography', userBruteforce.prevent, controllers.getBiography);
+  app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
@@ -42,19 +43,6 @@ export function router(
   app.post('/api/admin/new/slides', identity.authorizedForAdmin, controllers.createNewSlides);
 
   app.post('/api/admin/save/biography', identity.authorizedForAdmin, controllers.saveBiography);
-
-  // TODO: remove
-  app.post('/api/testMail', async (req, res, next) => {
-    const mailer = new mails.Mailer(
-      'test emails',
-      EmailTemplate.email,
-      req.body.to.split(', '),
-      'test subject ````o¶¶¶¶_````q¶¶_',
-      'privetiki'
-    );
-    mailer.performQueue();
-    return res.sendStatus(204);
-  });
 
   app.post('/storage/upload', identity.authorizedForAdmin, storage.startUpload);
 

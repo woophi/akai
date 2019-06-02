@@ -4,3 +4,4 @@ export * from './slider';
 export * from './subscribe';
 export * from './biography';
 export * from './locales';
+export * from './message';
