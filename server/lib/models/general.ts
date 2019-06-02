@@ -1,6 +1,7 @@
 export const enum HTTPStatus {
   OK = 200,
   BadRequest = 400,
+  NotFound = 404,
   ServerError = 500,
   TooManyRequests = 429
 }

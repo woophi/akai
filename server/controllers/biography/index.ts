@@ -19,6 +19,9 @@ export const getBiography = async (
         Logger.error('err to get biography' + err);
         return res.sendStatus(HTTPStatus.ServerError);
       }
+      if (!bio) {
+        return res.sendStatus(HTTPStatus.NotFound);
+      }
       const data = {
         content: bio.bio.find(b => b.localeId === localeId).content,
         photo: bio.coverPhoto.url
