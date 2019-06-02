@@ -4,7 +4,9 @@ import { LinkButton, Logo, ArrowTooltip } from '../atoms';
 import { ZIndexes } from '../constants';
 import { Languages } from './Languages';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Drawer, IconButton, Divider } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 
 export const Navigation: React.FC = React.memo(() => {
@@ -52,6 +54,10 @@ const MobileNavigation: React.FC = React.memo(() => {
       </IconButton>
       <Drawer anchor="right" open={openedMenu} onClose={toggle}>
         <div className={classes.mobileContainer}>
+          <div className={classes.mobileButtonsHC}>
+            <IconButton color="primary" className={'fas fa-home'} href="/" />
+            <IconButton color="primary" className={'fas fa-times'} onClick={toggle} />
+          </div>
           <LinkButton
             href="/about"
             label="Biography"
@@ -131,7 +137,7 @@ const useStyles = makeStyles(theme => ({
   mobileContainer: {
     display: 'flex',
     flexDirection: 'column',
-    margin: '2rem',
+    margin: '0 2rem 2rem',
     height: '100%',
     minWidth: '150px'
   },
@@ -140,5 +146,10 @@ const useStyles = makeStyles(theme => ({
   },
   divider: {
     margin: '8px -2rem'
+  },
+  mobileButtonsHC: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '1rem',
   }
 }));
