@@ -7,3 +7,4 @@ export * from './ScrollToTop';
 export * from './BoxMain';
 export * from './H1';
 export * from './TextField';
+export * from './Block';

@@ -7,7 +7,7 @@ class Contact extends React.PureComponent {
     return (
       <Layout>
         <BoxMain>
-            <ContactLayout />
+          <ContactLayout />
         </BoxMain>
       </Layout>
     );
