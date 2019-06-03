@@ -1,10 +1,10 @@
 import { Server } from 'http';
 import * as socket from 'socket.io';
-import { Logger } from '../../logger';
-import * as cl from '../../storage/cloudinary';
-import * as ig from '../../instagram';
+import { Logger } from 'server/logger';
+import * as cl from 'server/storage/cloudinary';
+import * as ig from 'server/instagram';
 import { EventBus } from '../events';
-import * as storageTypes from '../../storage/types';
+import * as storageTypes from 'server/storage/types';
 
 export const registerSocket = (server: Server) => {
   const io = socket(server);

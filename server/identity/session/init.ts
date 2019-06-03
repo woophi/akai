@@ -1,8 +1,8 @@
 import * as session from 'express-session';
-import config from '../../config';
+import config from 'server/config';
 import * as ConnectMongo from 'connect-mongo';
 import * as mongoose from 'mongoose';
-import { SchemaNames } from '../../models/types';
+import { SchemaNames } from 'server/models/types';
 
 export const initExpressSession = () => {
   const MongoStore = ConnectMongo(session);

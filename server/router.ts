@@ -39,6 +39,7 @@ export function router(
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);
 
   app.post('/api/admin/new/slides', identity.authorizedForAdmin, controllers.createNewSlides);
+  app.post('/api/admin/ordinals/slides', identity.authorizedForAdmin, controllers.changeSlidesOrdinal);
 
   app.post('/api/admin/save/biography', identity.authorizedForAdmin, controllers.saveBiography);
 

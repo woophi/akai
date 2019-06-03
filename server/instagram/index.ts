@@ -8,6 +8,8 @@ import BlogModel from '../models/blog';
 import * as models from '../models/types';
 import { getFilePath } from '../storage/helpers';
 
+// TODO: rewrite
+
 export const postToInstagram = async ({
   fileName,
   blogId,

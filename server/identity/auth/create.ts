@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import * as kia from '../../validator';
-import UserModel from '../../models/users';
+import * as kia from 'server/validator';
+import UserModel from 'server/models/users';
 import { Hashing } from '../hashing';
-import { User } from '../../models/types';
-import { Logger } from '../../logger';
-import config from '../../config';
+import { User } from 'server/models/types';
+import { Logger } from 'server/logger';
+import config from 'server/config';
 import { setAccessToken, setRefreshToken } from '../access';
 
 type Data = {
