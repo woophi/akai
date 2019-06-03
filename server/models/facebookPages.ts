@@ -16,6 +16,14 @@ export const FacebookPagesSchema = new mongoose.Schema(
 		longLiveToken: {
 			type: String,
 			required: true
+    },
+    accessToken: {
+      type: String,
+			required: true
+    },
+    isValid: {
+      type: Boolean,
+			required: true
     }
   },
 	{ collection: SchemaNames.FB_PAGES }

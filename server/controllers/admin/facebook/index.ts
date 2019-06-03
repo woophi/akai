@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import config from 'server/config';
 import * as FB from 'server/facebook';
 import * as async from 'async';
+import * as kia from 'server/validator';
+import { HTTPStatus } from 'server/lib/models';
 
 export const fbLogin = async (req: Request, res: Response, next: NextFunction) => {
   return res.redirect(
@@ -25,4 +27,38 @@ export const processLogin = async (
     async.forEach(pages, FB.subscribePage);
   }
   return res.redirect('/');
+};
+
+export const checkTokenValidation = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const pageId = req.body.pageId;
+  const validator = new kia.Validator(req, res, next);
+
+  async.series(
+    [
+      cb =>
+        validator.check(
+          {
+            pageId: validator.required
+          },
+          { pageId },
+          cb
+        )
+    ],
+    async () => {
+      const valid = await FB.validateLongLivedToken(pageId);
+      return res.send({ valid }).status(HTTPStatus.OK);
+    }
+  );
+};
+export const getFBPIds = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const ids = await FB.getFacebookPageIds();
+  return res.send(ids).status(HTTPStatus.OK);
 };

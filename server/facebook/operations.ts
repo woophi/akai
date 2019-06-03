@@ -3,7 +3,7 @@ import config from '../config';
 import { Page } from './types';
 import { Logger } from '../logger';
 import FBIModel from '../models/facebookPages';
-import { FacebookModel } from '../models/types';
+import { FacebookModel, FacebookPage } from '../models/types';
 
 export const getAccessToken = async (code: string): Promise<string> => {
   const { access_token } = await callApi('get', 'oauth/access_token', [
@@ -45,11 +45,10 @@ export const getLongLivedToken = async (accessToken: string) => {
 };
 
 const subscribeAndSavePage = async (
-  pageId: Page['id'],
-  longLiveToken: string,
-  name: Page['name']
+  page: Page,
+  longLiveToken: string
 ) => {
-  const result = await callApi('post', `${pageId}/subscribed_apps`, [
+  const result = await callApi('post', `${page.id}/subscribed_apps`, [
     { access_token: longLiveToken },
     { subscribed_fields: 'publisher_subscriptions, feed' }
   ]);
@@ -59,7 +58,7 @@ const subscribeAndSavePage = async (
     return false;
   }
 
-  const fbPage = await FBIModel.findOne().where({ pageId });
+  const fbPage = await FBIModel.findOne().where({ pageId: page.id });
 
   if (fbPage) {
     return fbPage.set('longLiveToken', longLiveToken).save(err => {
@@ -72,9 +71,11 @@ const subscribeAndSavePage = async (
   }
 
   const newFBI: FacebookModel = {
-    pageName: name,
-    pageId,
-    longLiveToken
+    pageName: page.name,
+    pageId: page.id,
+    longLiveToken,
+    accessToken: page.accessToken,
+    isValid: true
   };
 
   const newFBIModel = new FBIModel(newFBI);
@@ -95,7 +96,7 @@ export const subscribePage = async (page: Page) => {
     const longLiveToken = await getLongLivedToken(page.accessToken);
     Logger.debug('longLiveToken');
 
-    return await subscribeAndSavePage(page.id, longLiveToken, page.name);
+    return await subscribeAndSavePage(page, longLiveToken);
   } catch (error) {
     Logger.error(error);
   }
@@ -115,5 +116,47 @@ export const createImgPost = async (link: string, message: string) => {
     ])
   } catch (error) {
     Logger.error('createImgPost '+ error);
+  }
+}
+
+const getLongLivedTokenValidation = async (longLiveToken: string, accessToken: string) => {
+  const result = await callApi('get', 'debug_token/', [
+    { input_token: longLiveToken },
+    { access_token: accessToken }
+  ]);
+  return result.is_valid;
+};
+
+export const validateLongLivedToken = async (pageId: number): Promise<boolean | null> => {
+  try {
+    const fbPage = await FBIModel.findOne().where({ pageId }).exec() as FacebookPage;
+    if (!fbPage || !fbPage.accessToken || !fbPage.longLiveToken) {
+      return null;
+    }
+
+    const isValid = await getLongLivedTokenValidation(fbPage.longLiveToken, fbPage.accessToken);
+
+    fbPage
+      .set({
+        isValid
+      })
+      .save(err => {
+        if (err) {
+          throw err;
+        }
+        return isValid;
+      });
+  } catch (error) {
+    Logger.error(error);
+    return null;
+  }
+}
+export const getFacebookPageIds = async () => {
+  try {
+    const fbPageIds: {pageId: number}[] = await FBIModel.find().select('pageId -_id').lean().exec();
+    return fbPageIds.map(fp => fp.pageId);
+  } catch (error) {
+    Logger.error(error);
+    return [];
   }
 }

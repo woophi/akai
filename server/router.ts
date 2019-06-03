@@ -46,6 +46,9 @@ export function router(
 
   app.post('/storage/upload', identity.authorizedForAdmin, storage.startUpload);
 
+  app.get('/api/admin/fb/pages', identity.authorizedForAdmin, controllers.getFBPIds);
+  app.patch('/api/admin/fb/check/token', identity.authorizedForAdmin, controllers.checkTokenValidation);
+
   // facebook connect
   app.get('/setup/fb', controllers.fbLogin);
   app.get('/processLogin/fb/at', controllers.processLogin);
