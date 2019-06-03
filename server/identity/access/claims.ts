@@ -1,7 +1,7 @@
-import UserModel from '../../models/users';
-import { User } from '../../models/types';
-import { Logger } from '../../logger';
-import * as options from '../../options';
+import UserModel from 'server/models/users';
+import { User } from 'server/models/types';
+import { Logger } from 'server/logger';
+import * as options from 'server/options';
 import { Request, Response } from 'express';
 
 export const getRoles = async (userId: string) => {

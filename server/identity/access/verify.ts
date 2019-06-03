@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from 'server/config';
 import * as jwt from 'jsonwebtoken';
 import { Claims } from './constants';
 

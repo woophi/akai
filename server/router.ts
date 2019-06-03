@@ -4,8 +4,6 @@ import { UrlLike } from 'next/router';
 import * as controllers from './controllers';
 import * as auth from './auth';
 import * as identity from './identity';
-
-
 import * as storage from './storage';
 import { Server } from 'next';
 import { userBruteforce } from './lib/rate-limiter';
@@ -23,16 +21,16 @@ export function router(
 
   app.get('/api/health', userBruteforce.prevent, identity.authorizedForSuperAdmin, controllers.getApiHealth);
   app.post('/api/guest/visit', userBruteforce.prevent, controllers.connectedUniqVisitor);
-  app.get('/api/guest/blogs', controllers.getAllBlogs);
-  app.get('/api/guest/blog', controllers.getBlog);
-  app.get('/api/guest/slides', controllers.getSlidesForGuest);
+  app.get('/api/guest/blogs', userBruteforce.prevent, controllers.getAllBlogs);
+  app.get('/api/guest/blog', userBruteforce.prevent, controllers.getBlog);
+  app.get('/api/guest/slides', userBruteforce.prevent, controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
   app.get('/api/guest/biography', userBruteforce.prevent, controllers.getBiography);
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
-  app.post('/api/app/user/check', auth.checkUser);
+  app.post('/api/app/user/check', userBruteforce.prevent, auth.checkUser);
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);
@@ -50,8 +48,8 @@ export function router(
   app.patch('/api/admin/fb/check/token', identity.authorizedForAdmin, controllers.checkTokenValidation);
 
   // facebook connect
-  app.get('/setup/fb', controllers.fbLogin);
-  app.get('/processLogin/fb/at', controllers.processLogin);
+  app.get('/setup/fb', userBruteforce.prevent, controllers.fbLogin);
+  app.get('/processLogin/fb/at', userBruteforce.prevent, controllers.processLogin);
 
 
   app.get('/p/:id', (req, res) => {
