@@ -5,7 +5,7 @@ import { Hashing } from '../hashing';
 import { User } from 'server/models/types';
 import { Logger } from 'server/logger';
 import config from 'server/config';
-import { setAccessToken, setRefreshToken } from '../access';
+import { setAccessToken, setRefreshToken, tenDaysInMS } from '../access';
 
 type Data = {
   email: string;
@@ -34,7 +34,6 @@ export class Auth extends Hashing {
   }
 
   public generalError = new Error('Incorrect email or password');
-  private tenDays = 10 * 24 * 60 * 60 * 1000;
 
   public signin = async () => {
     const { data, onFail, generalError } = this;
@@ -106,9 +105,9 @@ export class Auth extends Hashing {
         const cookieOpts = {
           signed: true,
           httpOnly: !config.DEV_MODE,
-          maxAge: this.tenDays,
+          maxAge: tenDaysInMS,
         };
-        req.session.cookie.maxAge = this.tenDays;
+        req.session.cookie.maxAge = tenDaysInMS;
         req.session.user = user;
         req.session.userId = user.id;
         req.session.accessToken = payload.accessToken;

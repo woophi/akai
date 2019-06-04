@@ -40,7 +40,8 @@ export const checkUser = async (
     if (access.verificaitionError) {
       accessToken = await identity.setAccessToken({ id: userId, roles: req.session.user.roles });
       req.session.accessToken = accessToken;
-      req.session.save(() => Logger.debug('resave session'))
+      req.session.cookie.expires = new Date(Date.now() + identity.tenDaysInMS)
+      req.session.save(() => Logger.debug('resave session'));
     }
 
   } catch (error) {
