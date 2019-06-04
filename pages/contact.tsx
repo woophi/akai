@@ -3,6 +3,14 @@ import { Layout, BoxMain, ContactLayout, Script } from 'ui/index';
 
 class Contact extends React.PureComponent {
 
+  componentDidMount () {
+    const script = document.createElement("noscript");
+
+    script.appendChild(<div><img src="https://mc.yandex.ru/watch/53919715" style={{position:'absolute', left:'-9999px'}} alt="" /></div> as any);
+
+    document.body.appendChild(script);
+}
+
   render() {
     return (
       <Layout>
@@ -39,7 +47,6 @@ class Contact extends React.PureComponent {
             }
           }
         </Script>
-        <div><img src="https://mc.yandex.ru/watch/53919715" style={{position:'absolute', left:'-9999px'}} alt="" /></div>
       </Layout>
     );
   }
