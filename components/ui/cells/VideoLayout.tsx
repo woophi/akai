@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { H1, Block } from 'ui/atoms';
-import { Footer, Subscribe } from 'ui/molecules';
-import { subscribe } from 'core/operations';
 
 export const VideoLayout: React.FC = React.memo(() => {
   const classes = useStyles();
@@ -24,8 +22,6 @@ export const VideoLayout: React.FC = React.memo(() => {
           href="youtube"
         />
       </div>
-      <Subscribe onSubscribe={subscribe} />
-      <Footer />
     </div>
   );
 });

@@ -3,6 +3,9 @@ import Head from 'next/head';
 import { Navigation } from './Navigation';
 import { makeStyles } from '@material-ui/core/styles';
 import { ScrollButton } from 'ui/atoms';
+import { Subscribe } from './Subscribe';
+import { subscribe } from 'core/operations';
+import { Footer } from './Footer';
 
 type Props = {
   title?: string;
@@ -11,11 +14,7 @@ type Props = {
 const useStyles = makeStyles(theme => ({
   content: {
     paddingTop: '84px',
-    height: '100vh'
-  },
-  forBackToTop: {
-    position: 'relative',
-    height: '100%'
+    minHeight: '100vh'
   }
 }));
 
@@ -34,10 +33,10 @@ export const Layout: React.FC<Props> = React.memo(
         </header>
         <div className={classes.content}>
           {children}
+          <Subscribe onSubscribe={subscribe} />
+          <Footer />
         </div>
-        <>
-          <ScrollButton />
-        </>
+        <ScrollButton />
       </>
     );
   }

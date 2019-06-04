@@ -14,6 +14,7 @@ export const BoxMain: React.FC = React.memo(({
 
 const useStyles = makeStyles(theme => ({
   content: {
-    height: '100%'
+    height: '100%',
+    position: 'relative'
   }
 }));

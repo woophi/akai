@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Layout, Carusel, Subscribe, BoxMain, Footer } from 'components/ui';
+import { Layout, Carusel, BoxMain } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
-import { subscribe } from 'core/operations';
 
 type LocalState = {
   data: models.SlideModel[];
@@ -23,8 +22,6 @@ class Index extends React.Component<unknown, LocalState> {
         <BoxMain>
           <Carusel imgs={this.state.data} />
         </BoxMain>
-        <Subscribe onSubscribe={subscribe} />
-        <Footer />
       </Layout>
     );
   }

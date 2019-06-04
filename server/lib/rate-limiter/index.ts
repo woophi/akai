@@ -5,6 +5,7 @@ import { Logger } from 'server/logger';
 import BruteForceModel from 'server/models/bruteForce';
 import { Request, Response, NextFunction } from 'express';
 import { HTTPStatus } from '../models';
+import config from 'server/config';
 
 const store = new MongooseStore(BruteForceModel);
 
@@ -29,7 +30,7 @@ const handleStoreError = error => {
 };
 
 export const userBruteforce = new ExpressBrute(store, {
-  freeRetries: 100,
+  freeRetries: config.DEV_MODE ? 999 : 100,
   minWait: 5 * 60 * 1000, // 5 minutes
   maxWait: 60 * 60 * 1000, // 1 hour,
   failCallback: failCallback,

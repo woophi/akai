@@ -8,3 +8,4 @@ export * from './BoxMain';
 export * from './H1';
 export * from './TextField';
 export * from './Block';
+export * from './Script';

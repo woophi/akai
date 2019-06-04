@@ -14,7 +14,8 @@ type Props = {
 
 const useStyles = makeStyles(theme => ({
   carusel: {
-    height: '100%'
+    height: '100%',
+    maxHeight: 'calc(100vh - 84px)'
   }
 }));
 
