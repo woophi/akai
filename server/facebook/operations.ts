@@ -102,17 +102,21 @@ export const subscribePage = async (page: Page) => {
   }
 };
 
-export const createImgPost = async (link: string, message: string) => {
-
+export const createImgPost = async (linkOfPost: string, message: string, pageId: number) => {
   try {
-    // TODO: grace find
-    const Page: FacebookModel = await FBIModel.findOne().where({pageName: '123'}).lean();
-    await callApi('post', `${Page.pageId}/feed`, [
-      // {picture: link},
-      // {full_picture: link},
-      {link},
+    const page: {longLiveToken: string} = await FBIModel
+      .findOne()
+      .where({ pageId })
+      .select('longLiveToken -_id')
+      .lean();
+
+    if (!page.longLiveToken) {
+      return;
+    }
+    await callApi('post', `${pageId}/feed`, [
+      {link: linkOfPost},
       {message},
-      {access_token: Page.longLiveToken}
+      {access_token: page.longLiveToken}
     ])
   } catch (error) {
     Logger.error('createImgPost '+ error);

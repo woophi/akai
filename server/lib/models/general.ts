@@ -4,8 +4,8 @@ export const enum HTTPStatus {
   Unauthorized = 401,
   Forbidden = 403,
   NotFound = 404,
-  ServerError = 500,
-  TooManyRequests = 429
+  TooManyRequests = 429,
+  ServerError = 500
 }
 
 export type HTTPMethod = 'get' | 'post' | 'put' | 'delete';

@@ -50,14 +50,17 @@ export class Validator {
   }
 
   isEmail = (email: string) => {
+    const err = 'email is invalid';
+    if (!email || !this.typeOfString(email)) {
+      return err;
+    }
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!email || !re.test(email.toLowerCase())) {
-      const err = 'email is invalid';
+    if (!re.test(email.toLowerCase())) {
       return err;
     }
   }
 
-  typeOfString = (value: any) => {
+  typeOfString = <T>(value: T) => {
     return typeof value === 'string'
   }
 
@@ -75,6 +78,9 @@ export class Validator {
       return empty;
     }
     if (Array.isArray(value) && !value.length) {
+      return empty;
+    }
+    if (typeof value !== 'object' && !Array.isArray(value)) {
       return empty;
     }
     return;
