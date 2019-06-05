@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
+import Link from 'next/link';
 
 export const Navigation: React.FC = React.memo(() => {
   const classes = useStyles();
@@ -55,7 +56,9 @@ const MobileNavigation: React.FC = React.memo(() => {
       <Drawer anchor="right" open={openedMenu} onClose={toggle}>
         <div className={classes.mobileContainer}>
           <div className={classes.mobileButtonsHC}>
-            <IconButton color="primary" className={'fas fa-home'} href="/" />
+            <Link href="/">
+              <IconButton color="primary" className={'fas fa-home'} />
+            </Link>
             <IconButton color="primary" className={'fas fa-times'} onClick={toggle} />
           </div>
           <LinkButton
