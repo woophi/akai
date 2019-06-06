@@ -20,5 +20,5 @@
       "server/*": ["./server/*"]
     }
   },
-  "exclude": ["*.js", "dist/*"]
+  "exclude": ["*.js", "dist/*", "polyfills/*"]
 }
