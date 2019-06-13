@@ -5,24 +5,24 @@ const timestamps = require('mongoose-timestamp');
 export const BlogSchema = new mongoose.Schema(
 	{
 		title: [{
-      localeId: String,
-      content: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.TRANSLATIONS
     }],
     photos: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.FILES
     }],
 		body: [{
-      localeId: String,
-      content: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.TRANSLATIONS
     }],
 		topic: [{
-      localeId: String,
-      content: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.TRANSLATIONS
     }],
     socialShare: {
       localeId: String,
-      photoUrl: {
+      photo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: SchemaNames.FILES
       }

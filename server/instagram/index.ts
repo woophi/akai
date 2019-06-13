@@ -7,67 +7,87 @@ import config from '../config';
 import BlogModel from '../models/blog';
 import * as models from '../models/types';
 import { getFilePath } from '../storage/helpers';
+import { IgEventParams, IgEvents } from './types';
 
-// TODO: rewrite
+export const loginToIg = async () => {
+  try {
+    const ig = new IgApiClient();
+    Logger.debug('Instagram generate device');
+    ig.state.generateDevice(config.IG_USERNAME);
+
+    Logger.debug('Instagram login');
+    await ig.simulate.preLoginFlow();
+    await ig.account.login(config.IG_USERNAME, config.IG_PASSWORD);
+
+    process.nextTick(async () => await ig.simulate.postLoginFlow());
+
+    return ig;
+  } catch (error) {
+    Logger.error(error);
+    return null;
+  }
+}
 
 export const postToInstagram = async ({
-  fileName,
   blogId,
   done
-}: FileEventParams) => {
-  const path = getFilePath(fileName);
-  if (!fs.existsSync(path)) {
-    Logger.error('File not found ' + fileName);
-    return done();
-  }
-  const ig = new IgApiClient();
-  Logger.debug('Instagram generate device');
-  ig.state.generateDevice(config.IG_USERNAME);
+}: IgEventParams) => {
 
-  Logger.debug('Instagram login');
-  await ig.simulate.preLoginFlow();
-  await ig.account.login(config.IG_USERNAME, config.IG_PASSWORD);
+  Logger.debug('Fetching blog data by Id');
 
-  process.nextTick(async () => await ig.simulate.postLoginFlow());
+  const blog: models.Blog = await BlogModel.findById(blogId)
+    .select('socialShare topic -_id')
+    .populate({
+      path: 'socialShare.photo',
+      select: 'url -_id'
+    })
+    .lean();
 
-  Logger.debug('Fetching blog');
-
-  const blog: models.Blog = await BlogModel.findById(blogId).lean();
+  console.warn(blog, 'blog');
 
   if (!blog) {
     Logger.error('Blog not found');
     return done();
   }
 
-  if (!fs.existsSync(path)) {
-    Logger.error('File not found ' + fileName);
-    return done();
-  }
-
-  const fileStream = fs.createReadStream(path);
-
-  Logger.debug('Instagram read photo');
-
-  const bufs = [];
-  fileStream.on('data', d => {
-    bufs.push(d);
-  });
-  fileStream.on('end', async () => {
-    const fileBuf = Buffer.concat(bufs);
-    Logger.debug('Instagram publish photo');
-
-    await ig.publish.photo({
-      file: fileBuf,
-      // caption: blog.title
-    });
-  });
-  fileStream.on('close', () => {
-    Logger.debug('Instagram process event -> ' + FStorageEvents.CLOUDINARY_ASK);
-    EventBus.emit(FStorageEvents.CLOUDINARY_ASK, { fileName, blogId, done });
-  });
+  return done();
+  // await ig.publish.photo({
+  //   file: fileBuf,
+  //   // caption: blog.title
+  // });
 };
 
 export const registerInstagramEvents = () => {
   Logger.debug('Register Instagram Events');
-  EventBus.on(FStorageEvents.INSTAGRAM_ASK, postToInstagram);
+  EventBus.on(IgEvents.INSTAGRAM_ASK, postToInstagram);
 };
+
+
+  // TODO: use for instagram publish
+
+  // app.get('/test/axios/buffer', (req, res) => {
+  //   return axios.default.get('https://res.cloudinary.com/dqbo8zk4k/image/upload/v1557655459/yn5lnlz94umroibuqicr.jpg', {
+  //     responseType: 'arraybuffer',
+  //     headers: {
+  //       'Accept': '*/*'
+  //     }
+  //   }).then(async response => {
+  //       console.log('response', response.data);
+  //       const ig = new IgApiClient();
+  //       Logger.debug('Instagram generate device');
+  //       ig.state.generateDevice(config.IG_USERNAME);
+
+  //       Logger.debug('Instagram login');
+  //       await ig.simulate.preLoginFlow();
+  //       await ig.account.login(config.IG_USERNAME, config.IG_PASSWORD);
+
+  //       process.nextTick(async () => await ig.simulate.postLoginFlow());
+
+  //       await ig.publish.photo({
+  //         file: response.data,
+  //         // caption: blog.title
+  //       });
+
+  //       return res.sendStatus(200);
+  //   });
+  // })

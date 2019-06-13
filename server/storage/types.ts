@@ -1,7 +1,6 @@
 export const enum FStorageEvents {
   CLOUDINARY_ASK = 'upload to cloudinary',
   DELETE_TEMP_FILE = 'delete temp file',
-  INSTAGRAM_ASK = 'post to instagram',
   UPLOADED_FILE_SUCCESS = 'uploaded files success',
   UPLOADED_FILE_ERROR = 'uploaded files error'
 }

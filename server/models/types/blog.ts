@@ -16,7 +16,7 @@ export type LanguageContent = {
 
 export type SocialShare = {
   localeId: string,
-  photoUrl: string
+  photo: string
 }
 
 type GeneralBlogModel = {
