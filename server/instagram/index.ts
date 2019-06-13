@@ -1,13 +1,11 @@
 import { IgApiClient } from 'instagram-private-api';
-import * as fs from 'fs';
 import { EventBus } from '../lib/events';
-import { FStorageEvents, FileEventParams } from '../storage/types';
 import { Logger } from '../logger';
 import config from '../config';
 import BlogModel from '../models/blog';
 import * as models from '../models/types';
-import { getFilePath } from '../storage/helpers';
 import { IgEventParams, IgEvents } from './types';
+import * as axios from 'axios';
 
 export const loginToIg = async () => {
   try {
@@ -43,51 +41,34 @@ export const postToInstagram = async ({
     })
     .lean();
 
-  console.warn(blog, 'blog');
-
   if (!blog) {
     Logger.error('Blog not found');
     return done();
   }
+  const topic = blog.topic.find(t => t.localeId === blog.socialShare.localeId);
 
+  try {
+    const ig = await loginToIg();
+    if (!ig) throw Error('failed login to instagram');
+    const { data } = await axios.default
+      .get(blog.socialShare.photo.url, {
+        responseType: 'arraybuffer',
+        headers: {
+          'Accept': '*/*'
+        }
+      });
+    if (!data) throw Error('failed to fetch img data');
+    await ig.publish.photo({
+      file: data,
+      caption: topic ? topic.content : ''
+    });
+  } catch (error) {
+    Logger.error(error);
+  }
   return done();
-  // await ig.publish.photo({
-  //   file: fileBuf,
-  //   // caption: blog.title
-  // });
 };
 
 export const registerInstagramEvents = () => {
   Logger.debug('Register Instagram Events');
   EventBus.on(IgEvents.INSTAGRAM_ASK, postToInstagram);
 };
-
-
-  // TODO: use for instagram publish
-
-  // app.get('/test/axios/buffer', (req, res) => {
-  //   return axios.default.get('https://res.cloudinary.com/dqbo8zk4k/image/upload/v1557655459/yn5lnlz94umroibuqicr.jpg', {
-  //     responseType: 'arraybuffer',
-  //     headers: {
-  //       'Accept': '*/*'
-  //     }
-  //   }).then(async response => {
-  //       console.log('response', response.data);
-  //       const ig = new IgApiClient();
-  //       Logger.debug('Instagram generate device');
-  //       ig.state.generateDevice(config.IG_USERNAME);
-
-  //       Logger.debug('Instagram login');
-  //       await ig.simulate.preLoginFlow();
-  //       await ig.account.login(config.IG_USERNAME, config.IG_PASSWORD);
-
-  //       process.nextTick(async () => await ig.simulate.postLoginFlow());
-
-  //       await ig.publish.photo({
-  //         file: response.data,
-  //         // caption: blog.title
-  //       });
-
-  //       return res.sendStatus(200);
-  //   });
-  // })

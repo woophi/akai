@@ -53,13 +53,6 @@ export function router(
   app.get('/setup/fb', userBruteforce.prevent, controllers.fbLogin);
   app.get('/processLogin/fb/at', userBruteforce.prevent, controllers.processLogin);
 
-  app.get('/ig/test', (req, res) => {
-    postToInstagram({
-      blogId: '5cf9141ca4dda6383432f71c',
-      done: () => res.sendStatus(200)
-    })
-  });
-
   app.get('/p/:id', (req, res) => {
     const actualPage = '/post'
     const queryParams = { id: req.params.id }
