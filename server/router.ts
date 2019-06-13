@@ -44,6 +44,10 @@ export function router(
 
   app.post('/api/admin/save/biography', identity.authorizedForAdmin, controllers.saveBiography);
 
+  app.post('/api/admin/new/youtube', identity.authorizedForAdmin, controllers.createNewYoutubeUrl);
+  app.get('/api/admin/all/youtube', identity.authorizedForAdmin, controllers.getYoutubeUrls);
+  app.delete('/api/admin/delete/youtube', identity.authorizedForAdmin, controllers.deleteYoutubeUrl);
+
   app.post('/storage/upload', identity.authorizedForAdmin, storage.startUpload);
 
   app.get('/api/admin/fb/pages', identity.authorizedForAdmin, controllers.getFBPIds);
