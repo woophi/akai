@@ -9,7 +9,6 @@ export const getBiography = async (
   res: Response,
   next: NextFunction
 ) => {
-  // console.warn((req as any).i18n, 'i18n');
   const localeId = req.query['localeId'];
   return BiographyModel.findOne()
     .populate('coverPhoto')
