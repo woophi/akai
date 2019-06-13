@@ -16,6 +16,7 @@ export type VisitorModel = {
   uniqVisits: number;
   lastVisit: string;
   visitInfo: VisitInfo;
+  name: string;
   comments?: CommentModel[];
 };
 

@@ -14,8 +14,6 @@ export const VisitorsSchema = new mongoose.Schema(
 		},
 		uniqVisits: {
 			type: Number,
-			lowercase: true,
-			trim: true,
 			required: true
 		},
 		lastVisit: {
@@ -48,6 +46,9 @@ export const VisitorsSchema = new mongoose.Schema(
         type: String,
 			  lowercase: true
       }
+    },
+    name: {
+      type: String
     },
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
