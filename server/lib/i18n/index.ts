@@ -24,8 +24,7 @@ const options = {
     }
 };
 
-const i18nInstance = i18next;
-
+const i18nInstance = i18next.default ? i18next.default : i18next;
 
 // for browser use xhr backend to load translations and browser lng detector
 if (typeof window !== 'undefined') {
