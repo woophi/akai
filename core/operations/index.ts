@@ -33,3 +33,5 @@ export const sendMessage = (data: models.MessageModel) =>
 
 export const getYoutubes = () =>
   callApi<models.YoutubeItem[]>('get', `api/guest/youtubes`);
+export const getPhotos = () =>
+  callApi<models.PhotoData[]>('get', `api/guest/photos`);

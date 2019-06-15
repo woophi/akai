@@ -13,6 +13,7 @@ export const enum SchemaNames {
   VISITORS = 'visitors',
   BIOGRAPHY = 'biography',
   YOUTUBE = 'youtube',
+  PHOTOS = 'photos',
 
   APP_SESSIONS = 'app_sessions',
   JOBS = 'jobs_queue',

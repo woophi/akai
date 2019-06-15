@@ -13,3 +13,4 @@ export * from './schemas';
 export * from './bruteForce';
 export * from './biography';
 export * from './youtube';
+export * from './photos';

@@ -6,3 +6,4 @@ export * from './slider';
 export * from './subscribe';
 export * from './biography';
 export * from './mails';
+export * from './photos';

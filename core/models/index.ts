@@ -6,3 +6,4 @@ export * from './biography';
 export * from './locales';
 export * from './message';
 export * from './youtube';
+export * from './photos';
