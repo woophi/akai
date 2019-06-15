@@ -64,6 +64,9 @@ const useStyles = makeStyles(theme => ({
       transform: 'translateY(1px)',
       boxShadow: 'none'
     },
+    '&:hover': {
+      backgroundColor: '#3a3939'
+    },
     transition: '.2s ease-in-out'
   }),
   videoContentItemImg: {
