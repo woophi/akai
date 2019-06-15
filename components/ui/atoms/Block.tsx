@@ -16,7 +16,7 @@ type Props = {
 export const Block: React.FC<Props> = React.memo(
   ({ title, imgSrc, href, subTitle, timeOut = 1000 }) => {
     const [mounted, setMount] = React.useState(false);
-    const classes = useStyles();
+    const classes = useStyles({});
     React.useEffect(() => {
       setMount(true);
     }, []);

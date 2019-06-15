@@ -7,10 +7,10 @@ import Icon from '@material-ui/core/Icon';
 import { ContactForm } from './ContactForm';
 
 export const ContactLayout: React.FC = React.memo(() => {
-  const classes = useStyles();
+  const classes = useStyles({});
   return (
     <div className={classes.content}>
-      <H1>CONTACT FORM</H1>
+      <H1 upperCase>CONTACT FORM</H1>
       <Typography
         className={classes.m}
         variant="button"

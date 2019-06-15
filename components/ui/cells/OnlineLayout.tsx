@@ -12,7 +12,7 @@ export const OnlineLayout: React.FC = React.memo(() => {
 
   return (
     <div className={classes.content}>
-      <H1>Online stream</H1>
+      <H1 upperCase>Online stream</H1>
       <div className={classes.wrap}>
         <div className={classes.stream}>
           <iframe

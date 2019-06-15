@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
-  h1: {
-    margin: '2rem auto 1rem'
-  }
+  h1: ({ upperCase }: Props) => ({
+    margin: '2rem auto 1rem',
+    textTransform: upperCase ? 'uppercase': 'unset'
+  })
 }));
 
-export const H1: React.FC = React.memo(({ children }) => {
-  const classes = useStyles({});
+type Props = {
+  upperCase?: boolean
+}
+
+export const H1: React.FC<Props> = React.memo(({ children, upperCase = false }) => {
+  const classes = useStyles({ upperCase });
   return <h1 className={classes.h1}>{children}</h1>;
 });

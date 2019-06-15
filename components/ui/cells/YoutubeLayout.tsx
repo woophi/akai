@@ -2,25 +2,14 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { H1, Block } from 'ui/atoms';
 
-export const VideoLayout: React.FC = React.memo(() => {
+export const YoutubeLayout: React.FC = React.memo(() => {
   const classes = useStyles({});
 
   return (
     <div className={classes.content}>
-      <H1 upperCase>Video</H1>
+      <H1 upperCase>Youtube</H1>
       <div className={classes.wrap}>
-        <Block
-          title={'Online Stream'}
-          imgSrc="static/img/watch_online.jpg"
-          subTitle={'watch'}
-          href="online"
-        />
-        <Block
-          title={'Youtube Video'}
-          imgSrc="static/img/youtube.jpg"
-          subTitle={'watch'}
-          href="youtube"
-        />
+asdasd
       </div>
     </div>
   );

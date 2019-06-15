@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Layout, BoxMain, VideoLayout } from 'ui/index';
+import { Layout, BoxMain, YoutubeLayout } from 'ui/index';
 class Youtube extends React.PureComponent {
 
   render() {
     return (
       <Layout>
         <BoxMain>
-          <VideoLayout />
+          <YoutubeLayout />
         </BoxMain>
       </Layout>
     );

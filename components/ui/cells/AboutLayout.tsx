@@ -17,7 +17,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
   const classes = useStyles({ isSmallEnough, loading });
   return (
     <div className={classes.content}>
-      <H1>ABOUT ME</H1>
+      <H1 upperCase>ABOUT ME</H1>
       <div className={classes.wrap}>
         <div className={classes.wrapChild}>
           <SocialButtons />
