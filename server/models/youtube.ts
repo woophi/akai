@@ -9,8 +9,7 @@ export const YoutubeSchema = new mongoose.Schema(
       required: true
     },
     title: {
-      type: String,
-      required: true
+      type: String
     }
   },
 	{ collection: SchemaNames.YOUTUBE }

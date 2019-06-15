@@ -4,21 +4,20 @@ import { getYoutubes } from 'core/operations';
 import { YoutubeItem } from 'core/models';
 
 type Props = {
-  yotubes: YoutubeItem[]
+  youtubes: YoutubeItem[]
 }
 
 class Youtube extends React.PureComponent<Props> {
   static async getInitialProps() {
-    const { yotubes } = await getYoutubes();
-
-    return { yotubes };
+    const youtubes = await getYoutubes();
+    return { youtubes };
   }
 
   render() {
     return (
       <Layout>
         <BoxMain>
-          <YoutubeLayout items={this.props.yotubes} />
+          <YoutubeLayout items={this.props.youtubes} />
         </BoxMain>
       </Layout>
     );

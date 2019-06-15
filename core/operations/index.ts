@@ -32,4 +32,4 @@ export const sendMessage = (data: models.MessageModel) =>
   callApi<void>('post', `api/guest/send/message`, data);
 
 export const getYoutubes = () =>
-  callApi<models.YoutubeModel>('get', `api/guest/youtubes`);
+  callApi<models.YoutubeItem[]>('get', `api/guest/youtubes`);

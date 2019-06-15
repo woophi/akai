@@ -1,5 +1,5 @@
 export type YoutubeModel = {
-  yotubes: YoutubeItem[]
+  youtubes: YoutubeItem[]
 }
 
 export type YoutubeItem = {
