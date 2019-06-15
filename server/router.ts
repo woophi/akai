@@ -7,7 +7,6 @@ import * as identity from './identity';
 import * as storage from './storage';
 import { Server } from 'next';
 import { userBruteforce } from './lib/rate-limiter';
-import { postToInstagram } from './instagram';
 
 export function router(
   app: express.Express,
@@ -20,20 +19,20 @@ export function router(
 ) {
   app.use('/favicon.ico', (req, res) => res.status(200).send());
 
-  app.get('/api/health', userBruteforce.prevent, identity.authorizedForSuperAdmin, controllers.getApiHealth);
-  app.post('/api/guest/visit', userBruteforce.prevent, controllers.connectedUniqVisitor);
-  app.get('/api/guest/blogs', userBruteforce.prevent, controllers.getAllBlogs);
-  app.get('/api/guest/blog', userBruteforce.prevent, controllers.getBlog);
-  app.get('/api/guest/slides', userBruteforce.prevent, controllers.getSlidesForGuest);
+  app.get('/api/health', identity.authorizedForSuperAdmin, controllers.getApiHealth);
+  app.post('/api/guest/visit', controllers.connectedUniqVisitor);
+  app.get('/api/guest/blogs', controllers.getAllBlogs);
+  app.get('/api/guest/blog', controllers.getBlog);
+  app.get('/api/guest/slides', controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
-  app.get('/api/guest/biography', userBruteforce.prevent, controllers.getBiography);
+  app.get('/api/guest/biography', controllers.getBiography);
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
-  app.get('/api/guest/youtubes', userBruteforce.prevent, controllers.getYoutubeUrls);
-  app.get('/api/guest/photos', userBruteforce.prevent, controllers.getPhotos);
+  app.get('/api/guest/youtubes', controllers.getYoutubeUrls);
+  app.get('/api/guest/photos', controllers.getPhotos);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
-  app.post('/api/app/user/check', userBruteforce.prevent, auth.checkUser);
+  app.post('/api/app/user/check', auth.checkUser);
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);
@@ -56,8 +55,8 @@ export function router(
   app.patch('/api/admin/fb/check/token', identity.authorizedForAdmin, controllers.checkTokenValidation);
 
   // facebook connect
-  app.get('/setup/fb', userBruteforce.prevent, controllers.fbLogin);
-  app.get('/processLogin/fb/at', userBruteforce.prevent, controllers.processLogin);
+  app.get('/setup/fb', controllers.fbLogin);
+  app.get('/processLogin/fb/at', controllers.processLogin);
 
   app.get('/p/:id', (req, res) => {
     const actualPage = '/post'
