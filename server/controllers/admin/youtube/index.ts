@@ -16,16 +16,18 @@ export const createNewYoutubeUrl = async (
   Logger.debug(
     `starting to create new youtube entity ${new Date().toLocaleTimeString()}`
   );
-
+  // TODO: parse youtube url to get videoId
   const youtubeData: models.YoutubeModel = {
-    url: req.body.url
+    videoId: req.body.videoId,
+    title: req.body.title
   };
   async.series(
     [
       cb =>
         validate.check(
           {
-            url: validate.required,
+            videoId: validate.required,
+            title: validate.required
           },
           youtubeData,
           cb
@@ -48,7 +50,7 @@ export const getYoutubeUrls = async (
   res: Response,
   next: NextFunction
 ) => {
-  const youtubes = await YoutubeModel.find().select('url -_id').lean();
+  const youtubes = await YoutubeModel.find().select('videoId title -_id').lean();
 
   return res.send(youtubes).status(HTTPStatus.OK);
 }
@@ -60,8 +62,8 @@ export const deleteYoutubeUrl = async (
 ) => {
   const validate = new kia.Validator(req, res, next);
 
-  const youtubeData: models.YoutubeModel = {
-    url: req.body.url
+  const youtubeData: Partial<models.YoutubeModel> = {
+    videoId: req.body.videoId
   };
   async.series(
     [

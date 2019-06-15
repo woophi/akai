@@ -1,15 +1,23 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1, Block } from 'ui/atoms';
+import { H1 } from 'ui/atoms';
+import { VideoModule } from 'ui/molecules';
+import { YoutubeItem } from 'core/models';
 
-export const YoutubeLayout: React.FC = React.memo(() => {
+type Props = {
+  items: YoutubeItem[]
+}
+
+export const YoutubeLayout: React.FC<Props> = React.memo(({
+  items
+}) => {
   const classes = useStyles({});
 
   return (
     <div className={classes.content}>
       <H1 upperCase>Youtube</H1>
       <div className={classes.wrap}>
-asdasd
+        <VideoModule youtubeItems={items} />
       </div>
     </div>
   );

@@ -1,14 +1,13 @@
 export type AppState = {
   ui: {
-    lastUpdate: number;
-    light: boolean;
-    count: number;
+    youtube: {
+      selectedVideoId: string
+    },
     token: string
   }
 };
 
 export type AppDispatch =
-| { type: 'ADD' }
-| { type: 'TICK'; payload: number }
+| { type: 'SET_VIDEO_ID'; payload: string }
 | { type: 'SET_TOKEN'; payload: string }
 ;

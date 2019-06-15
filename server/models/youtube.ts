@@ -4,8 +4,12 @@ const timestamps = require('mongoose-timestamp');
 
 export const YoutubeSchema = new mongoose.Schema(
 	{
-		url: {
+		videoId: {
 			type: String,
+      required: true
+    },
+    title: {
+      type: String,
       required: true
     }
   },

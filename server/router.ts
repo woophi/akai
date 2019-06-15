@@ -28,6 +28,7 @@ export function router(
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
   app.get('/api/guest/biography', userBruteforce.prevent, controllers.getBiography);
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
+  app.get('/api/guest/youtubes', userBruteforce.prevent, controllers.getYoutubeUrls);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);

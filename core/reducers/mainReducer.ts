@@ -1,25 +1,20 @@
 import * as models from 'core/models';
 
 export const initialState = {
-  lastUpdate: 0,
-  light: false,
-  count: 0,
+  youtube: {
+    selectedVideoId: ''
+  },
   token: ''
 }
 
 export const reducer = (state = initialState, dispatch: models.AppDispatch) => {
   switch (dispatch.type) {
-    case 'TICK': {
+    case 'SET_VIDEO_ID': {
       return {
         ...state,
-        lastUpdate: dispatch.payload
-      };
-    }
-
-    case 'ADD': {
-      return {
-        ...state,
-        count: state.count + 1
+        youtube: {
+          selectedVideoId: dispatch.payload
+        }
       };
     }
     case 'SET_TOKEN': {

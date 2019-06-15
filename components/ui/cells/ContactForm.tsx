@@ -37,7 +37,7 @@ const onSubmit = async (data: ContactForm, formProps: any) => {
 }
 
 export const ContactForm: React.FC = () => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <Form
