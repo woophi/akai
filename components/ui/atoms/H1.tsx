@@ -7,6 +7,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const H1: React.FC = React.memo(({ children }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   return <h1 className={classes.h1}>{children}</h1>;
 });

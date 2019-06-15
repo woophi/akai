@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Layout, BoxMain, VideoLayout } from 'ui/index';
+import { Layout, BoxMain, OnlineLayout } from 'ui/index';
 class Online extends React.PureComponent {
 
   render() {
     return (
       <Layout>
         <BoxMain>
-          <VideoLayout />
+          <OnlineLayout />
         </BoxMain>
       </Layout>
     );

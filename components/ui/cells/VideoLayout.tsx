@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { H1, Block } from 'ui/atoms';
 
 export const VideoLayout: React.FC = React.memo(() => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <div className={classes.content}>
