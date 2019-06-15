@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { Logger } from '../logger';
 import * as identity from '../identity';
 import * as options from '../options';
+import { HTTPStatus } from 'server/lib/models';
 
 const saveUrlAndRedirect = (req: Request, res: Response) => {
   options.set('prevUrl', req.url);
-  return res.send({ redirect: true });
+  return res.send(HTTPStatus.Empty);
 }
 
 const decrypt = new identity.Encryption().decrypt;
@@ -27,15 +28,18 @@ export const checkUser = async (
   }
   const encryptedData = splitCookie[1];
   let accessToken = req.session.accessToken;
+
   try {
     const sessionId = await decrypt(encryptedData, req.session.user.password);
     if (sessionId !== req.sessionID) {
       return saveUrlAndRedirect(req, res);
     }
+
     const verifyRefreshToken = await identity.verifyToken(req.session.user.refreshToken);
     if (verifyRefreshToken.verificaitionError) {
       return saveUrlAndRedirect(req, res);
     }
+
     const access = await identity.verifyToken(accessToken);
     if (access.verificaitionError) {
       accessToken = await identity.setAccessToken({ id: userId, roles: req.session.user.roles });
@@ -46,7 +50,7 @@ export const checkUser = async (
 
   } catch (error) {
     Logger.error(error);
-    return res.sendStatus(204);
+    return res.sendStatus(HTTPStatus.Empty);
   }
   return res.send({ token: accessToken });
 };
