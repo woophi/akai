@@ -37,3 +37,6 @@ export const getPhotos = () =>
   callApi<models.PhotoData[]>('get', `api/guest/photos`);
 export const getAllAlbums = (localeId: models.LocaleIds) =>
   callApi<models.AlbumModel[]>('get', `api/guest/albums?localeId=${localeId}`);
+
+export const getAlbumData = (albumId: string, localeId: models.LocaleIds) =>
+  callApi<models.BlogsModel>('get', `api/guest/album?id=${albumId}&localeId=${localeId}`);

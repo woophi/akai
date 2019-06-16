@@ -21,15 +21,16 @@ export function router(
 
   app.get('/api/health', identity.authorizedForSuperAdmin, controllers.getApiHealth);
   app.post('/api/guest/visit', controllers.connectedUniqVisitor);
-  app.get('/api/guest/blogs', controllers.getAllBlogs);
-  app.get('/api/guest/blog', controllers.getBlog);
+
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
-  app.get('/api/guest/biography', controllers.getBiography);
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
+  app.get('/api/guest/biography', controllers.getBiography);
   app.get('/api/guest/youtubes', controllers.getYoutubeUrls);
   app.get('/api/guest/photos', controllers.getPhotos);
   app.get('/api/guest/albums', controllers.getAlbums);
+  app.get('/api/guest/album', controllers.getAlbum);
+  // app.get('/api/guest/blog', controllers.getBlog);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
@@ -68,7 +69,12 @@ export function router(
     const actualPage = '/gallery/album'
     const queryParams = { id: req.params.id }
     appNext.render(req, res, actualPage, queryParams)
-  })
+  });
+  app.get('/gallery/album/:id', (req, res) => {
+    const actualPage = '/gallery/album/blog'
+    const queryParams = { id: req.params.id }
+    appNext.render(req, res, actualPage, queryParams)
+  });
 
   app.get('*', (req, res) => {
     return handle(req, res);

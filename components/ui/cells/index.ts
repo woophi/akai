@@ -5,3 +5,4 @@ export * from './OnlineLayout';
 export * from './YoutubeLayout';
 export * from './PhotoLayout';
 export * from './GalleryLayout';
+export * from './AlbumLayout';
