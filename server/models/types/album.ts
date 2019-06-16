@@ -9,14 +9,12 @@ export type GeneralAlbumModel = {
 
 export type AlbumSaveModel = GeneralAlbumModel & {
   createdBy: string;
-  albums?: string[];
   blogs?: string[];
   coverPhoto: string;
 }
 
 export type AlbumModel = GeneralAlbumModel & {
   createdBy: UserModel;
-  albums: AlbumModel[];
   blogs: BlogModel[];
   coverPhoto: Files;
 }

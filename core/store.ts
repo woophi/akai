@@ -8,13 +8,13 @@ import {
   Store
 } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { initialState, reducer as count } from 'core/reducers';
+import { initialState, reducer as uiReducer } from 'core/reducers';
 import { AppState, AppDispatch } from 'core/models';
 
 const middleware = applyMiddleware(thunk);
 
 const rootReducerMap: ReducersMapObject<AppState, AppDispatch> = {
-  ui: count
+  ui: uiReducer
 };
 
 let asyncReducers: any = {};

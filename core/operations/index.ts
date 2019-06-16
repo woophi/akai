@@ -40,3 +40,6 @@ export const getAllAlbums = (localeId: models.LocaleIds) =>
 
 export const getAlbumData = (albumId: string, localeId: models.LocaleIds) =>
   callApi<models.BlogsModel>('get', `api/guest/album?id=${albumId}&localeId=${localeId}`);
+
+export const getBlogData = (blogId: string, localeId: models.LocaleIds) =>
+  callApi<models.BlogsModel>('get', `api/guest/blog?id=${blogId}&localeId=${localeId}`);

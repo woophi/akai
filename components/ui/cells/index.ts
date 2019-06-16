@@ -6,3 +6,4 @@ export * from './YoutubeLayout';
 export * from './PhotoLayout';
 export * from './GalleryLayout';
 export * from './AlbumLayout';
+export * from './BlogLayout';

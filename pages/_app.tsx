@@ -8,6 +8,7 @@ import { getInitialProps as getI18nProps, I18n } from 'server/lib/i18n';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { theme } from 'core/lib';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 class MyApp extends App {
   static async getInitialProps({Component, ctx}) {

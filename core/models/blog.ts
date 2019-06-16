@@ -11,7 +11,7 @@ export type LanguageContent = {
 
 export type SocialShare = {
   localeId: string,
-  photo: string
+  photo: PhotoItemModel
 }
 
 type GeneralBlogModel = {
@@ -38,4 +38,22 @@ export type BlogPreviewItem = {
 export type BlogsModel = {
   blogs: BlogPreviewItem[];
   albumTitle: string;
+}
+
+export type BlogModel = {
+  id: string;
+  title: string;
+  topic: string;
+  socialShare: SocialShare;
+  photos: PhotoItemModel[];
+  body: string;
+  creationPictureDate?: Date;
+  parameters?: Parameter[];
+}
+
+export type PhotoItemModel = {
+  url: string;
+  thumbnail: string;
+  name: string;
+  id: string;
 }

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { makeStyles } from '@material-ui/core/styles';
 import { Spinner } from 'ui/atoms';
@@ -22,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 export const Carusel: React.FC<Props> = React.memo(({
   imgs = []
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   if (!imgs || !imgs.length) {
     return <Spinner />
   }

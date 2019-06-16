@@ -30,7 +30,7 @@ export function router(
   app.get('/api/guest/photos', controllers.getPhotos);
   app.get('/api/guest/albums', controllers.getAlbums);
   app.get('/api/guest/album', controllers.getAlbum);
-  // app.get('/api/guest/blog', controllers.getBlog);
+  app.get('/api/guest/blog', controllers.getBlog);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);

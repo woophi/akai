@@ -16,10 +16,6 @@ export const AlbumSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.USERS
     },
-    albums: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.ALBUM
-    }],
     blogs: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.BLOG
