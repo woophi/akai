@@ -9,8 +9,12 @@ type Props = {
 
 class Youtube extends React.PureComponent<Props> {
   static async getInitialProps() {
-    const youtubes = await getYoutubes();
-    return { youtubes };
+    try {
+      const youtubes = await getYoutubes();
+      return { youtubes };
+    } catch (_) {
+      return { youtubes: [] }
+    }
   }
 
   render() {

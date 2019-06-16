@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link';
 
 export const Navigation: React.FC = React.memo(() => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   if (isSmallEnough) {
     return <MobileNavigation />;
@@ -44,7 +44,7 @@ export const Navigation: React.FC = React.memo(() => {
 });
 
 const MobileNavigation: React.FC = React.memo(() => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const [openedMenu, setOpen] = React.useState(false);
   const toggle = () => setOpen(!openedMenu);
   return (

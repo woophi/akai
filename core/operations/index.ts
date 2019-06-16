@@ -35,3 +35,5 @@ export const getYoutubes = () =>
   callApi<models.YoutubeItem[]>('get', `api/guest/youtubes`);
 export const getPhotos = () =>
   callApi<models.PhotoData[]>('get', `api/guest/photos`);
+export const getAllAlbums = (localeId: models.LocaleIds) =>
+  callApi<models.AlbumModel[]>('get', `api/guest/albums?localeId=${localeId}`);

@@ -29,6 +29,7 @@ export function router(
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
   app.get('/api/guest/youtubes', controllers.getYoutubeUrls);
   app.get('/api/guest/photos', controllers.getPhotos);
+  app.get('/api/guest/albums', controllers.getAlbums);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
@@ -60,6 +61,11 @@ export function router(
 
   app.get('/p/:id', (req, res) => {
     const actualPage = '/post'
+    const queryParams = { id: req.params.id }
+    appNext.render(req, res, actualPage, queryParams)
+  })
+  app.get('/gallery/:id', (req, res) => {
+    const actualPage = '/gallery/album'
     const queryParams = { id: req.params.id }
     appNext.render(req, res, actualPage, queryParams)
   })

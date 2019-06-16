@@ -10,6 +10,7 @@ export const getBiography = async (
   next: NextFunction
 ) => {
   const localeId = req.query['localeId'];
+  if (!localeId) return res.send({}).status(HTTPStatus.Empty);
   return BiographyModel.findOne()
     .populate('coverPhoto')
     .lean()

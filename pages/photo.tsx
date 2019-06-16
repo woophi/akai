@@ -10,8 +10,12 @@ type Props = {
 class Photo extends React.PureComponent<Props> {
 
   static async getInitialProps() {
-    const photos = await getPhotos();
-    return { photos };
+    try {
+      const photos = await getPhotos();
+      return { photos };
+    } catch (_) {
+      return { photos: [] }
+    }
   }
 
   render() {

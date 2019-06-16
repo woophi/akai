@@ -7,3 +7,4 @@ export * from './subscribe';
 export * from './biography';
 export * from './mails';
 export * from './photos';
+export * from './gallery';

@@ -8,10 +8,15 @@ type Props = {
 }
 class About extends React.PureComponent<Props> {
   static async getInitialProps() {
-    // TODO: get from set language
-    const data = await getBio('ru');
+    try {
+      // TODO: get from set language
+      const data = await getBio('ru');
 
-    return { data };
+      return { data };
+    } catch (_) {
+      return { data: {} }
+    }
+
   }
 
   render() {
