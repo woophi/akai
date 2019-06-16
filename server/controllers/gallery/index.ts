@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import AlbumModel from 'server/models/album';
 import BlogModel from 'server/models/blog';
 import { HTTPStatus } from 'server/lib/models';
-import { BlogModel as DataModel } from 'core/models';
 
 export const getAlbums = async (req: Request, res: Response, next: NextFunction) => {
   const localeId = req.query['localeId'];
@@ -65,7 +64,7 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
     .select('title socialShare body creationPictureDate parameters topic')
     .lean();
 
-  const data: DataModel = {
+  const data = {
     id: blog._id,
     body: blog.body.find(b => b.localeId === localeId).content,
     creationPictureDate: blog.creationPictureDate,
