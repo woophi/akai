@@ -17,6 +17,7 @@ export type VisitorModel = {
   lastVisit: string;
   visitInfo: VisitInfo;
   name: string;
+  savedLocaleId: string;
   comments?: CommentModel[];
 };
 

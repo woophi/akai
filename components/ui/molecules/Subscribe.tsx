@@ -9,13 +9,15 @@ import Icon from '@material-ui/core/Icon';
 import EmailIcon from '@material-ui/icons/Email';
 import { ResultSubscribe } from 'core/models';
 import { ArrowTooltip } from 'ui/atoms';
+import { useTranslation } from 'server/lib/i18n';
 
 type Props = {
   onSubscribe: (email: string) => Promise<ResultSubscribe>;
 };
 
 export const Subscribe: React.FC<Props> = React.memo(({ onSubscribe }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
+  const { t } = useTranslation();
   const [value, setValue] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
@@ -41,12 +43,12 @@ export const Subscribe: React.FC<Props> = React.memo(({ onSubscribe }) => {
         variant="contained"
         className={classes.button}
       >
-        E-mail
+        {t('common:subscribe.emailBtn')}
       </Button>
       <Paper className={classes.root}>
         <InputBase
           className={classes.input}
-          placeholder="Enter your email address"
+          placeholder={t('common:subscribe.placeholder')}
           type="email"
           value={value}
           required

@@ -1,9 +1,9 @@
 import './moduleResolver';
 if (!process.env.NO_DV) {
   const dotenv = require('dotenv');
-  const result = dotenv.config({debug: true});
+  const result = dotenv.config({ debug: true });
   if (result.error) {
-    throw result.error
+    throw result.error;
   }
 }
 import * as fs from 'fs';
@@ -18,9 +18,9 @@ import { createServer } from 'http';
 import config from './config';
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
-const i18nextMiddleware = require('i18next-express-middleware')
-const Backend = require('i18next-node-fs-backend');
-import { i18nInstance } from './lib/i18n';
+const nextI18NextMiddleware = require('next-i18next/middleware');
+
+import nextI18next from './lib/i18n';
 import { registerSocket } from './lib/sockets';
 import { router } from './router';
 import { initExpressSession } from './identity';
@@ -31,83 +31,72 @@ import connection, { agenda } from './lib/db';
 
 checkConfiguration(config);
 
-i18nInstance
-  .use(Backend)
-  .use(i18nextMiddleware.LanguageDetector)
-  .init({
-      fallbackLng: 'en',
-      preload: ['en'], // preload all langages
-      ns: ['common'], // need to preload all the namespaces
-      backend: {
-        loadPath: join(__dirname, '../static/locales/{{lng}}/{{ns}}.json'),
-        addPath: join(__dirname, '../static/locales/{{lng}}/{{ns}}.missing.json')
-      }
-  }, () => {
-    appNext.prepare()
-      .then(async () => {
-        const appExpress = express();
-        appExpress.use(bodyParser.urlencoded({ extended: true }));
-        appExpress.use(bodyParser.json());
-        appExpress.use(fileUpload())
-        if (config.DEV_MODE) {
-          appExpress.use(logger('dev'));
-        } else {
-          appExpress.use(helmet());
-          appExpress.disable('x-powered-by');
-          appExpress.use(logger('combined'));
-          appExpress.set('trust proxy', 1);
-        }
-        appExpress.use(cookieParser(config.COOKIE_SECRET));
-        appExpress.use(initExpressSession());
-        appExpress.use(i18nextMiddleware.handle(i18nInstance));
-        // serve locales for client
-        appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
-        await connection;
-        if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
-          fs.mkdirSync(join(__dirname, 'storage/temp'))
-        }
-        router(appExpress, handle, appNext);
+appNext.prepare().then(async () => {
+  const appExpress = express();
+  appExpress.use(bodyParser.urlencoded({ extended: true }));
+  appExpress.use(bodyParser.json());
+  appExpress.use(fileUpload());
+  if (config.DEV_MODE) {
+    appExpress.use(logger('dev'));
+  } else {
+    appExpress.use(helmet());
+    appExpress.disable('x-powered-by');
+    appExpress.use(logger('combined'));
+    appExpress.set('trust proxy', 1);
+  }
+  appExpress.use(cookieParser(config.COOKIE_SECRET));
+  appExpress.use(initExpressSession());
+  appExpress.use(nextI18NextMiddleware(nextI18next));
+  // serve locales for client
+  appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
+  await connection;
+  if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
+    fs.mkdirSync(join(__dirname, 'storage/temp'));
+  }
+  router(appExpress, handle, appNext);
 
-        const server = createServer(appExpress);
-        registerSocket(server);
+  const server = createServer(appExpress);
+  registerSocket(server);
 
-        applyMigration();
-        server.listen(config.PORT_CORE, () => {
-          console.log(`> Ready on http://localhost:${config.PORT_CORE}`)
-        });
-
-        server.on('listening', () => {
-          const addr = server.address();
-          const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-
-          console.log(`Listening on ${bind}`);
-        });
-
-        server.on('error', (err: any) => {
-          if (err.syscall !== 'listen') throw err;
-
-          const bind = typeof config.PORT_CORE === 'string' ? `Pipe ${config.PORT_CORE}` : `Port ${config.PORT_CORE}`;
-
-          switch (err.code) {
-            case 'EACCES':
-              console.error(`${bind} requires elevated privileges`);
-              process.exit(1);
-            case 'EADDRINUSE':
-              console.error(`${bind} is already in use`);
-              process.exit(1);
-            default:
-              throw err;
-          }
-        });
-      });
+  applyMigration();
+  server.listen(config.PORT_CORE, () => {
+    console.log(`> Ready on http://localhost:${config.PORT_CORE}`);
   });
 
-process.on('uncaughtException', async (err) => {
+  server.on('listening', () => {
+    const addr = server.address();
+    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+
+    console.log(`Listening on ${bind}`);
+  });
+
+  server.on('error', (err: any) => {
+    if (err.syscall !== 'listen') throw err;
+
+    const bind =
+      typeof config.PORT_CORE === 'string'
+        ? `Pipe ${config.PORT_CORE}`
+        : `Port ${config.PORT_CORE}`;
+
+    switch (err.code) {
+      case 'EACCES':
+        console.error(`${bind} requires elevated privileges`);
+        process.exit(1);
+      case 'EADDRINUSE':
+        console.error(`${bind} is already in use`);
+        process.exit(1);
+      default:
+        throw err;
+    }
+  });
+});
+
+process.on('uncaughtException', async err => {
   console.error(err);
   await agenda.stop();
   process.exit(1);
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
   console.error(err);
 });

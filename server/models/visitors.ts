@@ -50,6 +50,9 @@ export const VisitorsSchema = new mongoose.Schema(
     name: {
       type: String
     },
+    savedLocaleId: {
+      type: String
+    },
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.COMMENT
