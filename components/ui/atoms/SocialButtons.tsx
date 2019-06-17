@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const SocialButtons: React.FC = React.memo(() => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <div>

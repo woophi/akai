@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 export const LinkButton: React.FC<Props> = React.memo(
   ({ href, label, insideTooltip = false, ...props }) => {
-    const classes = useStyles();
+    const classes = useStyles({});
     if (insideTooltip) {
       return (
         <Button

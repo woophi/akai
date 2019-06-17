@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { H1, Block } from 'ui/atoms';
 import { BlogPreviewItem } from 'core/models';
+import { useTranslation } from 'server/lib/i18n';
 
 type Props = {
   blogs: BlogPreviewItem[]
@@ -13,7 +14,7 @@ export const AlbumLayout: React.FC<Props> = React.memo(({
   albumTitle
 }) => {
   const classes = useStyles({});
-
+  const { t } = useTranslation();
   return (
     <div className={classes.content}>
       <H1 upperCase>{albumTitle}</H1>
@@ -23,7 +24,7 @@ export const AlbumLayout: React.FC<Props> = React.memo(({
             key={i}
             title={b.title}
             imgSrc={b.coverPhoto}
-            subTitle={'watch'}
+            subTitle={t('common:watch')}
             href={b.id}
           />
         ))}

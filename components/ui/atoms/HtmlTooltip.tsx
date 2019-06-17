@@ -76,7 +76,7 @@ const useStylesArrow = makeStyles((theme: Theme) =>
 );
 
 export const ArrowTooltip: React.FC<TooltipProps> = React.memo((props) => {
-  const { arrow, ...classes } = useStylesArrow();
+  const { arrow, ...classes } = useStylesArrow({});
   const [arrowRef, setArrowRef] = React.useState<HTMLSpanElement | null>(null);
 
   return (

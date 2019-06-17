@@ -9,6 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link';
+import { useTranslation } from 'server/lib/i18n';
 
 export const Navigation: React.FC = React.memo(() => {
   const classes = useStyles({});
@@ -16,27 +17,28 @@ export const Navigation: React.FC = React.memo(() => {
   if (isSmallEnough) {
     return <MobileNavigation />;
   }
+  const { t } = useTranslation();
   return (
     <nav className={classes.nav}>
       <Logo />
       <div>
-        <LinkButton href="/about" label="Biography" />
-        <LinkButton href="/gallery" label="gallery" />
+        <LinkButton href="/about" label={t('common:navigation.about')} />
+        <LinkButton href="/gallery" label={t('common:navigation.gallery')} />
         <ArrowTooltip
           title={
             <>
-              <LinkButton insideTooltip href="/video/online" label="online" />
-              <LinkButton insideTooltip href="/video/youtube" label="youtube" />
+              <LinkButton insideTooltip href="/video/online" label={t('common:navigation.online')} />
+              <LinkButton insideTooltip href="/video/youtube" label={t('common:navigation.youtube')} />
             </>
           }
           interactive
         >
           <span>
-            <LinkButton href="/video" label="video" />
+            <LinkButton href="/video" label={t('common:navigation.video')} />
           </span>
         </ArrowTooltip>
-        <LinkButton href="/photo" label="photo" />
-        <LinkButton href="/contact" label="contact" />
+        <LinkButton href="/photo" label={t('common:navigation.photo')} />
+        <LinkButton href="/contact" label={t('common:navigation.contact')} />
       </div>
       <Languages />
     </nav>
@@ -47,6 +49,7 @@ const MobileNavigation: React.FC = React.memo(() => {
   const classes = useStyles({});
   const [openedMenu, setOpen] = React.useState(false);
   const toggle = () => setOpen(!openedMenu);
+  const { t } = useTranslation();
   return (
     <nav className={`${classes.nav} ${classes.navMobile}`}>
       <Logo classNameLogo={classes.mobileLogo} />
@@ -63,7 +66,7 @@ const MobileNavigation: React.FC = React.memo(() => {
           </div>
           <LinkButton
             href="/about"
-            label="Biography"
+            label={t('common:navigation.about')}
             variant={'contained'}
             color="primary"
             size="small"
@@ -72,7 +75,7 @@ const MobileNavigation: React.FC = React.memo(() => {
           />
           <LinkButton
             href="/gallery"
-            label="gallery"
+            label={t('common:navigation.gallery')}
             variant={'contained'}
             color="primary"
             size="small"
@@ -81,7 +84,7 @@ const MobileNavigation: React.FC = React.memo(() => {
           />
           <LinkButton
             href="/video"
-            label="video"
+            label={t('common:navigation.video')}
             variant={'contained'}
             color="primary"
             size="small"
@@ -90,7 +93,7 @@ const MobileNavigation: React.FC = React.memo(() => {
           />
           <LinkButton
             href="/photo"
-            label="photo"
+            label={t('common:navigation.photo')}
             variant={'contained'}
             color="primary"
             size="small"
@@ -99,7 +102,7 @@ const MobileNavigation: React.FC = React.memo(() => {
           />
           <LinkButton
             href="/contact"
-            label="contact"
+            label={t('common:navigation.contact')}
             variant={'contained'}
             color="primary"
             size="small"

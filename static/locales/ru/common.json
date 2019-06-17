@@ -2,5 +2,61 @@
   "subscribe": {
     "emailBtn": "E-mail",
     "placeholder": "Введите Ваш электронный адрес"
+  },
+  "footer": {
+    "rights": "Все права защищены",
+    "developed": "Разработано",
+    "KM": "Константин Михеев"
+  },
+  "contact": {
+    "title": "Контактная форма",
+    "orders": "Ваши заявки"
+  },
+  "photo": {
+    "title": "Фото галерея"
+  },
+  "video": {
+    "title": "Видео",
+    "online": {
+      "title": "Онлайн стрим",
+      "atelier": "Онлайн студия"
+    },
+    "youtube": {
+      "title": "Youtube видео"
+    },
+    "noVideos": "Видео нет"
+  },
+  "watch": "взглянуть",
+  "AA": "Акай Акаев",
+  "gallery": {
+    "title": "Галерея"
+  },
+  "about": {
+    "title": "Обо мне",
+    "subTitle": "Биография"
+  },
+  "navigation": {
+    "about": "Биография",
+    "gallery": "Галерея",
+    "online": "Онлайн",
+    "youtube": "Youtube",
+    "video": "Видео",
+    "photo": "Фото",
+    "contact": "Контакт"
+  },
+
+
+  "forms": {
+    "field": {
+      "required": "Пожалуйста, заполните это поле",
+      "invalid": "Введенные данные неверные"
+    },
+    "name": "Имя",
+    "email": "E-mail",
+    "message": "Сообщение"
+  },
+
+  "buttons": {
+    "send": "Отправить"
   }
 }

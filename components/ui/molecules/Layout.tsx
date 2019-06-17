@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Layout: React.FC<Props> = React.memo(
   ({ title = 'Akai Akaev', children }) => {
-    const classes = useStyles();
+    const classes = useStyles({});
     return (
       <>
         <Head>

@@ -2,5 +2,62 @@
   "subscribe": {
     "emailBtn": "E-mail",
     "placeholder": "Enter your email address"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "developed": "Developed by",
+    "KM": "Konstantin Mikheev"
+  },
+  "contact": {
+    "title": "Contact form",
+    "orders": "Your orders"
+  },
+  "photo": {
+    "title": "Photo gallery"
+  },
+  "video": {
+    "title": "Video",
+    "online": {
+      "title": "Online stream",
+      "atelier": "Online Atelier"
+    },
+    "youtube": {
+      "title": "Youtube Video"
+    },
+    "noVideos": "No videos"
+  },
+  "watch": "watch",
+  "AA": "Akai Akaev",
+  "gallery": {
+    "title": "Gallery"
+  },
+  "about": {
+    "title": "About me",
+    "subTitle": "Biography"
+  },
+  "navigation": {
+    "about": "Biography",
+    "gallery": "Gallery",
+    "online": "Online",
+    "youtube": "Youtube",
+    "video": "Video",
+    "photo": "Photo",
+    "contact": "Contact"
+  },
+
+
+  "forms": {
+    "field": {
+      "required": "Please, fill this field",
+      "invalid": "Field is invalid"
+    },
+    "name": "Name",
+    "email": "E-mail",
+    "message": "Message"
+  },
+
+  "buttons": {
+    "send": "Send"
   }
+
 }

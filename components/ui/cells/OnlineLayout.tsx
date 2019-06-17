@@ -3,16 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { H1, SocialButtons } from 'ui/atoms';
 import getConfig from 'next/config';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'server/lib/i18n';
 
 const { publicRuntimeConfig } = getConfig();
 const { CHANNEL_ID, CHAT_VIDEO_ID, CHAT_DOMAIN } = publicRuntimeConfig;
 
 export const OnlineLayout: React.FC = React.memo(() => {
   const classes = useStyles({});
-
+  const { t } = useTranslation();
   return (
     <div className={classes.content}>
-      <H1 upperCase>Online stream</H1>
+      <H1 upperCase>{t('common:video.online.title')}</H1>
       <div className={classes.wrap}>
         <div className={classes.stream}>
           <iframe
@@ -29,7 +30,7 @@ export const OnlineLayout: React.FC = React.memo(() => {
             gutterBottom
             className={classes.m12}
           >
-            ONLINE ATELIER
+            {t('common:video.online.atelier')}
           </Typography>
           <Typography
             variant="h5"
@@ -37,7 +38,7 @@ export const OnlineLayout: React.FC = React.memo(() => {
             gutterBottom
             className={classes.m12}
           >
-            Akai Akaev
+            {t('common:AA')}
           </Typography>
           <SocialButtons />
         </div>

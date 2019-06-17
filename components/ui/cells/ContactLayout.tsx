@@ -5,19 +5,21 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Icon from '@material-ui/core/Icon';
 import { ContactForm } from './ContactForm';
+import { useTranslation } from 'server/lib/i18n';
 
 export const ContactLayout: React.FC = React.memo(() => {
   const classes = useStyles({});
+  const { t } = useTranslation();
   return (
     <div className={classes.content}>
-      <H1 upperCase>CONTACT FORM</H1>
+      <H1 upperCase>{t('common:contact.title')}</H1>
       <Typography
         className={classes.m}
         variant="button"
         display="block"
         gutterBottom
       >
-        Your orders
+        {t('common:contact.orders')}
       </Typography>
       <Link
         component="a"

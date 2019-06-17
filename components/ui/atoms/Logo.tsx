@@ -11,7 +11,7 @@ type Props = {
 export const Logo: React.FC<Props> = React.memo(({
   classNameLogo = ''
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   return (
     <div className={classes.content}>
       <img

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { YoutubeItem, AppState } from 'core/models';
 import { VideoModuleItem } from './VideoModuleItem';
 import { connect as redux } from 'react-redux';
+import { useTranslation } from 'server/lib/i18n';
 
 type OwnProps = {
   youtubeItems: YoutubeItem[];
@@ -15,6 +16,7 @@ type Props = {
 const VideoModuleComponent: React.FC<Props> = React.memo(
   ({ youtubeItems = [], selectedVideoId }) => {
     const classes = useStyles({});
+    const { t } = useTranslation();
     return (
       <div className={classes.videoModule}>
         <div className={classes.video}>
@@ -28,7 +30,9 @@ const VideoModuleComponent: React.FC<Props> = React.memo(
               height="100%"
             />
           ) : (
-            <div className={classes.noVideos}>No videos</div>
+            <div className={classes.noVideos}>
+              {t('common:video.noVideos')}
+            </div>
           )}
         </div>
         <div className={classes.videoContent}>

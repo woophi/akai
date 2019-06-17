@@ -2,21 +2,20 @@ import * as React from 'react';
 import { Layout, BoxMain, AboutLayout } from 'ui/index';
 import { getBio } from 'core/operations';
 import * as models from 'core/models';
+import { i18next } from 'server/lib/i18n';
 
 type Props = {
   data: models.BioModel
 }
 class About extends React.PureComponent<Props> {
-  static async getInitialProps() {
+  static async getInitialProps({ req }) {
     try {
-      // TODO: get from set language
-      const data = await getBio('ru');
-
+      const currentLanguage = req === null ? i18next.language : req.language;
+      const data = await getBio(currentLanguage);
       return { data };
     } catch (_) {
       return { data: {} }
     }
-
   }
 
   render() {

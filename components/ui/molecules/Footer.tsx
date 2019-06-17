@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { SocialButtons } from 'ui/atoms';
+import { useTranslation } from 'server/lib/i18n';
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -16,26 +17,25 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
   className?: string;
-}
+};
 
-export const Footer: React.FC<Props> = React.memo(({
-  className = ''
-}) => {
-  const classes = useStyles();
+export const Footer: React.FC<Props> = React.memo(({ className = '' }) => {
+  const classes = useStyles({});
+  const { t } = useTranslation();
   return (
     <footer className={`${classes.footer} ${className}`}>
       <Typography variant="subtitle2" gutterBottom>
-        © Akai Akaev {new Date().getFullYear()} Все права защищены.
+        © {t('common:AA')} {new Date().getFullYear()} {t('common:footer.rights')}.
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Разработано{' '}
+        {t('common:footer.developed')}{' '}
         <Link
           component="a"
           variant="body2"
           href="https://vk.com/space_goose"
           target="_blank"
         >
-          Konstantin Mikheev
+          {t('common:footer.KM')}
         </Link>
       </Typography>
       <SocialButtons />

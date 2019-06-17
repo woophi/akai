@@ -22,8 +22,9 @@ export const getBiography = async (
       if (!bio) {
         return res.sendStatus(HTTPStatus.NotFound);
       }
+      const bioContent = bio.bio.find(b => b.localeId === localeId);
       const data = {
-        content: bio.bio.find(b => b.localeId === localeId).content,
+        content: bioContent ? bioContent.content : '',
         photo: bio.coverPhoto.url
       };
       return res.send(data).status(HTTPStatus.OK);

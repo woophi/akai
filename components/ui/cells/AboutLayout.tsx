@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { H1, SocialButtons, Spinner } from 'ui/atoms';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'server/lib/i18n';
 
 type Props = {
   photoUrl: string;
@@ -15,9 +16,10 @@ export const AboutLayout: React.FC<Props> = React.memo(({
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   const [loading, setLoad] = React.useState(true);
   const classes = useStyles({ isSmallEnough, loading });
+  const { t } = useTranslation();
   return (
     <div className={classes.content}>
-      <H1 upperCase>ABOUT ME</H1>
+      <H1 upperCase>{t('common:about.title')}</H1>
       <div className={classes.wrap}>
         <div className={classes.wrapChild}>
           <SocialButtons />
@@ -33,7 +35,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
           {content && (
             <>
               <Typography variant="button" display="block" gutterBottom>
-                Биография
+                {t('common:about.title')}
               </Typography>
               <Typography variant="body1" gutterBottom>
                 {content}

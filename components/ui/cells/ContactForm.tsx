@@ -6,6 +6,7 @@ import Icon from '@material-ui/core/Icon';
 import { Form, Field } from 'react-final-form';
 import { testEmail } from 'core/lib';
 import { sendMessage } from 'core/operations';
+import { useTranslation } from 'server/lib/i18n';
 
 type ContactForm = {
   name: string;
@@ -13,20 +14,20 @@ type ContactForm = {
   message: string;
 };
 
-const validate = (values: ContactForm) => {
+const validate = (values: ContactForm, t: (s: string) => string) => {
   const errors: Partial<ContactForm> = {};
 
   if (!values.email) {
-    errors.email = 'required';
+    errors.email = t('common:forms.field.required');
   }
   if (values.email && !testEmail.test(values.email.toLowerCase())) {
-    errors.email = 'invalid';
+    errors.email = t('common:forms.field.invalid');
   }
   if (!values.name) {
-    errors.name = 'required';
+    errors.name = t('common:forms.field.required');
   }
   if (!values.message) {
-    errors.message = 'required';
+    errors.message = t('common:forms.field.required');
   }
 
   return errors;
@@ -38,11 +39,11 @@ const onSubmit = async (data: ContactForm, formProps: any) => {
 
 export const ContactForm: React.FC = () => {
   const classes = useStyles({});
-
+  const { t } = useTranslation();
   return (
     <Form
       onSubmit={onSubmit}
-      validate={validate}
+      validate={(v: ContactForm) => validate(v, t)}
       render={({ handleSubmit, pristine, invalid, submitting }) => (
         <form onSubmit={handleSubmit} className={classes.form}>
           <Field
@@ -50,7 +51,7 @@ export const ContactForm: React.FC = () => {
             render={({ input, meta }) => (
               <TextField
                 id="outlined-name-input"
-                label="Name"
+                label={t('common:forms.name')}
                 type="text"
                 name="name"
                 margin="normal"
@@ -68,7 +69,7 @@ export const ContactForm: React.FC = () => {
             render={({ input, meta }) => (
               <TextField
                 id="outlined-email-input"
-                label="Email"
+                label={t('common:forms.email')}
                 type="email"
                 name="email"
                 autoComplete="email"
@@ -87,7 +88,7 @@ export const ContactForm: React.FC = () => {
             render={({ input, meta }) => (
               <TextField
                 id="outlined-message-static"
-                label="Message"
+                label={t('common:forms.message')}
                 multiline
                 rows="4"
                 margin="normal"
@@ -107,7 +108,7 @@ export const ContactForm: React.FC = () => {
               color="primary"
               className={classes.button}
             >
-              Send
+              {t('common:buttons.send')}
             </Button>
             {submitting &&
               <Icon

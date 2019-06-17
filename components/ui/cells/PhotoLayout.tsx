@@ -5,6 +5,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { PhotoData } from 'core/models/photos';
+import { useTranslation } from 'server/lib/i18n';
 
 type Props = {
   photos: PhotoData[]
@@ -14,10 +15,10 @@ export const PhotoLayout: React.FC<Props> = React.memo(({
   photos
 }) => {
   const classes = useStyles({});
-
+  const { t } = useTranslation();
   return (
     <div className={classes.content}>
-      <H1 upperCase>PHOTO GALLERY</H1>
+      <H1 upperCase>{t('common:photo.title')}</H1>
       <div className={classes.wrap}>
         <GridList
           cellHeight={200}
@@ -30,12 +31,6 @@ export const PhotoLayout: React.FC<Props> = React.memo(({
               <img src={photo.file.thumbnail} alt={photo.file.name} />
               <GridListTileBar
                 titlePosition="top"
-                // actionIcon={
-                //   <IconButton
-                //     className={`fas fa-download`}
-                //   />
-                // }
-                // actionPosition="left"
                 className={classes.titleBar}
               />
             </GridListTile>

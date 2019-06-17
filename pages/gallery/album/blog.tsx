@@ -4,17 +4,17 @@ import * as React from 'react';
 import { Layout, BoxMain, BlogLayout } from 'ui/index';
 import { BlogModel } from 'core/models';
 import { getBlogData } from 'core/operations';
+import { i18next } from 'server/lib/i18n';
 
 type Props = {
   blog: BlogModel;
 } & WithRouterProps;
 
 class Blog extends React.PureComponent<Props> {
-  static async getInitialProps(context) {
+  static async getInitialProps({ req, query }) {
     try {
-      // TODO: get from set language
-
-      const blog = await getBlogData(context.query.id, 'en');
+      const currentLanguage = req === null ? i18next.language : req.language;
+      const blog = await getBlogData(query.id, currentLanguage);
       return { blog };
     } catch {
       return {

@@ -60,11 +60,6 @@ export function router(
   app.get('/setup/fb', controllers.fbLogin);
   app.get('/processLogin/fb/at', controllers.processLogin);
 
-  app.get('/p/:id', (req, res) => {
-    const actualPage = '/post'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
-  })
   app.get('/gallery/:id', (req, res) => {
     const actualPage = '/gallery/album'
     const queryParams = { id: req.params.id }

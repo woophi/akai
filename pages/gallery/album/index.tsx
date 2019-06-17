@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Layout, BoxMain, AlbumLayout } from 'ui/index';
 import { BlogPreviewItem } from 'core/models';
 import { getAlbumData } from 'core/operations';
+import { i18next } from 'server/lib/i18n';
 
 type Props = {
   blogs: BlogPreviewItem[];
@@ -11,11 +12,10 @@ type Props = {
 } & WithRouterProps;
 
 class Album extends React.PureComponent<Props> {
-  static async getInitialProps(context) {
+  static async getInitialProps({ req, query }) {
     try {
-      // TODO: get from set language
-
-      const data = await getAlbumData(context.query.id, 'en');
+      const currentLanguage = req === null ? i18next.language : req.language;
+      const data = await getAlbumData(query.id, currentLanguage);
       return { ...data };
     } catch {
       return {
