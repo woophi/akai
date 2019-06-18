@@ -6,7 +6,7 @@ import { HTTPStatus } from 'server/lib/models';
 
 const saveUrlAndRedirect = (req: Request, res: Response) => {
   options.set('prevUrl', req.url);
-  return res.send(HTTPStatus.Empty);
+  return res.sendStatus(HTTPStatus.Empty);
 }
 
 const decrypt = new identity.Encryption().decrypt;

@@ -9,6 +9,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { theme } from 'core/lib';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { getCookie } from 'core/cookieManager';
+import('core/socket');
+import('core/fire-callbacks');
 
 class MyApp extends App {
   static async getInitialProps({Component, ctx}) {
@@ -33,8 +35,6 @@ class MyApp extends App {
     if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
-    import('core/socket');
-    import('core/fire-callbacks');
   }
   render () {
     const { Component, pageProps, store } = this.props as any;
