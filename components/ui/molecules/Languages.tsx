@@ -3,12 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'server/lib/i18n';
 import { LocaleIds } from 'core/models';
 import { setCookie, getCookie } from 'core/cookieManager';
+import Router from 'next/router'
 
 const changeLanguage = (lang: LocaleIds, i18n: any) => {
   const cookieLang = getCookie('akai_lng');
   if (cookieLang && cookieLang !== lang) {
     setCookie('akai_lng', lang, 10);
-    i18n.changeLanguage(lang);
+    i18n.changeLanguage(lang, () => {
+      if (Router.pathname.indexOf('gallery') !== -1) {
+        window.location.reload();
+      }
+    });
   }
 }
 
