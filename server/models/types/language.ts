@@ -7,3 +7,9 @@ export type LanguageModel = {
   localeId: string;
   deleted?: Date
 }
+
+export const enum Locales {
+  EN = 'en',
+  RU = 'ru',
+  CS = 'cs'
+}

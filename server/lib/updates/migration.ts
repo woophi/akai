@@ -19,8 +19,6 @@ const Update = mongoose.model(SchemaNames.MIGRATIONS);
 
 let updatesPath = path.resolve(__dirname, '../../migration');
 
-console.dir(updatesPath, 'updatesPath');
-
 if (!fs.existsSync(updatesPath)) {
   console.warn('updatesPath not exist');
   process.exit();
@@ -37,8 +35,6 @@ var updates = fs.readdirSync(updatesPath)
     // exclude anything after a hyphen from the version number
     return semver.compare(a.split('-')[0], b.split('-')[0]);
   });
-
-console.dir(updates, 'updates all');
 
 export const createMigration = (file, done) => {
   Update

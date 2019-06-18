@@ -18,7 +18,7 @@ export const getAlbums = async (req: Request, res: Response, next: NextFunction)
     return {
       id: a._id,
       title: a.title.find(t => t.localeId === localeId).content,
-      coverPhoto: a.coverPhoto.thumbnail
+      coverPhoto: a.coverPhoto ? a.coverPhoto.thumbnail : ''
     };
   });
   return res.send(data).status(HTTPStatus.OK);
@@ -47,7 +47,7 @@ export const getAlbum = async (req: Request, res: Response, next: NextFunction) 
     return {
       id: b._id,
       title: b.title.find(t => t.localeId === localeId).content,
-      coverPhoto: b.photos[0].thumbnail
+      coverPhoto: b.photos[0] ? b.photos[0].thumbnail : ''
     };
   });
 
@@ -77,12 +77,12 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
     })),
     socialShare: {
       ...blog.socialShare,
-      photo: {
+      photo: blog.socialShare.photo ? {
         id: blog.socialShare.photo._id,
         name: blog.socialShare.photo.name,
         thumbnail: blog.socialShare.photo.thumbnail,
         url: blog.socialShare.photo.url
-      }
+      } : {}
     },
     title: blog.title.find(t => t.localeId === localeId).content,
     topic: blog.topic.find(t => t.localeId === localeId).content
