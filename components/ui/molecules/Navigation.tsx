@@ -12,12 +12,12 @@ import Link from 'next/link';
 import { useTranslation } from 'server/lib/i18n';
 
 export const Navigation: React.FC = React.memo(() => {
-  const classes = useStyles({});
   const isSmallEnough = useMediaQuery('(max-width:800px)');
+  const { t } = useTranslation();
+  const classes = useStyles({});
   if (isSmallEnough) {
     return <MobileNavigation />;
   }
-  const { t } = useTranslation();
   return (
     <nav className={classes.nav}>
       <Logo />
@@ -46,10 +46,10 @@ export const Navigation: React.FC = React.memo(() => {
 });
 
 const MobileNavigation: React.FC = React.memo(() => {
+  const { t } = useTranslation();
   const classes = useStyles({});
   const [openedMenu, setOpen] = React.useState(false);
   const toggle = () => setOpen(!openedMenu);
-  const { t } = useTranslation();
   return (
     <nav className={`${classes.nav} ${classes.navMobile}`}>
       <Logo classNameLogo={classes.mobileLogo} />

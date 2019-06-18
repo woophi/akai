@@ -1,0 +1,63 @@
+{
+  "subscribe": {
+    "emailBtn": "E-mail",
+    "placeholder": "Zadejte Vas email"
+  },
+  "footer": {
+    "rights": "Všechna práva vyhrazena",
+    "developed": "Developed by",
+    "KM": "Konstantin Mikheev"
+  },
+  "contact": {
+    "title": "Být v kontaktu",
+    "orders": "Vaše objednávky"
+  },
+  "photo": {
+    "title": "Foto galerie"
+  },
+  "video": {
+    "title": "Video",
+    "online": {
+      "title": "Živé vysílání",
+      "atelier": "Online atelier"
+    },
+    "youtube": {
+      "title": "Youtube Video"
+    },
+    "noVideos": "Žadná videa"
+  },
+  "watch": "sledovat",
+  "AA": "Akay Akaev",
+  "gallery": {
+    "title": "Galerie"
+  },
+  "about": {
+    "title": "O mně",
+    "subTitle": "Životopis"
+  },
+  "navigation": {
+    "about": "Životopis",
+    "gallery": "Galerie",
+    "online": "Online",
+    "youtube": "Youtube",
+    "video": "Video",
+    "photo": "Foto",
+    "contact": "Kontakt"
+  },
+
+
+  "forms": {
+    "field": {
+      "required": "Povinné",
+      "invalid": "Neplatný format"
+    },
+    "name": "Jméno",
+    "email": "E-mail",
+    "message": "Zpráva"
+  },
+
+  "buttons": {
+    "send": "Odeslat"
+  }
+
+}

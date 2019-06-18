@@ -1,21 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserIp } from '../../utils/helpers';
+import { getUserIp } from 'server/utils/helpers';
 const parser = require('ua-parser-js');
 import * as uuidv4 from 'uuid/v4';
 const geoip = require('geoip-lite');
-import VisitorsList from '../../models/visitors';
-import { Model } from '../../models/types';
-import { Logger } from '../../logger';
+import VisitorsList from 'server/models/visitors';
+import { Model } from 'server/models/types';
+import { Logger } from 'server/logger';
+import { VisitorCookie } from './types';
 
 export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunction) => {
-  const visitorId = req.signedCookies['visitID'];
+  const visitorId = req.signedCookies[VisitorCookie.VisitId];
   const uniqID = uuidv4();
   const newDate = new Date();
   const now = newDate.toLocaleString();
+  const expires = new Date(newDate.getFullYear() + 99, newDate.getMonth(), newDate.getDay());
   if (!visitorId) {
-    res.cookie('visitID', uniqID, { signed: true, expires: new Date(newDate.getFullYear() + 99, newDate.getMonth(), newDate.getDay()) });
+    res.cookie(VisitorCookie.VisitId, uniqID, { signed: true, expires });
+    const lngs = req.acceptsLanguages();
+    res.cookie(VisitorCookie.Lang, lngs ? lngs.find(l => l.length == 2) : 'en', {expires});
   }
-  res.cookie('LastVisit', now, { signed: true });
+  res.cookie(VisitorCookie.LastVisit, now, { signed: true });
 
   const ua = new parser(req.headers['user-agent']);
   const ip = getUserIp(req);
@@ -23,7 +27,7 @@ export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunc
   let newVisitorData = {
     visitorId,
     uniqVisits: 1,
-    lastVisit: req.signedCookies['LastVisit'] || now,
+    lastVisit: req.signedCookies[VisitorCookie.LastVisit] || now,
     visitInfo: {
       device: ua.getDevice(),
       language: req.headers['accept-language'],
@@ -32,7 +36,8 @@ export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunc
       browser: ua.getBrowser(),
       os: ua.getOS(),
       ip
-    }
+    },
+    language: 'en'
   };
     VisitorsList
       .findOne()
@@ -61,10 +66,17 @@ export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunc
 
         const newVisitTime = Date.parse(now);
         const lastVisitTime = Date.parse(visitor.lastVisit);
-        Logger.debug(newVisitTime + ' ' + lastVisitTime + ' ' + (newVisitTime - lastVisitTime))
+        Logger.debug(newVisitTime + ' ' + lastVisitTime + ' ' + (newVisitTime - lastVisitTime));
+        if (!visitor.language) {
+          visitor.language = req.cookies[VisitorCookie.Lang] || newVisitorData.language
+        }
+        if (visitor.language !== req.cookies[VisitorCookie.Lang]) {
+          visitor.language = req.cookies[VisitorCookie.Lang]
+        }
         if (newVisitTime - lastVisitTime >= 30*60000) {
           visitor.uniqVisits = visitor.uniqVisits + 1;
           visitor.lastVisit = now;
+
           return visitor.save(() => {
             Logger.info('visitors count increase');
             return res.send().status(200);

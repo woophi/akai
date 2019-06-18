@@ -6,6 +6,7 @@ export const setCookie = (cname: string, cvalue: string, exdays: number) => {
 };
 
 export const getCookie = (cname: string) => {
+  if (!document) return '';
   const name = cname + '=';
   const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {

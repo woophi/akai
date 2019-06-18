@@ -1,7 +1,6 @@
 const NextI18Next = require('next-i18next/dist/commonjs');
 
 const options = {
-  lng: 'en',
   fallbackLng: 'en',
   load: 'languageOnly', // we only provide en, de -> no region specific locals like en-US, de-DE
   otherLanguages: ['ru', 'cs'],
@@ -17,6 +16,11 @@ const options = {
         if (format === 'uppercase') return value.toUpperCase()
         return value
     }
+  },
+  detection: {
+    lookupCookie: 'akai_lng',
+    order: ['cookie', 'header', 'querystring'],
+    caches: ['cookie'],
   },
   react: {
     useSuspense: false

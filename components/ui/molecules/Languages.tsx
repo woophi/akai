@@ -1,6 +1,16 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'server/lib/i18n';
+import { LocaleIds } from 'core/models';
+import { setCookie, getCookie } from 'core/cookieManager';
+
+const changeLanguage = (lang: LocaleIds, i18n: any) => {
+  const cookieLang = getCookie('akai_lng');
+  if (cookieLang && cookieLang !== lang) {
+    setCookie('akai_lng', lang, 10);
+    i18n.changeLanguage(lang);
+  }
+}
 
 export const Languages: React.FC = React.memo(() => {
   const classes = useStyles({});
@@ -8,19 +18,19 @@ export const Languages: React.FC = React.memo(() => {
   return (
     <div className={classes.content}>
       <img
-        onClick={() => i18n.changeLanguage('en')}
+        onClick={() => changeLanguage('en', i18n)}
         className={classes.img}
         src="/static/img/en.png"
         alt="language_en"
       />
       <img
-        onClick={() => i18n.changeLanguage('ru')}
+        onClick={() => changeLanguage('ru', i18n)}
         className={classes.img}
         src="/static/img/ru.png"
         alt="language_ru"
       />
       <img
-        onClick={() => i18n.changeLanguage('cz')}
+        onClick={() => changeLanguage('cs', i18n)}
         className={classes.img}
         src="/static/img/cz.png"
         alt="language_cz"
