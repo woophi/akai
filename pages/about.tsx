@@ -3,27 +3,31 @@ import { Layout, BoxMain, AboutLayout } from 'ui/index';
 import { getBio } from 'core/operations';
 import * as models from 'core/models';
 import { i18next } from 'server/lib/i18n';
+import { getCookie } from 'core/cookieManager';
 
 type LocalState = {
   data: models.BioModel
 }
-class About extends React.Component<LocalState, LocalState> {
-  static async getInitialProps({ req }) {
-    try {
-      const currentLanguage = req === null ? i18next.language : req.language;
-      const data = await getBio(currentLanguage);
-      return { data };
-    } catch (_) {
-      return { data: {} }
+class About extends React.Component<unknown, LocalState> {
+  state: LocalState = {
+    data: {
+      content: '',
+      photo: ''
     }
   }
 
-  // componentDidMount() {
-
-  // }
+  async componentDidMount() {
+    try {
+      const currentLanguage = getCookie('akai_lng') || i18next.language;
+      const data = await getBio(currentLanguage);
+      this.setState({ data });
+    } catch (e) {
+      console.error('Error in about fetch', e);
+    }
+  }
 
   render() {
-    const { data } = this.props;
+    const { data } = this.state;
     return (
       <Layout>
         <BoxMain>
