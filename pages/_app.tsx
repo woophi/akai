@@ -15,10 +15,9 @@ import('core/fire-callbacks');
 class MyApp extends App {
   static async getInitialProps({Component, ctx}) {
     const lang = ctx.req ? ctx.req.cookies['akai_lng'] : getCookie('akai_lng') || 'en';
-    const curLang = ctx.req ? ctx.req.language : i18next.language;
-    const i18n = ctx.req ? ctx.req.i18n : i18next;
-    console.error('????????', ctx.req && ctx.req.i18n, 'ILI', i18next)
-    if (i18n.changeLanguage && curLang !== lang) {
+    const curLang = ctx.req && ctx.req.language || i18next.language;
+    const i18n = ctx.req && ctx.req.i18n || i18next;
+    if (i18n && i18n.changeLanguage && curLang !== lang) {
       i18n.changeLanguage(lang);
     }
 
