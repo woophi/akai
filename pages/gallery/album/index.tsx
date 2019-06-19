@@ -5,23 +5,27 @@ import { Layout, BoxMain, AlbumLayout } from 'ui/index';
 import { BlogPreviewItem } from 'core/models';
 import { getAlbumData } from 'core/operations';
 import { i18next } from 'server/lib/i18n';
+import { getCookie } from 'core/cookieManager';
 
-type Props = {
+type Props =  WithRouterProps;
+
+type LocalState = {
   blogs: BlogPreviewItem[];
   albumTitle: string;
-} & WithRouterProps;
+}
 
-class Album extends React.PureComponent<Props> {
-  static async getInitialProps({ req, query }) {
+class Album extends React.PureComponent<Props, LocalState> {
+  state: LocalState = {
+    blogs: [],
+    albumTitle: ''
+  }
+  async componentDidMount() {
     try {
-      const currentLanguage = req === null ? i18next.language : req.language;
-      const data = await getAlbumData(query.id, currentLanguage);
-      return { ...data };
-    } catch {
-      return {
-        blogs: [],
-        albumTitle: ''
-      };
+      const currentLanguage = getCookie('akai_lng') || i18next.language;
+      const data = await getAlbumData(String(this.props.router.query.id), currentLanguage);
+      this.setState({ blogs: data.blogs, albumTitle: data.albumTitle });
+    } catch (e) {
+      console.error('Error in Album fetch', e);
     }
   }
 
@@ -29,7 +33,7 @@ class Album extends React.PureComponent<Props> {
     return (
       <Layout>
         <BoxMain>
-          <AlbumLayout albumTitle={this.props.albumTitle} blogs={this.props.blogs} />
+          <AlbumLayout albumTitle={this.state.albumTitle} blogs={this.state.blogs} />
         </BoxMain>
       </Layout>
     );

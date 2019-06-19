@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1 } from 'ui/atoms';
+import { H1, Spinner } from 'ui/atoms';
 import { BlogModel } from 'core/models';
 import Head from 'next/head';
 import getConfig from 'next/config';
@@ -18,6 +18,10 @@ type Props = {
 export const BlogLayout: React.FC<Props> = React.memo(({ blog }) => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   const classes = useStyles({ isSmallEnough });
+
+  if (!blog) {
+    return <Spinner isShow />;
+  }
 
   return (
     <>

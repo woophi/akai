@@ -5,21 +5,26 @@ import { Layout, BoxMain, BlogLayout } from 'ui/index';
 import { BlogModel } from 'core/models';
 import { getBlogData } from 'core/operations';
 import { i18next } from 'server/lib/i18n';
+import { getCookie } from 'core/cookieManager';
 
-type Props = {
+type Props = WithRouterProps;
+
+type LocalState = {
   blog: BlogModel;
-} & WithRouterProps;
+}
 
-class Blog extends React.PureComponent<Props> {
-  static async getInitialProps({ req, query }) {
+class Blog extends React.PureComponent<Props, LocalState> {
+
+  state: LocalState = {
+    blog: null
+  }
+  async componentDidMount() {
     try {
-      const currentLanguage = req === null ? i18next.language : req.language;
-      const blog = await getBlogData(query.id, currentLanguage);
-      return { blog };
-    } catch {
-      return {
-        blog: {}
-      };
+      const currentLanguage = getCookie('akai_lng') || i18next.language;
+      const blog = await getBlogData(String(this.props.router.query.id), currentLanguage);
+      this.setState({ blog });
+    } catch (e) {
+      console.error('Error in Blog fetch', e);
     }
   }
 
@@ -27,7 +32,7 @@ class Blog extends React.PureComponent<Props> {
     return (
       <Layout>
         <BoxMain>
-          <BlogLayout blog={this.props.blog} />
+          <BlogLayout blog={this.state.blog} />
         </BoxMain>
       </Layout>
     );
