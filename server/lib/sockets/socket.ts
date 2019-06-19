@@ -11,25 +11,38 @@ export const registerSocket = (server: Server) => {
   Logger.debug('Storage register events');
   cl.registerCloudinaryEvents();
   ig.registerInstagramEvents();
+
   io.on('connection', socket => {
     Logger.info('User connected');
 
+    const fileSuc = ({ fileName, fileId }: storageTypes.FileCompleteParams) => {
+      socket.emit('upload_done', fileName, fileId);
+    };
+
+    const fileErr = ({ fileName }: storageTypes.FileCompleteParams) => {
+      socket.emit('upload_done', fileName);
+    }
+
     socket.on('disconnect', () => {
-      Logger.info('user disconnected')
+      Logger.info('user disconnected');
+      EventBus.removeListener(
+        storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS,
+        fileSuc
+      );
+      EventBus.removeListener(
+        storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
+        fileErr
+      );
     });
     socket.emit('welcome');
 
     EventBus.on(
       storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS,
-      ({ fileName, fileId }: storageTypes.FileCompleteParams) => {
-        socket.emit('upload_done', fileName, fileId);
-      }
+      fileSuc
     );
     EventBus.on(
       storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
-      ({ fileName }: storageTypes.FileCompleteParams) => {
-        socket.emit('upload_done', fileName);
-      }
+      fileErr
     );
   });
-}
+};

@@ -37,7 +37,7 @@ export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunc
       os: ua.getOS(),
       ip
     },
-    language: 'en'
+    savedLocaleId: 'en'
   };
     VisitorsList
       .findOne()
@@ -67,11 +67,11 @@ export const connectedUniqVisitor = (req: Request, res: Response, next: NextFunc
         const newVisitTime = Date.parse(now);
         const lastVisitTime = Date.parse(visitor.lastVisit);
         Logger.debug(newVisitTime + ' ' + lastVisitTime + ' ' + (newVisitTime - lastVisitTime));
-        if (!visitor.language) {
-          visitor.language = req.cookies[VisitorCookie.Lang] || newVisitorData.language
+        if (!visitor.savedLocaleId) {
+          visitor.savedLocaleId = req.cookies[VisitorCookie.Lang] || newVisitorData.savedLocaleId
         }
-        if (visitor.language !== req.cookies[VisitorCookie.Lang]) {
-          visitor.language = req.cookies[VisitorCookie.Lang]
+        if (visitor.savedLocaleId !== req.cookies[VisitorCookie.Lang]) {
+          visitor.savedLocaleId = req.cookies[VisitorCookie.Lang]
         }
         if (newVisitTime - lastVisitTime >= 30*60000) {
           visitor.uniqVisits = visitor.uniqVisits + 1;
