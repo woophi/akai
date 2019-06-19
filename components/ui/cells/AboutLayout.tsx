@@ -14,8 +14,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
   photoUrl = ''
 }) => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
-  const [loading, setLoad] = React.useState(true);
-  const classes = useStyles({ isSmallEnough, loading });
+  const classes = useStyles({ isSmallEnough });
   const { t } = useTranslation();
   return (
     <div className={classes.content}>
@@ -23,12 +22,10 @@ export const AboutLayout: React.FC<Props> = React.memo(({
       <div className={classes.wrap}>
         <div className={classes.wrapChild}>
           <SocialButtons />
-          <Spinner isShow={loading} />
           <img
             className={classes.img}
             alt="akai"
             src={photoUrl}
-            onLoad={() => setLoad(false)}
           />
         </div>
         <div className={classes.wrapChildText}>
@@ -50,7 +47,6 @@ export const AboutLayout: React.FC<Props> = React.memo(({
 
 type StyleProps = {
   isSmallEnough: boolean;
-  loading: boolean
 };
 
 const useStyles = makeStyles<Theme, StyleProps>(theme => ({
@@ -83,8 +79,8 @@ const useStyles = makeStyles<Theme, StyleProps>(theme => ({
     boxShadow: '-4px 10px 7px -10px rgba(0,0,0,0.75)',
     height: '350px',
     width: '320px',
-    visibility: props.loading ? 'hidden' : 'visible',
-    opacity: props.loading ? 0 : 1,
+    visibility: 'visible',
+    opacity: 1,
     transition: '.2s ease-in-out'
   })
 }));
