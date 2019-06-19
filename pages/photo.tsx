@@ -3,18 +3,21 @@ import { Layout, BoxMain, PhotoLayout } from 'ui/index';
 import { getPhotos } from 'core/operations';
 import { PhotoData } from 'core/models';
 
-type Props = {
+type LocalState = {
   photos: PhotoData[]
 }
 
-class Photo extends React.PureComponent<Props> {
+class Photo extends React.PureComponent<unknown, LocalState> {
+  state: LocalState = {
+    photos: []
+  }
 
-  static async getInitialProps() {
+  async componentDidMount() {
     try {
       const photos = await getPhotos();
-      return { photos };
-    } catch (_) {
-      return { photos: [] }
+      this.setState({ photos });
+    } catch (e) {
+      console.error('Failed to fetch photos', e);
     }
   }
 
@@ -22,7 +25,7 @@ class Photo extends React.PureComponent<Props> {
     return (
       <Layout>
         <BoxMain>
-          <PhotoLayout photos={this.props.photos} />
+          <PhotoLayout photos={this.state.photos} />
         </BoxMain>
       </Layout>
     );

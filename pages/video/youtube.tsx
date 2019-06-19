@@ -3,17 +3,21 @@ import { Layout, BoxMain, YoutubeLayout } from 'ui/index';
 import { getYoutubes } from 'core/operations';
 import { YoutubeItem } from 'core/models';
 
-type Props = {
-  youtubes: YoutubeItem[]
-}
+type LocalState = {
+  youtubes: YoutubeItem[];
+};
 
-class Youtube extends React.PureComponent<Props> {
-  static async getInitialProps() {
+class Youtube extends React.PureComponent<unknown, LocalState> {
+  state: LocalState = {
+    youtubes: []
+  }
+
+  async componentDidMount() {
     try {
       const youtubes = await getYoutubes();
-      return { youtubes };
-    } catch (_) {
-      return { youtubes: [] }
+      this.setState({ youtubes });
+    } catch (e) {
+      console.error('Error in youtubes', e);
     }
   }
 
@@ -21,7 +25,7 @@ class Youtube extends React.PureComponent<Props> {
     return (
       <Layout>
         <BoxMain>
-          <YoutubeLayout items={this.props.youtubes} />
+          <YoutubeLayout items={this.state.youtubes} />
         </BoxMain>
       </Layout>
     );

@@ -10,7 +10,10 @@ const changeLanguage = (lang: LocaleIds, i18n: any) => {
   if (cookieLang && cookieLang !== lang) {
     setCookie('akai_lng', lang, 10);
     i18n.changeLanguage(lang, () => {
-      if (Router.pathname.indexOf('gallery') !== -1) {
+      if (
+        Router.pathname.indexOf('gallery') !== -1 ||
+        Router.pathname.indexOf('about') !== -1
+      ) {
         window.location.reload();
       }
     });

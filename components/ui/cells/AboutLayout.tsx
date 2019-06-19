@@ -32,7 +32,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
           {content && (
             <>
               <Typography variant="button" display="block" gutterBottom>
-                {t('common:about.title')}
+                {t('common:about.subTitle')}
               </Typography>
               <Typography variant="body1" gutterBottom>
                 {content}
@@ -69,7 +69,7 @@ const useStyles = makeStyles<Theme, StyleProps>(theme => ({
   wrapChildText: props => ({
     minWidth: '320px',
     maxWidth: props.isSmallEnough ? '320px' : '500px',
-    margin: props.isSmallEnough ? '0 auto 1rem' : '0 auto 1rem 1rem',
+    margin: props.isSmallEnough ? '.5rem auto 1rem' : '.5rem auto 1rem 1rem',
     padding: '0 1rem 1rem'
   }),
   footer: {
