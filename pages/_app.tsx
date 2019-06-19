@@ -22,7 +22,6 @@ class MyApp extends App {
     }
 
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-    console.error('ARE YOU AHUEL', Component.getInitialProps);
     return {
       pageProps
     }

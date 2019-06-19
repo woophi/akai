@@ -4,10 +4,10 @@ import { getBio } from 'core/operations';
 import * as models from 'core/models';
 import { i18next } from 'server/lib/i18n';
 
-type Props = {
+type LocalState = {
   data: models.BioModel
 }
-class About extends React.PureComponent<Props> {
+class About extends React.Component<LocalState, LocalState> {
   static async getInitialProps({ req }) {
     try {
       const currentLanguage = req === null ? i18next.language : req.language;
@@ -17,6 +17,10 @@ class About extends React.PureComponent<Props> {
       return { data: {} }
     }
   }
+
+  // componentDidMount() {
+
+  // }
 
   render() {
     const { data } = this.props;
