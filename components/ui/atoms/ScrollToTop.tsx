@@ -72,7 +72,7 @@ type Props = {
   visible: boolean;
 };
 
-const ActionButton: React.FC<Props> = React.memo(({ onClick, visible }) => {
+const ActionButton = React.memo<Props>(({ onClick, visible }) => {
   const classes = useStyles({ visible });
   return (
     <IconButton color="secondary" className={classes.scrollTotop} onClick={onClick}>

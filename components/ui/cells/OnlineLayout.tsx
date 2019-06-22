@@ -8,7 +8,7 @@ import { useTranslation } from 'server/lib/i18n';
 const { publicRuntimeConfig } = getConfig();
 const { CHANNEL_ID, CHAT_VIDEO_ID, CHAT_DOMAIN } = publicRuntimeConfig;
 
-export const OnlineLayout: React.FC = React.memo(() => {
+export const OnlineLayout = React.memo(() => {
   const classes = useStyles({});
   const { t } = useTranslation();
   return (

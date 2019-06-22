@@ -148,7 +148,8 @@ const useStyles = makeStyles(theme => ({
     minWidth: '150px'
   },
   alignButton: {
-    margin: '8px auto'
+    margin: '8px auto',
+    padding: 0
   },
   divider: {
     margin: '8px -2rem'

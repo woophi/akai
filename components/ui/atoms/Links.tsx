@@ -11,11 +11,15 @@ type Props = {
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    padding: 0
   },
   link: {
     textDecoration: 'none',
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
+    padding: '6px 8px',
+    width: '100%',
+    height: '100%'
   },
   fabText: {
     textDecoration: 'none',
