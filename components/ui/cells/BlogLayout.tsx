@@ -43,7 +43,7 @@ export const BlogLayout: React.FC<Props> = React.memo(({ blog }) => {
               showThumbs={blog.photos.length > 1}
               className={classes.carusel}
             >
-              {[...blog.photos, ...blog.photos, ...blog.photos].map((p, index) => (
+              {blog.photos.map((p, index) => (
                 <div key={`sl-${index}`} className={classes.caruselItem}>
                   <img src={p.url} alt={p.name} className={classes.caruselImg} />
                 </div>
