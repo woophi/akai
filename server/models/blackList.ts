@@ -12,6 +12,15 @@ export const BlackListSchema = new mongoose.Schema(
 			type: String,
       required: true,
       index: true
+    },
+    level: {
+      type: String,
+      enum : ['comment','request', 'all'],
+      required: true
+    },
+    visitor: {
+			type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.VISITORS
     }
   },
 	{ collection: SchemaNames.BLACK_LIST }

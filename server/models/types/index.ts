@@ -14,3 +14,5 @@ export * from './bruteForce';
 export * from './biography';
 export * from './youtube';
 export * from './photos';
+export * from './likes';
+export * from './blackList';
