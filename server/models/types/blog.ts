@@ -2,6 +2,7 @@ import { Model } from './mongoModel';
 import { UserModel } from './user';
 import { CommentModel } from './comment';
 import { FilesModel } from './files';
+import { LikesModel } from './likes';
 
 export type Parameter = {
   name: string;
@@ -43,6 +44,8 @@ export type BlogModel = GeneralBlogModel & {
   comments: CommentModel[];
   photos?: FilesModel[];
   socialShare: SocialShare2;
+  likes?: LikesModel[];
+  views?: number
 };
 
 export type Blog = Model<BlogModel>;

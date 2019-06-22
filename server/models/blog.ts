@@ -42,7 +42,15 @@ export const BlogSchema = new mongoose.Schema(
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.BLOG
-    }]
+    }],
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.LIKES
+    }],
+    views: {
+      type: Number,
+      default: 0
+    }
   },
 	{ collection: SchemaNames.BLOG }
 );
