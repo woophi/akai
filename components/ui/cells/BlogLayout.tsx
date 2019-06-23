@@ -7,6 +7,7 @@ import getConfig from 'next/config';
 import { Carousel } from 'react-responsive-carousel';
 import Typography from '@material-ui/core/Typography';
 import { useMediaQuery } from '@material-ui/core';
+import { Comments } from 'ui/molecules';
 
 const { publicRuntimeConfig } = getConfig();
 const { SITE_URL } = publicRuntimeConfig;
@@ -15,7 +16,7 @@ type Props = {
   blog: BlogModel;
 };
 
-export const BlogLayout: React.FC<Props> = React.memo(({ blog }) => {
+export const BlogLayout = React.memo<Props>(({ blog }) => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   const classes = useStyles({ isSmallEnough });
 
@@ -64,6 +65,8 @@ export const BlogLayout: React.FC<Props> = React.memo(({ blog }) => {
             className={classes.text}
             dangerouslySetInnerHTML={{ __html: blog.body }}
           />
+
+          <Comments />
         </div>
       </div>
     </>
@@ -79,7 +82,8 @@ const useStyles = makeStyles(theme => ({
   wrap: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '2rem 0'
+    margin: '2rem 0',
+    flexDirection: 'column'
   },
   wrapCarusel: {
     display: 'flex',
