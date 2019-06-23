@@ -34,6 +34,7 @@ export function router(
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
+  app.post('/api/app/user/logout', userBruteforce.prevent, identity.validateToken, auth.logout);
   app.post('/api/app/user/check', auth.checkUser);
 
   // admin

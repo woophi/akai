@@ -9,6 +9,10 @@ export const login = async (email: string, password: string) => {
   return token;
 }
 
+export const logout = async () => {
+  await callApi<void>('post', 'api/app/user/logout');
+}
+
 export const checkAuth = async () => {
   const data = await callApi<{token: string, redirect: boolean}>('post', 'api/app/user/check');
   if (!data || (!data.token && !data.redirect)) {

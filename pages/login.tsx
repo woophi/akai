@@ -2,7 +2,7 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import * as React from 'react';
 import { TextField, Button } from '@material-ui/core';
-import { login } from 'core/operations';
+import { login, logout } from 'core/operations';
 import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';
 
@@ -84,6 +84,14 @@ class Login extends React.PureComponent<Props, LocalState> {
           </Button>
           {this.state.token && <p>{this.state.token}</p>}
         </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={logout}
+          className={classes.m3}
+        >
+          logout
+        </Button>
       </>
     )
   }

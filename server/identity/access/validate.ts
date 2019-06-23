@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ROLES } from './constants';
 import { HTTPStatus } from 'server/lib/models';
 
-const getToken = (req: Request) => {
+export const getToken = (req: Request) => {
   return req.headers.authorization || (req.session.user && req.session.accessToken) || '';
 }
 
