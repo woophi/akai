@@ -20,7 +20,7 @@ export const BlogLayout: React.FC<Props> = React.memo(({ blog }) => {
   const classes = useStyles({ isSmallEnough });
 
   if (!blog) {
-    return <Spinner isShow />;
+    return <Spinner withBox />;
   }
 
   return (

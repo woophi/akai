@@ -23,7 +23,7 @@ export const Carusel: React.FC<Props> = React.memo(({
 }) => {
   const classes = useStyles({});
   if (!imgs || !imgs.length) {
-    return <Spinner />
+    return <Spinner withBox />
   }
   return (
     <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false} className={classes.carusel}>
