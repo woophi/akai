@@ -29,7 +29,9 @@
   "watch": "sledovat",
   "AA": "Akay Akaev",
   "gallery": {
-    "title": "Galerie"
+    "title": "Galerie",
+    "comments": "Komentáře",
+    "addComments": "Přidat komentář"
   },
   "about": {
     "title": "O mně",
@@ -57,7 +59,11 @@
   },
 
   "buttons": {
-    "send": "Odeslat"
-  }
+    "send": "Odeslat",
+    "cancel": "Zrušit",
+    "add": "Přidat"
+  },
+
+  "typeHere": "Pište zde..."
 
 }

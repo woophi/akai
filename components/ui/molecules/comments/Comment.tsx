@@ -1,44 +1,40 @@
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { MenuComment } from './Menu';
 import { makeStyles } from '@material-ui/styles';
+import * as moment from 'moment';
+import { CommentItem } from 'core/models';
 
-export const Comments = React.memo(() => {
+export const Comment = React.memo<CommentItem>(({
+  createdAt, name, text
+}) => {
   const classes = useStyles({});
   return (
     <Paper elevation={4} className={classes.paper}>
       <div className={classes.topText}>
         <Avatar
-          src={
-            'https://res.cloudinary.com/dqbo8zk4k/image/upload/v1557654437/dzwppgtncprsxy6n7xo4.jpg'
-          }
           className={classes.avatar}
-        />
+        >
+          <Icon className="fas fa-user" />
+        </Avatar>
         <div className={classes.text}>
-          <Typography component="p">nickanme</Typography>
-          <Typography component="p">2019-05-05 12:20</Typography>
+          <Typography
+            noWrap
+            title={name}
+            className={classes.nickname}
+            component="p"
+          >
+            {name}
+          </Typography>
+          <Typography component="p">{moment(createdAt).format('YYYY-MM-DD HH:MM')}</Typography>
         </div>
         <MenuComment />
       </div>
       <Typography component="p">
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
-        Paper can be used to build surface or other elements for your application.
+        {text}
       </Typography>
     </Paper>
   );
@@ -48,7 +44,8 @@ const useStyles = makeStyles(theme => ({
   paper: {
     margin: '0 auto .5rem',
     padding: '1rem',
-    maxWidth: '600px'
+    maxWidth: '600px',
+    width: '100%'
   },
   topText: {
     display: 'flex',
@@ -61,5 +58,8 @@ const useStyles = makeStyles(theme => ({
   text: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  nickname: {
+    maxWidth: 160
   }
 }));

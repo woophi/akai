@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from 'ui/atoms';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import { TextField, ButtonsForm } from 'ui/atoms';
 import { Form, Field } from 'react-final-form';
 import { testEmail } from 'core/lib';
 import { sendMessage } from 'core/operations';
@@ -35,7 +33,7 @@ const validate = (values: ContactForm, t: (s: string) => string) => {
 
 const onSubmit = async (data: ContactForm, formProps: any) => {
   await sendMessage(data).then(formProps.reset);
-}
+};
 
 export const ContactForm: React.FC = () => {
   const classes = useStyles({});
@@ -100,23 +98,11 @@ export const ContactForm: React.FC = () => {
               />
             )}
           />
-          <div className={classes.button}>
-            <Button
-              type="submit"
-              disabled={pristine || invalid || submitting}
-              variant={'contained'}
-              color="primary"
-              className={classes.button}
-            >
-              {t('common:buttons.send')}
-            </Button>
-            {submitting &&
-              <Icon
-                className={`fas fa-circle-notch fa-spin`}
-                color="primary"
-              />
-            }
-          </div>
+          <ButtonsForm
+            invalid={invalid}
+            pristine={pristine}
+            submitting={submitting}
+          />
         </form>
       )}
     />
@@ -124,10 +110,6 @@ export const ContactForm: React.FC = () => {
 };
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    margin: '0 auto 1rem',
-    color: theme.palette.text.secondary
-  },
   form: {
     margin: '2rem auto',
     display: 'flex',

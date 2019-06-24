@@ -47,3 +47,15 @@ export const getAlbumData = (albumId: string, localeId: models.LocaleIds) =>
 
 export const getBlogData = (blogId: string, localeId: models.LocaleIds) =>
   callApi<models.BlogModel>('get', `api/guest/blog?id=${blogId}&localeId=${localeId}`);
+
+export const getBlogComments = (blogId: string) =>
+  callApi<models.CommentItem[] | null>('get', `api/guest/comments/blog?id=${blogId}`);
+
+export const createComment = (blogId: string, data: models.NewComment) =>
+  callApi<boolean>('post', `api/guest/comments/new/blog?id=${blogId}`, data);
+
+export const getVisitorName = () =>
+  callApi<string>('get', `api/guest/name`);
+
+export const getCommentById = (commentId: string) =>
+  callApi<models.CommentItem>('get', `api/guest/comments/comment?id=${commentId}`);

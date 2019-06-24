@@ -72,6 +72,6 @@ const useStyles = makeStyles(theme => ({
   butnMenu: {
     position: 'absolute',
     top: '-12px',
-    right: '-19px'
+    right: '-16px'
   }
 }));

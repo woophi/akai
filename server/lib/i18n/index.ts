@@ -32,5 +32,6 @@ const i18n = new NextI18Next(options);
 export const appWithTranslation = i18n.appWithTranslation;
 export const useTranslation = i18n.useTranslation;
 export const i18next = i18n.i18n;
+export const withTranslation = i18n.withTranslation;
 
 export default i18n;

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import AlbumModel from 'server/models/album';
 import BlogModel from 'server/models/blog';
 import { HTTPStatus } from 'server/lib/models';
+export * from './comments';
 
 export const getAlbums = async (req: Request, res: Response, next: NextFunction) => {
   const localeId = req.query['localeId'];

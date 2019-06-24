@@ -8,3 +8,5 @@ export * from './message';
 export * from './youtube';
 export * from './photos';
 export * from './gallery';
+export * from './comment';
+export * from './translation';

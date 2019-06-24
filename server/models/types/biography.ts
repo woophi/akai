@@ -1,6 +1,6 @@
 import { Model } from './mongoModel';
 import { UserModel } from './user';
-import { BlogModel, LanguageContent } from './blog';
+import { LanguageContent } from './blog';
 import { Files } from './files';
 
 export type GeneralBiographyModel = {

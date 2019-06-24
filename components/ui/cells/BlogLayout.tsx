@@ -65,7 +65,6 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
             className={classes.text}
             dangerouslySetInnerHTML={{ __html: blog.body }}
           />
-
           <Comments />
         </div>
       </div>
@@ -81,7 +80,6 @@ const useStyles = makeStyles(theme => ({
   },
   wrap: {
     display: 'flex',
-    flexWrap: 'wrap',
     margin: '2rem 0',
     flexDirection: 'column'
   },

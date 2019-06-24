@@ -21,6 +21,7 @@ export function router(
 
   app.get('/api/health', identity.authorizedForSuperAdmin, controllers.getApiHealth);
   app.post('/api/guest/visit', controllers.connectedUniqVisitor);
+  app.get('/api/guest/name', controllers.getVisitorName);
 
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
@@ -31,6 +32,9 @@ export function router(
   app.get('/api/guest/albums', controllers.getAlbums);
   app.get('/api/guest/album', controllers.getAlbum);
   app.get('/api/guest/blog', controllers.getBlog);
+  app.get('/api/guest/comments/blog', controllers.getBlogComments);
+  app.post('/api/guest/comments/new/blog', controllers.newComment);
+  app.get('/api/guest/comments/comment', controllers.getComment);
 
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);

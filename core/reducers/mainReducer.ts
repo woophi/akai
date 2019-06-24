@@ -1,13 +1,14 @@
 import * as models from 'core/models';
 
-export const initialState = {
+export const initialState: models.AppState['ui'] = {
   youtube: {
     selectedVideoId: ''
   },
-  token: ''
+  token: '',
+  comments: []
 }
 
-export const reducer = (state = initialState, dispatch: models.AppDispatch) => {
+export const reducer = (state = initialState, dispatch: models.AppDispatch): models.AppState['ui'] => {
   switch (dispatch.type) {
     case 'SET_VIDEO_ID': {
       return {
@@ -21,6 +22,12 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch) => {
       return {
         ...state,
         token: dispatch.payload
+      };
+    }
+    case 'UPDATE_COMMENTS': {
+      return {
+        ...state,
+        comments: dispatch.payload
       };
     }
 

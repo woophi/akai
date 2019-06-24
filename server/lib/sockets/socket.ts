@@ -7,12 +7,12 @@ import { EventBus } from '../events';
 import * as storageTypes from 'server/storage/types';
 
 export const registerSocket = (server: Server) => {
-  const io = socket(server);
+  const IO = socket(server);
   Logger.debug('Storage register events');
   cl.registerCloudinaryEvents();
   ig.registerInstagramEvents();
 
-  io.on('connection', socket => {
+  IO.on('connection', socket => {
     Logger.info('User connected');
 
     const fileSuc = ({ fileName, fileId }: storageTypes.FileCompleteParams) => {
@@ -33,6 +33,11 @@ export const registerSocket = (server: Server) => {
         storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
         fileErr
       );
+      EventBus.removeListener(
+        'new_comment', (commentId) => {
+          socket.emit('new_comment', commentId);
+        }
+      )
     });
     socket.emit('welcome');
 
@@ -44,5 +49,11 @@ export const registerSocket = (server: Server) => {
       storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
       fileErr
     );
+
+    EventBus.on(
+      'new_comment', (commentId) => {
+        socket.emit('new_comment', commentId);
+      }
+    )
   });
 };

@@ -29,7 +29,9 @@
   "watch": "watch",
   "AA": "Akai Akaev",
   "gallery": {
-    "title": "Gallery"
+    "title": "Gallery",
+    "comments": "Comments",
+    "addComments": "Add comment"
   },
   "about": {
     "title": "About me",
@@ -57,7 +59,11 @@
   },
 
   "buttons": {
-    "send": "Send"
-  }
+    "send": "Send",
+    "cancel": "Cancel",
+    "add": "Add"
+  },
+
+  "typeHere": "Type here..."
 
 }
