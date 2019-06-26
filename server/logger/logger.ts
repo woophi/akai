@@ -41,23 +41,23 @@ export const Logger: Logger = {
     if (config.DEV_MODE) {
       var message = new Date().toLocaleString() + ' : ' + msg + '\n';
       infoStream.write(message);
-      console.debug(msg);
+      console.log('\x1b[36m%s\x1b[0m', msg);
     }
   },
   debug: msg => {
     if (config.DEV_MODE) {
       var message = new Date().toLocaleString() + ' : ' + msg + '\n';
       debugStream.write(message);
-      console.debug(msg);
+      console.debug('\x1b[33m%s\x1b[0m', msg);
     }
   },
   error: msg => {
     var message = new Date().toLocaleString() + ' : ' + msg + '\n';
     if (config.DEV_MODE) {
       errorStream.write(message);
-      console.trace('ERROR ', msg);
+      console.trace('\x1b[41m%s\x1b[0m', 'ERROR ', msg);
     } else {
-      console.trace('ERROR ', msg);
+      console.trace('\x1b[41m%s\x1b[0m', 'ERROR ', msg);
     }
   }
 };
