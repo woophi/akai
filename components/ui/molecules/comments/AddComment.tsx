@@ -32,9 +32,13 @@ const validate = (values: CommentForm, t: (s: string) => string) => {
   return errors;
 };
 
-const onSubmit = async (data: CommentForm, formProps: any, blogId: string) => {
+const onSubmit = async (data: CommentForm, formProps: any, blogId: string, visitorName: string, setName: (v: string) => void) => {
   try {
     await newComment(data, blogId).then(() => formProps.reset());
+    if (!visitorName) {
+      const name = await getVisitorName();
+      setName(name);
+    }
   } catch (error) {
     return { [FORM_ERROR]: 'Cannot add comment' };
   }
@@ -55,7 +59,7 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
         {t('gallery.addComments')}
       </Typography>
       <Form
-        onSubmit={(d: CommentForm, fP) => onSubmit(d, fP, blogId)}
+        onSubmit={(d: CommentForm, fP) => onSubmit(d, fP, blogId, visitorName, setName)}
         validate={(v: CommentForm) => validate(v, t)}
         initialValues={{
           name: visitorName

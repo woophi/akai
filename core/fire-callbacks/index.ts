@@ -12,7 +12,6 @@ client.upload_done = (fileName, fileId) => {
 };
 
 client.new_comment = async commentId => {
-  console.warn('I fired new_comment');
   const comment = await getCommentById(commentId);
   if (comment) {
     const allComments = store.getState().ui.comments;
