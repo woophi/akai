@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
     minHeight: props.textArea ? '8rem' : '4rem',
     '&>label': {
       color: theme.palette.primary.main
+    },
+    '&>.MuiFormHelperText-filled': {
+      color: theme.palette.primary.main
     }
   })
 }));

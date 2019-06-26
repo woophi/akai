@@ -5,7 +5,7 @@ export const initialState: models.AppState['ui'] = {
     selectedVideoId: ''
   },
   token: '',
-  comments: []
+  blogs: []
 }
 
 export const reducer = (state = initialState, dispatch: models.AppDispatch): models.AppState['ui'] => {
@@ -24,10 +24,23 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         token: dispatch.payload
       };
     }
-    case 'UPDATE_COMMENTS': {
+    case 'SET_COMMENTS': {
       return {
         ...state,
-        comments: dispatch.payload
+        blogs: [...state.blogs, {
+          comments: dispatch.payload.comments,
+          id: dispatch.payload.blogId
+        } ]
+      };
+    }
+    case 'UPDATE_COMMENTS': {
+      const blogs = state.blogs.map(b => b.id === dispatch.payload.blogId ? ({
+        ...b,
+        comments: dispatch.payload.comments
+      }) : b);
+      return {
+        ...state,
+        blogs
       };
     }
 

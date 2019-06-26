@@ -3,17 +3,7 @@ import { AppState } from 'core/models';
 
 export const selectState = (state: AppState) => state.ui
 
-export const selectCount = createSelector(
+export const selectAllBlogs = createSelector(
   selectState,
-  count => count.count
-)
-
-export const selectLight =  createSelector(
-  selectState,
-  count => count.light
-)
-
-export const selectLastUpdate =  createSelector(
-  selectState,
-  count => count.lastUpdate
-)
+  ui => ui.blogs
+);

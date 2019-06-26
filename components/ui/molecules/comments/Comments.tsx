@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect as redux } from 'react-redux';
 import * as models from 'core/models';
-import { Spinner } from 'ui/atoms';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core';
@@ -28,7 +27,7 @@ const styles = (theme: Theme) => createStyles({
 
 
 type Props = {
-  comments: models.CommentItem[]
+  blogs: models.BlogStateModel[]
 } & WithStyles<typeof styles> & models.TranslationProps & WithRouterProps;
 
 class CommnetsComponent extends React.PureComponent<Props> {
@@ -38,12 +37,16 @@ class CommnetsComponent extends React.PureComponent<Props> {
   }
 
   get content() {
-    return this.props.comments.map(c => (
-      <Comment
-        key={c.id}
-        {...c}
-      />
-    ));
+    const blog = this.props.blogs.find(b => b.id === String(this.props.router.query.id));
+    if (blog) {
+      return blog.comments.map(c => (
+        <Comment
+          key={c.id}
+          {...c}
+        />
+      ));
+    }
+    return null
   }
 
   render() {
@@ -65,7 +68,7 @@ class CommnetsComponent extends React.PureComponent<Props> {
 
 export const Comments = compose(
   redux((state: models.AppState) => ({
-    comments: state.ui.comments
+    blogs: state.ui.blogs
   })),
   withStyles(styles),
   withTranslation('common'),

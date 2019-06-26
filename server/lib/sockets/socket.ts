@@ -21,7 +21,10 @@ export const registerSocket = (server: Server) => {
 
     const fileErr = ({ fileName }: storageTypes.FileCompleteParams) => {
       socket.emit('upload_done', fileName);
-    }
+    };
+    const newComment = (commentId: string, blogId: string) => {
+      socket.emit('new_comment', commentId, blogId);
+    };
 
     socket.on('disconnect', () => {
       Logger.info('user disconnected');
@@ -33,27 +36,13 @@ export const registerSocket = (server: Server) => {
         storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
         fileErr
       );
-      EventBus.removeListener(
-        'new_comment', (commentId) => {
-          socket.emit('new_comment', commentId);
-        }
-      )
+      EventBus.removeListener('new_comment', newComment);
     });
     socket.emit('welcome');
 
-    EventBus.on(
-      storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS,
-      fileSuc
-    );
-    EventBus.on(
-      storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
-      fileErr
-    );
+    EventBus.on(storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS, fileSuc);
+    EventBus.on(storageTypes.FStorageEvents.UPLOADED_FILE_ERROR, fileErr);
 
-    EventBus.on(
-      'new_comment', (commentId) => {
-        socket.emit('new_comment', commentId);
-      }
-    )
+    EventBus.on('new_comment', newComment);
   });
 };

@@ -5,10 +5,9 @@ import { NewComment } from 'core/models';
 export const getComments = async (blogId: string) => {
   try {
     const comments = await getBlogComments(blogId);
-    store.dispatch({ type: 'UPDATE_COMMENTS', payload: comments });
+    store.dispatch({ type: 'SET_COMMENTS', payload: { blogId,  comments } });
   } catch (error) {
     console.error(error);
-    store.dispatch({ type: 'UPDATE_COMMENTS', payload: [] });
   }
 };
 

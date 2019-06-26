@@ -1,3 +1,5 @@
+import { CommentItem } from './comment';
+
 export type Parameter = {
   name: string;
   value: string;
@@ -7,12 +9,12 @@ export type Parameter = {
 export type LanguageContent = {
   localeId: string;
   content: string;
-}
+};
 
 export type SocialShare = {
-  localeId: string,
-  photo: PhotoItemModel
-}
+  localeId: string;
+  photo: PhotoItemModel;
+};
 
 type GeneralBlogModel = {
   title: LanguageContent[];
@@ -33,12 +35,12 @@ export type BlogPreviewItem = {
   title: string;
   id: string;
   coverPhoto: string;
-}
+};
 
 export type BlogsModel = {
   blogs: BlogPreviewItem[];
   albumTitle: string;
-}
+};
 
 export type BlogModel = {
   id: string;
@@ -49,11 +51,16 @@ export type BlogModel = {
   body: string;
   creationPictureDate?: Date;
   parameters?: Parameter[];
-}
+};
 
 export type PhotoItemModel = {
   url: string;
   thumbnail: string;
   name: string;
   id: string;
-}
+};
+
+export type BlogStateModel = {
+  id: string;
+  comments: CommentItem[];
+};

@@ -18,7 +18,7 @@ export const Comment = React.memo<CommentItem>(({
         <Avatar
           className={classes.avatar}
         >
-          <Icon className="fas fa-user" />
+          <Icon className="fas fa-user" style={{paddingLeft:2}} />
         </Avatar>
         <div className={classes.text}>
           <Typography
@@ -29,11 +29,11 @@ export const Comment = React.memo<CommentItem>(({
           >
             {name}
           </Typography>
-          <Typography component="p">{moment(createdAt).format('YYYY-MM-DD HH:MM')}</Typography>
+          <Typography component="p">{moment(createdAt).format('YYYY-MM-DD HH:mm')}</Typography>
         </div>
-        <MenuComment />
+        {/* <MenuComment /> */}
       </div>
-      <Typography component="p">
+      <Typography component="p" className={classes.content}>
         {text}
       </Typography>
     </Paper>
@@ -58,6 +58,10 @@ const useStyles = makeStyles(theme => ({
   text: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  content: {
+    overflow: 'hidden',
+    wordBreak: 'break-word',
   },
   nickname: {
     maxWidth: 160

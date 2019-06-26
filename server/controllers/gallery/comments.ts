@@ -85,6 +85,16 @@ export const newComment = (req: Request, res: Response, next: NextFunction) => {
         ),
 
       cb => {
+        if (
+          comment.name.length > 256 ||
+          comment.text.length > 2000
+        ) {
+          return res.sendStatus(HTTPStatus.BadRequest);
+        }
+        return cb();
+      },
+
+      cb => {
         VisitorModel
           .findOne()
           .where('visitorId', visitorId)
@@ -117,7 +127,7 @@ export const newComment = (req: Request, res: Response, next: NextFunction) => {
           visitor: comment.visitor
         } as models.SaveCommentModel).save();
         // TODO: rooms
-        EventBus.emit('new_comment', newComment.id)
+        EventBus.emit('new_comment', newComment.id, blogId)
         return res.sendStatus(HTTPStatus.OK);
       } catch (error) {
         Logger.error(error);

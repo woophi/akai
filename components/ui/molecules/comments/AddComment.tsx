@@ -88,8 +88,11 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     className={classes.field}
                     {...input}
                     error={Boolean(meta.touched && meta.error)}
-                    helperText={meta.touched && meta.error}
+                    helperText={meta.touched && meta.error || `${input.value.length}/256`}
                     disabled={submitting}
+                    inputProps={{
+                      maxLength: 256
+                    }}
                   />
                 )}
               />
@@ -105,8 +108,11 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     className={classes.field}
                     {...input}
                     error={Boolean(meta.touched && meta.error)}
-                    helperText={meta.touched && meta.error}
+                    helperText={meta.touched && meta.error || `${input.value.length}/2000`}
                     disabled={submitting}
+                    inputProps={{
+                      maxLength: 2000
+                    }}
                   />
                 )}
               />
