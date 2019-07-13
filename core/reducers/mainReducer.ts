@@ -4,8 +4,13 @@ export const initialState: models.AppState['ui'] = {
   youtube: {
     selectedVideoId: ''
   },
-  token: '',
-  blogs: []
+  blogs: [],
+  user: {
+    name: '',
+    roles: null,
+    token: '',
+    userId: ''
+  }
 }
 
 export const reducer = (state = initialState, dispatch: models.AppDispatch): models.AppState['ui'] => {
@@ -18,10 +23,10 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         }
       };
     }
-    case 'SET_TOKEN': {
+    case 'SET_USER': {
       return {
         ...state,
-        token: dispatch.payload
+        user: dispatch.payload
       };
     }
     case 'SET_COMMENTS': {
@@ -41,6 +46,16 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
       return {
         ...state,
         blogs
+      };
+    }
+
+    case 'SET_USER_TOKEN': {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          token:  dispatch.payload
+        }
       };
     }
 
