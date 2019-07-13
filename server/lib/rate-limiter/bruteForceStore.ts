@@ -1,6 +1,6 @@
 const AbstractClientStore = require('express-brute/lib/AbstractClientStore');
-import * as moment from 'moment';
-import * as mongoose from 'mongoose';
+import moment from 'moment';
+import mongoose from 'mongoose';
 import { BruteForce, BruteForceModel } from 'server/models/types';
 import { Logger } from 'server/logger';
 

@@ -1,19 +1,19 @@
 import * as express from 'express';
 import { IncomingMessage, ServerResponse } from 'http';
-import { UrlLike } from 'next/router';
 import * as controllers from './controllers';
 import * as auth from './auth';
 import * as identity from './identity';
 import * as storage from './storage';
-import { Server } from 'next';
 import { userBruteforce } from './lib/rate-limiter';
+import Server from 'next-server/dist/server/next-server';
+import { UrlWithParsedQuery } from 'url';
 
 export function router(
   app: express.Express,
   handle: (
     req: IncomingMessage,
     res: ServerResponse,
-    parsedUrl?: UrlLike
+    parsedUrl?: UrlWithParsedQuery
   ) => Promise<void>,
   appNext: Server
 ) {

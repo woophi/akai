@@ -7,9 +7,10 @@ import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core';
 import { compose } from 'redux';
 import { withTranslation } from 'server/lib/i18n';
 import { getComments } from './operations';
-import { withRouter, WithRouterProps } from 'next/router';
+import { withRouter } from 'next/router';
 import { AddComment } from './AddComment';
 import { Comment } from './Comment';
+import { WithRouterProps } from 'next/dist/client/with-router';
 
 const styles = (theme: Theme) => createStyles({
   root: {

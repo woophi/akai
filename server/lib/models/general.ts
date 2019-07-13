@@ -1,4 +1,4 @@
-export const enum HTTPStatus {
+export enum HTTPStatus {
   OK = 200,
   Empty = 204,
   BadRequest = 400,

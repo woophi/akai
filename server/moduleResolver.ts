@@ -1,3 +1,3 @@
-const moduleAlias = require('module-alias');
+export const moduleAlias = require('module-alias');
 
 moduleAlias.addAlias('server', __dirname);

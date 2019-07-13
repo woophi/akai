@@ -3,7 +3,7 @@ export type IgEventParams = {
   done: (err?: Error) => void;
 }
 
-export const enum IgEvents {
+export enum IgEvents {
   INSTAGRAM_ASK = 'post to instagram',
   INSTAGRAM_RESPONSE = 'post to instagram done'
 }

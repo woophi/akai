@@ -1,3 +1,3 @@
-export const enum EmailTemplate {
+export enum EmailTemplate {
   email = 'email'
 }

@@ -8,7 +8,7 @@ export type LanguageModel = {
   deleted?: Date
 }
 
-export const enum Locales {
+export enum Locales {
   EN = 'en',
   RU = 'ru',
   CS = 'cs'

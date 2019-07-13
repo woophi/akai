@@ -1,6 +1,6 @@
-import * as ExpressBrute from 'express-brute';
+import ExpressBrute from 'express-brute';
 import { MongooseStore } from './bruteForceStore';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Logger } from 'server/logger';
 import BruteForceModel from 'server/models/bruteForce';
 import { Request, Response, NextFunction } from 'express';

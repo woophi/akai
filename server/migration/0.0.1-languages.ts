@@ -1,5 +1,7 @@
+import { SchemaNames, LanguageModel } from 'server/models/types';
+
 exports.create = {
-  language: [
+  [SchemaNames.LANGUAGE]: [
     {
       'name': 'English',
       'localeId': 'en',
@@ -12,5 +14,5 @@ exports.create = {
       'name': 'Czech',
       'localeId': 'cs',
     }
-  ]
+  ] as LanguageModel[]
 }

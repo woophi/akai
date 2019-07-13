@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getUserIp } from 'server/utils/helpers';
 const parser = require('ua-parser-js');
-import * as uuidv4 from 'uuid/v4';
+import uuidv4 from 'uuid/v4';
 const geoip = require('geoip-lite');
 import VisitorsList from 'server/models/visitors';
 import { Model } from 'server/models/types';

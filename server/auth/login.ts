@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Logger } from '../logger';
 import * as kia from '../validator';
 import * as identity from '../identity';
-import * as async from 'async';
+import async from 'async';
 
 export const login = (
   req: Request,

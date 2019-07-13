@@ -1,4 +1,4 @@
-export const enum FStorageEvents {
+export enum FStorageEvents {
   CLOUDINARY_ASK = 'upload to cloudinary',
   DELETE_TEMP_FILE = 'delete temp file',
   UPLOADED_FILE_SUCCESS = 'uploaded files success',

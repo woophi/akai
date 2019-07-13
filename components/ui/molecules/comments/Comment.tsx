@@ -5,7 +5,7 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { MenuComment } from './Menu';
 import { makeStyles } from '@material-ui/styles';
-import * as moment from 'moment';
+import moment from 'moment';
 import { CommentItem } from 'core/models';
 
 export const Comment = React.memo<CommentItem>(({

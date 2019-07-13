@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import SliderModel from '../../models/slider';
-import * as models from '../../models/types';
-import { Logger } from '../../logger';
+import SliderModel from 'server/models/slider';
+import * as models from 'server/models/types';
+import { Logger } from 'server/logger';
 
 export const getSlidesForGuest = async (
   req: Request,

@@ -1,4 +1,4 @@
-export const enum SchemaNames {
+export enum SchemaNames {
   ALBUM = 'album',
   BLACK_LIST = 'black_list',
   BLOG = 'blog',

@@ -78,7 +78,7 @@ MyDocument.getInitialProps = async ctx => {
         {flush() || null}
       </React.Fragment>
     ),
-  };
+  } as any;
 };
 
 export default MyDocument;

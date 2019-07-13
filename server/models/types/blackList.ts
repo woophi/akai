@@ -16,7 +16,7 @@ export type BanSaveModel = {
   level: BanLevel
 }
 
-export const enum BanLevel {
+export enum BanLevel {
   COMMENT = 'comment',
   REQUEST = 'request',
   ALL = 'all'

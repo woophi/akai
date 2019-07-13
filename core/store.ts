@@ -47,10 +47,10 @@ export const store: Store<AppState, AppDispatch> = createStore(
   combineReducers(rootReducerMap),
   { ui: initialState },
   composeWithDevTools(middleware)
-);
+) as any;
 
 export const initStore = (
   initState = { ui: initialState }
-): Store<AppState, AppDispatch> => {
+): any => {
   return store;
 };

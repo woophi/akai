@@ -1,4 +1,4 @@
-import { withRouter, WithRouterProps, } from 'next/router';
+import { withRouter } from 'next/router';
 import { compose } from 'redux';
 import * as React from 'react';
 import { Layout, BoxMain, BlogLayout } from 'ui/index';
@@ -6,6 +6,7 @@ import { BlogModel } from 'core/models';
 import { getBlogData } from 'core/operations';
 import { i18next } from 'server/lib/i18n';
 import { getCookie } from 'core/cookieManager';
+import { WithRouterProps } from 'next/dist/client/with-router';
 
 type Props = WithRouterProps;
 
