@@ -8,7 +8,7 @@ type LocalState = {
 };
 
 export class ScrollButton extends React.PureComponent<unknown, LocalState> {
-  timeInterval: any = null;
+  timeInterval: NodeJS.Timeout = null;
   mounted: boolean = false;
 
   state: LocalState = {

@@ -13,24 +13,30 @@ import('core/socket');
 import('core/fire-callbacks');
 
 class MyApp extends App {
-  static async getInitialProps({Component, ctx}) {
-    const lang = ctx.req ? ctx.req.cookies['akai_lng'] : getCookie('akai_lng') || 'en';
-    const curLang = ctx.req && ctx.req.language || i18next.language;
-    const i18n = ctx.req && ctx.req.i18n || i18next;
-    if (i18n && i18n.changeLanguage && curLang !== lang) {
-      i18n.changeLanguage(lang);
-    }
+  // static async getInitialProps({Component, ctx}) {
+  //   const lang = ctx.req ? ctx.req.cookies['akai_lng'] : getCookie('akai_lng') || 'en';
+  //   const curLang = ctx.req && ctx.req.language || i18next.language;
+  //   const i18n = ctx.req && ctx.req.i18n || i18next;
+  //   if (i18n && i18n.changeLanguage && curLang !== lang) {
+  //     i18n.changeLanguage(lang);
+  //   }
 
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-    return {
-      pageProps
-    }
-  }
+  //   const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+  //   return {
+  //     pageProps
+  //   }
+  // }
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('component ->', error, errorInfo);
   }
 
   componentDidMount() {
+    const lang = /*ctx.req ? ctx.req.cookies['akai_lng'] :*/ getCookie('akai_lng') || 'en';
+    const curLang = /* ctx.req && ctx.req.language ||*/ i18next.language;
+    const i18n = /*ctx.req && ctx.req.i18n ||*/ i18next;
+    if (i18n && i18n.changeLanguage && curLang !== lang) {
+      i18n.changeLanguage(lang);
+    }
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles);
