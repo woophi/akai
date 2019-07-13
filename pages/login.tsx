@@ -1,12 +1,12 @@
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import * as React from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, createStyles, WithStyles } from '@material-ui/core';
 import { login, logout } from 'core/operations';
 import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';
 
-const styles = (theme: Theme): any => ({
+const styles = (theme: Theme) => createStyles({
   root: {
     textAlign: 'center',
     paddingTop: '20px',
@@ -20,9 +20,8 @@ const styles = (theme: Theme): any => ({
 });
 
 type Props = {
-  classes?: any,
   token: string
-};
+} & WithStyles<typeof styles>;
 type LocalState = {
   email: string;
   password: string;
