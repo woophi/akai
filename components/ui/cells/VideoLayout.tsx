@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1, Block } from 'ui/atoms';
+import { H1, Block, BoxContent } from 'ui/atoms';
 import { useTranslation } from 'server/lib/i18n';
 
 export const VideoLayout: React.FC = React.memo(() => {
   const classes = useStyles({});
   const { t } = useTranslation();
   return (
-    <div className={classes.content}>
+    <BoxContent>
       <H1 upperCase>{t('common:video.title')}</H1>
       <div className={classes.wrap}>
         <Block
@@ -23,16 +23,11 @@ export const VideoLayout: React.FC = React.memo(() => {
           href="youtube"
         />
       </div>
-    </div>
+    </BoxContent>
   );
 });
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   wrap: {
     display: 'flex',
     flexWrap: 'wrap',

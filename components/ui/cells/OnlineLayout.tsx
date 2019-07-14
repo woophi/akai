@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1, SocialButtons } from 'ui/atoms';
+import { H1, SocialButtons, BoxContent } from 'ui/atoms';
 import getConfig from 'next/config';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'server/lib/i18n';
@@ -12,7 +12,7 @@ export const OnlineLayout = React.memo(() => {
   const classes = useStyles({});
   const { t } = useTranslation();
   return (
-    <div className={classes.content}>
+    <BoxContent>
       <H1 upperCase>{t('common:video.online.title')}</H1>
       <div className={classes.wrap}>
         <div className={classes.stream}>
@@ -50,16 +50,11 @@ export const OnlineLayout = React.memo(() => {
           className={classes.chat}
         />
       </div>
-    </div>
+    </BoxContent>
   );
 });
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   wrap: {
     display: 'flex',
     flexWrap: 'wrap',

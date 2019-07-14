@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1 } from 'ui/atoms';
+import { H1, BoxContent } from 'ui/atoms';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Icon from '@material-ui/core/Icon';
@@ -11,7 +11,7 @@ export const ContactLayout: React.FC = React.memo(() => {
   const classes = useStyles({});
   const { t } = useTranslation();
   return (
-    <div className={classes.content}>
+    <BoxContent>
       <H1 upperCase>{t('common:contact.title')}</H1>
       <Typography
         className={classes.m}
@@ -64,16 +64,11 @@ export const ContactLayout: React.FC = React.memo(() => {
         </Typography>
       </Link>
       <ContactForm />
-    </div>
+    </BoxContent>
   );
 });
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   m: {
     margin: '0 auto 1rem'
   },

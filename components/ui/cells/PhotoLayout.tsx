@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1 } from 'ui/atoms';
+import { H1, BoxContent } from 'ui/atoms';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -17,7 +17,7 @@ export const PhotoLayout: React.FC<Props> = React.memo(({
   const classes = useStyles({});
   const { t } = useTranslation();
   return (
-    <div className={classes.content}>
+    <BoxContent>
       <H1 upperCase>{t('common:photo.title')}</H1>
       <div className={classes.wrap}>
         <GridList
@@ -37,16 +37,11 @@ export const PhotoLayout: React.FC<Props> = React.memo(({
           ))}
         </GridList>
       </div>
-    </div>
+    </BoxContent>
   );
 });
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   wrap: {
     display: 'flex',
     flexWrap: 'wrap',

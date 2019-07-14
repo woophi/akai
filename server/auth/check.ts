@@ -48,5 +48,5 @@ export const checkUser = async (req: Request, res: Response, next: NextFunction)
     return res.sendStatus(HTTPStatus.Empty);
   }
   const userData = await fetchUserData(userId);
-  return res.send({ ...userData, token: accessToken });
+  return res.send({ ...userData, token: accessToken, userId });
 };

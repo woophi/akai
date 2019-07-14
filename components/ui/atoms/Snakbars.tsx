@@ -23,14 +23,27 @@ export interface Props {
   message?: string;
   onClose?: () => void;
   variant: keyof typeof variantIcon;
+  style?: React.CSSProperties
 }
 
 export const Snakbars = React.memo<Props>(props => {
   const classes = useStyles({});
-  const { className, message, onClose, variant, ...other } = props;
+  const { className, message, onClose, variant, style = {}, ...other } = props;
   const Icon = variantIcon[variant];
+  const [shown, show] = React.useState(true);
+  const [info, setMessage] = React.useState(message);
 
-  if (!message) {
+  React.useEffect(() => {
+    setMessage(message);
+    show(true)
+  }, [message])
+
+  const handleClose = React.useCallback(() => {
+    show(false);
+    setMessage('');
+  }, [shown, info])
+
+  if (!info || !shown) {
     return null;
   }
 
@@ -41,15 +54,16 @@ export const Snakbars = React.memo<Props>(props => {
       message={
         <span id="client-snackbar" className={classes.message}>
           <Icon className={clsx(classes.icon, classes.iconVariant)} />
-          {message}
+          {info}
         </span>
       }
-      action={onClose ? [
-        <IconButton key="close" aria-label="Close" color="inherit" onClick={onClose}>
+      action={[
+        <IconButton key="close" aria-label="Close" color="inherit" onClick={handleClose}>
           <CloseIcon className={classes.icon} />
         </IconButton>,
-      ]: []}
+      ]}
       {...other}
+      style={style}
     />
   );
 })

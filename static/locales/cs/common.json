@@ -46,6 +46,9 @@
     "photo": "Foto",
     "contact": "Kontakt"
   },
+  "login": {
+    "title": "Přihlašovací formulář"
+  },
 
 
   "forms": {
@@ -55,13 +58,15 @@
     },
     "name": "Jméno",
     "email": "E-mail",
-    "message": "Zpráva"
+    "message": "Zpráva",
+    "password": "Heslo"
   },
 
   "buttons": {
     "send": "Odeslat",
     "cancel": "Zrušit",
-    "add": "Přidat"
+    "add": "Přidat",
+    "login": "Přihlásit se"
   },
 
   "typeHere": "Pište zde..."

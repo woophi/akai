@@ -7,9 +7,10 @@ export const initialState: models.AppState['ui'] = {
   blogs: [],
   user: {
     name: '',
-    roles: null,
+    roles: [],
     token: '',
-    userId: ''
+    userId: '',
+    fetching: true
   }
 }
 
@@ -54,7 +55,16 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         ...state,
         user: {
           ...state.user,
-          token:  dispatch.payload
+          token: dispatch.payload
+        }
+      };
+    }
+    case 'SET_USER_FETCHING': {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          fetching: dispatch.payload
         }
       };
     }

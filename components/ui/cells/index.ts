@@ -1,5 +1,5 @@
 export * from './AboutLayout';
-export * from './ContactLayout';
+export * from './contact-layout';
 export * from './VideoLayout';
 export * from './OnlineLayout';
 export * from './YoutubeLayout';
@@ -7,3 +7,4 @@ export * from './PhotoLayout';
 export * from './GalleryLayout';
 export * from './AlbumLayout';
 export * from './BlogLayout';
+export * from './login-layout';

@@ -67,13 +67,12 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
         render={({
           handleSubmit,
           pristine,
-          invalid,
           submitting,
           submitError,
           form
         }) => (
           <>
-            <Snakbars variant="error" message={submitError} onClose={form.reset} />
+            <Snakbars variant="error" message={submitError} />
             <form onSubmit={handleSubmit} className={classes.form}>
               <Field
                 name="name"
@@ -117,7 +116,6 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                 )}
               />
               <ButtonsForm
-                invalid={invalid}
                 pristine={pristine}
                 submitting={submitting}
                 both

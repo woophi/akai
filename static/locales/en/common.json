@@ -46,7 +46,9 @@
     "photo": "Photo",
     "contact": "Contact"
   },
-
+  "login": {
+    "title": "Sign in form"
+  },
 
   "forms": {
     "field": {
@@ -55,13 +57,15 @@
     },
     "name": "Name",
     "email": "E-mail",
-    "message": "Message"
+    "message": "Message",
+    "password": "Password"
   },
 
   "buttons": {
     "send": "Send",
     "cancel": "Cancel",
-    "add": "Add"
+    "add": "Add",
+    "login": "Sign in"
   },
 
   "typeHere": "Type here..."

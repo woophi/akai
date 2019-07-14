@@ -38,7 +38,8 @@
   "exclude": [
     "*.js",
     "dist/*",
-    "polyfills/*"
+    "polyfills/*",
+    "node_modules/*"
   ],
   "include": [
     "next-env.d.ts",

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { H1, SocialButtons, Spinner } from 'ui/atoms';
+import { H1, SocialButtons, BoxContent } from 'ui/atoms';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'server/lib/i18n';
@@ -17,7 +17,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
   const classes = useStyles({ isSmallEnough });
   const { t } = useTranslation();
   return (
-    <div className={classes.content}>
+    <BoxContent>
       <H1 upperCase>{t('common:about.title')}</H1>
       <div className={classes.wrap}>
         <div className={classes.wrapChild}>
@@ -41,7 +41,7 @@ export const AboutLayout: React.FC<Props> = React.memo(({
           )}
         </div>
       </div>
-    </div>
+    </BoxContent>
   );
 });
 
@@ -50,11 +50,6 @@ type StyleProps = {
 };
 
 const useStyles = makeStyles<Theme, StyleProps>(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   wrap: props => ({
     display: 'flex',
     justifyContent: 'center',

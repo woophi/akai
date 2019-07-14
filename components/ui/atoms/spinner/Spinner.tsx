@@ -51,5 +51,6 @@ const box: React.CSSProperties = {
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  backgroundColor: 'rgba(255, 255, 255, .5)',
 };

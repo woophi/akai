@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1, Spinner } from 'ui/atoms';
+import { H1, Spinner, BoxContent } from 'ui/atoms';
 import { BlogModel } from 'core/models';
 import Head from 'next/head';
 import getConfig from 'next/config';
@@ -33,7 +33,7 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
         <meta property="og:description" content={blog.topic} />
         <meta property="og:image" content={blog.socialShare.photo.url} />
       </Head>
-      <div className={classes.content}>
+      <BoxContent>
         <H1 upperCase>{blog.title}</H1>
         <div className={classes.wrap}>
           <div className={classes.wrapCarusel}>
@@ -67,17 +67,12 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
           />
           <Comments />
         </div>
-      </div>
+      </BoxContent>
     </>
   );
 });
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   wrap: {
     display: 'flex',
     margin: '2rem 0',

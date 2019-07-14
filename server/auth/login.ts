@@ -3,6 +3,7 @@ import { Logger } from '../logger';
 import * as kia from '../validator';
 import * as identity from '../identity';
 import async from 'async';
+import { HTTPStatus } from 'server/lib/models';
 
 export const login = (
   req: Request,
@@ -10,7 +11,7 @@ export const login = (
   next: NextFunction
 ) => {
   if (req.session.user) {
-    return res.send({}).status(200);
+    return res.send({}).status(HTTPStatus.OK);
   }
   const validate = new kia.Validator(req, res, next);
 
@@ -36,10 +37,10 @@ export const login = (
 
       const onSuccess = (token: string) => {
         Logger.debug('user success auth');
-        return res.send({ token }).status(200);
+        return res.send({ token }).status(HTTPStatus.OK);
       }
       const onFail = (error: Error) => {
-        return res.send({ error: error.message }).status(400);
+        return res.status(HTTPStatus.BadRequest).send({ error: error.message });
       }
 
       Logger.debug(

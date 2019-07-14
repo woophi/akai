@@ -2,32 +2,6 @@ import { store } from 'core/store';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 
-export const login = async (email: string, password: string) => {
-  const { token } = await callApi<{token: string}>('post', 'api/app/user/login', {email, password});
-  store.dispatch({ type: 'SET_USER_TOKEN', payload: token });
-}
-
-export const logout = async () => {
-  await callApi<void>('post', 'api/app/user/logout');
-  store.dispatch({
-    type: 'SET_USER',
-    payload: {
-      name: '',
-      roles: null,
-      token: '',
-      userId: ''
-    }
-  });
-}
-
-export const checkAuth = async () => {
-  const data = await callApi<models.AuthData>('post', 'api/app/user/check');
-  if (!data || !data.token) {
-    return;
-  }
-  store.dispatch({ type: 'SET_USER', payload: data });
-}
-
 export const subscribe = (email: string) =>
   callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
 

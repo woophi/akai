@@ -6,7 +6,6 @@ import { useTranslation } from 'server/lib/i18n';
 
 type Props = {
   pristine: boolean;
-  invalid: boolean;
   submitting: boolean;
   both?: boolean;
   onCancel?: () => void
@@ -14,7 +13,7 @@ type Props = {
 }
 
 export const ButtonsForm = React.memo<Props>(({
-  invalid, pristine, submitting, both = false, onCancel, submitLabel
+  pristine, submitting, both = false, onCancel, submitLabel
 }) => {
   const classes = useStyles({});
   const { t } = useTranslation();
@@ -34,7 +33,7 @@ export const ButtonsForm = React.memo<Props>(({
 
       <Button
         type="submit"
-        disabled={pristine || invalid || submitting}
+        disabled={pristine || submitting}
         variant={'contained'}
         color="primary"
         className={classes.sbm}

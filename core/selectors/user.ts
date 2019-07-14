@@ -1,0 +1,37 @@
+import { createSelector } from 'reselect';
+import { selectState } from './common';
+import { IROLES } from 'core/models';
+
+export const getUser = createSelector(
+  selectState,
+  ui => ui.user
+);
+export const getUserRoles = createSelector(
+  getUser,
+  user => user.roles
+);
+export const getUserId = createSelector(
+  getUser,
+  user => user.userId
+);
+export const getUserName = createSelector(
+  getUser,
+  user => user.name
+);
+export const hasRoleAdmin = createSelector(
+  getUserRoles,
+  roles => roles.indexOf(IROLES.ADMIN) !== -1
+);
+export const hasRoleSuperAdmin = createSelector(
+  getUserRoles,
+  roles => roles.indexOf(IROLES.GODLIKE) !== -1
+);
+export const isUserAutorized = createSelector(
+  hasRoleAdmin,
+  hasRoleSuperAdmin,
+  (admin, superAdmin) => admin || superAdmin
+);
+export const getUserFetching = createSelector(
+  getUser,
+  user => user.fetching
+);

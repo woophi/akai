@@ -42,7 +42,7 @@ export const ContactForm: React.FC = () => {
     <Form
       onSubmit={onSubmit}
       validate={(v: ContactForm) => validate(v, t)}
-      render={({ handleSubmit, pristine, invalid, submitting }) => (
+      render={({ handleSubmit, pristine, submitting }) => (
         <form onSubmit={handleSubmit} className={classes.form}>
           <Field
             name="name"
@@ -99,7 +99,6 @@ export const ContactForm: React.FC = () => {
             )}
           />
           <ButtonsForm
-            invalid={invalid}
             pristine={pristine}
             submitting={submitting}
           />

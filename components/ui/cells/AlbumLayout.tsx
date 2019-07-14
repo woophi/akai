@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1, Block } from 'ui/atoms';
+import { H1, Block, BoxContent } from 'ui/atoms';
 import { BlogPreviewItem } from 'core/models';
 import { useTranslation } from 'server/lib/i18n';
 
@@ -16,7 +16,7 @@ export const AlbumLayout: React.FC<Props> = React.memo(({
   const classes = useStyles({});
   const { t } = useTranslation();
   return (
-    <div className={classes.content}>
+    <BoxContent>
       <H1 upperCase>{albumTitle}</H1>
       <div className={classes.wrap}>
         {blogs.map((b, i) => (
@@ -29,16 +29,11 @@ export const AlbumLayout: React.FC<Props> = React.memo(({
           />
         ))}
       </div>
-    </div>
+    </BoxContent>
   );
 });
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
   wrap: {
     display: 'flex',
     flexWrap: 'wrap',
