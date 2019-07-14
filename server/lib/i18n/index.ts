@@ -1,4 +1,4 @@
-const NextI18Next = require('next-i18next').default;
+const NextI18Next = require('next-i18next/dist/commonjs');
 
 const options = {
   fallbackLng: 'en',

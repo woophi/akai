@@ -18,7 +18,7 @@ import { createServer } from 'http';
 import config from './config';
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
-const nextI18NextMiddleware = require('next-i18next/middleware').default;
+const nextI18NextMiddleware = require('next-i18next/middleware');
 
 import nextI18next from './lib/i18n';
 import { registerSocket } from './lib/sockets';

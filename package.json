@@ -48,7 +48,7 @@
     "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.9.1",
     "next": "^9.0.1",
-    "next-i18next": "^0.46.0",
+    "next-i18next": "^0.42.0",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "nodemailer": "^6.2.1",
     "nodemailer-express-handlebars": "^3.0.0",

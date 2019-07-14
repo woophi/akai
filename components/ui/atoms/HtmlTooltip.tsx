@@ -3,6 +3,7 @@ import Tooltip, { TooltipProps } from '@material-ui/core/Tooltip';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
+// TODO: fix arrow
 const arrowGenerator = (color: string) => {
   return {
     '&[x-placement*="bottom"] $arrow': {

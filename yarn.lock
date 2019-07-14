@@ -4077,10 +4077,10 @@ i18next-xhr-backend@^3.0.0:
   dependencies:
     "@babel/runtime" "^7.4.5"
 
-i18next@^17.0.4:
-  version "17.0.6"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-17.0.6.tgz#01079cc2bcef408139ea8ce24d18ac0d512fbe85"
-  integrity sha512-bdNhzhcM6RG5m82RypVguCrAQNie/ycxW0Q5C6K9UDWD5hqApZfdJFbj4Ikz9jxIR+Ja1eg0yCQLhlCT+opwIg==
+i18next@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-16.0.0.tgz#57dbaae4558a8a476c5edf058a97272130c61621"
+  integrity sha512-2kR0Bh1j0PxFQXNxgLjGdC1REPnwEK9bgmYsRR9w+kD4hQ5V40kwxKWNoC8RKpvHL45XoavBfOjWd470aFlWOQ==
   dependencies:
     "@babel/runtime" "^7.3.1"
 
@@ -5441,21 +5441,21 @@ neo-async@^2.5.0, neo-async@^2.6.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
   integrity sha512-MFh0d/Wa7vkKO3Y3LlacqAEeHK0mckVqzDieUKTT+KGxi+zIpeVsFxymkIiRpbpDziHc290Xr9A1O4Om7otoRA==
 
-next-i18next@^0.46.0:
-  version "0.46.0"
-  resolved "https://registry.yarnpkg.com/next-i18next/-/next-i18next-0.46.0.tgz#ed4e41eab546a3c2f6789f4efa31a452ed6a6d15"
-  integrity sha512-7LfVGMY+dC4xxJXyQP3FY4ZmnPt1v7hPNutm45OiiOa4VbSOPP2XQWJTkd/bDRL20MF04OPtuMGP4LGqZXrxFg==
+next-i18next@^0.42.0:
+  version "0.42.0"
+  resolved "https://registry.yarnpkg.com/next-i18next/-/next-i18next-0.42.0.tgz#d02679833d8a7d7df65c6a13adc56fe4cf25278b"
+  integrity sha512-O7/d9J6wNstnN/zlSD6071P02CjKKbZp4luRA20kU9B8Fhp5HAU9/BLeDnrNpo6mLFkrxTx1NscfrojgYGtIYg==
   dependencies:
     detect-node "^2.0.4"
     hoist-non-react-statics "^3.2.0"
-    i18next "^17.0.4"
+    i18next "^16.0.0"
     i18next-browser-languagedetector "^3.0.0"
     i18next-express-middleware "^1.5.0"
     i18next-node-fs-backend "^2.1.0"
     i18next-xhr-backend "^3.0.0"
     path-match "^1.2.4"
     prop-types "^15.6.2"
-    react-i18next "^10.11.3"
+    react-i18next "^10.9.0"
     url "^0.11.0"
 
 next-redux-wrapper@^3.0.0-alpha.3:
@@ -6440,7 +6440,7 @@ react-final-form@^6.3.0:
     "@babel/runtime" "^7.4.5"
     ts-essentials "^2.0.8"
 
-react-i18next@^10.11.3:
+react-i18next@^10.9.0:
   version "10.11.4"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-10.11.4.tgz#9277a609ee640fac353087a91935ee9a9eb65f40"
   integrity sha512-/CWXaf3a5BLNeVnBGxzWOIZLQgSNEc2LWHX4ZaJb7ww0xgY0S5K9HRAMzJIHeHGe7jfpSraprD66VDblWb4ZXA==

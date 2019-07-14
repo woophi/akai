@@ -1,1 +1,1 @@
-export type LocaleIds = 'en' | 'cs' | 'ru';
+export type LocaleIds = 'en' | 'cs' | 'ru' | string;
