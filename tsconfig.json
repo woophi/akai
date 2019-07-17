@@ -3,10 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -18,15 +15,9 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "core/*": [
-        "./core/*"
-      ],
-      "ui/*": [
-        "./components/ui/*"
-      ],
-      "server/*": [
-        "./server/*"
-      ]
+      "core/*": ["./core/*"],
+      "ui/*": ["./components/ui/*"],
+      "server/*": ["./server/*"]
     },
     "strict": false,
     "forceConsistentCasingInFileNames": true,
@@ -35,15 +26,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": [
-    "*.js",
-    "dist/*",
-    "polyfills/*",
-    "node_modules/*"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "exclude": ["*.js", "dist/*", "polyfills/*", "node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
