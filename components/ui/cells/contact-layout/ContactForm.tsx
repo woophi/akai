@@ -31,8 +31,8 @@ const validate = (values: ContactForm, t: (s: string) => string) => {
   return errors;
 };
 
-const onSubmit = async (data: ContactForm, formProps: any) => {
-  await sendMessage(data).then(formProps.reset);
+const onSubmit = async (data: ContactForm) => {
+  await sendMessage(data);
 };
 
 export const ContactForm: React.FC = () => {
@@ -42,8 +42,14 @@ export const ContactForm: React.FC = () => {
     <Form
       onSubmit={onSubmit}
       validate={(v: ContactForm) => validate(v, t)}
-      render={({ handleSubmit, pristine, submitting }) => (
-        <form onSubmit={handleSubmit} className={classes.form}>
+      render={({ handleSubmit, pristine, submitting, form }) => (
+        <form
+          onSubmit={async event => {
+            await handleSubmit(event);
+            form.reset();
+          }}
+          className={classes.form}
+        >
           <Field
             name="name"
             render={({ input, meta }) => (
@@ -98,10 +104,7 @@ export const ContactForm: React.FC = () => {
               />
             )}
           />
-          <ButtonsForm
-            pristine={pristine}
-            submitting={submitting}
-          />
+          <ButtonsForm pristine={pristine} submitting={submitting} />
         </form>
       )}
     />

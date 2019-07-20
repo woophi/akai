@@ -32,14 +32,20 @@ const validate = (values: CommentForm, t: (s: string) => string) => {
   return errors;
 };
 
-const onSubmit = async (data: CommentForm, formProps: any, blogId: string, visitorName: string, setName: (v: string) => void) => {
+const onSubmit = async (
+  data: CommentForm,
+  blogId: string,
+  visitorName: string,
+  setName: (v: string) => void
+) => {
   try {
-    await newComment(data, blogId).then(() => formProps.reset());
+    await newComment(data, blogId);
     if (!visitorName) {
       const name = await getVisitorName();
       setName(name);
     }
   } catch (error) {
+    console.warn(error, 'WTF');
     return { [FORM_ERROR]: 'Cannot add comment' };
   }
 };
@@ -59,21 +65,23 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
         {t('gallery.addComments')}
       </Typography>
       <Form
-        onSubmit={(d: CommentForm, fP) => onSubmit(d, fP, blogId, visitorName, setName)}
+        onSubmit={(d: CommentForm) =>
+          onSubmit(d, blogId, visitorName, setName)
+        }
         validate={(v: CommentForm) => validate(v, t)}
         initialValues={{
           name: visitorName
         }}
-        render={({
-          handleSubmit,
-          pristine,
-          submitting,
-          submitError,
-          form
-        }) => (
+        render={({ handleSubmit, pristine, submitting, submitError, form }) => (
           <>
             <Snakbars variant="error" message={submitError} />
-            <form onSubmit={handleSubmit} className={classes.form}>
+            <form
+              onSubmit={async event => {
+                await handleSubmit(event);
+                form.reset();
+              }}
+              className={classes.form}
+            >
               <Field
                 name="name"
                 render={({ input, meta }) => (
@@ -87,7 +95,9 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     className={classes.field}
                     {...input}
                     error={Boolean(meta.touched && meta.error)}
-                    helperText={meta.touched && meta.error || `${input.value.length}/256`}
+                    helperText={
+                      (meta.touched && meta.error) || `${input.value.length}/256`
+                    }
                     disabled={submitting}
                     inputProps={{
                       maxLength: 256
@@ -107,7 +117,9 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     className={classes.field}
                     {...input}
                     error={Boolean(meta.touched && meta.error)}
-                    helperText={meta.touched && meta.error || `${input.value.length}/2000`}
+                    helperText={
+                      (meta.touched && meta.error) || `${input.value.length}/2000`
+                    }
                     disabled={submitting}
                     inputProps={{
                       maxLength: 2000

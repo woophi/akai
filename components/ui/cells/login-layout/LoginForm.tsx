@@ -28,11 +28,11 @@ const validate = (values: LoginForm, t: (s: string) => string) => {
   return errors;
 };
 
-const onSubmit = async (data: LoginForm, formProps: any) => {
+const onSubmit = async (data: LoginForm) => {
   try {
     const { token } = await login(data.email, data.password);
     store.dispatch({ type: 'SET_USER_TOKEN', payload: token });
-    await checkAuth().then(formProps.reset);
+    await checkAuth();
   } catch (error) {
     return { [FORM_ERROR]: error.error };
   }
@@ -47,7 +47,13 @@ export const LoginForm: React.FC = () => {
       validate={(v: LoginForm) => validate(v, t)}
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
         <>
-          <form onSubmit={handleSubmit} className={classes.form}>
+          <form
+            onSubmit={async event => {
+              await handleSubmit(event);
+              form.reset();
+            }}
+            className={classes.form}
+          >
             <Snakbars
               variant="error"
               message={submitError}

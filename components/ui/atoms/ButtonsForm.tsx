@@ -8,47 +8,50 @@ type Props = {
   pristine: boolean;
   submitting: boolean;
   both?: boolean;
-  onCancel?: () => void
+  onCancel?: () => void;
   submitLabel?: string;
-}
+};
 
-export const ButtonsForm = React.memo<Props>(({
-  pristine, submitting, both = false, onCancel, submitLabel
-}) => {
-  const classes = useStyles({});
-  const { t } = useTranslation();
-  return (
-    <div className={classes.button}>
-      {both &&
+export const ButtonsForm = React.memo<Props>(
+  ({ pristine, submitting, both = false, onCancel, submitLabel }) => {
+    const classes = useStyles({});
+    const { t } = useTranslation();
+    return (
+      <div className={classes.button}>
+        {both && (
+          <Button
+            disabled={pristine || submitting}
+            variant={'contained'}
+            color="default"
+            className={classes.cncl}
+            onClick={onCancel}
+          >
+            {t('common:buttons.cancel')}
+          </Button>
+        )}
+
         <Button
+          type="submit"
           disabled={pristine || submitting}
           variant={'contained'}
-          color="default"
-          className={classes.cncl}
-          onClick={onCancel}
-        >
-          {t('common:buttons.cancel')}
-        </Button>
-      }
-
-      <Button
-        type="submit"
-        disabled={pristine || submitting}
-        variant={'contained'}
-        color="primary"
-        className={classes.sbm}
-      >
-        {t(submitLabel || 'common:buttons.send')}
-      </Button>
-      {submitting &&
-        <Icon
-          className={`fas fa-circle-notch fa-spin`}
           color="primary"
-        />
-      }
-    </div>
-  );
-});
+          className={classes.sbm}
+        >
+          {t(submitLabel || 'common:buttons.send')}
+        </Button>
+        {submitting && (
+          <Icon
+            className={`fas fa-circle-notch fa-spin`}
+            color="primary"
+            style={{
+              margin: 'auto'
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+);
 
 const useStyles = makeStyles(theme => ({
   button: {
