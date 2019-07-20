@@ -6,6 +6,7 @@ import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
 import * as async from 'async';
 import { checkMailonPing } from 'server/utils/helpers';
+import { HTTPStatus } from 'server/lib/models';
 
 export const subscribeNewVisitor = (
   req: Request,
@@ -14,7 +15,7 @@ export const subscribeNewVisitor = (
 ) => {
   const visitorCookieId = req.signedCookies['visitID'];
   if (!visitorCookieId) {
-    return res.send({ done: false, error: 'You are not visitor' }).status(200);
+    return res.send({ done: false, error: 'You are not visitor' }).status(HTTPStatus.OK);
   }
   const validate = new kia.Validator(req, res, next);
   Logger.debug('starting visitor subscribe');
@@ -32,12 +33,12 @@ export const subscribeNewVisitor = (
           .exec((err, visitor: models.Visitor) => {
             if (err) {
               Logger.error(err);
-              return res.sendStatus(500);
+              return res.sendStatus(HTTPStatus.ServerError);
             }
             if (!visitor) {
               return res
                 .send({ done: false, error: 'Visitor not found' })
-                .status(200);
+                .status(HTTPStatus.OK);
             }
             visitorId = visitor.id;
             return cb();
@@ -60,12 +61,12 @@ export const subscribeNewVisitor = (
           .exec((err, sub) => {
             if (err) {
               Logger.error(err);
-              return res.sendStatus(500);
+              return res.sendStatus(HTTPStatus.ServerError);
             }
             if (!!sub) {
               return res
                 .send({ done: false, error: 'Subscriber already exists' })
-                .status(200);
+                .status(HTTPStatus.OK);
             }
             return cb();
           });
@@ -74,10 +75,10 @@ export const subscribeNewVisitor = (
       cb =>
         checkMailonPing(newSub.email, (err, valid) => {
           if (!valid || err) {
-            if (err) Logger.error(err);
+            // if (err) Logger.error(err);
             return res
               .send({ done: false, error: 'Email probably doesn\'t exist' })
-              .status(200);
+              .status(HTTPStatus.OK);
           }
           return cb();
         })
@@ -89,9 +90,9 @@ export const subscribeNewVisitor = (
       }).save(err => {
         if (err) {
           Logger.error(err);
-          return res.sendStatus(500);
+          return res.sendStatus(HTTPStatus.ServerError);
         }
-        return res.send({ done: true }).status(200);
+        return res.send({ done: true }).status(HTTPStatus.OK);
       });
     }
   );

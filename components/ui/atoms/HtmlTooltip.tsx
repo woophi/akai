@@ -3,7 +3,6 @@ import Tooltip, { TooltipProps } from '@material-ui/core/Tooltip';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
-// TODO: fix arrow
 const arrowGenerator = (color: string) => {
   return {
     '&[x-placement*="bottom"] $arrow': {
@@ -71,7 +70,20 @@ const useStylesArrow = makeStyles((theme: Theme) =>
     tooltip: {
       backgroundColor: theme.palette.common.black,
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      position: 'relative'
+    },
+    tooltipPlacementLeft: {
+      margin: '0 8px',
+    },
+    tooltipPlacementRight: {
+      margin: '0 8px',
+    },
+    tooltipPlacementTop: {
+      margin: '8px 0',
+    },
+    tooltipPlacementBottom: {
+      margin: '8px 0',
     },
   }),
 );
@@ -95,10 +107,10 @@ export const ArrowTooltip: React.FC<TooltipProps> = React.memo((props) => {
       }}
       {...props}
       title={
-        <React.Fragment>
+        <>
           {props.title}
           <span className={arrow} ref={setArrowRef} />
-        </React.Fragment>
+        </>
       }
     />
   );
