@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import socket from 'socket.io';
+import * as socket from 'socket.io';
 import { Logger } from 'server/logger';
 import * as cl from 'server/storage/cloudinary';
 import * as ig from 'server/instagram';

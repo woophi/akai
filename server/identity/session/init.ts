@@ -1,7 +1,7 @@
-import session from 'express-session';
+import * as session from 'express-session';
 import config from 'server/config';
-import ConnectMongo from 'connect-mongo';
-import mongoose from 'mongoose';
+import * as ConnectMongo from 'connect-mongo';
+import * as mongoose from 'mongoose';
 import { SchemaNames } from 'server/models/types';
 
 export const initExpressSession = () => {

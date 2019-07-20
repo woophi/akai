@@ -20,12 +20,7 @@
       "server/*": ["./server/*"]
     },
     "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["*.js", "dist/*", "polyfills/*", "node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "exclude": ["*.js", "dist/*", "polyfills/*", "node_modules"]
 }

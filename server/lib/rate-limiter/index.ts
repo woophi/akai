@@ -1,4 +1,4 @@
-import ExpressBrute from 'express-brute';
+import * as ExpressBrute from 'express-brute';
 import { MongooseStore } from './bruteForceStore';
 import moment from 'moment';
 import { Logger } from 'server/logger';
