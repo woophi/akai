@@ -25,6 +25,7 @@ export const checkAuth = async () => {
   store.dispatch({ type: 'SET_USER_FETCHING', payload: true });
   const data = await callApi<models.AuthData>('post', 'api/app/user/check');
   if (!data || !data.token) {
+    store.dispatch({ type: 'SET_USER_FETCHING', payload: false });
     return;
   }
   store.dispatch({ type: 'SET_USER', payload: data });
