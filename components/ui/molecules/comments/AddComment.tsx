@@ -45,7 +45,6 @@ const onSubmit = async (
       setName(name);
     }
   } catch (error) {
-    console.warn(error, 'WTF');
     return { [FORM_ERROR]: 'Cannot add comment' };
   }
 };
@@ -77,7 +76,8 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
             <Snakbars variant="error" message={submitError} />
             <form
               onSubmit={async event => {
-                await handleSubmit(event);
+                const error = await handleSubmit(event);
+                if (error) { return error; }
                 form.reset();
               }}
               className={classes.form}

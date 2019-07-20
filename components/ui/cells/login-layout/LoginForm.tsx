@@ -6,7 +6,7 @@ import { testEmail } from 'core/lib';
 import { useTranslation } from 'server/lib/i18n';
 import { FORM_ERROR } from 'final-form';
 import { store } from 'core/store';
-import { login, checkAuth } from 'core/operations/auth';
+import { login, ensureAuthorized } from 'core/operations/auth';
 
 type LoginForm = {
   email: string;
@@ -32,7 +32,7 @@ const onSubmit = async (data: LoginForm) => {
   try {
     const { token } = await login(data.email, data.password);
     store.dispatch({ type: 'SET_USER_TOKEN', payload: token });
-    await checkAuth();
+    await ensureAuthorized();
   } catch (error) {
     return { [FORM_ERROR]: error.error };
   }
@@ -49,7 +49,8 @@ export const LoginForm: React.FC = () => {
         <>
           <form
             onSubmit={async event => {
-              await handleSubmit(event);
+              const error = await handleSubmit(event);
+              if (error) { return error; }
               form.reset();
             }}
             className={classes.form}

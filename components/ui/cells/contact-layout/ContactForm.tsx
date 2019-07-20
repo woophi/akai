@@ -44,10 +44,7 @@ export const ContactForm: React.FC = () => {
       validate={(v: ContactForm) => validate(v, t)}
       render={({ handleSubmit, pristine, submitting, form }) => (
         <form
-          onSubmit={async event => {
-            await handleSubmit(event);
-            form.reset();
-          }}
+          onSubmit={async event => await handleSubmit(event).then(form.reset)}
           className={classes.form}
         >
           <Field
