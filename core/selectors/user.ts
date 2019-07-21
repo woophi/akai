@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 import { selectState } from './common';
-import { IROLES } from 'core/models';
+import { IROLES, AuthData } from 'core/models';
 
 export const getUser = createSelector(
   selectState,
-  ui => ui.user
+  ui => ui.user || {} as AuthData
 );
 export const getUserRoles = createSelector(
   getUser,
-  user => user.roles
+  user => user.roles || []
 );
 export const getUserId = createSelector(
   getUser,

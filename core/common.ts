@@ -58,3 +58,10 @@ export const uploadFiles = (files: File[]) => {
     request.send(formData);
   });
 }
+
+export const getWindow = () => {
+  if (typeof window !== undefined) {
+    return window;
+  }
+  return null
+}

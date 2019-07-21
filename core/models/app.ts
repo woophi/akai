@@ -1,6 +1,7 @@
 import { CommentItem } from './comment';
 import { BlogStateModel } from './blog';
 import { AuthData } from './auth';
+import { AdminState } from './admin';
 
 export type AppState = {
   ui: {
@@ -9,6 +10,7 @@ export type AppState = {
     };
     user: AuthData;
     blogs: BlogStateModel[];
+    admin: AdminState
   };
 };
 

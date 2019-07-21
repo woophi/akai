@@ -11,6 +11,10 @@ export const initialState: models.AppState['ui'] = {
     token: '',
     userId: '',
     fetching: true
+  },
+  admin: {
+    section: models.Section.Albums,
+    dataFetching: false
   }
 }
 

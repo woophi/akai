@@ -1,41 +1,42 @@
 import * as React from 'react';
 import { ensureNotAuthorized } from 'core/operations/auth';
 import { AdminLayout, Block } from 'ui/index';
-import { AlbumModel } from 'core/models';
+import { BlogPreviewItem } from 'core/models';
 import { getCookie } from 'core/cookieManager';
-import { getAllAlbums } from 'core/operations';
+import { getAlbumData } from 'core/operations';
 import { i18next } from 'server/lib/i18n';
+import { withRouter, WithRouterProps } from 'next/router';
 
 type LocalState = {
-  albums: AlbumModel[]
+  blogs: BlogPreviewItem[];
 }
 
-class Admin extends React.PureComponent<unknown, LocalState> {
+class Album extends React.PureComponent<WithRouterProps, LocalState> {
 
   state: LocalState = {
-    albums: []
+    blogs: []
   }
   async componentDidMount() {
     try {
       await ensureNotAuthorized();
       const currentLanguage = getCookie('akai_lng') || i18next.language;
-      const albums = await getAllAlbums(currentLanguage);
-      this.setState({ albums });
+      const data = await getAlbumData(String(this.props.router.query.id), currentLanguage);
+      this.setState({ blogs: data.blogs });
     } catch (e) {
-      console.error('Error in Gallery fetch', e);
+      console.error('Error in Album fetch', e);
     }
   }
 
   render() {
     return (
       <AdminLayout>
-        {this.state.albums.map((a, i) => (
+        {this.state.blogs.map((a, i) => (
           <Block
             key={i}
             title={a.title}
             imgSrc={a.coverPhoto}
             subTitle={'изменить'}
-            href={`album/${a.id}`}
+            href={`blog/${a.id}`}
           />
         ))}
       </AdminLayout>
@@ -43,4 +44,4 @@ class Admin extends React.PureComponent<unknown, LocalState> {
   }
 }
 
-export default Admin;
+export default withRouter(Album);

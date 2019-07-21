@@ -1,7 +1,7 @@
 import { store } from 'core/store';
 import { isUserAutorized } from 'core/selectors';
 import Router from 'next/router';
-import { callApi } from 'core/common';
+import { callApi, getWindow } from 'core/common';
 import * as models from 'core/models';
 
 export const login = async (email: string, password: string) => {
@@ -9,6 +9,7 @@ export const login = async (email: string, password: string) => {
 }
 
 export const logout = async () => {
+  store.dispatch({ type: 'SET_USER_FETCHING', payload: true });
   await callApi<void>('post', 'api/app/user/logout');
   store.dispatch({
     type: 'SET_USER',
@@ -19,6 +20,9 @@ export const logout = async () => {
       userId: ''
     }
   });
+  store.dispatch({ type: 'SET_USER_FETCHING', payload: false });
+  const w = getWindow();
+  w ? w.location.reload() : await Router.reload(Router.route);
 }
 
 export const checkAuth = async () => {
