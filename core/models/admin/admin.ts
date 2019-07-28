@@ -1,7 +1,11 @@
+import { FileItem } from './files';
+
 export type AdminState = {
-  section: Section,
-  dataFetching: boolean
-}
+  section: Section;
+  files: FileItem[];
+  selectedFile: FileItem;
+  uploadingFile: boolean;
+};
 
 export enum Section {
   Albums = 'Albums',

@@ -15,8 +15,8 @@ export const registerSocket = (server: Server) => {
   IO.on('connection', socket => {
     Logger.info('User connected');
 
-    const fileSuc = ({ fileName, fileId }: storageTypes.FileCompleteParams) => {
-      socket.emit('upload_done', fileName, fileId);
+    const fileSuc = ({ fileName, fileId, url }: storageTypes.FileCompleteParams) => {
+      socket.emit('upload_done', fileName, fileId, url);
     };
 
     const fileErr = ({ fileName }: storageTypes.FileCompleteParams) => {

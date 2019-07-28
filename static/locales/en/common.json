@@ -65,7 +65,8 @@
     "send": "Send",
     "cancel": "Cancel",
     "add": "Add",
-    "login": "Sign in"
+    "login": "Sign in",
+    "save": "Save"
   },
 
   "typeHere": "Type here..."

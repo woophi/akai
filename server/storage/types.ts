@@ -14,6 +14,7 @@ export type FileEventParams = {
 export type FileCompleteParams = {
   fileName: string;
   fileId?: string;
+  url?: string;
 }
 
 export type CloudinaryImg = {

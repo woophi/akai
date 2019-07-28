@@ -6,6 +6,10 @@ export const getUser = createSelector(
   selectState,
   ui => ui.user || {} as AuthData
 );
+export const getUserToken = createSelector(
+  getUser,
+  user => user.token
+);
 export const getUserRoles = createSelector(
   getUser,
   user => user.roles || []

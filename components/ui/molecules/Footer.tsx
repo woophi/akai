@@ -32,7 +32,7 @@ export const Footer: React.FC<Props> = React.memo(({ className = '' }) => {
         <Link
           component="a"
           variant="body2"
-          href="https://vk.com/space_goose"
+          href="http://km-webstudio.xyz/contact.html"
           target="_blank"
         >
           {t('common:footer.KM')}

@@ -14,7 +14,9 @@ export const initialState: models.AppState['ui'] = {
   },
   admin: {
     section: models.Section.Albums,
-    dataFetching: false
+    files: [],
+    selectedFile: null,
+    uploadingFile: false
   }
 }
 
@@ -69,6 +71,42 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         user: {
           ...state.user,
           fetching: dispatch.payload
+        }
+      };
+    }
+    case 'FETCH_FILES': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          files: dispatch.payload
+        }
+      };
+    }
+    case 'UPDATE_FILES': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          files: [ dispatch.payload, ...state.admin.files ]
+        }
+      };
+    }
+    case 'SELECT_FILE': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          selectedFile: dispatch.payload
+        }
+      };
+    }
+    case 'UPLOADING_FILE': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          uploadingFile: dispatch.payload
         }
       };
     }

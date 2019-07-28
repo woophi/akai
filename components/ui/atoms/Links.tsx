@@ -12,7 +12,8 @@ type Props = {
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
-    padding: 0
+    padding: 0,
+    maxWidth: '14rem'
   },
   link: {
     textDecoration: 'none',

@@ -5,3 +5,4 @@ export * from './language';
 export * from './slider';
 export * from './biography';
 export * from './youtube';
+export * from './files';

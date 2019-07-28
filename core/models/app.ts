@@ -1,7 +1,7 @@
 import { CommentItem } from './comment';
 import { BlogStateModel } from './blog';
 import { AuthData } from './auth';
-import { AdminState } from './admin';
+import { AdminState, FileItem } from './admin';
 
 export type AppState = {
   ui: {
@@ -21,4 +21,10 @@ export type AppDispatch =
   | { type: 'SET_USER_FETCHING'; payload: AppState['ui']['user']['fetching'] }
   | { type: 'UPDATE_COMMENTS'; payload: { blogId: string, comments: CommentItem[] } }
   | { type: 'SET_COMMENTS'; payload: { blogId: string, comments: CommentItem[] } }
+
+  | { type: 'FETCH_FILES'; payload: AdminState['files'] }
+  | { type: 'UPDATE_FILES'; payload: FileItem }
+  | { type: 'SELECT_FILE'; payload: FileItem }
+  | { type: 'UPLOADING_FILE'; payload: AdminState['uploadingFile'] }
+
 ;

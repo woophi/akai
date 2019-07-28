@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import getConfig from 'next/config';
+import Router from 'next/router';
 
 const {publicRuntimeConfig} = getConfig();
 const {SITE_URL} = publicRuntimeConfig;
@@ -59,9 +60,14 @@ export const uploadFiles = (files: File[]) => {
   });
 }
 
+export const allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+
 export const getWindow = () => {
   if (typeof window !== undefined) {
     return window;
   }
   return null
 }
+
+export const goToDeep = (href: string) => Router.push(`${Router.route}/${href}`);
+export const goToSpecific = (href: string) => Router.push(href);

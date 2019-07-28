@@ -52,7 +52,7 @@ export const upload_stream = (
               return cb();
             }
             Logger.debug('new file saved');
-            EventBus.emit(FStorageEvents.UPLOADED_FILE_SUCCESS, { fileId: file._id, fileName });
+            EventBus.emit(FStorageEvents.UPLOADED_FILE_SUCCESS, { fileId: file._id, fileName, url: newFile.thumbnail });
             return cb();
           });
         }

@@ -8,16 +8,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import { logout } from 'core/operations/auth';
+import { goToSpecific } from 'core/common';
 
-export const AdminMenu: React.FC = () => {
+const toAlbums = () => goToSpecific('/admin');
+export const AdminMenu = React.memo(() => {
   const classes = useStyles({});
 
   return (
     <div>
       <div className={classes.toolbar} />
-      <Divider />
       <List>
-        <ListItem button selected>
+        <ListItem button onClick={toAlbums}>
           <ListItemIcon><PhotoAlbum /></ListItemIcon>
           <ListItemText primary={'aльбомы'} />
         </ListItem>
@@ -31,10 +32,13 @@ export const AdminMenu: React.FC = () => {
       </List>
     </div>
   )
-}
+})
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    toolbar: theme.mixins.toolbar,
+    toolbar: {
+      ...theme.mixins.toolbar,
+      minHeight: '73px !important'
+    },
   }),
 );

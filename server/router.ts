@@ -57,6 +57,7 @@ export function router(
   app.delete('/api/admin/delete/youtube', identity.authorizedForAdmin, controllers.deleteYoutubeUrl);
 
   app.post('/storage/upload', identity.authorizedForAdmin, storage.startUpload);
+  app.get('/api/admin/files', identity.authorizedForAdmin, controllers.getAllFiles);
 
   app.get('/api/admin/fb/pages', identity.authorizedForAdmin, controllers.getFBPIds);
   app.patch('/api/admin/fb/check/token', identity.authorizedForAdmin, controllers.checkTokenValidation);
