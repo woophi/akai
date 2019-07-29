@@ -4,6 +4,7 @@ import * as models from '../../../models/types';
 import { Logger } from '../../../logger';
 import * as kia from '../../../validator';
 import * as async from 'async';
+import { HTTPStatus } from 'server/lib/models';
 
 export const createNewPost = async (
   req: Request,
@@ -50,11 +51,35 @@ export const createNewPost = async (
       return newBlogPost.save((err, post) => {
         if (err) {
           Logger.error('err to save new blog post ' + err);
-          return res.send().status(500);
+          return res.send().status(HTTPStatus.ServerError);
         }
         Logger.debug('new blog post saved');
-        return res.send({id: post._id}).status(200);
+        return res.send({ id: post._id }).status(HTTPStatus.OK);
       });
     }
   );
+};
+
+export const getAllBlogs = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await BlogModel
+      .find()
+      .populate({
+        path: 'photos',
+        select: 'thumbnail -_id'
+      })
+      .select('title photos')
+      .lean();
+    const blogs = data.map(b => {
+      return {
+        id: b._id,
+        title: b.title.find(t => t.localeId === 'ru').content,
+        coverPhoto: b.photos[0] ? b.photos[0].thumbnail : ''
+      };
+    });
+    return res.send(blogs).status(HTTPStatus.OK);
+  } catch (error) {
+    Logger.error('err to get all blogs ' + error);
+    return res.send().status(HTTPStatus.ServerError);
+  }
 };

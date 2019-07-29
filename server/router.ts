@@ -43,7 +43,10 @@ export function router(
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);
+
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, controllers.createNewPost);
+  app.get('/api/admin/blogs', identity.authorizedForAdmin, controllers.getAllBlogs);
+
   app.post('/api/admin/new/language', identity.authorizedForAdmin, controllers.createNewLanguage);
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);
 

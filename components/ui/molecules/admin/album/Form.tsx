@@ -7,6 +7,7 @@ import { FORM_ERROR } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import { FieldArray } from 'react-final-form-arrays';
 import { PaperDropzone, ModalUpload } from '../uploader';
+import { BlogsChooser } from './BlogsChooser';
 
 type Props = {
   albumId?: string;
@@ -108,6 +109,7 @@ export const AlbumForm = React.memo<Props>(({ albumId }) => {
             <FieldArray name="blogs">
               {({ fields }) => (
                 <div>
+                  <BlogsChooser />
                   {fields.map((name, index) => (
                     <div key={name}>
                       <div>
