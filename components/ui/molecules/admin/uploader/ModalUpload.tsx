@@ -5,18 +5,27 @@ import { ModalDialog, ArrowTooltip } from 'ui/atoms';
 import { PaperDropzone } from './Uploader';
 import { FieldInputProps } from 'react-final-form';
 import Box from '@material-ui/core/Box';
+import InputLabel from '@material-ui/core/InputLabel';
 import { FilesList } from './FileList';
-import { deselectFile } from './operations';
+import { deselectFile, getChosenFile } from './operations';
+import { connect } from 'react-redux';
+import { AppState, FileItem } from 'core/models';
+import { getSelectedFile } from 'core/selectors';
 
-type Props = {
+type OwnProps = {
   label?: string;
   error?: any;
   disabled?: boolean;
   input?: FieldInputProps<any, HTMLButtonElement>;
 };
 
-export const ModalUpload = React.memo<Props>(
-  ({ label = 'Выбрать файл', error, disabled = false, input }) => {
+type Props = {
+  file: FileItem;
+  chosenFile: FileItem;
+} & OwnProps;
+
+const ModalUploadComponent = React.memo<Props>(
+  ({ label = 'Выбрать файл', error, disabled = false, input, file, chosenFile }) => {
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => setOpen(true);
     const handleClickClose = () => {
@@ -24,8 +33,16 @@ export const ModalUpload = React.memo<Props>(
       deselectFile();
     };
 
+    const handleConfirm = () => {
+      setOpen(false);
+      if (input) {
+        input.onChange(file._id);
+      }
+    };
+
     return (
       <>
+        <InputLabel style={{ color: '#000' }}>{'Обложка альбома'}</InputLabel>
         <Button
           variant="contained"
           color="primary"
@@ -34,7 +51,7 @@ export const ModalUpload = React.memo<Props>(
           onFocus={input && input.onFocus}
           onBlur={input && input.onBlur}
         >
-          {label}
+          {chosenFile._id ? 'Файл выбран' : label}
           {error && (
             <ArrowTooltip placement="top" title={error}>
               <Icon
@@ -44,11 +61,12 @@ export const ModalUpload = React.memo<Props>(
               />
             </ArrowTooltip>
           )}
+          {chosenFile.url && <img src={chosenFile.url} width="25px" height="25px" />}
         </Button>
         <ModalDialog
           open={open}
           onClose={handleClickClose}
-          onOpen={handleClickOpen}
+          onConfirm={handleConfirm}
           title={'Выберете файл или загрузите новый'}
         >
           <Box flex={1} height={500} display="flex" flexWrap="wrap">
@@ -62,3 +80,8 @@ export const ModalUpload = React.memo<Props>(
     );
   }
 );
+
+export const ModalUpload = connect((state: AppState, props: OwnProps) => ({
+  file: getSelectedFile(state),
+  chosenFile: getChosenFile(props.input && props.input.value)
+}))(ModalUploadComponent);
