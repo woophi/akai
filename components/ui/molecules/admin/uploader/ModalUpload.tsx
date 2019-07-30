@@ -68,6 +68,7 @@ const ModalUploadComponent = React.memo<Props>(
           onClose={handleClickClose}
           onConfirm={handleConfirm}
           title={'Выберете файл или загрузите новый'}
+          confirmTitle={'Выбрать'}
         >
           <Box flex={1} height={500} display="flex" flexWrap="wrap">
             <Box minWidth={250}>

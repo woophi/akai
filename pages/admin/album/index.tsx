@@ -1,17 +1,9 @@
 import * as React from 'react';
 import { ensureNotAuthorized } from 'core/operations/auth';
-import { AdminLayout, Block } from 'ui/index';
-import { BlogPreviewItem } from 'core/models';
+import { AdminLayout, AdminAlbumComponent } from 'ui/index';
 import { withRouter, WithRouterProps } from 'next/router';
 
-type LocalState = {
-  blogs: BlogPreviewItem[];
-};
-
-class Album extends React.PureComponent<WithRouterProps, LocalState> {
-  state: LocalState = {
-    blogs: []
-  };
+class Album extends React.PureComponent<WithRouterProps> {
   async componentDidMount() {
     try {
       await ensureNotAuthorized();
@@ -23,15 +15,7 @@ class Album extends React.PureComponent<WithRouterProps, LocalState> {
   render() {
     return (
       <AdminLayout>
-        {this.state.blogs.map((a, i) => (
-          <Block
-            key={i}
-            title={a.title}
-            imgSrc={a.coverPhoto}
-            subTitle={'изменить'}
-            href={`blog/${a.id}`}
-          />
-        ))}
+        <AdminAlbumComponent albumId={this.props.router.query.id as string} />
       </AdminLayout>
     );
   }

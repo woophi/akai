@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import getConfig from 'next/config';
 import Router from 'next/router';
+import { getUserToken } from './selectors';
+import { store } from './store';
 
 const {publicRuntimeConfig} = getConfig();
 const {SITE_URL} = publicRuntimeConfig;
@@ -36,6 +38,9 @@ export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any =
       return Promise.reject(errorData) as any;
     });
 }
+
+export const callAdminApi = <T>(method: HTTPMethod = 'post', url: string, data: any = null): Promise<T> =>
+  callApi<T>(method, url, data, getUserToken(store.getState()));
 
 export const uploadFiles = (files: File[]) => {
   return new Promise((resolve, reject) => {

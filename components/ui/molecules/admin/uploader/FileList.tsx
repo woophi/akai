@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { fetchFiles, selectFile } from './operations';
-import { Spinner, Snakbars } from 'ui/atoms';
+import { Spinner, Snakbars, InputSearch } from 'ui/atoms';
 import { connect as redux } from 'react-redux';
 import { AppState, FileItem } from 'core/models';
 import { getSelectedFile } from 'core/selectors';
@@ -39,6 +39,8 @@ const FilesComponent: React.FC<Props> = ({ files, selectedFile }) => {
   const classes = useStyles({});
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [query, search] = React.useState('');
+
   React.useEffect(() => {
     fetchFiles()
       .then(() => fetch(false))
@@ -48,20 +50,24 @@ const FilesComponent: React.FC<Props> = ({ files, selectedFile }) => {
       });
   }, []);
 
+  const getList = () =>
+    files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+
   return (
     <div className={classes.root}>
       <Snakbars message={error} variant="error" />
+      <InputSearch onChangeCb={search} value={query} />
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList
             itemData={{
-              files,
+              files: getList(),
               selectedFile
             }}
             height={height}
             width={width}
             itemSize={46}
-            itemCount={files.length}
+            itemCount={getList().length}
             style={{
               overflowX: 'hidden'
             }}

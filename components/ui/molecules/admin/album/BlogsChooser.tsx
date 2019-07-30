@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import { ModalDialog, ArrowTooltip } from 'ui/atoms';
-import { FieldInputProps } from 'react-final-form';
 import Box from '@material-ui/core/Box';
 import InputLabel from '@material-ui/core/InputLabel';
 import { BlogsList } from './BlogsList';
@@ -11,11 +10,11 @@ type Props = {
   label?: string;
   error?: any;
   disabled?: boolean;
-  input?: FieldInputProps<any, HTMLButtonElement>;
+  onConfirm?: (blogId: string) => void;
 };
 
 export const BlogsChooser = React.memo<Props>(
-  ({ label = 'Добавить блог', error, disabled = false, input }) => {
+  ({ label = 'Добавить блог', error, disabled = false, onConfirm }) => {
     const [open, setOpen] = React.useState(false);
     const [chosenBlogs, chooseBlog] = React.useState<string[]>([]);
     const handleClickOpen = () => setOpen(true);
@@ -25,8 +24,8 @@ export const BlogsChooser = React.memo<Props>(
 
     const handleConfirm = () => {
       setOpen(false);
-      if (input) {
-        input.onChange(null);
+      if (onConfirm) {
+        chosenBlogs.forEach(b => onConfirm(b));
       }
     };
 
@@ -38,8 +37,6 @@ export const BlogsChooser = React.memo<Props>(
           color="primary"
           onClick={handleClickOpen}
           disabled={disabled}
-          onFocus={input && input.onFocus}
-          onBlur={input && input.onBlur}
         >
           {label}
           {error && (

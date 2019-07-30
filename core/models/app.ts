@@ -27,4 +27,6 @@ export type AppDispatch =
   | { type: 'SELECT_FILE'; payload: FileItem }
   | { type: 'UPLOADING_FILE'; payload: AdminState['uploadingFile'] }
 
+  | { type: 'FETCH_BLOGS'; payload: AdminState['blogs'] }
+
 ;

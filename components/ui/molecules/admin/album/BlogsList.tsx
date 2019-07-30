@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { Spinner, Snakbars } from 'ui/atoms';
+import { Spinner, Snakbars, InputSearch } from 'ui/atoms';
 import { getAllBlogs } from './operations';
 import { BlogPreviewItem } from 'core/models';
 
@@ -29,6 +29,14 @@ const Row = (props: ListChildComponentProps) => {
 
   return (
     <ListItem button style={style} key={index} onClick={handleClick}>
+      <ListItemAvatar>
+        <Avatar alt={blogs[index].title} src={blogs[index].coverPhoto} />
+      </ListItemAvatar>
+      <ListItemText
+        id={blogs[index].id}
+        primary={blogs[index].title}
+        primaryTypographyProps={{ noWrap: true }}
+      />
       <ListItemIcon>
         <Checkbox
           checked={checked}
@@ -37,14 +45,6 @@ const Row = (props: ListChildComponentProps) => {
           inputProps={{ 'aria-labelledby': blogs[index].id }}
         />
       </ListItemIcon>
-      <ListItemText
-        id={blogs[index].id}
-        primary={blogs[index].title}
-        primaryTypographyProps={{ noWrap: true }}
-      />
-      <ListItemAvatar>
-        <Avatar alt={blogs[index].title} src={blogs[index].coverPhoto} />
-      </ListItemAvatar>
     </ListItem>
   );
 };
@@ -59,6 +59,7 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [blogs, setBlogs] = React.useState<BlogPreviewItem[]>([]);
+  const [query, search] = React.useState('');
   React.useEffect(() => {
     getAllBlogs()
       .then(bs => {
@@ -71,21 +72,24 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
       });
   }, []);
 
+  const getList = () =>
+    blogs.filter(b => b.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   return (
     <div className={classes.root}>
       <Snakbars message={error} variant="error" />
+      <InputSearch onChangeCb={search} value={query} />
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList
             itemData={{
-              blogs,
+              blogs: getList(),
               onClickCb,
               selectedBlogs
             }}
             height={height}
             width={width}
             itemSize={46}
-            itemCount={blogs.length}
+            itemCount={getList().length}
             style={{
               overflowX: 'hidden'
             }}

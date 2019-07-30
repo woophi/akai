@@ -16,7 +16,8 @@ export const initialState: models.AppState['ui'] = {
     section: models.Section.Albums,
     files: [],
     selectedFile: null,
-    uploadingFile: false
+    uploadingFile: false,
+    blogs: []
   }
 }
 
@@ -107,6 +108,15 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         admin: {
           ...state.admin,
           uploadingFile: dispatch.payload
+        }
+      };
+    }
+    case 'FETCH_BLOGS': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          blogs: dispatch.payload
         }
       };
     }
