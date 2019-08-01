@@ -11,6 +11,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { Spinner, Snakbars, InputSearch } from 'ui/atoms';
 import { getAllBlogs } from './operations';
 import { BlogPreviewItem } from 'core/models';
+import Box from '@material-ui/core/Box';
 
 type LocalState = {
   blogs: BlogPreviewItem[];
@@ -75,10 +76,10 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
   const getList = () =>
     blogs.filter(b => b.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   return (
-    <div className={classes.root}>
+    <Box display="flex" flexDirection="column" width="100%" position="relative">
       <Snakbars message={error} variant="error" />
       <InputSearch onChangeCb={search} value={query} />
-      <AutoSizer>
+      <AutoSizer className={classes.root}>
         {({ height, width }) => (
           <FixedSizeList
             itemData={{
@@ -99,7 +100,7 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
         )}
       </AutoSizer>
       <Spinner isShow={fetching} />
-    </div>
+    </Box>
   );
 };
 
@@ -107,12 +108,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
-      height: '100%',
+      height: 'calc(100% - 74px)',
       backgroundColor: theme.palette.background.paper,
       display: 'flex',
-      flexDirection: 'column',
-      position: 'relative',
-      minWidth: 300
+      flexDirection: 'column'
     }
   })
 );

@@ -19,9 +19,5 @@ export const AdminAlbumComponent = React.memo<Props>(({ albumId }) => {
     }
   }, [albumId]);
 
-  return (
-    <Box display="flex" flexWrap="nowrap" justifyContent="space-evenly">
-      <AlbumForm albumId={albumId} initialValues={albumData} />
-    </Box>
-  );
+  return <AlbumForm albumId={albumId} initialValues={albumData} />;
 });

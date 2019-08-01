@@ -11,10 +11,11 @@ type Props = {
   error?: any;
   disabled?: boolean;
   onConfirm?: (blogId: string) => void;
+  className?: string;
 };
 
 export const BlogsChooser = React.memo<Props>(
-  ({ label = 'Добавить блог', error, disabled = false, onConfirm }) => {
+  ({ label = 'Добавить блог', error, disabled = false, onConfirm, className = '' }) => {
     const [open, setOpen] = React.useState(false);
     const [chosenBlogs, chooseBlog] = React.useState<string[]>([]);
     const handleClickOpen = () => setOpen(true);
@@ -30,8 +31,8 @@ export const BlogsChooser = React.memo<Props>(
     };
 
     return (
-      <>
-        <InputLabel style={{ color: '#000' }}>{'Блоги в альбоме'}</InputLabel>
+      <div className={className}>
+        <InputLabel style={{ color: '#000', marginBottom: '.5rem' }}>{'Блоги в альбоме'}</InputLabel>
         <Button
           variant="contained"
           color="primary"
@@ -59,7 +60,7 @@ export const BlogsChooser = React.memo<Props>(
             <BlogsList onClickCb={chooseBlog} selectedBlogs={chosenBlogs} />
           </Box>
         </ModalDialog>
-      </>
+      </div>
     );
   }
 );

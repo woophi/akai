@@ -17,6 +17,7 @@ type OwnProps = {
   error?: any;
   disabled?: boolean;
   input?: FieldInputProps<any, HTMLButtonElement>;
+  className?: string;
 };
 
 type Props = {
@@ -25,7 +26,7 @@ type Props = {
 } & OwnProps;
 
 const ModalUploadComponent = React.memo<Props>(
-  ({ label = 'Выбрать файл', error, disabled = false, input, file, chosenFile }) => {
+  ({ label = 'Выбрать файл', error, disabled = false, input, file, chosenFile, className = '' }) => {
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => setOpen(true);
     const handleClickClose = () => {
@@ -41,8 +42,8 @@ const ModalUploadComponent = React.memo<Props>(
     };
 
     return (
-      <>
-        <InputLabel style={{ color: '#000' }}>{'Обложка альбома'}</InputLabel>
+      <div className={className}>
+        <InputLabel style={{ color: '#000', marginBottom: '.5rem' }}>{'Обложка альбома'}</InputLabel>
         <Button
           variant="contained"
           color="primary"
@@ -77,7 +78,7 @@ const ModalUploadComponent = React.memo<Props>(
             <PaperDropzone />
           </Box>
         </ModalDialog>
-      </>
+      </div>
     );
   }
 );

@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
-      height: '100%',
+      height: 'calc(100% - 74px)',
       maxWidth: 360,
       backgroundColor: theme.palette.background.paper
     }

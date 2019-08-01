@@ -78,7 +78,7 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
               if (!albumId) {
                 form.reset();
               } else {
-                form.setConfig('initialValues', form.getState().values)
+                form.setConfig('initialValues', form.getState().values);
               }
             }}
             className={classes.form}
@@ -159,13 +159,14 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
                   error={meta.touched && meta.error}
                   disabled={submitting}
                   input={input}
+                  className={classes.field}
                 />
               )}
             />
             <FieldArray name="blogs">
               {({ fields }) => (
                 <>
-                  <BlogsChooser onConfirm={fields.push} />
+                  <BlogsChooser onConfirm={fields.push} className={classes.field} />
                   {fields.map((name, index) => (
                     <Field
                       name={`${name}`}
@@ -199,7 +200,10 @@ const useStyles = makeStyles(theme => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '1rem'
+    flex: 1,
+    minWidth: 320,
+    maxWidth: '50%',
+    margin: '1rem auto'
   },
   paper: {
     margin: '0 auto .5rem',
@@ -208,6 +212,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   field: {
-    margin: 0
+    margin: '0 1rem 1rem'
   }
 }));
