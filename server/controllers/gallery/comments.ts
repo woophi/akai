@@ -7,7 +7,7 @@ import * as kia from 'server/validator';
 import * as async from 'async';
 import { Logger } from 'server/logger';
 import * as models from 'server/models/types';
-import { EventBus } from 'server/lib/events';
+import { EventBus, BusEvents } from 'server/lib/events';
 
 export const getBlogComments = async (req: Request, res: Response, next: NextFunction) => {
   const blogId = req.query['id'];
@@ -126,8 +126,7 @@ export const newComment = (req: Request, res: Response, next: NextFunction) => {
           text: comment.text,
           visitor: comment.visitor
         } as models.SaveCommentModel).save();
-        // TODO: rooms
-        EventBus.emit('new_comment', newComment.id, blogId)
+        EventBus.emit(BusEvents.NEW_COMMENT, newComment.id, blogId)
         return res.sendStatus(HTTPStatus.OK);
       } catch (error) {
         Logger.error(error);

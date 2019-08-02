@@ -4,6 +4,7 @@ import { AdminLayout, Block, BoxWrap, LinkButton } from 'ui/index';
 import { AlbumModel } from 'core/models';
 import { getAllAlbums } from 'core/operations';
 import Box from '@material-ui/core/Box';
+import io from 'socket.io-client';
 
 type LocalState = {
   albums: AlbumModel[];
@@ -15,6 +16,7 @@ class Admin extends React.PureComponent<unknown, LocalState> {
   };
   async componentDidMount() {
     try {
+      const socket = io('/my-namespace');
       await ensureNotAuthorized();
       const albums = await getAllAlbums('ru');
       this.setState({ albums });

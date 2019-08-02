@@ -4,6 +4,7 @@ import { AlbumModel } from 'core/models';
 import { getAllAlbums } from 'core/operations';
 import { i18next } from 'server/lib/i18n';
 import { getCookie } from 'core/cookieManager';
+import { connectUniqGuest } from 'core/socket/uniq-guest';
 
 type LocalState = {
   albums: AlbumModel[]
@@ -15,6 +16,7 @@ class Gallery extends React.PureComponent<unknown, LocalState> {
   }
   async componentDidMount() {
     try {
+      connectUniqGuest();
       const currentLanguage = getCookie('akai_lng') || i18next.language;
       const albums = await getAllAlbums(currentLanguage);
       this.setState({ albums });

@@ -30,7 +30,7 @@ export const hasRoleSuperAdmin = createSelector(
   getUserRoles,
   roles => roles.indexOf(IROLES.GODLIKE) !== -1
 );
-export const isUserAutorized = createSelector(
+export const isUserAuthorized = createSelector(
   hasRoleAdmin,
   hasRoleSuperAdmin,
   (admin, superAdmin) => admin || superAdmin

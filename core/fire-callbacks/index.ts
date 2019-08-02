@@ -5,6 +5,7 @@ import { store } from 'core/store';
 import { selectAllBlogs } from 'core/selectors';
 
 client.welcome = () => {
+  console.warn('welcome uniq guest');
   callApi('post', 'api/guest/visit');
 };
 

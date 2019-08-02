@@ -1,15 +1,3 @@
-import io from 'socket.io-client';
-import getConfig from 'next/config';
-const {publicRuntimeConfig} = getConfig();
-const {SITE_URL} = publicRuntimeConfig;
-
-const socket = io(SITE_URL);
-socket.on('connect', () => {
-  console.debug('client connected');
-  initCallbacks();
-});
-
-socket.on('disconnect', () => console.debug('client disconnect'));
 
 let clientCallbacks: { [name: string]: any } = {};
 
@@ -27,7 +15,7 @@ export function clientPerformCallback<T>(perform: (c: CallbackMethod) => T): T {
   return callbacks as T;
 }
 
-function initCallbacks() {
+export function initCallbacks(socket: SocketIOClient.Socket) {
   Object.keys(clientCallbacks).forEach(m => {
     let subscribe: Function = socket['on'];
 
