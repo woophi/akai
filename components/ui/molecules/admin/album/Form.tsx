@@ -67,130 +67,132 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
       }}
       initialValues={albumId ? initialValues : {}}
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
-        <>
-          <Snakbars variant="error" message={submitError} />
-          <form
-            onSubmit={async event => {
-              const error = await handleSubmit(event);
-              if (error) {
-                return error;
-              }
-              if (!albumId) {
-                form.reset();
-              } else {
-                form.setConfig('initialValues', form.getState().values);
-              }
-            }}
-            className={classes.form}
-          >
-            <Field
-              name="nameRu"
-              render={({ input, meta }) => (
-                <TextField
-                  id="outlined-name-input"
-                  label={'Название альбома на русском'}
-                  type="text"
-                  name="nameRu"
-                  required
-                  variant="outlined"
-                  className={classes.field}
-                  {...input}
-                  error={Boolean(meta.touched && meta.error)}
-                  helperText={
-                    (meta.touched && meta.error) || `${input.value.length}/256`
-                  }
-                  disabled={submitting}
-                  inputProps={{
-                    maxLength: 256
-                  }}
-                />
-              )}
-            />
-            <Field
-              name="nameEn"
-              render={({ input, meta }) => (
-                <TextField
-                  id="outlined-name-input"
-                  label={'Название альбома на английском'}
-                  type="text"
-                  name="nameEn"
-                  required
-                  variant="outlined"
-                  className={classes.field}
-                  {...input}
-                  error={Boolean(meta.touched && meta.error)}
-                  helperText={
-                    (meta.touched && meta.error) || `${input.value.length}/256`
-                  }
-                  disabled={submitting}
-                  inputProps={{
-                    maxLength: 256
-                  }}
-                />
-              )}
-            />
-            <Field
-              name="nameCs"
-              render={({ input, meta }) => (
-                <TextField
-                  id="outlined-name-input"
-                  label={'Название альбома на чешском'}
-                  type="text"
-                  name="nameCs"
-                  required
-                  variant="outlined"
-                  className={classes.field}
-                  {...input}
-                  error={Boolean(meta.touched && meta.error)}
-                  helperText={
-                    (meta.touched && meta.error) || `${input.value.length}/256`
-                  }
-                  disabled={submitting}
-                  inputProps={{
-                    maxLength: 256
-                  }}
-                />
-              )}
-            />
-            <Field
-              name="coverPhotoId"
-              render={({ input, meta }) => (
-                <ModalUpload
-                  error={meta.touched && meta.error}
-                  disabled={submitting}
-                  input={input}
-                  className={classes.field}
-                />
-              )}
-            />
-            <FieldArray name="blogs">
-              {({ fields }) => (
-                <>
-                  <BlogsChooser onConfirm={fields.push} className={classes.field} />
-                  {fields.map((name, index) => (
-                    <Field
-                      name={`${name}`}
-                      key={name}
-                      render={({ input }) => (
-                        <BlogItemField
-                          input={input}
-                          onRemoveField={() => fields.remove(index)}
-                        />
-                      )}
-                    />
-                  ))}
-                </>
-              )}
-            </FieldArray>
-            <ButtonsForm
-              pristine={pristine}
-              submitting={submitting}
-              both
-              onCancel={form.reset}
-              submitLabel={'common:buttons.add'}
-            />
-          </form>
-        </>
+        <form
+          onSubmit={async event => {
+            const error = await handleSubmit(event);
+            if (error) {
+              return error;
+            }
+            if (!albumId) {
+              form.reset();
+            } else {
+              form.setConfig('initialValues', form.getState().values);
+            }
+          }}
+          className={classes.form}
+        >
+          <Snakbars
+            variant="error"
+            message={submitError}
+            className={classes.field}
+          />
+          <Field
+            name="nameRu"
+            render={({ input, meta }) => (
+              <TextField
+                id="outlined-name-input"
+                label={'Название альбома на русском'}
+                type="text"
+                name="nameRu"
+                required
+                variant="outlined"
+                className={classes.field}
+                {...input}
+                error={Boolean(meta.touched && meta.error)}
+                helperText={
+                  (meta.touched && meta.error) || `${input.value.length}/256`
+                }
+                disabled={submitting}
+                inputProps={{
+                  maxLength: 256
+                }}
+              />
+            )}
+          />
+          <Field
+            name="nameEn"
+            render={({ input, meta }) => (
+              <TextField
+                id="outlined-name-input"
+                label={'Название альбома на английском'}
+                type="text"
+                name="nameEn"
+                required
+                variant="outlined"
+                className={classes.field}
+                {...input}
+                error={Boolean(meta.touched && meta.error)}
+                helperText={
+                  (meta.touched && meta.error) || `${input.value.length}/256`
+                }
+                disabled={submitting}
+                inputProps={{
+                  maxLength: 256
+                }}
+              />
+            )}
+          />
+          <Field
+            name="nameCs"
+            render={({ input, meta }) => (
+              <TextField
+                id="outlined-name-input"
+                label={'Название альбома на чешском'}
+                type="text"
+                name="nameCs"
+                required
+                variant="outlined"
+                className={classes.field}
+                {...input}
+                error={Boolean(meta.touched && meta.error)}
+                helperText={
+                  (meta.touched && meta.error) || `${input.value.length}/256`
+                }
+                disabled={submitting}
+                inputProps={{
+                  maxLength: 256
+                }}
+              />
+            )}
+          />
+          <Field
+            name="coverPhotoId"
+            render={({ input, meta }) => (
+              <ModalUpload
+                error={meta.touched && meta.error}
+                disabled={submitting}
+                input={input}
+                className={classes.field}
+              />
+            )}
+          />
+          <FieldArray name="blogs">
+            {({ fields }) => (
+              <>
+                <BlogsChooser onConfirm={fields.push} className={classes.field} />
+                {fields.map((name, index) => (
+                  <Field
+                    name={`${name}`}
+                    key={name}
+                    render={({ input }) => (
+                      <BlogItemField
+                        input={input}
+                        onRemoveField={() => fields.remove(index)}
+                      />
+                    )}
+                  />
+                ))}
+              </>
+            )}
+          </FieldArray>
+          <ButtonsForm
+            pristine={pristine}
+            submitting={submitting}
+            both
+            onCancel={form.reset}
+            submitLabel={albumId ? 'common:buttons.save' : 'common:buttons.add'}
+          />
+        </form>
       )}
     />
   );
