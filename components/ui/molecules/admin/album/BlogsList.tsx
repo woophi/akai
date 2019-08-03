@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -8,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { Spinner, Snakbars, InputSearch } from 'ui/atoms';
+import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
 import { getAllBlogs } from './operations';
 import { BlogPreviewItem } from 'core/models';
 import Box from '@material-ui/core/Box';
@@ -37,6 +36,8 @@ const Row = (props: ListChildComponentProps) => {
         id={blogs[index].id}
         primary={blogs[index].title}
         primaryTypographyProps={{ noWrap: true }}
+        style={styleTruncate}
+        title={blogs[index].title}
       />
       <ListItemIcon>
         <Checkbox
@@ -44,6 +45,7 @@ const Row = (props: ListChildComponentProps) => {
           tabIndex={-1}
           color="primary"
           inputProps={{ 'aria-labelledby': blogs[index].id }}
+          style={{ marginLeft: '.5rem' }}
         />
       </ListItemIcon>
     </ListItem>
@@ -56,7 +58,6 @@ type Props = {
 };
 
 export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
-  const classes = useStyles({});
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [blogs, setBlogs] = React.useState<BlogPreviewItem[]>([]);
@@ -76,10 +77,10 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
   const getList = () =>
     blogs.filter(b => b.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   return (
-    <Box display="flex" flexDirection="column" width="100%" position="relative">
+    <Box flex={1} minHeight={250} maxHeight={500} display="flex" flexDirection="column">
       <Snakbars message={error} variant="error" />
       <InputSearch onChangeCb={search} value={query} />
-      <AutoSizer className={classes.root}>
+      <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList
             itemData={{
@@ -87,7 +88,7 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
               onClickCb,
               selectedBlogs
             }}
-            height={height}
+            height={height - 74}
             width={width}
             itemSize={46}
             itemCount={getList().length}
@@ -103,15 +104,3 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
     </Box>
   );
 };
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100%',
-      height: 'calc(100% - 74px)',
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column'
-    }
-  })
-);

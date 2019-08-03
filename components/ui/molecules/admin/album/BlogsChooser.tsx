@@ -56,9 +56,7 @@ export const BlogsChooser = React.memo<Props>(
           onConfirm={handleConfirm}
           title={'Выберете блог'}
         >
-          <Box flex={1} height={500} display="flex">
-            <BlogsList onClickCb={chooseBlog} selectedBlogs={chosenBlogs} />
-          </Box>
+          <BlogsList onClickCb={chooseBlog} selectedBlogs={chosenBlogs} />
         </ModalDialog>
       </div>
     );

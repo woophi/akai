@@ -15,3 +15,4 @@ export * from './BoxContent';
 export * from './BoxWrap';
 export * from './modal';
 export * from './InputSearch';
+export * from './constants';

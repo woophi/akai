@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { fetchFiles, selectFile } from './operations';
-import { Spinner, Snakbars, InputSearch } from 'ui/atoms';
+import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
 import { connect as redux } from 'react-redux';
 import { AppState, FileItem } from 'core/models';
 import { getSelectedFile } from 'core/selectors';
@@ -30,6 +30,8 @@ const Row = (props: ListChildComponentProps) => {
       <ListItemText
         primary={files[index].name}
         primaryTypographyProps={{ noWrap: true }}
+        style={styleTruncate}
+        title={files[index].name}
       />
     </ListItem>
   );
