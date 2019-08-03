@@ -7,22 +7,25 @@ import * as kia from 'server/validator';
 import * as async from 'async';
 import { checkMailonPing } from 'server/utils/helpers';
 import { HTTPStatus } from 'server/lib/models';
+import { connectUniqVisitor } from '../visitors';
+import { VisitorCookie } from '../visitors/types';
 
-export const subscribeNewVisitor = (
+export const subscribeNewVisitor = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const visitorCookieId = req.signedCookies['visitID'];
-  if (!visitorCookieId) {
-    return res.send({ done: false, error: 'You are not visitor' }).status(HTTPStatus.OK);
-  }
   const validate = new kia.Validator(req, res, next);
   Logger.debug('starting visitor subscribe');
 
   const newSub = {
     email: String(req.body.email || '').toLocaleLowerCase()
   };
+
+  let visitorCookieId = req.signedCookies[VisitorCookie.VisitId];
+  if (!visitorCookieId) {
+    visitorCookieId = await connectUniqVisitor(req, res);
+  }
 
   let visitorId;
   async.series(

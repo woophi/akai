@@ -8,6 +8,7 @@ import * as async from 'async';
 import { Logger } from 'server/logger';
 import * as models from 'server/models/types';
 import { EventBus, BusEvents } from 'server/lib/events';
+import { connectUniqVisitor } from '../visitors';
 
 export const getBlogComments = async (req: Request, res: Response, next: NextFunction) => {
   const blogId = req.query['id'];
@@ -58,9 +59,12 @@ export const getComment = async (req: Request, res: Response, next: NextFunction
   }).status(HTTPStatus.OK);
 }
 
-export const newComment = (req: Request, res: Response, next: NextFunction) => {
+export const newComment = async (req: Request, res: Response, next: NextFunction) => {
   const blogId = req.query['id'];
-  const visitorId = req.signedCookies[VisitorCookie.VisitId];
+  let visitorId = req.signedCookies[VisitorCookie.VisitId];
+  if (!visitorId) {
+    visitorId = await connectUniqVisitor(req, res);
+  }
 
   const validate = new kia.Validator(req, res, next);
 
