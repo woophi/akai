@@ -5,6 +5,7 @@ import * as cl from 'server/storage/cloudinary';
 import * as ig from 'server/instagram';
 import { EventBus, BusEvents } from '../events';
 import * as storageTypes from 'server/storage/types';
+import { NameSpaces, EmitEvents } from './types';
 
 export const registerSocket = (server: Server) => {
   const IO = socket(server);
@@ -12,11 +13,11 @@ export const registerSocket = (server: Server) => {
   cl.registerCloudinaryEvents();
   ig.registerInstagramEvents();
 
-  const nspBlogs = IO.of('/blogs');
+  const nspBlogs = IO.of(NameSpaces.BLOGS);
 
   const newComment = (commentId: string, blogId: string) => {
     Logger.debug('emit comment', commentId, blogId);
-    nspBlogs.to(blogId).emit('new_comment', commentId, blogId);
+    nspBlogs.to(blogId).emit(EmitEvents.new_comment, commentId, blogId);
   };
 
   EventBus.on(BusEvents.NEW_COMMENT, newComment);
@@ -27,12 +28,12 @@ export const registerSocket = (server: Server) => {
     socket.on('joinRoom', blogId => {
       socket.join(blogId);
       Logger.info('joined room ' + blogId);
-    })
+    });
 
     socket.on('leaveRoom', blogId => {
       socket.leave(blogId);
       Logger.info('left room ' + blogId);
-    })
+    });
 
     socket.on('disconnect', () => {
       Logger.info('nspBlogs disconnected');
@@ -40,25 +41,24 @@ export const registerSocket = (server: Server) => {
     });
   });
 
-
-  const nspUniqGuest = IO.of('/uniq-guest');
+  const nspUniqGuest = IO.of(NameSpaces.UNIQ_GUEST);
   nspUniqGuest.on('connection', socket => {
     Logger.info('uniq-guest connected');
-    socket.emit('welcome');
+    socket.emit(EmitEvents.welcome);
     socket.on('disconnect', () => {
       Logger.info('uniq-guest disconnected');
     });
-  })
+  });
 
-  const nspAdmin = IO.of('/admin');
+  const nspAdmin = IO.of(NameSpaces.ADMIN);
   nspAdmin.on('connection', socket => {
     Logger.debug('admin connected ' + socket.id);
     const fileSuc = ({ fileName, fileId, url }: storageTypes.FileCompleteParams) => {
-      socket.emit('upload_done', fileName, fileId, url);
+      socket.emit(EmitEvents.upload_done, fileName, fileId, url);
     };
 
     const fileErr = ({ fileName }: storageTypes.FileCompleteParams) => {
-      socket.emit('upload_done', fileName);
+      socket.emit(EmitEvents.upload_done, fileName);
     };
 
     socket.on('disconnect', () => {
@@ -75,6 +75,5 @@ export const registerSocket = (server: Server) => {
 
     EventBus.on(storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS, fileSuc);
     EventBus.on(storageTypes.FStorageEvents.UPLOADED_FILE_ERROR, fileErr);
-
   });
 };
