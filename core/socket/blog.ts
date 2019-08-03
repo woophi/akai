@@ -1,16 +1,15 @@
 import io from 'socket.io-client';
-import getConfig from 'next/config';
 import { initCallbacks } from '.';
-const {publicRuntimeConfig} = getConfig();
-const {SITE_URL} = publicRuntimeConfig;
 
 let socketBlogConnected = false;
 
 let socketBlog: SocketIOClient.Socket;
 
+const blogsNs = '/blogs';
+
 export const connectSocketBlog = () => {
   if (socketBlogConnected) return;
-  socketBlog = io(SITE_URL);
+  socketBlog = io(blogsNs);
   socketBlog.on('connect', () => {
     console.debug('client socketBlog connected');
     initCallbacks(socketBlog);

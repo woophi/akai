@@ -12,15 +12,17 @@ export const registerSocket = (server: Server) => {
   cl.registerCloudinaryEvents();
   ig.registerInstagramEvents();
 
+  const nspBlogs = IO.of('/blogs');
+
   const newComment = (commentId: string, blogId: string) => {
     Logger.debug('emit comment', commentId, blogId);
-    IO.to(blogId).emit('new_comment', commentId, blogId);
+    nspBlogs.to(blogId).emit('new_comment', commentId, blogId);
   };
 
   EventBus.on(BusEvents.NEW_COMMENT, newComment);
 
-  IO.on('connection', socket => {
-    Logger.info('User connected');
+  nspBlogs.on('connection', socket => {
+    Logger.info('nspBlogs connected');
 
     socket.on('joinRoom', blogId => {
       socket.join(blogId);
@@ -33,7 +35,7 @@ export const registerSocket = (server: Server) => {
     })
 
     socket.on('disconnect', () => {
-      Logger.info('user disconnected');
+      Logger.info('nspBlogs disconnected');
       socket.leaveAll();
     });
   });

@@ -1,4 +1,3 @@
-
 let clientCallbacks: { [name: string]: any } = {};
 
 type CallbackMethod = <M>() => M;
@@ -9,7 +8,7 @@ export function clientPerformCallback<T>(perform: (c: CallbackMethod) => T): T {
   const pr: any = perform((): any => null);
 
   Object.keys(pr).forEach(m => {
-    callbacks[m] = pr[m]
+    callbacks[m] = pr[m];
   });
 
   return callbacks as T;
