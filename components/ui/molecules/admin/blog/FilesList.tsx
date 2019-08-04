@@ -1,50 +1,56 @@
 import * as React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
+import { connect as redux } from 'react-redux';
+import { AppState, FileItem } from 'core/models';
+import { fetchFiles } from '../operations';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
-import { BlogPreviewItem } from 'core/models';
 import Box from '@material-ui/core/Box';
-import { getAllBlogs } from '../operations';
 
-type LocalState = {
-  blogs: BlogPreviewItem[];
+type OwnProps = {
+  selectedFiles: string[];
+  onClickCb: (fileIds: string[]) => void;
 };
+
+type Props = {
+  files: FileItem[];
+} & OwnProps;
 
 const Row = (props: ListChildComponentProps) => {
   const { index, style, data } = props;
-  const { onClickCb, selectedBlogs, blogs } = data as Props & LocalState;
-  const checked = selectedBlogs.indexOf(blogs[index].id) !== -1;
+  const { files, selectedFiles, onClickCb } = data as Props;
+
+  const checked = selectedFiles.indexOf(files[index]._id) !== -1;
   const handleClick = () => {
     const data = checked
-      ? selectedBlogs.filter(id => id != blogs[index].id)
-      : [...selectedBlogs, blogs[index].id];
+      ? selectedFiles.filter(id => id != files[index]._id)
+      : [...selectedFiles, files[index]._id];
     onClickCb(data);
   };
 
   return (
     <ListItem button style={style} key={index} onClick={handleClick}>
       <ListItemAvatar>
-        <Avatar alt={blogs[index].title} src={blogs[index].coverPhoto} />
+        <Avatar alt={files[index].name} src={files[index].url} />
       </ListItemAvatar>
       <ListItemText
-        id={blogs[index].id}
-        primary={blogs[index].title}
+        primary={files[index].name}
         primaryTypographyProps={{ noWrap: true }}
         style={styleTruncate}
-        title={blogs[index].title}
+        title={files[index].name}
       />
       <ListItemIcon>
         <Checkbox
           checked={checked}
           tabIndex={-1}
           color="primary"
-          inputProps={{ 'aria-labelledby': blogs[index].id }}
+          inputProps={{ 'aria-labelledby': files[index]._id }}
           style={{ marginLeft: '.5rem' }}
         />
       </ListItemIcon>
@@ -52,22 +58,14 @@ const Row = (props: ListChildComponentProps) => {
   );
 };
 
-type Props = {
-  selectedBlogs: string[];
-  onClickCb: (blogIds: string[]) => void;
-};
-
-export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
+const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) => {
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const [blogs, setBlogs] = React.useState<BlogPreviewItem[]>([]);
   const [query, search] = React.useState('');
+
   React.useEffect(() => {
-    getAllBlogs()
-      .then(bs => {
-        fetch(false);
-        setBlogs(bs);
-      })
+    fetchFiles()
+      .then(() => fetch(false))
       .catch(e => {
         fetch(false);
         setError(e);
@@ -75,18 +73,26 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
   }, []);
 
   const getList = () =>
-    blogs.filter(b => b.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+
   return (
-    <Box flex={1} minHeight={250} maxHeight={500} display="flex" flexDirection="column">
+    <Box
+      flex={1}
+      minHeight={250}
+      maxHeight={500}
+      display="flex"
+      flexDirection="column"
+    >
       <Snakbars message={error} variant="error" />
       <InputSearch onChangeCb={search} value={query} />
+      <Box marginTop={1}/>
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList
             itemData={{
-              blogs: getList(),
+              files: getList(),
               onClickCb,
-              selectedBlogs
+              selectedFiles
             }}
             height={height - 74}
             width={width}
@@ -104,3 +110,8 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
     </Box>
   );
 };
+
+export const FilesList = redux((state: AppState, _: OwnProps) => ({
+  files: state.ui.admin.files
+}))(FilesComponent);
+

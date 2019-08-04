@@ -1,8 +1,7 @@
 import * as React from 'react';
-import Box from '@material-ui/core/Box';
 import { AlbumForm } from './Form';
-import { getAlbumData, getAllBlogs } from './operations';
-import { fetchFiles } from '../uploader/operations';
+import { getAlbumData } from './operations';
+import { getAllBlogs, fetchFiles } from '../operations';
 
 type Props = {
   albumId?: string;

@@ -1,16 +1,5 @@
-import { store } from 'core/store';
 import { callAdminApi } from 'core/common';
-import { BlogPreviewItem, NewAlbumData, AlbumData } from 'core/models';
-
-export const getAllBlogs = async () => {
-  try {
-    const data = await callAdminApi<BlogPreviewItem[]>('get', 'api/admin/blogs');
-    store.dispatch({ type: 'FETCH_BLOGS', payload: data });
-    return data;
-  } catch (error) {
-    throw error.error;
-  }
-};
+import { NewAlbumData, AlbumData } from 'core/models';
 
 export const createNewAlbum = (data: NewAlbumData) => {
   const body = {

@@ -45,6 +45,9 @@ export function router(
   app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);
 
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, controllers.createNewPost);
+  app.get('/api/admin/get/blog', identity.authorizedForAdmin, controllers.getAdminBlogData);
+  app.put('/api/admin/edit/blog', identity.authorizedForAdmin, controllers.editAdminBlogData);
+
   app.get('/api/admin/blogs', identity.authorizedForAdmin, controllers.getAllBlogs);
 
   app.post('/api/admin/new/album', identity.authorizedForAdmin, controllers.createAlbum);
@@ -86,6 +89,12 @@ export function router(
 
   app.get('/admin/album/:id', identity.authorizedForAdmin, (req, res) => {
     const actualPage = '/admin/album'
+    const queryParams = { id: req.params.id }
+    appNext.render(req, res, actualPage, queryParams)
+  });
+
+  app.get('/admin/blogs/edit/:id', identity.authorizedForAdmin, (req, res) => {
+    const actualPage = '/admin/blogs/edit'
     const queryParams = { id: req.params.id }
     appNext.render(req, res, actualPage, queryParams)
   });

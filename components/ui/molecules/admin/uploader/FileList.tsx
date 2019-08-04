@@ -4,11 +4,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { fetchFiles, selectFile } from './operations';
+import { selectFile } from './operations';
 import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
 import { connect as redux } from 'react-redux';
 import { AppState, FileItem } from 'core/models';
 import { getSelectedFile } from 'core/selectors';
+import { fetchFiles } from '../operations';
+
 type Props = {
   files: FileItem[];
   selectedFile: FileItem;

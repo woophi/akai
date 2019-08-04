@@ -2,14 +2,7 @@ import { callAdminApi, uploadFiles } from 'core/common';
 import { store } from 'core/store';
 import { FileItem } from 'core/models';
 
-export const fetchFiles = async () => {
-  try {
-    const data = await callAdminApi<FileItem[]>('get', 'api/admin/files');
-    store.dispatch({ type: 'FETCH_FILES', payload: data });
-  } catch (error) {
-    return error.error;
-  }
-};
+
 export const selectFile = (payload: FileItem) => {
   store.dispatch({ type: 'SELECT_FILE', payload });
 };
