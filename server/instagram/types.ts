@@ -1,6 +1,6 @@
 export type IgEventParams = {
   blogId: string;
-  done: (err?: Error) => void;
+  done?: (err?: Error) => void;
 }
 
 export enum IgEvents {

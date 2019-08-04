@@ -43,7 +43,10 @@ export const postToInstagram = async ({
 
   if (!blog) {
     Logger.error('Blog not found');
-    return done();
+    if (done) {
+      return done();
+    }
+    return;
   }
   const topic = blog.topic.find(t => t.localeId === blog.socialShare.localeId);
 
@@ -65,7 +68,9 @@ export const postToInstagram = async ({
   } catch (error) {
     Logger.error(error);
   }
-  return done();
+  if (done) {
+    return done();
+  }
 };
 
 export const registerInstagramEvents = () => {

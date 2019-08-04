@@ -5,6 +5,10 @@ import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
 import * as async from 'async';
 import { HTTPStatus } from 'server/lib/models';
+import { getFacebookPageIds, createImgPost } from 'server/facebook';
+import config from 'server/config';
+import { EventBus } from 'server/lib/events';
+import { IgEvents } from 'server/instagram/types';
 
 export const createNewPost = async (
   req: Request,
@@ -13,16 +17,6 @@ export const createNewPost = async (
 ) => {
   const validate = new kia.Validator(req, res, next);
 
-  Logger.debug(
-    `starting to create new blog post ${new Date().toLocaleTimeString()}`
-  );
-
-  /**
-   * [{
-   *  localeId: 'en',
-   *  content: 'asdsddas'
-   * }]
-   */
   const blogPost: models.SaveBlogModel = {
     body: req.body.body || [],
     createdBy: req.session.user._id,
@@ -33,6 +27,7 @@ export const createNewPost = async (
     creationPictureDate: req.body.creationPictureDate,
     parameters: req.body.parameters || []
   };
+  let savedBlogId: string;
   async.series(
     [
       cb =>
@@ -40,23 +35,35 @@ export const createNewPost = async (
           {
             title: validate.notIsEmpty,
             topic: validate.notIsEmpty,
-            socialShare: validate.notIsEmpty,
             photos: validate.notIsEmpty
           },
           blogPost,
           cb
-        )
+        ),
+      cb => {
+        const newBlogPost = new BlogModel(blogPost);
+        return newBlogPost.save((err, post) => {
+          if (err) {
+            Logger.error('err to save new blog post ' + err);
+            return res.sendStatus(HTTPStatus.ServerError);
+          }
+          Logger.debug('new blog post saved');
+          savedBlogId = post.id;
+          return cb();
+        });
+      }
     ],
-    () => {
-      const newBlogPost = new BlogModel(blogPost);
-      return newBlogPost.save((err, post) => {
-        if (err) {
-          Logger.error('err to save new blog post ' + err);
-          return res.sendStatus(HTTPStatus.ServerError);
-        }
-        Logger.debug('new blog post saved');
-        return res.send(post._id).status(HTTPStatus.OK);
-      });
+    async () => {
+      if (blogPost.socialShare && savedBlogId) {
+        // TODO: choose from post data
+        const fPages = await getFacebookPageIds();
+        Logger.debug('should fetch fb pages', fPages)
+        const caption = blogPost.topic.find(t => t.localeId === blogPost.socialShare.localeId).content;
+        await createImgPost(`${config.SITE_URI}gallery/album/${savedBlogId}`, caption, fPages[0]);
+
+        process.nextTick(() => EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId }));
+      }
+      return res.send(savedBlogId).status(HTTPStatus.OK);
     }
   );
 };
@@ -84,7 +91,7 @@ export const getAllBlogs = async (
     return res.send(blogs).status(HTTPStatus.OK);
   } catch (error) {
     Logger.error('err to get all blogs ' + error);
-    return res.send().status(HTTPStatus.ServerError);
+    return res.sendStatus(HTTPStatus.ServerError);
   }
 };
 
