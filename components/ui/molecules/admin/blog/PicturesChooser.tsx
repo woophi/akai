@@ -2,7 +2,10 @@ import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import { ModalDialog } from 'ui/atoms';
 import InputLabel from '@material-ui/core/InputLabel';
+import Box from '@material-ui/core/Box';
 import { FilesList } from './FilesList';
+import { PaperDropzone } from '../uploader';
+import { deselectFile } from '../uploader/operations';
 
 type Props = {
   label?: string;
@@ -25,6 +28,7 @@ export const PicturesChooser = React.memo<Props>(
     const handleClickOpen = () => setOpen(true);
     const handleClickClose = () => {
       setOpen(false);
+      deselectFile();
     };
 
     const handleConfirm = () => {
@@ -53,7 +57,12 @@ export const PicturesChooser = React.memo<Props>(
           onConfirm={handleConfirm}
           title={'Выберете картины'}
         >
-          <FilesList onClickCb={chooseFile} selectedFiles={chosenFiles} />
+          <Box flex={1} height={500} display="flex" flexWrap="wrap">
+            <Box minWidth={250}>
+              <FilesList onClickCb={chooseFile} selectedFiles={chosenFiles} />
+            </Box>
+            <PaperDropzone />
+          </Box>
         </ModalDialog>
       </div>
     );

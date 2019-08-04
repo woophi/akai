@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Box from '@material-ui/core/Box';
+import { selectFile } from '../uploader/operations';
 
 type OwnProps = {
   selectedFiles: string[];
@@ -32,6 +33,7 @@ const Row = (props: ListChildComponentProps) => {
       ? selectedFiles.filter(id => id != files[index]._id)
       : [...selectedFiles, files[index]._id];
     onClickCb(data);
+    selectFile(files[index]);
   };
 
   return (
@@ -76,16 +78,10 @@ const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) =>
     files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
   return (
-    <Box
-      flex={1}
-      minHeight={250}
-      maxHeight={500}
-      display="flex"
-      flexDirection="column"
-    >
+    <>
       <Snakbars message={error} variant="error" />
       <InputSearch onChangeCb={search} value={query} />
-      <Box marginTop={1}/>
+      <Box marginTop={1} />
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList
@@ -107,11 +103,10 @@ const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) =>
         )}
       </AutoSizer>
       <Spinner isShow={fetching} />
-    </Box>
+    </>
   );
 };
 
 export const FilesList = redux((state: AppState, _: OwnProps) => ({
   files: state.ui.admin.files
 }))(FilesComponent);
-

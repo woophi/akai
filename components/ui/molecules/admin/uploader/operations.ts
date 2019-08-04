@@ -1,4 +1,4 @@
-import { callAdminApi, uploadFiles } from 'core/common';
+import { uploadFiles } from 'core/common';
 import { store } from 'core/store';
 import { FileItem } from 'core/models';
 
