@@ -13,10 +13,8 @@ export const createNewYoutubeUrl = async (
 ) => {
   const validate = new kia.Validator(req, res, next);
 
-  Logger.debug(
-    `starting to create new youtube entity ${new Date().toLocaleTimeString()}`
-  );
   // TODO: parse youtube url to get videoId
+  // TODO: add youtube chat id before translation
   const youtubeData: models.YoutubeModel = {
     videoId: req.body.videoId,
     title: req.body.title

@@ -9,8 +9,7 @@ export const SliderSchema = new mongoose.Schema(
       ref: SchemaNames.FILES
     },
     ordinal: {
-      type: Number,
-      unique: true
+      type: Number
     }
   },
 	{ collection: SchemaNames.SLIDER }

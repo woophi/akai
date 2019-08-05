@@ -33,7 +33,31 @@ export const updateMainSlider = async (
           },
           slidersData,
           cb
-        )
+        ),
+      cb => {
+        SliderModel.find().exec((err, slides: models.Slider[]) => {
+          if (err) {
+            Logger.error('err to get SliderModel ', err);
+            return res.sendStatus(HTTPStatus.ServerError);
+          }
+          if (!slides || !slides.length) {
+            return cb();
+          }
+          const shouldBeDeleted = slides.filter(
+            s =>
+              !slidersData.slides.find(us =>
+                us.id ? us.id == s._id.toString() : true
+              )
+          );
+
+          if (shouldBeDeleted.length) {
+            shouldBeDeleted.forEach(slide => {
+              slide.remove();
+            });
+          }
+          return cb();
+        });
+      }
     ],
     () => {
       const saveModel = async (slide: OrdinalModel, callback) => {
