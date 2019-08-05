@@ -544,12 +544,6 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '50%',
     margin: '1rem auto'
   },
-  paper: {
-    margin: '0 auto .5rem',
-    padding: '1rem',
-    maxWidth: '600px',
-    width: '100%'
-  },
   field: {
     margin: '0 1rem 1rem'
   },

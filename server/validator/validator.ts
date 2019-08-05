@@ -34,7 +34,7 @@ export class Validator {
 
   private Exception = <T>(error: T, code: number) => {
     if (error && this.res) {
-      return this.res.send({ error: error }).status(code);
+      return this.res.status(code).send({ error: error });
     }
     if (this.next && !error) {
       return this.next();

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Divider from '@material-ui/core/Divider';
 import PhotoAlbum from '@material-ui/icons/PhotoAlbum';
 import Wallpaper from '@material-ui/icons/Wallpaper';
-import Files from '@material-ui/icons/PermMedia';
+// import Files from '@material-ui/icons/PermMedia';
 import Slideshow from '@material-ui/icons/Slideshow';
 import AssignmentInd from '@material-ui/icons/AssignmentInd';
 import PictureInPicture from '@material-ui/icons/PictureInPicture';
@@ -26,7 +26,7 @@ import { hasRoleSuperAdmin } from 'core/selectors';
 
 const toAlbums = () => goToSpecific('/admin');
 const toBlogs = () => goToSpecific('/admin/blogs');
-const toFiles = () => goToSpecific('/admin/files');
+// const toFiles = () => goToSpecific('/admin/files');
 const toSlider = () => goToSpecific('/admin/slider');
 const toBio = () => goToSpecific('/admin/bio');
 const toPhotos = () => goToSpecific('/admin/photos');
@@ -60,12 +60,12 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
           </ListItemIcon>
           <ListItemText primary={'блоги'} />
         </ListItem>
-        <ListItem button onClick={toFiles}>
+        {/* <ListItem button onClick={toFiles}>
           <ListItemIcon>
             <Files />
           </ListItemIcon>
           <ListItemText primary={'файлы'} />
-        </ListItem>
+        </ListItem> */}
         <ListItem button onClick={toSlider}>
           <ListItemIcon>
             <Slideshow />

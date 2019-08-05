@@ -29,4 +29,6 @@ export type AppDispatch =
 
   | { type: 'FETCH_BLOGS'; payload: AdminState['blogs'] }
 
+  | { type: 'FETCH_SLIDES'; payload: AdminState['slides'] }
+
 ;

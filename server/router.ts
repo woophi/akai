@@ -57,8 +57,8 @@ export function router(
   app.post('/api/admin/new/language', identity.authorizedForAdmin, controllers.createNewLanguage);
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);
 
-  app.post('/api/admin/new/slides', identity.authorizedForAdmin, controllers.createNewSlides);
-  app.post('/api/admin/ordinals/slides', identity.authorizedForAdmin, controllers.changeSlidesOrdinal);
+  app.post('/api/admin/update/slides', identity.authorizedForAdmin, controllers.updateMainSlider);
+  app.get('/api/admin/get/slides', identity.authorizedForAdmin, controllers.getAdminSlider);
 
   app.post('/api/admin/save/biography', identity.authorizedForAdmin, controllers.saveBiography);
 
