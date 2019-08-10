@@ -8,7 +8,7 @@ class Album extends React.PureComponent<WithRouterProps> {
     try {
       await ensureNotAuthorized();
     } catch (e) {
-      console.error('Error in Admin Album fetch', e);
+      console.error('Error in Admin Album edit fetch', e);
     }
   }
 

@@ -1,25 +1,14 @@
 import * as React from 'react';
 import { ensureNotAuthorized } from 'core/operations/auth';
-import { AdminLayout, Block, BoxWrap, LinkButton } from 'ui/index';
-import { AlbumModel } from 'core/models';
-import { getAllAlbums } from 'core/operations';
+import { AdminLayout } from 'ui/index';
 import Box from '@material-ui/core/Box';
 
-type LocalState = {
-  albums: AlbumModel[];
-};
-
-class Admin extends React.PureComponent<unknown, LocalState> {
-  state: LocalState = {
-    albums: []
-  };
+class Admin extends React.PureComponent {
   async componentDidMount() {
     try {
       await ensureNotAuthorized();
-      const albums = await getAllAlbums('ru');
-      this.setState({ albums });
     } catch (e) {
-      console.error('Error in Admin Gallery fetch', e);
+      console.error('Error in Admin fetch', e);
     }
   }
 
@@ -27,28 +16,7 @@ class Admin extends React.PureComponent<unknown, LocalState> {
     return (
       <AdminLayout>
         <Box flexDirection="column" flex={1}>
-          <LinkButton
-            href="/admin/create/album"
-            color="primary"
-            variant="contained"
-            label="Создать новый альбом"
-            style={{
-              marginLeft: 16
-            }}
-          />
-          <Box mt={2}>
-            <BoxWrap>
-              {this.state.albums.map((a, i) => (
-                <Block
-                  key={i}
-                  title={a.title}
-                  imgSrc={a.coverPhoto}
-                  subTitle={'изменить'}
-                  href={`album/${a.id}`}
-                />
-              ))}
-            </BoxWrap>
-          </Box>
+          {'Hello'}
         </Box>
       </AdminLayout>
     );

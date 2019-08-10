@@ -19,23 +19,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import { logout } from 'core/operations/auth';
-import { goToSpecific } from 'core/common';
 import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';
 import { hasRoleSuperAdmin } from 'core/selectors';
-
-const toAlbums = () => goToSpecific('/admin');
-const toBlogs = () => goToSpecific('/admin/blogs');
-// const toFiles = () => goToSpecific('/admin/files');
-const toSlider = () => goToSpecific('/admin/slider');
-const toBio = () => goToSpecific('/admin/bio');
-const toPhotos = () => goToSpecific('/admin/photos');
-const toBans = () => goToSpecific('/admin/bans');
-const toYoutube = () => goToSpecific('/admin/youtube');
-const toComments = () => goToSpecific('/admin/comments');
-const toFacebook = () => goToSpecific('/admin/facebook');
-const toFollowers = () => goToSpecific('/admin/followers');
-const toUsers = () => goToSpecific('/admin/users');
+import * as constants from 'ui/atoms/constants';
 
 type Props = {
   isSuperAdmin: boolean;
@@ -48,13 +35,13 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
     <div>
       <div className={classes.toolbar} />
       <List>
-        <ListItem button onClick={toAlbums}>
+        <ListItem button onClick={constants.toAlbums}>
           <ListItemIcon>
             <PhotoAlbum />
           </ListItemIcon>
           <ListItemText primary={'aльбомы'} />
         </ListItem>
-        <ListItem button onClick={toBlogs}>
+        <ListItem button onClick={constants.toBlogs}>
           <ListItemIcon>
             <Wallpaper />
           </ListItemIcon>
@@ -66,44 +53,44 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
           </ListItemIcon>
           <ListItemText primary={'файлы'} />
         </ListItem> */}
-        <ListItem button onClick={toSlider}>
+        <ListItem button onClick={constants.toSlider}>
           <ListItemIcon>
             <Slideshow />
           </ListItemIcon>
           <ListItemText primary={'главный слайдер'} />
         </ListItem>
-        <ListItem button onClick={toBio}>
+        <ListItem button onClick={constants.toBio}>
           <ListItemIcon>
             <AssignmentInd />
           </ListItemIcon>
           <ListItemText primary={'биография'} />
         </ListItem>
-        <ListItem button onClick={toPhotos}>
+        <ListItem button onClick={constants.toPhotos}>
           <ListItemIcon>
             <PictureInPicture />
           </ListItemIcon>
           <ListItemText primary={'фотографии'} />
         </ListItem>
-        <ListItem button onClick={toYoutube}>
+        <ListItem button onClick={constants.toYoutube}>
           <ListItemIcon>
             <VideoLibrary />
           </ListItemIcon>
           <ListItemText primary={'youtube'} />
         </ListItem>
-        <ListItem button onClick={toComments}>
+        <ListItem button onClick={constants.toComments}>
           <ListItemIcon>
             <Comment />
           </ListItemIcon>
           <ListItemText primary={'комментарии'} />
         </ListItem>
-        <ListItem button onClick={toFacebook}>
+        <ListItem button onClick={constants.toFacebook}>
           <ListItemIcon>
             <ThumbUp />
           </ListItemIcon>
           <ListItemText primary={'facebook'} />
         </ListItem>
 
-        <ListItem button onClick={toFollowers}>
+        <ListItem button onClick={constants.toFollowers}>
           <ListItemIcon>
             <Group />
           </ListItemIcon>
@@ -111,7 +98,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
         </ListItem>
 
         {isSuperAdmin && (
-          <ListItem button onClick={toUsers}>
+          <ListItem button onClick={constants.toUsers}>
             <ListItemIcon>
               <SupervisorAccount />
             </ListItemIcon>
@@ -130,7 +117,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
       </List>
       <Divider />
       <List>
-        <ListItem button onClick={toBans}>
+        <ListItem button onClick={constants.toBans}>
           <ListItemIcon>
             <Block />
           </ListItemIcon>

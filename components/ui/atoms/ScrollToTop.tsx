@@ -7,7 +7,18 @@ type LocalState = {
   show: boolean;
 };
 
-export class ScrollButton extends React.PureComponent<unknown, LocalState> {
+type ScrollButtonProps = {
+  position: 'left' | 'right';
+};
+
+export class ScrollButton extends React.PureComponent<
+  ScrollButtonProps,
+  LocalState
+> {
+  static defaultProps: ScrollButtonProps = {
+    position: 'left'
+  };
+
   timeInterval: NodeJS.Timeout = null;
   mounted: boolean = false;
 
@@ -18,7 +29,7 @@ export class ScrollButton extends React.PureComponent<unknown, LocalState> {
   get checkWindow() {
     if (typeof window !== 'undefined') return true;
     return false;
-  };
+  }
 
   componentDidMount() {
     this.mounted = true;
@@ -63,17 +74,23 @@ export class ScrollButton extends React.PureComponent<unknown, LocalState> {
   };
 
   render() {
-    return <ActionButton onClick={this.scrollToTop} visible={this.state.show} />;
+    return (
+      <ActionButton
+        onClick={this.scrollToTop}
+        visible={this.state.show}
+        position={this.props.position}
+      />
+    );
   }
 }
 
 type Props = {
   onClick: () => void;
   visible: boolean;
-};
+} & ScrollButtonProps;
 
-const ActionButton = React.memo<Props>(({ onClick, visible }) => {
-  const classes = useStyles({ visible });
+const ActionButton = React.memo<Props>(({ onClick, visible, position }) => {
+  const classes = useStyles({ visible, position });
   return (
     <IconButton color="secondary" className={classes.scrollTotop} onClick={onClick}>
       <NavigationIcon />
@@ -83,19 +100,20 @@ const ActionButton = React.memo<Props>(({ onClick, visible }) => {
 
 type StyleProps = {
   visible: boolean;
-};
+} & ScrollButtonProps;
 
 const useStyles = makeStyles<Theme, StyleProps>(theme => ({
   scrollTotop: props => ({
     position: 'fixed',
-    left: 15,
+    left: props.position === 'left' ? 15 : undefined,
+    right: props.position === 'right' ? 15 : undefined,
     bottom: 20,
     opacity: props.visible ? 0.3 : 0,
     visibility: props.visible ? 'visible' : 'hidden',
     transition: '.2s ease-in-out',
     '&:hover': {
       opacity: props.visible ? 0.9 : 0,
-      transform: props.visible ? 'scale(1.1)' : 'scale(1)',
+      transform: props.visible ? 'scale(1.1)' : 'scale(1)'
     }
   })
 }));

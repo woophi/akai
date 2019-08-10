@@ -13,7 +13,7 @@ import { AdminMenu } from './Menu';
 import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';
 import { getUserFetching, getUserId } from 'core/selectors';
-import { Spinner } from 'ui/atoms';
+import { Spinner, Bread, ScrollButton } from 'ui/atoms';
 
 type Props = {
   fetching: boolean;
@@ -48,7 +48,7 @@ const AdminLayoutComponent = React.memo<Props>(({ children, fetching, userId }) 
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Администрирование
+            {'Администрирование'}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -82,8 +82,9 @@ const AdminLayoutComponent = React.memo<Props>(({ children, fetching, userId }) 
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <Bread />
         {children}
+        <ScrollButton position={'right'} />
       </main>
     </div>
   );
@@ -118,14 +119,14 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
-    toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
     },
     content: {
       flexGrow: 1,
       display: 'flex',
-      paddingTop: '5rem'
+      paddingTop: '4rem',
+      flexDirection: 'column'
     },
   }),
 );

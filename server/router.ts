@@ -88,8 +88,8 @@ export function router(
     appNext.render(req, res, actualPage, queryParams)
   });
 
-  app.get('/admin/album/:id', identity.authorizedForAdmin, (req, res) => {
-    const actualPage = '/admin/album'
+  app.get('/admin/albums/edit/:id', identity.authorizedForAdmin, (req, res) => {
+    const actualPage = '/admin/albums/edit'
     const queryParams = { id: req.params.id }
     appNext.render(req, res, actualPage, queryParams)
   });
