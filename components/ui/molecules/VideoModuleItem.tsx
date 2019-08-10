@@ -32,7 +32,7 @@ const VideoModuleItemComponent: React.FC<Props> = React.memo(
       >
         <div className={classes.videoContentItemImg}>
           <img
-            src={`https://img.youtube.com/vi/${videoId}/sddefault.jpg`}
+            src={`https://img.youtube.com/vi/${videoId}/default.jpg`}
             alt={videoTitle}
           />
         </div>

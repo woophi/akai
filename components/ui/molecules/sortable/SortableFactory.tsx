@@ -16,28 +16,31 @@ const SortableItem = SortableElement(props => (
         fileId={input.value.file ? input.value.file._id : input.value}
         onRemoveField={() => props.removeCb(props.indexField)}
         text={`${props.indexField + 1} ${props.textItem || 'слайд'}`}
-        withDrag
+        withDrag={props.useDragHandle}
       />
     )}
   />
 ));
 
-const SortableList = SortableContainer(({ items, removeCb, textItem }) => {
-  return (
-    <div>
-      {items.map((name, index) => (
-        <SortableItem
-          key={`item-${index}`}
-          index={index}
-          name={name}
-          removeCb={removeCb}
-          indexField={index}
-          textItem={textItem}
-        />
-      ))}
-    </div>
-  );
-});
+const SortableList = SortableContainer<Props>(
+  ({ items, removeCb, textItem, useDragHandle }) => {
+    return (
+      <div>
+        {items.map((name, index) => (
+          <SortableItem
+            key={`item-${index}`}
+            index={index}
+            name={name}
+            removeCb={removeCb}
+            indexField={index}
+            textItem={textItem}
+            useDragHandle={useDragHandle}
+          />
+        ))}
+      </div>
+    );
+  }
+);
 
 type Props = {
   items: any;
