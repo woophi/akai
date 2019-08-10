@@ -33,4 +33,6 @@ export type AppDispatch =
 
   | { type: 'FETCH_BIO'; payload: AdminState['bio'] }
 
+  | { type: 'FETCH_PHOTOS'; payload: AdminState['photos'] }
+
 ;

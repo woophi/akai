@@ -5,7 +5,9 @@ export type Photos = Model<PhotosModel>;
 
 export type PhotosModel = {
   file: Files;
+  ordinal: number;
 }
 export type PhotosSaveModel = {
   file: string;
+  ordinal: number;
 }

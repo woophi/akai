@@ -2,6 +2,7 @@ import { FileItem } from './files';
 import { BlogPreviewItem } from '../blog';
 import { SlideItem } from './slider';
 import { BioData } from './bio';
+import { PhotoItem } from './photos';
 
 export type AdminState = {
   section: Section;
@@ -10,7 +11,8 @@ export type AdminState = {
   uploadingFile: boolean;
   blogs: BlogPreviewItem[];
   slides: SlideItem[];
-  bio: BioData
+  bio: BioData;
+  photos: PhotoItem[]
 };
 
 export enum Section {

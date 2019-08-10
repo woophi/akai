@@ -63,6 +63,9 @@ export function router(
   app.get('/api/admin/get/bio', identity.authorizedForAdmin, controllers.getAdminBiography);
   app.post('/api/admin/update/bio', identity.authorizedForAdmin, controllers.saveBiography);
 
+  app.get('/api/admin/get/photos', identity.authorizedForAdmin, controllers.getAdminPhotos);
+  app.post('/api/admin/update/photos', identity.authorizedForAdmin, controllers.updatePhotos);
+
   app.post('/api/admin/new/youtube', identity.authorizedForAdmin, controllers.createNewYoutubeUrl);
   app.get('/api/admin/all/youtube', identity.authorizedForAdmin, controllers.getYoutubeUrls);
   app.delete('/api/admin/delete/youtube', identity.authorizedForAdmin, controllers.deleteYoutubeUrl);

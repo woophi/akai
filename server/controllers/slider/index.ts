@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import SliderModel from 'server/models/slider';
 import * as models from 'server/models/types';
 import { Logger } from 'server/logger';
+import { HTTPStatus } from 'server/lib/models';
 
 export const getSlidesForGuest = async (
   req: Request,
@@ -13,20 +14,20 @@ export const getSlidesForGuest = async (
       path: 'slide',
       select: 'name url'
     })
+    .sort({ ordinal: 1 })
     .exec((err, sliders: models.Slider[]) => {
       if (err) {
         Logger.error(err);
-        res.sendStatus(500);
+        res.sendStatus(HTTPStatus.ServerError);
       }
       if (!sliders) {
-        res.send([]).status(200);
+        res.send([]).status(HTTPStatus.OK);
       }
       const slides = sliders
-        .sort((first, second) => first.ordinal - second.ordinal)
         .map(slide => ({
           src: slide.slide.url,
           name: slide.slide.name
         }));
-      return res.send(slides).status(200);
+      return res.send(slides).status(HTTPStatus.OK);
     });
 };

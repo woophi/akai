@@ -14,3 +14,7 @@ export const getAdminSlides = createSelector(
   getAdminState,
   admin => admin.slides
 );
+export const getAdminPhotos = createSelector(
+  getAdminState,
+  admin => admin.photos
+);

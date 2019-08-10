@@ -7,6 +7,9 @@ export const PhotosSchema = new mongoose.Schema(
 		file: {
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.FILES
+    },
+    ordinal: {
+      type: Number
     }
   },
 	{ collection: SchemaNames.PHOTOS }

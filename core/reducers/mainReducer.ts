@@ -25,7 +25,8 @@ export const initialState: models.AppState['ui'] = {
       bioRu: '',
       id: '',
       photoId: ''
-    }
+    },
+    photos: []
   }
 }
 
@@ -143,6 +144,15 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         admin: {
           ...state.admin,
           bio: dispatch.payload
+        }
+      };
+    }
+    case 'FETCH_PHOTOS': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          photos: dispatch.payload
         }
       };
     }

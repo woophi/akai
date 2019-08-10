@@ -9,6 +9,7 @@ export const getPhotos = async (req: Request, res: Response, next: NextFunction)
       path: 'file',
       select: 'name url thumbnail -_id'
     })
+    .sort({ ordinal: 1 })
     .select('file -_id')
     .lean();
 
