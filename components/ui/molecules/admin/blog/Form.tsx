@@ -20,6 +20,7 @@ import moment from 'moment';
 import { PictureField } from './PictureField';
 import { PicturesChooser } from './PicturesChooser';
 import { editBlog, createNewBlog } from './operations';
+import { SortableFactory } from 'ui/molecules/sortable';
 
 type Props = {
   blogId?: string;
@@ -300,24 +301,28 @@ export const BlogForm = React.memo<Props>(({ blogId, initialValues = {} }) => {
             )}
           />
           <FieldArray name="photos">
-            {({ fields }) => (
+            {({ fields }) => {
+              const onSortEnd = ({ oldIndex, newIndex }) => {
+                fields.move(oldIndex, newIndex);
+              };
+              const removeCb = (index: number) => {
+                fields.remove(index);
+              };
+              return(
               <>
                 <PicturesChooser onConfirm={fields.push} className={classes.field} />
-                {fields.map((name, index) => (
-                  <Field
-                    name={`${name}`}
-                    key={name}
-                    render={({ input }) => (
-                      // TODO: sortable
-                      <PictureField
-                        fileId={input.value}
-                        onRemoveField={() => fields.remove(index)}
-                      />
-                    )}
-                  />
-                ))}
+                <SortableFactory
+                  items={fields}
+                  onSortEnd={onSortEnd}
+                  lockAxis="y"
+                  removeCb={removeCb}
+                  lockToContainerEdges
+                  useDragHandle
+                  transitionDuration={200}
+                  textItem={'картина'}
+                />
               </>
-            )}
+            )}}
           </FieldArray>
           <Field
             name="bodyRu"

@@ -10,11 +10,13 @@ import { connect as redux } from 'react-redux';
 import { AppState, FileItem } from 'core/models';
 import { getAdminFiles } from 'core/selectors';
 import { styleTruncate } from 'ui/atoms';
+import { DragHandler } from 'ui/molecules';
 
 type OwnProps = {
   onRemoveField?: () => void;
   fileId?: string;
   text?: string;
+  withDrag?: boolean;
 };
 
 type Props = {
@@ -22,10 +24,13 @@ type Props = {
 } & OwnProps;
 
 const PictureFieldComponent = React.memo<Props>(
-  ({ onRemoveField, fileId, files, text = '' }) => {
+  ({ onRemoveField, fileId, files, text = '', withDrag = false }) => {
     const file = files.find(f => f._id == fileId) || ({} as FileItem);
     return (
       <ListItem>
+        {withDrag && (
+          <DragHandler />
+        )}
         <ListItemAvatar>
           <Avatar alt={file.name} src={file.url} />
         </ListItemAvatar>

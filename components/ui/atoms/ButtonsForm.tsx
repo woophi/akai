@@ -37,17 +37,18 @@ export const ButtonsForm = React.memo<Props>(
           color="primary"
           className={classes.sbm}
         >
-          {t(submitLabel || 'common:buttons.send')}
+          {submitting ? (
+            <Icon
+              className={`fas fa-circle-notch fa-spin`}
+              color="action"
+              style={{
+                margin: 'auto'
+              }}
+            />
+          ) : (
+            t(submitLabel || 'common:buttons.send')
+          )}
         </Button>
-        {submitting && (
-          <Icon
-            className={`fas fa-circle-notch fa-spin`}
-            color="primary"
-            style={{
-              margin: 'auto'
-            }}
-          />
-        )}
       </div>
     );
   }

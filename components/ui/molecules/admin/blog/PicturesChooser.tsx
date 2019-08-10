@@ -35,6 +35,7 @@ export const PicturesChooser = React.memo<Props>(
       setOpen(false);
       if (onConfirm) {
         chosenFiles.forEach(b => onConfirm(b));
+        chooseFile([]);
       }
     };
 
@@ -58,7 +59,7 @@ export const PicturesChooser = React.memo<Props>(
           title={'Выберете картины'}
         >
           <Box flex={1} height={500} display="flex" flexWrap="wrap">
-            <Box minWidth={250}>
+            <Box minWidth={250} minHeight={250}>
               <FilesList onClickCb={chooseFile} selectedFiles={chosenFiles} />
             </Box>
             <PaperDropzone />

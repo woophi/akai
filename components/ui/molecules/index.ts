@@ -7,3 +7,4 @@ export * from './VideoModule';
 export * from './VideoModuleItem';
 export * from './comments';
 export * from './admin';
+export * from './sortable';

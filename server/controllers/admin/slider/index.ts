@@ -46,16 +46,28 @@ export const updateMainSlider = async (
           const shouldBeDeleted = slides.filter(
             s =>
               !slidersData.slides.find(us =>
-                us.id ? us.id == s._id.toString() : true
+                us.id ? us.id == s._id.toString() : false
               )
           );
 
           if (shouldBeDeleted.length) {
-            shouldBeDeleted.forEach(slide => {
-              slide.remove();
-            });
+            const deleteSlide = (slide: models.Slider, callback) =>
+              slide.remove(callback);
+
+            async.eachSeries(
+              shouldBeDeleted,
+              (slide: models.Slider, callback) => deleteSlide(slide, callback),
+              err => {
+                if (err) {
+                  return res.sendStatus(HTTPStatus.ServerError);
+                }
+                Logger.debug('all others SliderModels deleted');
+                return cb();
+              }
+            );
+          } else {
+            return cb();
           }
-          return cb();
         });
       }
     ],

@@ -1389,6 +1389,13 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
+"@types/react-sortable-hoc@^0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@types/react-sortable-hoc/-/react-sortable-hoc-0.6.5.tgz#3f40611427b4dd1ed06f99678a5df7c0f950de29"
+  integrity sha512-0Ms36xuds/pByIQFobwlDGPaUPSF6jOZUhOqf/0SaX/ZC0z9a/vwwWigEJomTvlshyjlKwB6JXV9TK+8keXq7w==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-transition-group@^2.0.16":
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-2.9.1.tgz#66c9ca5d0b20bae72fe6b797e0d362b996d55e9f"
@@ -6445,7 +6452,7 @@ prop-types@15.6.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6710,6 +6717,23 @@ react-responsive-carousel@^3.1.49:
     prop-types "^15.5.8"
     react-easy-swipe "^0.0.16"
 
+react-sortable-hoc@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.9.1.tgz#ae3d28c3cff87fb862be3ddcde9c76b5b5bd2152"
+  integrity sha512-2VeofjRav8+eZeE5Nm/+b8mrA94rQ+gBsqhXi8pRBSjOWNqslU3ZEm+0XhSlfoXJY2lkgHipfYAUuJbDtCixRg==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    invariant "^2.2.4"
+    prop-types "^15.5.7"
+
+react-spring@^8.0.27:
+  version "8.0.27"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.27.tgz#97d4dee677f41e0b2adcb696f3839680a3aa356a"
+  integrity sha512-nDpWBe3ZVezukNRandTeLSPcwwTMjNVu1IDq9qA/AMiUqHuRN4BeSWvKr3eIxxg1vtiYiOLy4FqdfCP5IoP77g==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    prop-types "^15.5.8"
+
 react-transition-group@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.0.1.tgz#8cb8d58763e259da465385bb83b3b41b3ecba629"
@@ -6718,6 +6742,11 @@ react-transition-group@^4.0.0:
     dom-helpers "^3.4.0"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-use-gesture@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-5.2.3.tgz#3505b45f1076963040ed6204a81ee5f252d55b36"
+  integrity sha512-aXpit9o3EhmlM/erBu9wzWNrx7Wbms/ha38I/XSF+ybUdZ9idhWjy4LODGfj+wqMNNdmphLfYLPO+WfApYXAiA==
 
 react-virtualized-auto-sizer@^1.0.2:
   version "1.0.2"

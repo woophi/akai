@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { ButtonsForm, Snakbars } from 'ui/atoms';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core';
 import { FORM_ERROR } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import { FieldArray } from 'react-final-form-arrays';
 import { SlideItem } from 'core/models';
 import { PicturesChooser } from '../blog/PicturesChooser';
-import { PictureField } from '../blog/PictureField';
 import { updateSlides, getAllSlides } from './operations';
+import { SortableFactory } from 'ui/molecules/sortable';
 
 type Props = {
   initialValues?: {
@@ -59,28 +59,32 @@ export const SliderForm = React.memo<Props>(({ initialValues }) => {
             className={classes.field}
           />
           <FieldArray name="slides">
-            {({ fields }) => (
-              <>
-                <PicturesChooser
-                  onConfirm={id => fields.push({ file: { _id: id } })}
-                  className={classes.field}
-                  label={'Добавить слайды'}
-                />
-                {fields.map((name, index) => (
-                  <Field
-                    name={`${name}`}
-                    key={name}
-                    render={({ input }) => (
-                      <PictureField
-                        fileId={input.value.file._id}
-                        onRemoveField={() => fields.remove(index)}
-                        text={`${index + 1} слайд`}
-                      />
-                    )}
+            {({ fields }) => {
+              const onSortEnd = ({ oldIndex, newIndex }) => {
+                fields.move(oldIndex, newIndex);
+              };
+              const removeCb = (index: number) => {
+                fields.remove(index);
+              };
+              return (
+                <>
+                  <PicturesChooser
+                    onConfirm={id => fields.push({ file: { _id: id } })}
+                    className={classes.field}
+                    label={'Добавить слайды'}
                   />
-                ))}
-              </>
-            )}
+                  <SortableFactory
+                    items={fields}
+                    onSortEnd={onSortEnd}
+                    lockAxis="y"
+                    removeCb={removeCb}
+                    lockToContainerEdges
+                    useDragHandle
+                    transitionDuration={200}
+                  />
+                </>
+              );
+            }}
           </FieldArray>
 
           <ButtonsForm
