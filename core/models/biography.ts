@@ -6,9 +6,10 @@ export type BioModel = {
 };
 
 export type SaveBioModel = {
+  id: string;
   bio: {
     localeId: LocaleIds;
     content: string;
-  };
+  }[];
   photoId: string;
 };

@@ -18,7 +18,14 @@ export const initialState: models.AppState['ui'] = {
     selectedFile: null,
     uploadingFile: false,
     blogs: [],
-    slides: []
+    slides: [],
+    bio: {
+      bioCs: '',
+      bioEn: '',
+      bioRu: '',
+      id: '',
+      photoId: ''
+    }
   }
 }
 
@@ -127,6 +134,15 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         admin: {
           ...state.admin,
           slides: dispatch.payload
+        }
+      };
+    }
+    case 'FETCH_BIO': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          bio: dispatch.payload
         }
       };
     }

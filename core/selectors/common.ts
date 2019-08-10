@@ -7,3 +7,8 @@ export const getAdminState = createSelector(
   selectState,
   ui => ui.admin
 );
+
+export const getAdminBioData = createSelector(
+  getAdminState,
+  admin => admin.bio
+);

@@ -80,6 +80,7 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
     <Box flex={1} minHeight={250} maxHeight={500} display="flex" flexDirection="column">
       <Snakbars message={error} variant="error" />
       <InputSearch onChangeCb={search} value={query} />
+      <Box marginTop={1} />
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList

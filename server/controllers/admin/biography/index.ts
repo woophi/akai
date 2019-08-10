@@ -13,8 +13,8 @@ export const saveBiography = async (
 ) => {
   const validate = new kia.Validator(req, res, next);
 
-  const biography: models.BiographySaveModel = {
-    bio: [req.body.bio],
+  const biographyData: models.BiographySaveModel = {
+    bio: req.body.bio,
     coverPhoto: req.body.photoId,
     createdBy: req.session.userId
   };
@@ -27,50 +27,46 @@ export const saveBiography = async (
             coverPhoto: validate.required,
             createdBy: validate.required
           },
-          biography,
+          biographyData,
           cb
         )
     ],
     async () => {
-
       const biographyOne = await BiographyModel.findOne().exec();
       if (!biographyOne) {
-        return new BiographyModel(biography)
-          .save(err => {
-            if (err) {
-              Logger.error('err to create new biography' + err);
-              return res.sendStatus(HTTPStatus.ServerError);
-            }
-            return res.sendStatus(HTTPStatus.OK);
-          });
-      }
-
-      return BiographyModel.findOne()
-        .populate('coverPhoto')
-        .exec((err, bio: models.Biography) => {
+        return new BiographyModel(biographyData).save(err => {
           if (err) {
-            Logger.error('err to get biography' + err);
+            Logger.error('err to create new biography' + err);
             return res.sendStatus(HTTPStatus.ServerError);
           }
-          const sameLang = bio.bio.find(b => b.localeId === biography.bio[0].localeId);
-          const newBios = sameLang
-            ? bio.bio.filter(b => b.localeId !== sameLang.localeId)
-            : bio.bio;
-          bio.set({
-            bio: [ ...newBios, biography.bio[0] ],
-            coverPhoto: biography.coverPhoto
-          })
-          .save(err => {
-            if (err) {
-              Logger.error('err to create new biography' + err);
-              return res.sendStatus(HTTPStatus.ServerError);
-            }
-            return res.sendStatus(HTTPStatus.OK);
-          })
+          return res.sendStatus(HTTPStatus.OK);
         });
-
+      }
+      biographyOne.set(biographyData).save(err => {
+        if (err) {
+          Logger.error('err to update biography' + err);
+          return res.sendStatus(HTTPStatus.ServerError);
+        }
+        return res.sendStatus(HTTPStatus.OK);
+      });
     }
   );
+};
 
+export const getAdminBiography = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const bioData = (await BiographyModel.findOne().lean()) as models.Biography;
 
+  const payload = {
+    photoId: bioData.coverPhoto,
+    bioEn: bioData.bio.find(t => t.localeId === 'en').content,
+    bioCs: bioData.bio.find(t => t.localeId === 'cs').content,
+    bioRu: bioData.bio.find(t => t.localeId === 'ru').content,
+    id: bioData.id
+  };
+
+  return res.send(payload).status(HTTPStatus.OK);
 };

@@ -1,12 +1,9 @@
-import { store } from 'core/store';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 
 export const subscribe = (email: string) =>
   callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
 
-export const saveBio = (data: models.SaveBioModel) =>
-  callApi<void>('post', 'api/admin/save/biography', data, store.getState().ui.user.token);
 export const getBio = (localeId: models.LocaleIds) =>
   callApi<models.BioModel>('get', `api/guest/biography?localeId=${localeId}`);
 
