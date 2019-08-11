@@ -10,6 +10,7 @@ import config from 'server/config';
 import { EventBus } from 'server/lib/events';
 import { IgEvents } from 'server/instagram/types';
 
+// TODO: notify subscribers about new post
 export const createNewPost = async (
   req: Request,
   res: Response,

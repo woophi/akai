@@ -32,11 +32,16 @@ type Props = {
   facebookActive: boolean;
 };
 
+let fetchedOnce = false;
+
 const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) => {
   const classes = useStyles({});
 
   React.useEffect(() => {
-    checkFBOnePage();
+    if (!fetchedOnce) {
+      checkFBOnePage();
+      fetchedOnce = true;
+    }
   }, [])
 
   return (
