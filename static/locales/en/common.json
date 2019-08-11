@@ -1,7 +1,8 @@
 {
   "subscribe": {
     "emailBtn": "E-mail",
-    "placeholder": "Enter your email address"
+    "placeholder": "Enter your email address",
+    "label": "Sign up to be the first to know about the new painting"
   },
   "footer": {
     "rights": "All rights reserved",

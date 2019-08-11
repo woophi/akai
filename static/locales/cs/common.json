@@ -1,7 +1,8 @@
 {
   "subscribe": {
     "emailBtn": "E-mail",
-    "placeholder": "Zadejte Vas email"
+    "placeholder": "Zadejte Vas email",
+    "label": "Přihlaste se a získejte první informace o novém obraze"
   },
   "footer": {
     "rights": "Všechna práva vyhrazena",

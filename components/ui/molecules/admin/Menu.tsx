@@ -110,7 +110,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
           <ListItemText primary={'Facebook'} />
         </ListItem>
 
-        <ListItem button onClick={constants.toFollowers}>
+        <ListItem button onClick={constants.toFollowers} disabled>
           <ListItemIcon>
             <Group />
           </ListItemIcon>
@@ -118,7 +118,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
         </ListItem>
 
         {isSuperAdmin && (
-          <ListItem button onClick={constants.toUsers}>
+          <ListItem button onClick={constants.toUsers} disabled>
             <ListItemIcon>
               <SupervisorAccount />
             </ListItemIcon>
@@ -137,7 +137,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
       </List>
       <Divider />
       <List>
-        <ListItem button onClick={constants.toBans}>
+        <ListItem button onClick={constants.toBans} disabled>
           <ListItemIcon>
             <Block />
           </ListItemIcon>

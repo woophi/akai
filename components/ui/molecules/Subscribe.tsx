@@ -10,6 +10,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import { ResultSubscribe } from 'core/models';
 import { ArrowTooltip } from 'ui/atoms';
 import { useTranslation } from 'server/lib/i18n';
+import InputLabel from '@material-ui/core/InputLabel';
 
 type Props = {
   onSubscribe: (email: string) => Promise<ResultSubscribe>;
@@ -45,6 +46,9 @@ export const Subscribe: React.FC<Props> = React.memo(({ onSubscribe }) => {
       >
         {t('common:subscribe.emailBtn')}
       </Button>
+      <InputLabel style={{ marginBottom: '.5rem' }}>
+        {t('common:subscribe.label')}
+      </InputLabel>
       <Paper className={classes.root}>
         <InputBase
           className={classes.input}
