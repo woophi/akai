@@ -10,7 +10,8 @@ export const YoutubeSchema = new mongoose.Schema(
     },
     title: {
       type: String
-    }
+    },
+    ordinal: Number
   },
 	{ collection: SchemaNames.YOUTUBE }
 );

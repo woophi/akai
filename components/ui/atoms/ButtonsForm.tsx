@@ -10,11 +10,12 @@ type Props = {
   both?: boolean;
   onCancel?: () => void;
   submitLabel?: string;
+  noMargin?: boolean;
 };
 
 export const ButtonsForm = React.memo<Props>(
-  ({ pristine, submitting, both = false, onCancel, submitLabel }) => {
-    const classes = useStyles({});
+  ({ pristine, submitting, both = false, onCancel, submitLabel, noMargin = false }) => {
+    const classes = useStyles({ noMargin });
     const { t } = useTranslation();
     return (
       <div className={classes.button}>
@@ -55,10 +56,10 @@ export const ButtonsForm = React.memo<Props>(
 );
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    margin: '0 auto 1rem',
+  button: (props: any) => ({
+    margin: props.noMargin ? undefined : '0 auto 1rem',
     color: theme.palette.text.secondary
-  },
+  }),
   sbm: {
     color: theme.palette.text.secondary
   },

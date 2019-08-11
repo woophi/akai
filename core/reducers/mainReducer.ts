@@ -26,7 +26,8 @@ export const initialState: models.AppState['ui'] = {
       id: '',
       photoId: ''
     },
-    photos: []
+    photos: [],
+    youtubes: []
   }
 }
 
@@ -153,6 +154,15 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         admin: {
           ...state.admin,
           photos: dispatch.payload
+        }
+      };
+    }
+    case 'FETCH_YOUTUBE': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          youtubes: dispatch.payload
         }
       };
     }

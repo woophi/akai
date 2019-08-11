@@ -5,4 +5,5 @@ export type YoutubeModel = {
 export type YoutubeItem = {
   videoId: string;
   title: string;
+  ordinal: number;
 }

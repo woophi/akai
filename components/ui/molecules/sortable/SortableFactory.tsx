@@ -6,26 +6,36 @@ import {
 import * as React from 'react';
 import { Field } from 'react-final-form';
 import { PictureField } from '../admin/blog/PictureField';
+import { YoutubeField } from '../admin/youtube/YoutubeField';
+import Box from '@material-ui/core/Box';
 
 const SortableItem = SortableElement(props => (
   <Field
     name={`${props.name}`}
     key={props.name}
     render={({ input }) => (
-      <PictureField
-        fileId={input.value.file ? input.value.file._id : input.value}
-        onRemoveField={() => props.removeCb(props.indexField)}
-        text={`${props.indexField + 1} ${props.textItem || 'слайд'}`}
-        withDrag={props.useDragHandle}
-      />
+      props.typeOfField === 'photo' ?
+        <PictureField
+          fileId={input.value.file ? input.value.file._id : input.value}
+          onRemoveField={() => props.removeCb(props.indexField)}
+          text={`${props.indexField + 1} ${props.textItem || 'слайд'}`}
+          withDrag={props.useDragHandle}
+        />
+      :
+        <YoutubeField
+          videoId={input.value.videoId}
+          onRemoveField={() => props.removeCb(props.indexField)}
+          text={input.value.title}
+          withDrag={props.useDragHandle}
+        />
     )}
   />
 ));
 
 const SortableList = SortableContainer<Props>(
-  ({ items, removeCb, textItem, useDragHandle }) => {
+  ({ items, removeCb, textItem, useDragHandle, typeOfField }) => {
     return (
-      <div>
+      <Box>
         {items.map((name, index) => (
           <SortableItem
             key={`item-${index}`}
@@ -35,9 +45,10 @@ const SortableList = SortableContainer<Props>(
             indexField={index}
             textItem={textItem}
             useDragHandle={useDragHandle}
+            typeOfField={typeOfField}
           />
         ))}
-      </div>
+      </Box>
     );
   }
 );
@@ -45,6 +56,7 @@ const SortableList = SortableContainer<Props>(
 type Props = {
   items: any;
   removeCb: (index: number) => void;
+  typeOfField: 'youtube' | 'photo';
   textItem?: string;
 } & SortableContainerProps;
 

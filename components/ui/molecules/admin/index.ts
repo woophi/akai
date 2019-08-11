@@ -4,3 +4,4 @@ export * from './blog';
 export * from './slider';
 export * from './bio';
 export * from './photos';
+export * from './youtube';

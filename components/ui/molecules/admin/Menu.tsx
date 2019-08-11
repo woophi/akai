@@ -39,13 +39,13 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
           <ListItemIcon>
             <PhotoAlbum />
           </ListItemIcon>
-          <ListItemText primary={'aльбомы'} />
+          <ListItemText primary={'Альбомы'} />
         </ListItem>
         <ListItem button onClick={constants.toBlogs}>
           <ListItemIcon>
             <Wallpaper />
           </ListItemIcon>
-          <ListItemText primary={'блоги'} />
+          <ListItemText primary={'Блоги'} />
         </ListItem>
         {/* <ListItem button onClick={toFiles}>
           <ListItemIcon>
@@ -57,44 +57,44 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
           <ListItemIcon>
             <Slideshow />
           </ListItemIcon>
-          <ListItemText primary={'главный слайдер'} />
+          <ListItemText primary={'Главный слайдер'} />
         </ListItem>
         <ListItem button onClick={constants.toBio}>
           <ListItemIcon>
             <AssignmentInd />
           </ListItemIcon>
-          <ListItemText primary={'биография'} />
+          <ListItemText primary={'Биография'} />
         </ListItem>
         <ListItem button onClick={constants.toPhotos}>
           <ListItemIcon>
             <PictureInPicture />
           </ListItemIcon>
-          <ListItemText primary={'фотографии'} />
+          <ListItemText primary={'Фотографии'} />
         </ListItem>
         <ListItem button onClick={constants.toYoutube}>
           <ListItemIcon>
             <VideoLibrary />
           </ListItemIcon>
-          <ListItemText primary={'youtube'} />
+          <ListItemText primary={'Youtube'} />
         </ListItem>
         <ListItem button onClick={constants.toComments}>
           <ListItemIcon>
             <Comment />
           </ListItemIcon>
-          <ListItemText primary={'комментарии'} />
+          <ListItemText primary={'Комментарии'} />
         </ListItem>
         <ListItem button onClick={constants.toFacebook}>
           <ListItemIcon>
             <ThumbUp />
           </ListItemIcon>
-          <ListItemText primary={'facebook'} />
+          <ListItemText primary={'Facebook'} />
         </ListItem>
 
         <ListItem button onClick={constants.toFollowers}>
           <ListItemIcon>
             <Group />
           </ListItemIcon>
-          <ListItemText primary={'подписчики'} />
+          <ListItemText primary={'Подписчики'} />
         </ListItem>
 
         {isSuperAdmin && (
@@ -102,7 +102,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
             <ListItemIcon>
               <SupervisorAccount />
             </ListItemIcon>
-            <ListItemText primary={'пользователи'} />
+            <ListItemText primary={'Пользователи'} />
           </ListItem>
         )}
         {/* <ListItem button onClick={toSketchBooks}>
@@ -121,13 +121,13 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
           <ListItemIcon>
             <Block />
           </ListItemIcon>
-          <ListItemText primary={'черный список'} />
+          <ListItemText primary={'Черный список'} />
         </ListItem>
         <ListItem button onClick={logout}>
           <ListItemIcon>
             <ExitToApp />
           </ListItemIcon>
-          <ListItemText primary={'выйти'} />
+          <ListItemText primary={'Выйти'} />
         </ListItem>
       </List>
     </div>

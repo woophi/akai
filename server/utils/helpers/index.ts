@@ -21,3 +21,5 @@ export const checkConfiguration = (config: { [key: string]: any}) => {
     process.exit(1);
   }
 }
+
+export const youtubePattern = /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/;

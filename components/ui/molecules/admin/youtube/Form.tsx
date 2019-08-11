@@ -5,39 +5,38 @@ import { makeStyles } from '@material-ui/core';
 import { FORM_ERROR } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import { FieldArray } from 'react-final-form-arrays';
-import { PhotoItem } from 'core/models';
-import { PicturesChooser } from '../blog/PicturesChooser';
-import { updatePhotos, getAllPhotos } from './operations';
+import { YoutubeItem } from 'core/models';
+import { updateYoutubes, getAllYoutubes } from './operations';
 import { SortableFactory } from 'ui/molecules/sortable';
 
 type Props = {
   initialValues?: {
-    photos: PhotoItem[];
+    youtubes: YoutubeItem[];
   };
 };
 
-type PhotosForm = {
-  photos: PhotoItem[];
+type YoutubeForm = {
+  youtubes: YoutubeItem[];
 };
 
-const onSubmit = async (data: PhotosForm) => {
-  if (!data.photos || !data.photos.length) {
-    return { [FORM_ERROR]: 'Необходимо добавить хотя бы одино фото' };
+const onSubmit = async (data: YoutubeForm) => {
+  if (!data.youtubes || !data.youtubes.length) {
+    return { [FORM_ERROR]: 'Необходимо добавить хотя бы один слайд' };
   }
   try {
-    await updatePhotos(data.photos);
-    await getAllPhotos();
+    await updateYoutubes(data.youtubes);
+    await getAllYoutubes();
   } catch (error) {
     return { [FORM_ERROR]: error.error };
   }
 };
 
-export const PhotosForm = React.memo<Props>(({ initialValues }) => {
+export const YoutubeForm = React.memo<Props>(({ initialValues }) => {
   const classes = useStyles({});
 
   return (
     <Form
-      onSubmit={(d: PhotosForm) => onSubmit(d)}
+      onSubmit={onSubmit}
       mutators={{
         ...arrayMutators
       }}
@@ -58,7 +57,7 @@ export const PhotosForm = React.memo<Props>(({ initialValues }) => {
             message={submitError}
             className={classes.field}
           />
-          <FieldArray name="photos">
+          <FieldArray name="youtubes">
             {({ fields }) => {
               const onSortEnd = ({ oldIndex, newIndex }) => {
                 fields.move(oldIndex, newIndex);
@@ -68,11 +67,6 @@ export const PhotosForm = React.memo<Props>(({ initialValues }) => {
               };
               return (
                 <>
-                  <PicturesChooser
-                    onConfirm={id => fields.push({ file: { _id: id } })}
-                    className={classes.field}
-                    label={'Добавить фотографии'}
-                  />
                   <SortableFactory
                     items={fields}
                     onSortEnd={onSortEnd}
@@ -81,8 +75,7 @@ export const PhotosForm = React.memo<Props>(({ initialValues }) => {
                     lockToContainerEdges
                     useDragHandle
                     transitionDuration={200}
-                    textItem={'фото'}
-                    typeOfField="photo"
+                    typeOfField="youtube"
                   />
                 </>
               );
@@ -108,7 +101,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     flex: 1,
     minWidth: 320,
-    maxWidth: '50%',
+    maxWidth: '50vw',
     margin: '1rem auto'
   },
   field: {

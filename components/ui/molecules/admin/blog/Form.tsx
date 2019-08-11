@@ -320,6 +320,7 @@ export const BlogForm = React.memo<Props>(({ blogId, initialValues = {} }) => {
                   useDragHandle
                   transitionDuration={200}
                   textItem={'картина'}
+                  typeOfField="photo"
                 />
               </>
             )}}

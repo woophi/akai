@@ -3,6 +3,7 @@ import { BlogPreviewItem } from '../blog';
 import { SlideItem } from './slider';
 import { BioData } from './bio';
 import { PhotoItem } from './photos';
+import { YoutubeItem } from '../youtube';
 
 export type AdminState = {
   section: Section;
@@ -12,7 +13,8 @@ export type AdminState = {
   blogs: BlogPreviewItem[];
   slides: SlideItem[];
   bio: BioData;
-  photos: PhotoItem[]
+  photos: PhotoItem[];
+  youtubes: YoutubeItem[]
 };
 
 export enum Section {

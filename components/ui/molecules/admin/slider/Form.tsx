@@ -81,6 +81,7 @@ export const SliderForm = React.memo<Props>(({ initialValues }) => {
                     lockToContainerEdges
                     useDragHandle
                     transitionDuration={200}
+                    typeOfField="photo"
                   />
                 </>
               );

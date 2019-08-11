@@ -35,4 +35,5 @@ export type AppDispatch =
 
   | { type: 'FETCH_PHOTOS'; payload: AdminState['photos'] }
 
+  | { type: 'FETCH_YOUTUBE'; payload: AdminState['youtubes'] }
 ;

@@ -12,3 +12,8 @@ export const getAdminBioData = createSelector(
   getAdminState,
   admin => admin.bio
 );
+
+export const getAdminYoutubes = createSelector(
+  getAdminState,
+  admin => admin.youtubes
+);
