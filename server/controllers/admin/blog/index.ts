@@ -9,8 +9,8 @@ import { getFacebookPageIds, createImgPost } from 'server/facebook';
 import config from 'server/config';
 import { EventBus } from 'server/lib/events';
 import { IgEvents } from 'server/instagram/types';
+import { sendMailToSubscribersAfterBlogPost } from '../subscribers';
 
-// TODO: notify subscribers about new post
 export const createNewPost = async (
   req: Request,
   res: Response,
@@ -28,6 +28,8 @@ export const createNewPost = async (
     creationPictureDate: req.body.creationPictureDate,
     parameters: req.body.parameters || []
   };
+  const notifySubscribers = req.body.notifySubscribers;
+  const adminEmail = req.session.user.email;
   let savedBlogId: string;
   async.series(
     [
@@ -68,6 +70,9 @@ export const createNewPost = async (
         await createImgPost(`${config.SITE_URI}gallery/album/${savedBlogId}`, caption, fPages[0]);
 
         process.nextTick(() => EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId }));
+      }
+      if (notifySubscribers && savedBlogId) {
+        sendMailToSubscribersAfterBlogPost(savedBlogId, adminEmail);
       }
       return res.send(savedBlogId).status(HTTPStatus.OK);
     }

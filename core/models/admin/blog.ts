@@ -18,7 +18,8 @@ export type GeneralBlogData = {
     name: string;
     value: string;
     localeId: string;
-  }[]
+  }[],
+  notifySubscribers?: boolean;
 };
 
 export type NewBlogData = GeneralBlogData;

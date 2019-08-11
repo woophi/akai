@@ -54,7 +54,7 @@ export const sendMailToAdmins = (req: Request, res: Response,
   () => {
     const mailer = new mails.Mailer(
       'message to admins from guest',
-      EmailTemplate.email,
+      EmailTemplate.contactEmail,
       addresses,
       `новое сообщение от посетителя ${message.name}`,
       '',

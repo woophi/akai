@@ -31,7 +31,7 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={blog.title} />
         <meta property="og:description" content={blog.topic} />
-        <meta property="og:image" content={blog.socialShare.photo.url} />
+        <meta property="og:image" content={blog.socialShare ? blog.socialShare.photo.url : blog.photos[0].url} />
       </Head>
       <BoxContent>
         <H1 upperCase>{blog.title}</H1>

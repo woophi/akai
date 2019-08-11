@@ -48,7 +48,8 @@ export const createNewBlog = (data: NewBlogData) => {
         localeId: 'cs',
         content: data.topicCs
       }
-    ]
+    ],
+    notifySubscribers: data.notifySubscribers
   };
   return callAdminApi<string>('post', 'api/admin/new/blog', body);
 };

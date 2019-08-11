@@ -11,6 +11,10 @@ export const SubscribersSchema = new mongoose.Schema(
     visitor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.VISITORS
+    },
+    active: {
+      type: Boolean,
+      default: true
     }
   },
 	{ collection: SchemaNames.SUBS }

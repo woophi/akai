@@ -16,6 +16,8 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import moment from 'moment';
 import { PictureField } from './PictureField';
 import { PicturesChooser } from './PicturesChooser';
@@ -122,7 +124,8 @@ export const BlogForm = React.memo<Props>(({ blogId, initialValues = {} }) => {
                   name: 'Размер',
                   value: ''
                 }
-              ]
+              ],
+              notifySubscribers: false
             }
       }
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
@@ -390,6 +393,23 @@ export const BlogForm = React.memo<Props>(({ blogId, initialValues = {} }) => {
           />
           {!blogId && (
             <>
+              <Field
+                name="notifySubscribers"
+                render={({ input }) => (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={input.value}
+                        onChange={input.onChange}
+                        value="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label={'Уведомить подписчиков о новом блоге'}
+                    className={classes.field}
+                  />
+                )}
+              />
               <Field
                 name="socialShare.localeId"
                 render={({ input, meta }) => (

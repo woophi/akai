@@ -1,3 +1,4 @@
 export enum EmailTemplate {
-  email = 'email'
+  email = 'email',
+  contactEmail = 'contact'
 }

@@ -4,6 +4,7 @@ import { Logger } from '../logger';
 import { agenda } from '../lib/db';
 import { EmailTemplate } from './types';
 const hbs = require('nodemailer-express-handlebars');
+// TODO: unsubscribe link
 
 export class Mailer {
   constructor(
@@ -31,7 +32,13 @@ export class Mailer {
     });
     agenda.define(this.job, (job, done) => {
       this.to.forEach(emailAddress => {
-        this.sendMail(emailAddress, done);
+        const personal = this.context.personal;
+        if (personal) {
+          const personalData = this.context.data.find(d => d.email == emailAddress);
+          this.sendMail(emailAddress, done, personalData);
+        } else {
+          this.sendMail(emailAddress, done);
+        }
       });
     });
   };
@@ -40,24 +47,26 @@ export class Mailer {
     viewEngine: {
       extName: '.hbs',
       partialsDir: 'server/mails/views',
-      layoutsDir: 'server/mails/views',
-      defaultLayout: 'email.hbs',
+      layoutsDir: 'server/mails/views'
     },
     viewPath: 'server/mails/views',
-    extName: '.hbs',
+    extName: '.hbs'
   };
 
-
-  sendMail = async (to: string, done?: (err?: Error) => void) => {
+  sendMail = async (
+    to: string,
+    done?: (err?: Error) => void,
+    personalContext?: { [key: string]: any }
+  ) => {
     try {
       this.transporter.use('compile', hbs(this.handlebarOptions));
       let info = await this.transporter.sendMail({
         from: `${this.from} <${config.GMAIL_USER}>`,
         to,
-        subject: this.subject,
+        subject: personalContext ? personalContext.subject : this.subject,
         text: this.shortText || '',
-        template: this.templateName,
-        context: this.context
+        template: personalContext ? personalContext.templateName : this.templateName,
+        context: personalContext || this.context
       });
       Logger.debug('Message sent: ' + info.messageId);
       if (done) {
@@ -73,5 +82,5 @@ export class Mailer {
 
   performQueue = () => {
     agenda.now(this.job);
-  }
+  };
 }

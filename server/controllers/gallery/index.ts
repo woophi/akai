@@ -76,15 +76,19 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
       url: p.url,
       thumbnail: p.thumbnail
     })),
-    socialShare: {
-      ...blog.socialShare,
-      photo: blog.socialShare.photo ? {
-        id: blog.socialShare.photo._id,
-        name: blog.socialShare.photo.name,
-        thumbnail: blog.socialShare.photo.thumbnail,
-        url: blog.socialShare.photo.url
-      } : {}
-    },
+    socialShare: blog.socialShare
+      ? {
+          ...blog.socialShare,
+          photo: blog.socialShare.photo
+            ? {
+                id: blog.socialShare.photo._id,
+                name: blog.socialShare.photo.name,
+                thumbnail: blog.socialShare.photo.thumbnail,
+                url: blog.socialShare.photo.url
+              }
+            : {}
+        }
+      : null,
     title: blog.title.find(t => t.localeId === localeId).content,
     topic: blog.topic.find(t => t.localeId === localeId).content
   };
