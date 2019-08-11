@@ -36,7 +36,7 @@ const onSubmit = async (data: NewYoutubeForm) => {
 };
 
 export const NewYoutube = React.memo(() => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleToggle = () => setOpen(!open);
 

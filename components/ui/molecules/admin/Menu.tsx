@@ -77,7 +77,8 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
           </ListItemIcon>
           <ListItemText primary={'Youtube'} />
         </ListItem>
-        <ListItem button onClick={constants.toComments}>
+        {/* {TODO: add infinity loader} */}
+        <ListItem button onClick={constants.toComments} disabled>
           <ListItemIcon>
             <Comment />
           </ListItemIcon>
