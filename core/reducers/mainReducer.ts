@@ -27,7 +27,8 @@ export const initialState: models.AppState['ui'] = {
       photoId: ''
     },
     photos: [],
-    youtubes: []
+    youtubes: [],
+    facebookActive: false
   }
 }
 
@@ -163,6 +164,15 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
         admin: {
           ...state.admin,
           youtubes: dispatch.payload
+        }
+      };
+    }
+    case 'UPDATE_FACEBOOK_ACTIVE': {
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          facebookActive: dispatch.payload
         }
       };
     }

@@ -128,14 +128,14 @@ const getLongLivedTokenValidation = async (longLiveToken: string, accessToken: s
     { input_token: longLiveToken },
     { access_token: accessToken }
   ]);
-  return result.is_valid;
+  return result.data ? result.data.is_valid : result.is_valid || false;
 };
 
-export const validateLongLivedToken = async (pageId: number): Promise<boolean | null> => {
+export const validateLongLivedToken = async (pageId: number): Promise<boolean> => {
   try {
     const fbPage = await FBIModel.findOne().where({ pageId }).exec() as FacebookPage;
     if (!fbPage || !fbPage.accessToken || !fbPage.longLiveToken) {
-      return null;
+      return false;
     }
 
     const isValid = await getLongLivedTokenValidation(fbPage.longLiveToken, fbPage.accessToken);
@@ -146,13 +146,13 @@ export const validateLongLivedToken = async (pageId: number): Promise<boolean | 
       })
       .save(err => {
         if (err) {
-          throw err;
+          Logger.error(err);
         }
-        return isValid;
       });
+    return isValid
   } catch (error) {
     Logger.error(error);
-    return null;
+    return false;
   }
 }
 export const getFacebookPageIds = async () => {

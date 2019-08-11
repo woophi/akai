@@ -4,6 +4,7 @@ import * as FB from 'server/facebook';
 import * as async from 'async';
 import * as kia from 'server/validator';
 import { HTTPStatus } from 'server/lib/models';
+import { Logger } from 'server/logger';
 
 export const fbLogin = async (req: Request, res: Response, next: NextFunction) => {
   return res.redirect(
@@ -26,7 +27,8 @@ export const processLogin = async (
   if (req.session.user) {
     async.forEach(pages, FB.subscribePage);
   }
-  return res.redirect('/');
+
+  return res.redirect('/admin/facebook');
 };
 
 export const checkTokenValidation = (
@@ -49,16 +51,17 @@ export const checkTokenValidation = (
         )
     ],
     async () => {
-      const valid = await FB.validateLongLivedToken(pageId);
-      return res.send({ valid }).status(HTTPStatus.OK);
+      try {
+        const valid = await FB.validateLongLivedToken(pageId);
+        return res.send({ valid }).status(HTTPStatus.OK);
+      } catch (error) {
+        Logger.error('validateLongLivedToken', error);
+        return res.send({ valid: false }).status(HTTPStatus.OK);
+      }
     }
   );
 };
-export const getFBPIds = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getFBPIds = async (req: Request, res: Response, next: NextFunction) => {
   const ids = await FB.getFacebookPageIds();
   return res.send(ids).status(HTTPStatus.OK);
 };

@@ -54,7 +54,12 @@ export const createNewPost = async (
       }
     ],
     async () => {
-      if (blogPost.socialShare && savedBlogId) {
+      if (
+        blogPost.socialShare &&
+        blogPost.socialShare.localeId &&
+        blogPost.socialShare.photo &&
+        savedBlogId
+      ) {
         // TODO: choose from post data
         const fPages = await getFacebookPageIds();
         Logger.debug('should fetch fb pages', fPages)

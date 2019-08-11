@@ -14,7 +14,8 @@ export type AdminState = {
   slides: SlideItem[];
   bio: BioData;
   photos: PhotoItem[];
-  youtubes: YoutubeItem[]
+  youtubes: YoutubeItem[];
+  facebookActive: boolean;
 };
 
 export enum Section {

@@ -23,13 +23,21 @@ import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';
 import { hasRoleSuperAdmin } from 'core/selectors';
 import * as constants from 'ui/atoms/constants';
+import { getFacebookActiveStatus } from 'core/selectors/facebook';
+import { theme } from 'core/lib';
+import { checkFBOnePage } from './facebook/operations';
 
 type Props = {
   isSuperAdmin: boolean;
+  facebookActive: boolean;
 };
 
-const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
+const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) => {
   const classes = useStyles({});
+
+  React.useEffect(() => {
+    checkFBOnePage();
+  }, [])
 
   return (
     <div>
@@ -86,7 +94,13 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
         </ListItem>
         <ListItem button onClick={constants.toFacebook}>
           <ListItemIcon>
-            <ThumbUp />
+            <ThumbUp
+              style={{
+                color: facebookActive
+                  ? theme.palette.primary[100]
+                  : theme.palette.error.main
+              }}
+            />
           </ListItemIcon>
           <ListItemText primary={'Facebook'} />
         </ListItem>
@@ -136,7 +150,8 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin }) => {
 });
 
 export const AdminMenu = redux((state: AppState) => ({
-  isSuperAdmin: hasRoleSuperAdmin(state)
+  isSuperAdmin: hasRoleSuperAdmin(state),
+  facebookActive: getFacebookActiveStatus(state)
 }))(AdminMenuComponent);
 
 const useStyles = makeStyles((theme: Theme) =>

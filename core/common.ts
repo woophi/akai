@@ -7,7 +7,7 @@ import { store } from './store';
 const {publicRuntimeConfig} = getConfig();
 const {SITE_URL} = publicRuntimeConfig;
 
-export type HTTPMethod = 'get' | 'post' | 'put' | 'delete';
+export type HTTPMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
 export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any = null, auth?: string): Promise<T> => {
   const rc: AxiosRequestConfig = {
