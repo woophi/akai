@@ -33,7 +33,7 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
     <>
       <Head>
         <meta property="og:url" content={`${SITE_URL}/gallery/album/${blog.id}`} />
-        <meta property="og:type" content="article" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={blog.title} />
         <meta property="og:description" content={blog.topic} />
         <meta property="og:image" content={imgContent} />
