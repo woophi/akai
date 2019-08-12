@@ -24,6 +24,11 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
     return <Spinner withBox />;
   }
 
+  const imgContent =
+    blog.socialShare && blog.socialShare.photo
+      ? blog.socialShare.photo.url
+      : blog.photos[0].url;
+
   return (
     <>
       <Head>
@@ -31,7 +36,7 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={blog.title} />
         <meta property="og:description" content={blog.topic} />
-        <meta property="og:image" content={blog.socialShare ? blog.socialShare.photo.url : blog.photos[0].url} />
+        <meta property="og:image" content={imgContent} />
       </Head>
       <BoxContent>
         <H1 upperCase>{blog.title}</H1>
@@ -83,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     height: '100%',
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   info: {
     margin: '1rem'
@@ -103,7 +108,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '100%',
     maxWidth: '100%'
   },
-  text: ({isSmallEnough}: {isSmallEnough: boolean}) => ({
+  text: ({ isSmallEnough }: { isSmallEnough: boolean }) => ({
     margin: isSmallEnough ? '1rem' : '1rem auto',
     minWidth: 300,
     maxWidth: 805
