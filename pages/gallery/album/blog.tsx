@@ -13,13 +13,22 @@ import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
 const { SITE_URL } = publicRuntimeConfig;
-type Props = WithRouterProps;
+type Props = {
+  blog: BlogModel;
+} & WithRouterProps;
 
 type LocalState = {
   blog: BlogModel;
 };
 
 class Blog extends React.PureComponent<Props, LocalState> {
+  static async getInitialProps(context) {
+    const blog = await getBlogData(
+      String(context.query.id),
+      'en'
+    );
+    return { blog };
+  }
   state: LocalState = {
     blog: null
   };
@@ -43,7 +52,7 @@ class Blog extends React.PureComponent<Props, LocalState> {
   }
 
   get imgContent() {
-    const { blog } = this.state;
+    const { blog } = this.props;
     return blog.socialShare && blog.socialShare.photo && blog.socialShare.photo.url
       ? blog.socialShare.photo.url
       : blog.photos[0].url;
@@ -55,11 +64,11 @@ class Blog extends React.PureComponent<Props, LocalState> {
         <Head>
           <meta
             property="og:url"
-            content={`${SITE_URL}/gallery/album/${this.state.blog.id}`}
+            content={`${SITE_URL}/gallery/album/${this.props.blog.id}`}
           />
           <meta property="og:type" content="article" />
-          <meta property="og:title" content={this.state.blog.title} />
-          <meta property="og:description" content={this.state.blog.topic} />
+          <meta property="og:title" content={this.props.blog.title} />
+          <meta property="og:description" content={this.props.blog.topic} />
           <meta property="og:image" content={this.imgContent} />
         </Head>
         <Layout>
