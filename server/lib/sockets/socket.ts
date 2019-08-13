@@ -6,6 +6,7 @@ import * as ig from 'server/instagram';
 import { EventBus, BusEvents } from '../events';
 import * as storageTypes from 'server/storage/types';
 import { NameSpaces, EmitEvents } from './types';
+import { increaseBlogView } from 'server/controllers';
 
 export const registerSocket = (server: Server) => {
   const IO = socket(server);
@@ -28,6 +29,7 @@ export const registerSocket = (server: Server) => {
     socket.on('joinRoom', blogId => {
       socket.join(blogId);
       Logger.info('joined room ' + blogId);
+      increaseBlogView(blogId);
     });
 
     socket.on('leaveRoom', blogId => {
