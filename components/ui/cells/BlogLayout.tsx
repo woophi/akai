@@ -2,15 +2,11 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { H1, Spinner, BoxContent } from 'ui/atoms';
 import { BlogModel } from 'core/models';
-import Head from 'next/head';
-import getConfig from 'next/config';
+
 import { Carousel } from 'react-responsive-carousel';
 import Typography from '@material-ui/core/Typography';
 import { useMediaQuery } from '@material-ui/core';
 import { Comments } from 'ui/molecules';
-
-const { publicRuntimeConfig } = getConfig();
-const { SITE_URL } = publicRuntimeConfig;
 
 type Props = {
   blog: BlogModel;
@@ -24,56 +20,42 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
     return <Spinner withBox />;
   }
 
-  const imgContent =
-    blog.socialShare && blog.socialShare.photo
-      ? blog.socialShare.photo.url
-      : blog.photos[0].url;
-
   return (
-    <>
-      <Head>
-        <meta property="og:url" content={`${SITE_URL}/gallery/album/${blog.id}`} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={blog.title} />
-        <meta property="og:description" content={blog.topic} />
-        <meta property="og:image" content={imgContent} />
-      </Head>
-      <BoxContent>
-        <H1 upperCase>{blog.title}</H1>
-        <div className={classes.wrap}>
-          <div className={classes.wrapCarusel}>
-            <Carousel
-              autoPlay={false}
-              infiniteLoop
-              showStatus={false}
-              showThumbs={blog.photos.length > 1}
-              className={classes.carusel}
-            >
-              {blog.photos.map((p, index) => (
-                <div key={`sl-${index}`} className={classes.caruselItem}>
-                  <img src={p.url} alt={p.name} className={classes.caruselImg} />
-                </div>
-              ))}
-            </Carousel>
-            <div className={classes.info}>
-              {blog.topic}
-              {blog.parameters.map((p, i) => (
-                <div key={i}>
-                  {p.name}: {p.value}
-                </div>
-              ))}
-            </div>
+    <BoxContent>
+      <H1 upperCase>{blog.title}</H1>
+      <div className={classes.wrap}>
+        <div className={classes.wrapCarusel}>
+          <Carousel
+            autoPlay={false}
+            infiniteLoop
+            showStatus={false}
+            showThumbs={blog.photos.length > 1}
+            className={classes.carusel}
+          >
+            {blog.photos.map((p, index) => (
+              <div key={`sl-${index}`} className={classes.caruselItem}>
+                <img src={p.url} alt={p.name} className={classes.caruselImg} />
+              </div>
+            ))}
+          </Carousel>
+          <div className={classes.info}>
+            {blog.topic}
+            {blog.parameters.map((p, i) => (
+              <div key={i}>
+                {p.name}: {p.value}
+              </div>
+            ))}
           </div>
-          <Typography
-            variant="body1"
-            gutterBottom
-            className={classes.text}
-            dangerouslySetInnerHTML={{ __html: blog.body }}
-          />
-          <Comments />
         </div>
-      </BoxContent>
-    </>
+        <Typography
+          variant="body1"
+          gutterBottom
+          className={classes.text}
+          dangerouslySetInnerHTML={{ __html: blog.body }}
+        />
+        <Comments />
+      </div>
+    </BoxContent>
   );
 });
 
