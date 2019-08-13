@@ -6,7 +6,7 @@ import { BlogModel } from 'core/models';
 import { Carousel } from 'react-responsive-carousel';
 import Typography from '@material-ui/core/Typography';
 import { useMediaQuery } from '@material-ui/core';
-import { Comments } from 'ui/molecules';
+import { Comments, Like } from 'ui/molecules';
 
 type Props = {
   blog: BlogModel;
@@ -39,6 +39,7 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
             ))}
           </Carousel>
           <div className={classes.info}>
+            <Like blogId={blog.id} />
             {blog.topic}
             {blog.parameters.map((p, i) => (
               <div key={i}>
@@ -73,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   },
   info: {
-    margin: '1rem'
+    margin: '0 1rem 1rem'
   },
   carusel: {
     height: '100%',

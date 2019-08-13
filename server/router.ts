@@ -32,6 +32,9 @@ export function router(
   app.get('/api/guest/albums', controllers.getAlbums);
   app.get('/api/guest/album', controllers.getAlbum);
   app.get('/api/guest/blog', controllers.getBlog);
+  app.post('/api/guest/blog/like', controllers.likeBlog);
+  app.get('/api/guest/blog/like', controllers.getPersonalLikeState);
+  app.delete('/api/guest/blog/dislike', controllers.removeLikeFromBlog);
   app.get('/api/guest/comments/blog', controllers.getBlogComments);
   app.post('/api/guest/comments/new/blog', controllers.newComment);
   app.get('/api/guest/comments/comment', controllers.getComment);

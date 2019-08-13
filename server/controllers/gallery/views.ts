@@ -10,8 +10,12 @@ export const increaseBlogView = (blogId: string) => {
     }
     if (blog) {
       blog
-        .set({ views: blog.views + 1 })
-        .save(err => Logger.error('increaseBlogView save error', err));
+        .set({ views: (blog.views || 0) + 1 })
+        .save(err => {
+          if (err) {
+            Logger.error('increaseBlogView save error', err);
+          }
+        });
     }
   });
 };
