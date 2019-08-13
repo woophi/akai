@@ -204,7 +204,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     flex: 1,
     minWidth: 320,
-    maxWidth: '50%',
+    maxWidth: '50vw',
+    width: '100%',
     margin: '1rem auto'
   },
   field: {

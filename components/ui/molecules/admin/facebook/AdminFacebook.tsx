@@ -28,7 +28,7 @@ export const AdminFacebook = React.memo(() => {
       <Box display="flex" alignItems="center">
         <LinkButton
           href={'/setup/fb'}
-          disabled={pages.length && valid}
+          disabled={!!(pages.length && valid)}
           label={'Добавить facebook страницу'}
           variant="contained"
           color="primary"
