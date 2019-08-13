@@ -49,7 +49,8 @@ export const createNewBlog = (data: NewBlogData) => {
         content: data.topicCs
       }
     ],
-    notifySubscribers: data.notifySubscribers
+    notifySubscribers: data.notifySubscribers,
+    albumId: data.albumId
   };
   return callAdminApi<string>('post', 'api/admin/new/blog', body);
 };

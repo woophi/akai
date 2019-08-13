@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import BlogModel from 'server/models/blog';
+import AlbumModel from 'server/models/album';
 import * as models from 'server/models/types';
 import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
@@ -29,6 +30,7 @@ export const createNewPost = async (
     parameters: req.body.parameters || []
   };
   const notifySubscribers = req.body.notifySubscribers;
+  const albumId = req.body.albumId;
   const adminEmail = req.session.user.email;
   let savedBlogId: string;
   async.series(
@@ -54,6 +56,26 @@ export const createNewPost = async (
           savedBlogId = post.id;
           return cb();
         });
+      },
+      cb => {
+        if (!savedBlogId) return res.sendStatus(HTTPStatus.BadRequest);
+        AlbumModel.findById(albumId).exec((err, album: models.Album) => {
+          if (err) {
+            Logger.error('err to get AlbumModel' + err);
+            return res.sendStatus(HTTPStatus.ServerError);
+          }
+          album
+            .set({
+              blogs: [...album.blogs, savedBlogId]
+            })
+            .save(err => {
+              if (err) {
+                Logger.error('err to save AlbumModel' + err);
+                return res.sendStatus(HTTPStatus.ServerError);
+              }
+              return cb();
+            });
+        });
       }
     ],
     async () => {
@@ -65,11 +87,19 @@ export const createNewPost = async (
       ) {
         // TODO: choose from post data
         const fPages = await getFacebookPageIds();
-        Logger.debug('should fetch fb pages', fPages)
-        const caption = blogPost.topic.find(t => t.localeId === blogPost.socialShare.localeId).content;
-        await createImgPost(`${config.SITE_URI}gallery/album/${savedBlogId}`, caption, fPages[0]);
+        Logger.debug('should fetch fb pages', fPages);
+        const caption = blogPost.topic.find(
+          t => t.localeId === blogPost.socialShare.localeId
+        ).content;
+        await createImgPost(
+          `${config.SITE_URI}gallery/album/${savedBlogId}`,
+          caption,
+          fPages[0]
+        );
 
-        process.nextTick(() => EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId }));
+        process.nextTick(() =>
+          EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId })
+        );
       }
       if (notifySubscribers && savedBlogId) {
         sendMailToSubscribersAfterBlogPost(savedBlogId, adminEmail);

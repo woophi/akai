@@ -1,11 +1,22 @@
 import * as React from 'react';
 import { AdminLayout, BlogForm, AdminBlogs } from 'ui/index';
 import { ensureNotAuthorized } from 'core/operations/auth';
+import { AlbumModel } from 'core/models';
+import { getAllAlbums } from 'core/operations';
 
-class NewBlog extends React.PureComponent {
+type localState = {
+  albums: AlbumModel[];
+};
+
+class NewBlog extends React.PureComponent<unknown, localState> {
+  state: localState = {
+    albums: []
+  };
   async componentDidMount() {
     try {
       await ensureNotAuthorized();
+      const albums = await getAllAlbums('ru');
+      this.setState({ albums });
     } catch (e) {
       console.error('Error in Admin NewBlog fetch', e);
     }
@@ -15,7 +26,7 @@ class NewBlog extends React.PureComponent {
     return (
       <AdminLayout>
         <AdminBlogs withChildren>
-          <BlogForm />
+          <BlogForm albums={this.state.albums} />
         </AdminBlogs>
       </AdminLayout>
     );

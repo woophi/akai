@@ -2,17 +2,20 @@ import * as React from 'react';
 import { AdminLayout, BlogForm, AdminBlogs } from 'ui/index';
 import { ensureNotAuthorized } from 'core/operations/auth';
 import { withRouter, WithRouterProps } from 'next/router';
-import { BlogData } from 'core/models';
+import { BlogData, AlbumModel } from 'core/models';
 import { getBlogData } from 'ui/molecules/admin/blog/operations';
+import { getAllAlbums } from 'core/operations';
 
 type localState = {
   blogData: BlogData;
+  albums: AlbumModel[];
 };
 
 class EditBlog extends React.PureComponent<WithRouterProps, localState> {
   state: localState = {
-    blogData: undefined
-  }
+    blogData: undefined,
+    albums: []
+  };
   async componentDidMount() {
     try {
       await ensureNotAuthorized();
@@ -30,6 +33,7 @@ class EditBlog extends React.PureComponent<WithRouterProps, localState> {
           <BlogForm
             blogId={String(this.props.router.query.id)}
             initialValues={this.state.blogData}
+            albums={this.state.albums}
           />
         </AdminBlogs>
       </AdminLayout>

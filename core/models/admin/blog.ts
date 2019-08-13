@@ -20,6 +20,7 @@ export type GeneralBlogData = {
     localeId: string;
   }[],
   notifySubscribers?: boolean;
+  albumId?: string;
 };
 
 export type NewBlogData = GeneralBlogData;
