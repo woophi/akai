@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import CommentModel from 'server/models/comment';
+import BlogModel from 'server/models/blog';
 import VisitorModel from 'server/models/visitors';
 import { HTTPStatus } from 'server/lib/models';
 import { VisitorCookie } from '../visitors/types';
@@ -10,7 +11,11 @@ import * as models from 'server/models/types';
 import { EventBus, BusEvents } from 'server/lib/events';
 import { connectUniqVisitor } from '../visitors';
 
-export const getBlogComments = async (req: Request, res: Response, next: NextFunction) => {
+export const getBlogComments = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const blogId = req.query['id'];
   if (!blogId) return res.send([]).status(HTTPStatus.OK);
   const comments = await CommentModel.find()
@@ -29,12 +34,15 @@ export const getBlogComments = async (req: Request, res: Response, next: NextFun
     name: c.visitor.name,
     text: c.text,
     createdAt: c.createdAt
-  }))
+  }));
   return res.send(data).status(HTTPStatus.OK);
-}
+};
 
-
-export const getComment = async (req: Request, res: Response, next: NextFunction) => {
+export const getComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const commentId = req.query['id'];
   if (!commentId) return res.sendStatus(HTTPStatus.BadRequest);
   const comment = await CommentModel.findById(commentId)
@@ -51,15 +59,21 @@ export const getComment = async (req: Request, res: Response, next: NextFunction
     return res.sendStatus(HTTPStatus.NotFound);
   }
 
-  return res.send({
-    id: comment._id,
-    name: comment.visitor.name,
-    text: comment.text,
-    createdAt: comment.createdAt
-  }).status(HTTPStatus.OK);
-}
+  return res
+    .send({
+      id: comment._id,
+      name: comment.visitor.name,
+      text: comment.text,
+      createdAt: comment.createdAt
+    })
+    .status(HTTPStatus.OK);
+};
 
-export const newComment = async (req: Request, res: Response, next: NextFunction) => {
+export const newComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const blogId = req.query['id'];
   let visitorId = req.signedCookies[VisitorCookie.VisitId];
   if (!visitorId) {
@@ -89,18 +103,14 @@ export const newComment = async (req: Request, res: Response, next: NextFunction
         ),
 
       cb => {
-        if (
-          comment.name.length > 256 ||
-          comment.text.length > 2000
-        ) {
+        if (comment.name.length > 256 || comment.text.length > 2000) {
           return res.sendStatus(HTTPStatus.BadRequest);
         }
         return cb();
       },
 
       cb => {
-        VisitorModel
-          .findOne()
+        VisitorModel.findOne()
           .where('visitorId', visitorId)
           .exec((err, result) => {
             if (err) {
@@ -111,16 +121,14 @@ export const newComment = async (req: Request, res: Response, next: NextFunction
               return res.sendStatus(HTTPStatus.BadRequest);
             }
             comment.visitor = result.id;
-            result
-              .set('name', comment.name)
-              .save(err => {
-                if (err) {
-                  Logger.error(err);
-                  return res.sendStatus(HTTPStatus.ServerError);
-                }
-                return cb();
-              })
-          })
+            result.set('name', comment.name).save(err => {
+              if (err) {
+                Logger.error(err);
+                return res.sendStatus(HTTPStatus.ServerError);
+              }
+              return cb();
+            });
+          });
       }
     ],
     async () => {
@@ -130,11 +138,18 @@ export const newComment = async (req: Request, res: Response, next: NextFunction
           text: comment.text,
           visitor: comment.visitor
         } as models.SaveCommentModel).save();
-        EventBus.emit(BusEvents.NEW_COMMENT, newComment.id, blogId)
+        const blog = (await BlogModel.findById(comment.blog).exec()) as models.Blog;
+        await blog.set({
+          comments: blog.comments
+            ? [...blog.comments, newComment.id]
+            : [newComment.id]
+        });
+        EventBus.emit(BusEvents.NEW_COMMENT, newComment.id, blogId);
         return res.sendStatus(HTTPStatus.OK);
       } catch (error) {
         Logger.error(error);
         return res.sendStatus(HTTPStatus.ServerError);
       }
-    });
-}
+    }
+  );
+};
