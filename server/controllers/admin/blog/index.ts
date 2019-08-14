@@ -116,6 +116,7 @@ export const getAllBlogs = async (
 ) => {
   try {
     const data = await BlogModel.find()
+      .where('deleted', undefined)
       .populate({
         path: 'photos',
         select: 'thumbnail -_id'
@@ -144,7 +145,11 @@ export const getAdminBlogData = async (
   try {
     const blogId = req.query['id'];
     if (!blogId) return res.sendStatus(HTTPStatus.BadRequest);
-    const blog = (await BlogModel.findById(blogId).lean()) as models.Blog;
+    const blog = (await BlogModel.findById(blogId)
+      .where('deleted', undefined)
+      .lean()) as models.Blog;
+
+    if (!blog) return res.sendStatus(HTTPStatus.NotFound);
 
     const payload = {
       titleEn: blog.title.find(t => t.localeId === 'en').content,
@@ -204,7 +209,9 @@ export const editAdminBlogData = async (
         )
     ],
     async () => {
-      const blog = (await BlogModel.findById(blogId).exec()) as models.Blog;
+      const blog = (await BlogModel.findById(blogId)
+        .where('deleted', undefined)
+        .exec()) as models.Blog;
       if (!blog) {
         return res.sendStatus(HTTPStatus.NotFound);
       }
@@ -214,6 +221,45 @@ export const editAdminBlogData = async (
           return res.sendStatus(HTTPStatus.ServerError);
         }
         Logger.debug('edit blog post saved');
+        return res.sendStatus(HTTPStatus.OK);
+      });
+    }
+  );
+};
+
+export const deleteBlog = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const validate = new kia.Validator(req, res, next);
+  const blogId = req.query['id'];
+  async.series(
+    [
+      cb =>
+        validate.check(
+          {
+            blogId: validate.required
+          },
+          {
+            blogId
+          },
+          cb
+        )
+    ],
+    async () => {
+      const blog = (await BlogModel.findById(blogId)
+        .where('deleted', undefined)
+        .exec()) as models.Blog;
+      if (!blog) {
+        return res.sendStatus(HTTPStatus.NotFound);
+      }
+      return blog.set({ deleted: Date.now() }).save(err => {
+        if (err) {
+          Logger.error('err to delete blog post ' + err);
+          return res.sendStatus(HTTPStatus.ServerError);
+        }
+        Logger.debug('delete blog post saved');
         return res.sendStatus(HTTPStatus.OK);
       });
     }

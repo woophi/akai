@@ -50,7 +50,10 @@ export const BlogSchema = new mongoose.Schema(
     views: {
       type: Number,
       default: 0
-    }
+    },
+    deleted: {
+			type: Date
+		}
   },
 	{ collection: SchemaNames.BLOG }
 );

@@ -50,6 +50,7 @@ export function router(
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, controllers.createNewPost);
   app.get('/api/admin/get/blog', identity.authorizedForAdmin, controllers.getAdminBlogData);
   app.put('/api/admin/edit/blog', identity.authorizedForAdmin, controllers.editAdminBlogData);
+  app.delete('/api/admin/delete/blog', identity.authorizedForAdmin, controllers.deleteBlog);
 
   app.get('/api/admin/blogs', identity.authorizedForAdmin, controllers.getAllBlogs);
 

@@ -17,3 +17,4 @@ export * from './modal';
 export * from './InputSearch';
 export * from './constants';
 export * from './Bread';
+export * from './ActionButton';

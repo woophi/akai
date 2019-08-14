@@ -108,3 +108,6 @@ export const editBlog = (blogId: string, data: BlogData) => {
 
 export const getBlogData = (blogId: string) =>
   callAdminApi<BlogData>('get', `api/admin/get/blog?id=${blogId}`);
+
+export const deleteBlog = (blogId: string) =>
+  callAdminApi<void>('delete', `api/admin/delete/blog?id=${blogId}`);

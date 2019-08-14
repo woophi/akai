@@ -45,7 +45,8 @@ export type BlogModel = GeneralBlogModel & {
   photos?: FilesModel[];
   socialShare: SocialShare2;
   likes?: LikesModel[];
-  views?: number
+  views?: number;
+  deleted?: Date;
 };
 
 export type Blog = Model<BlogModel>;

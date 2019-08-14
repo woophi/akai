@@ -33,7 +33,9 @@ export const likeBlog = async (req: Request, res: Response, next: NextFunction) 
       return res.status(HTTPStatus.OK).send(true);
     }
 
-    const Blog = (await BlogModel.findById(blogId).exec()) as models.Blog;
+    const Blog = (await BlogModel.findById(blogId)
+      .where('deleted', undefined)
+      .exec()) as models.Blog;
     if (!Blog) {
       return res.status(HTTPStatus.BadRequest).send(false);
     }
@@ -61,7 +63,11 @@ export const likeBlog = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const getPersonalLikeState = async (req: Request, res: Response, next: NextFunction) => {
+export const getPersonalLikeState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const blogId = req.query['id'];
     if (!blogId) {
@@ -105,7 +111,9 @@ export const removeLikeFromBlog = async (
     if (!visitorId) {
       return res.status(HTTPStatus.BadRequest).send(false);
     }
-    const Blog = (await BlogModel.findById(blogId).exec()) as models.Blog;
+    const Blog = (await BlogModel.findById(blogId)
+      .where('deleted', undefined)
+      .exec()) as models.Blog;
     if (!Blog) {
       return res.status(HTTPStatus.BadRequest).send(false);
     }

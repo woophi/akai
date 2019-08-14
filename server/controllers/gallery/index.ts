@@ -35,6 +35,7 @@ export const getAlbum = async (req: Request, res: Response, next: NextFunction) 
   const album = await AlbumModel.findById(albumId)
     .populate({
       path: 'blogs',
+      match: { deleted: -1 },
       populate: {
         path: 'photos',
         select: 'thumbnail -_id'
@@ -62,10 +63,13 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
   const localeId = req.query['localeId'];
   if (!blogId || !localeId) return res.send({}).status(HTTPStatus.Empty);
   const blog = await BlogModel.findById(blogId)
+    .where('deleted', undefined)
     .populate('photos')
     .populate('socialShare.photo')
     .select('title socialShare body creationPictureDate parameters topic')
     .lean();
+
+  if (!blog) return res.status(HTTPStatus.NotFound).send({});
 
   const data = {
     id: blog._id,
