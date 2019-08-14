@@ -31,7 +31,7 @@ export const createNewPost = async (
   };
   const notifySubscribers = req.body.notifySubscribers;
   const albumId = req.body.albumId;
-  const adminEmail = req.session.user.email;
+  const adminName = req.session.user.name;
   let savedBlogId: string;
   async.series(
     [
@@ -59,6 +59,7 @@ export const createNewPost = async (
       },
       cb => {
         if (!savedBlogId) return res.sendStatus(HTTPStatus.BadRequest);
+        if (!albumId) return cb();
         AlbumModel.findById(albumId).exec((err, album: models.Album) => {
           if (err) {
             Logger.error('err to get AlbumModel' + err);
@@ -102,7 +103,7 @@ export const createNewPost = async (
         );
       }
       if (notifySubscribers && savedBlogId) {
-        sendMailToSubscribersAfterBlogPost(savedBlogId, adminEmail);
+        sendMailToSubscribersAfterBlogPost(savedBlogId, adminName);
       }
       return res.send(savedBlogId).status(HTTPStatus.OK);
     }

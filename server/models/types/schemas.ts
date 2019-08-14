@@ -15,6 +15,7 @@ export enum SchemaNames {
   YOUTUBE = 'youtube',
   PHOTOS = 'photos',
   LIKES = 'likes',
+  LINKS = 'links',
 
   APP_SESSIONS = 'app_sessions',
   JOBS = 'jobs_queue',

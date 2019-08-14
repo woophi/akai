@@ -13,7 +13,7 @@ type SubsType = {
   }
 };
 
-export const sendMailToSubscribersAfterBlogPost = (savedBlogId: string, adminEmail: string) => {
+export const sendMailToSubscribersAfterBlogPost = (savedBlogId: string, adminName: string) => {
   if (!savedBlogId) {
     Logger.info('no savedBlogId', savedBlogId);
     return;
@@ -54,7 +54,7 @@ export const sendMailToSubscribersAfterBlogPost = (savedBlogId: string, adminEma
       data.map(d => d.email),
       `New picture on site ${process.env.CHAT_DOMAIN}`,
       '',
-      adminEmail,
+      adminName,
       {
         personal: true,
         data: data.map(d => ({
@@ -80,5 +80,4 @@ const personalSubjectNewBlog = (savedLocaleId: string) => {
     default:
       return `New picture on site ${process.env.CHAT_DOMAIN}`;
   }
-
 }

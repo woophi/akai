@@ -3,8 +3,8 @@ import config from '../config';
 import { Logger } from '../logger';
 import { agenda } from '../lib/db';
 import { EmailTemplate } from './types';
+import { createUnsubEmail } from './operations';
 const hbs = require('nodemailer-express-handlebars');
-// TODO: unsubscribe link
 
 export class Mailer {
   constructor(
@@ -60,13 +60,17 @@ export class Mailer {
   ) => {
     try {
       this.transporter.use('compile', hbs(this.handlebarOptions));
+      const unsubId = await createUnsubEmail(to);
       let info = await this.transporter.sendMail({
         from: `${this.from} <${config.GMAIL_USER}>`,
         to,
         subject: personalContext ? personalContext.subject : this.subject,
         text: this.shortText || '',
         template: personalContext ? personalContext.templateName : this.templateName,
-        context: personalContext || this.context
+        context: {
+          ...(personalContext || this.context),
+          unsubLink: `${config.SITE_URI}unsub/${unsubId}`
+        }
       });
       Logger.debug('Message sent: ' + info.messageId);
       if (done) {
