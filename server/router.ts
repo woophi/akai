@@ -57,6 +57,7 @@ export function router(
   app.post('/api/admin/new/album', identity.authorizedForAdmin, controllers.createAlbum);
   app.get('/api/admin/get/album', identity.authorizedForAdmin, controllers.getAlbumData);
   app.put('/api/admin/edit/album', identity.authorizedForAdmin, controllers.editAlbumData);
+  app.delete('/api/admin/delete/album', identity.authorizedForAdmin, controllers.deleteAlbum);
 
   app.post('/api/admin/new/language', identity.authorizedForAdmin, controllers.createNewLanguage);
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);

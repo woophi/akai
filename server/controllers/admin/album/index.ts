@@ -74,11 +74,7 @@ export const getAlbumData = async (
   return res.send(payload).status(HTTPStatus.OK);
 };
 
-export const editAlbumData = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const editAlbumData = (req: Request, res: Response, next: NextFunction) => {
   const albumId = req.query['id'];
   if (!albumId) return res.sendStatus(HTTPStatus.BadRequest);
   const validate = new kia.Validator(req, res, next);
@@ -117,6 +113,38 @@ export const editAlbumData = (
           return res.send().status(HTTPStatus.ServerError);
         }
         Logger.debug('album saved');
+        return res.sendStatus(HTTPStatus.OK);
+      });
+    }
+  );
+};
+export const deleteAlbum = (req: Request, res: Response, next: NextFunction) => {
+  const albumId = req.query['id'];
+  const validate = new kia.Validator(req, res, next);
+  async.series(
+    [
+      cb =>
+        validate.check(
+          {
+            albumId: validate.required
+          },
+          {
+            albumId
+          },
+          cb
+        )
+    ],
+    async () => {
+      const album = (await AlbumModel.findById(albumId).exec()) as models.Album;
+      if (!album) {
+        return res.sendStatus(HTTPStatus.NotFound);
+      }
+      return album.remove(err => {
+        if (err) {
+          Logger.error('err to delete album ', err);
+          return res.sendStatus(HTTPStatus.ServerError);
+        }
+        Logger.debug('album deleted');
         return res.sendStatus(HTTPStatus.OK);
       });
     }

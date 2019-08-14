@@ -47,3 +47,6 @@ export const editAlbum = (albumId: string, data: AlbumData) => {
   };
   callAdminApi<AlbumData>('put', `api/admin/edit/album?id=${albumId}`, body);
 }
+
+export const deleteAlbum = (albumId: string) =>
+  callAdminApi<void>('delete', `api/admin/delete/album?id=${albumId}`);
