@@ -63,12 +63,20 @@
     "password": "Heslo"
   },
 
+  "unsub": {
+    "title": "Zrušit odběr všech e-mailových oznámení",
+    "invalid": "Odkaz je neplatný",
+    "content": "Kliknutím na tlačítko odhlásit přestanete dostávat všechna e-mailová upozornění z tohoto webu.",
+    "verySorry": "Je nám velmi líto, že jste se odhlásili. Pokud chcete dostávat e-mailová upozornění, budete muset odeslat zprávu prostřednictvím koncipovaného formuláře."
+  },
+
   "buttons": {
     "send": "Odeslat",
     "cancel": "Zrušit",
     "add": "Přidat",
     "login": "Přihlásit se",
-    "save": "Ulozit"
+    "save": "Ulozit",
+    "unsub": "Odhlásit se"
   },
 
   "typeHere": "Pište zde..."

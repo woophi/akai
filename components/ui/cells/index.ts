@@ -8,3 +8,4 @@ export * from './GalleryLayout';
 export * from './AlbumLayout';
 export * from './BlogLayout';
 export * from './login-layout';
+export * from './unsub-layout';

@@ -34,3 +34,9 @@ export const getVisitorName = () =>
 
 export const getCommentById = (commentId: string) =>
   callApi<models.CommentItem>('get', `api/guest/comments/comment?id=${commentId}`);
+
+export const getUnsubLinkState = (uniqId: string) =>
+  callApi<models.UnsubState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);
+
+export const guestUnsub = (uniqId: string) =>
+  callApi<void>('put', 'api/guest/unsub', { uniqId });

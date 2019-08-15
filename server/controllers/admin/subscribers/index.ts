@@ -59,7 +59,7 @@ export const sendMailToSubscribersAfterBlogPost = (savedBlogId: string, adminNam
         personal: true,
         data: data.map(d => ({
           ...d,
-          templateName: EmailTemplate.email + d.visitor.savedLocaleId,
+          templateName: EmailTemplate.email + (d.visitor.savedLocaleId || 'en'),
           subject: personalSubjectNewBlog(d.visitor.savedLocaleId),
           url: `${config.SITE_URI}gallery/album/${savedBlogId}`
         }))
