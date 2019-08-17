@@ -59,12 +59,17 @@ export const getAlbumData = async (
   const albumId = req.query['id'];
   if (!albumId) return res.sendStatus(HTTPStatus.BadRequest);
   const album = (await AlbumModel.findById(albumId)
+    .populate({
+      path: 'blogs',
+      match: { deleted: undefined },
+      select: 'title'
+    })
     .select('title blogs coverPhoto')
     .lean()) as models.Album;
 
   const payload = {
     coverPhotoId: album.coverPhoto,
-    blogs: album.blogs,
+    blogs: album.blogs.map(b => b._id),
     nameEn: album.title.find(t => t.localeId === 'en').content,
     nameCs: album.title.find(t => t.localeId === 'cs').content,
     nameRu: album.title.find(t => t.localeId === 'ru').content,

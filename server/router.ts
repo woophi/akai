@@ -57,7 +57,7 @@ export function router(
   app.post('/api/app/user/check', auth.checkUser);
 
   // admin
-  app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);
+  app.post('/api/admin/new/user', identity.authorizedForSuperAdmin, controllers.createUser);
 
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, controllers.createNewPost);
   app.get('/api/admin/get/blog', identity.authorizedForAdmin, controllers.getAdminBlogData);

@@ -6,3 +6,4 @@ export * from './bio';
 export * from './photos';
 export * from './youtube';
 export * from './facebook';
+export * from './users';

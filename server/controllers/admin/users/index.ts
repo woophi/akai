@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import UserModel from '../../../models/users';
-import { Logger } from '../../../logger';
-import * as kia from '../../../validator';
-import * as identity from '../../../identity';
+import UserModel from 'server/models/users';
+import { Logger } from 'server/logger';
+import * as kia from 'server/validator';
+import * as identity from 'server/identity';
 import * as async from 'async';
+import { HTTPStatus } from 'server/lib/models';
+import { ROLES } from 'server/identity';
 
 export const createUser = async (
   req: Request,
@@ -35,8 +37,7 @@ export const createUser = async (
       cb => {
         Logger.debug(`trying to find existing user`);
 
-        UserModel
-          .findOne({ email: userData.email.toLowerCase() })
+        UserModel.findOne({ email: userData.email.toLowerCase() })
           .lean()
           .exec((err, user) => {
             if (err) {
@@ -44,11 +45,12 @@ export const createUser = async (
               return next();
             }
             if (user) {
-              return res.send({ error: 'User already exists' }).status(400);
+              return res
+                .send({ error: 'User already exists' })
+                .status(HTTPStatus.Conflict);
             }
             return cb();
           });
-
       }
     ],
     async () => {
@@ -60,22 +62,23 @@ export const createUser = async (
       try {
         userData.password = await hashing.hashPassword(userData.password);
       } catch (e) {
-        new Error(e);
-        return res.send().status(500);
+        Logger.error(e);
+        return res.sendStatus(HTTPStatus.ServerError);
       }
 
       Logger.debug(
         `created hash for new user password ${new Date().toLocaleTimeString()}`
       );
 
-      const newUser = new UserModel(userData);
+      // TODO: choose from post data
+      const newUser = new UserModel({ ...userData, roles: [ ROLES.ADMIN ]});
       return newUser.save(err => {
         if (err) {
           Logger.error('err to save new user ' + err);
-          return res.send().status(500);
+          return res.sendStatus(HTTPStatus.ServerError);
         }
         Logger.debug('new user saved');
-        return res.send().status(200);
+        return res.sendStatus(HTTPStatus.OK);
       });
     }
   );

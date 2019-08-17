@@ -35,7 +35,7 @@ export const getAlbum = async (req: Request, res: Response, next: NextFunction) 
   const album = await AlbumModel.findById(albumId)
     .populate({
       path: 'blogs',
-      match: { deleted: -1 },
+      match: { deleted: undefined },
       populate: {
         path: 'photos',
         select: 'thumbnail -_id'

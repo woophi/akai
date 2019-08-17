@@ -118,7 +118,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
         </ListItem>
 
         {isSuperAdmin && (
-          <ListItem button onClick={constants.toUsers} disabled>
+          <ListItem button onClick={constants.toUsers}>
             <ListItemIcon>
               <SupervisorAccount />
             </ListItemIcon>

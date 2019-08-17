@@ -1,6 +1,6 @@
 import { Model } from './mongoModel';
 import { UserModel } from './user';
-import { BlogModel, LanguageContent } from './blog';
+import { Blog, LanguageContent } from './blog';
 import { Files } from './files';
 
 export type GeneralAlbumModel = {
@@ -15,7 +15,7 @@ export type AlbumSaveModel = GeneralAlbumModel & {
 
 export type AlbumModel = GeneralAlbumModel & {
   createdBy: UserModel;
-  blogs: BlogModel[];
+  blogs: Blog[];
   coverPhoto: Files;
 }
 
