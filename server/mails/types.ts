@@ -1,6 +1,7 @@
 export enum EmailTemplate {
   email = 'email',
-  contactEmail = 'contact'
+  contactEmail = 'contact',
+  resetPass = 'reset'
 }
 
 export enum UnsubState {

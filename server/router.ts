@@ -27,19 +27,27 @@ export function router(
   app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
   app.get('/api/guest/biography', controllers.getBiography);
+
   app.get('/api/guest/youtubes', controllers.getYoutubeUrls);
   app.get('/api/guest/youtube/live/chat', controllers.getLastChatLiveStreamId);
+
   app.get('/api/guest/photos', controllers.getPhotos);
+
   app.get('/api/guest/albums', controllers.getAlbums);
   app.get('/api/guest/album', controllers.getAlbum);
   app.get('/api/guest/blog', controllers.getBlog);
+
   app.post('/api/guest/blog/like', controllers.likeBlog);
   app.get('/api/guest/blog/like', controllers.getPersonalLikeState);
   app.delete('/api/guest/blog/dislike', controllers.removeLikeFromBlog);
+
   app.get('/api/guest/comments/blog', controllers.getBlogComments);
   app.post('/api/guest/comments/new/blog', controllers.newComment);
   app.get('/api/guest/comments/comment', controllers.getComment);
-
+  // pass reset
+  app.post('/api/guest/password/reset', controllers.resetPassword);
+  app.patch('/api/guest/password/update', controllers.updatePassword);
+  // unsub
   app.get('/api/guest/unsub/state', controllers.getUnsubLinkState);
   app.put('/api/guest/unsub', controllers.guestUnsub);
 
@@ -102,6 +110,12 @@ export function router(
 
   app.get('/unsub/:id', (req, res) => {
     const actualPage = '/unsub/guest'
+    const queryParams = { id: req.params.id }
+    appNext.render(req, res, actualPage, queryParams)
+  });
+
+  app.get('/password/update/:id', (req, res) => {
+    const actualPage = '/password/update'
     const queryParams = { id: req.params.id }
     appNext.render(req, res, actualPage, queryParams)
   });

@@ -8,6 +8,7 @@ export type UserModel = {
   name?: string;
   avatarUrl?: string;
   refreshToken?: string;
+  resetId?: string;
 };
 
 export type User = Model<UserModel>;

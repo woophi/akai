@@ -9,3 +9,4 @@ export * from './BlogLayout';
 export * from './login-layout';
 export * from './unsub-layout';
 export * from './online-layout';
+export * from './pass-recovery';

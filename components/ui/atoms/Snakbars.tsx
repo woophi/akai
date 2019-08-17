@@ -14,16 +14,15 @@ const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
   error: ErrorIcon,
-  info: InfoIcon,
+  info: InfoIcon
 };
-
 
 export interface Props {
   className?: string;
   message?: string;
   onClose?: () => void;
   variant: keyof typeof variantIcon;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
 }
 
 export const Snakbars = React.memo<Props>(props => {
@@ -35,13 +34,16 @@ export const Snakbars = React.memo<Props>(props => {
 
   React.useEffect(() => {
     setMessage(message);
-    show(true)
-  }, [message])
+    show(true);
+  }, [message]);
 
   const handleClose = React.useCallback(() => {
     show(false);
     setMessage('');
-  }, [shown, info])
+    if (onClose) {
+      onClose();
+    }
+  }, [shown, info]);
 
   if (!info || !shown) {
     return null;
@@ -58,38 +60,43 @@ export const Snakbars = React.memo<Props>(props => {
         </span>
       }
       action={[
-        <IconButton key="close" aria-label="Close" color="inherit" onClick={handleClose}>
+        <IconButton
+          key="close"
+          aria-label="Close"
+          color="inherit"
+          onClick={handleClose}
+        >
           <CloseIcon className={classes.icon} />
-        </IconButton>,
+        </IconButton>
       ]}
       {...other}
       style={style}
     />
   );
-})
+});
 
 const useStyles = makeStyles(theme => ({
   success: {
-    backgroundColor: green[600],
+    backgroundColor: green[600]
   },
   error: {
-    backgroundColor: theme.palette.error.main,
+    backgroundColor: theme.palette.error.main
   },
   info: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.dark
   },
   warning: {
-    backgroundColor: amber[700],
+    backgroundColor: amber[700]
   },
   icon: {
-    fontSize: 20,
+    fontSize: 20
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   message: {
     display: 'flex',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 }));

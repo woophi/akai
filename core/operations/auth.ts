@@ -5,9 +5,8 @@ import { callApi, getWindow } from 'core/common';
 import * as models from 'core/models';
 import { connectAdminSocket } from 'core/socket/admin';
 
-export const login = async (email: string, password: string) => {
-  return await callApi<{token: string}>('post', 'api/app/user/login', {email, password});
-}
+export const login = (email: string, password: string) =>
+  callApi<{ token: string }>('post', 'api/app/user/login', { email, password });
 
 export const logout = async () => {
   store.dispatch({ type: 'SET_USER_FETCHING', payload: true });
@@ -24,7 +23,7 @@ export const logout = async () => {
   store.dispatch({ type: 'SET_USER_FETCHING', payload: false });
   const w = getWindow();
   w ? w.location.reload() : await Router.reload(Router.route);
-}
+};
 
 export const checkAuth = async () => {
   store.dispatch({ type: 'SET_USER_FETCHING', payload: true });
@@ -35,7 +34,7 @@ export const checkAuth = async () => {
   }
   store.dispatch({ type: 'SET_USER', payload: data });
   store.dispatch({ type: 'SET_USER_FETCHING', payload: false });
-}
+};
 
 export const ensureNotAuthorized = async () => {
   await checkAuth();

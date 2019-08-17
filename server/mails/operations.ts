@@ -7,7 +7,7 @@ import { UnsubState } from './types';
 
 // TODO: check every 5 days if link is there still valid with agenda task
 const rofl = 'kek';
-export const createUnsubEmail = async (email: string) => {
+export const createUniqLink = async (email: string) => {
   try {
     const Link = (await LinksModel.findOne({ email }).exec()) as models.Links;
 

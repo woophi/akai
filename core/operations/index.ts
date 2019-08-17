@@ -37,7 +37,7 @@ export const getCommentById = (commentId: string) =>
   callApi<models.CommentItem>('get', `api/guest/comments/comment?id=${commentId}`);
 
 export const getUnsubLinkState = (uniqId: string) =>
-  callApi<models.UnsubState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);
+  callApi<models.LinkState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);
 
 export const guestUnsub = (uniqId: string) =>
   callApi<void>('put', 'api/guest/unsub', { uniqId });
@@ -49,3 +49,12 @@ export const getLastChatLiveStreamId = async () => {
 
 export const saveChatLiveStreamId = (chatId: string) =>
   callAdminApi<void>('post', `api/admin/save/live/chat`, { chatId });
+
+export const resetPassword = (email: string) =>
+  callApi<void>('post', 'api/guest/password/reset', { email });
+
+export const updatePassword = (password: string, linkId: string) =>
+  callApi<string>('patch', 'api/guest/password/update', { password, linkId });
+
+export const getResetPassLinkState = (uniqId: string) =>
+  callApi<models.LinkState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);

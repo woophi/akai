@@ -3,7 +3,7 @@ import config from '../config';
 import { Logger } from '../logger';
 import { agenda } from '../lib/db';
 import { EmailTemplate } from './types';
-import { createUnsubEmail } from './operations';
+import { createUniqLink } from './operations';
 const hbs = require('nodemailer-express-handlebars');
 
 export class Mailer {
@@ -60,7 +60,7 @@ export class Mailer {
   ) => {
     try {
       this.transporter.use('compile', hbs(this.handlebarOptions));
-      const unsubId = await createUnsubEmail(to);
+      const unsubId = await createUniqLink(to);
       let info = await this.transporter.sendMail({
         from: `${this.from} <${config.GMAIL_USER}>`,
         to,

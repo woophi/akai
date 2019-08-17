@@ -18,6 +18,9 @@ export const UsersSchema = new mongoose.Schema(
     },
     refreshToken: {
       type: String
+    },
+    resetId: {
+      type: String
     }
   },
 	{ collection: SchemaNames.USERS }
