@@ -47,6 +47,7 @@ export const createMigration = (file, done) => {
 			  return done(err);
       }
       if (!updateRecord) {
+      console.log(_dashes_ + '\nApplying update ' + file + '...');
         let update = require(path.join(updatesPath, file));
         if (!update) {
 					return done();
@@ -73,7 +74,6 @@ export const createMigration = (file, done) => {
             });
 
           });
-          console.log(_dashes_ + '\nApplying update ' + file + '...');
           new Update({ key: file }).save(done);
         } else {
           update((err) => {

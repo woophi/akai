@@ -18,7 +18,7 @@ module.exports = (done) => {
 
       FileModel
         .findOne()
-        .where('name', 'bio_pic')
+        .where('name', 'foto_bio')
         .exec((err, file) => {
           if (err) {
             return done(err);

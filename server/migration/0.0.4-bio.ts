@@ -12,7 +12,8 @@ exports.create = {
       }, {
         content: '',
         localeId: 'cs'
-      }]
+      }],
+
     } as BiographySaveModel
   ]
 };
