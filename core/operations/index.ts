@@ -36,6 +36,12 @@ export const getVisitorName = () =>
 export const getCommentById = (commentId: string) =>
   callApi<models.CommentItem>('get', `api/guest/comments/comment?id=${commentId}`);
 
+export const getUnsubLinkState = (uniqId: string) =>
+  callApi<models.UnsubState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);
+
+export const guestUnsub = (uniqId: string) =>
+  callApi<void>('put', 'api/guest/unsub', { uniqId });
+
 export const getLastChatLiveStreamId = async () => {
   const chatId = await callApi<string>('get', `api/guest/youtube/live/chat`);
   store.dispatch({ type: 'SET_CHAT_ID', payload: chatId });

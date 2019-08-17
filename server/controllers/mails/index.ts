@@ -3,13 +3,20 @@ import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
 import * as async from 'async';
 import * as mails from 'server/mails';
-import { EmailTemplate } from 'server/mails/types';
+import { EmailTemplate, UnsubState } from 'server/mails/types';
 import UserModel from 'server/models/users';
+import LinkModel from 'server/models/links';
+import SubscriberModel from 'server/models/subscribers';
+import * as models from 'server/models/types';
 import { ROLES } from 'server/identity';
 import { HTTPStatus } from 'server/lib/models';
+import { checkLinkState } from 'server/mails';
 
-export const sendMailToAdmins = (req: Request, res: Response,
-  next: NextFunction) => {
+export const sendMailToAdmins = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const validate = new kia.Validator(req, res, next);
 
   const message = {
@@ -32,12 +39,12 @@ export const sendMailToAdmins = (req: Request, res: Response,
           cb
         ),
       cb => {
-        UserModel
-          .find()
-          .where('roles').in([ROLES.ADMIN, ROLES.GODLIKE])
+        UserModel.find()
+          .where('roles')
+          .in([ROLES.ADMIN, ROLES.GODLIKE])
           .select('email -_id')
           .lean()
-          .exec((err, usersEmail: {email: string}[]) => {
+          .exec((err, usersEmail: { email: string }[]) => {
             if (err) {
               Logger.error(err);
               return res.sendStatus(HTTPStatus.ServerError);
@@ -47,24 +54,66 @@ export const sendMailToAdmins = (req: Request, res: Response,
               return cb();
             }
             return cb();
-          })
+          });
       }
-
     ],
-  () => {
-    const mailer = new mails.Mailer(
-      'message to admins from guest',
-      EmailTemplate.contactEmail,
-      addresses,
-      `новое сообщение от посетителя ${message.name}`,
-      '',
-      message.email,
-      {
-        message: message.message
-      }
-    );
-    mailer.performQueue();
-    return res.sendStatus(HTTPStatus.OK);
-  })
+    () => {
+      const mailer = new mails.Mailer(
+        'message to admins from guest',
+        EmailTemplate.contactEmail,
+        addresses,
+        `новое сообщение от посетителя ${message.name}`,
+        '',
+        message.email,
+        {
+          message: message.message
+        }
+      );
+      mailer.performQueue();
+      return res.sendStatus(HTTPStatus.OK);
+    }
+  );
+};
 
-}
+export const getUnsubLinkState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const linkId = req.query['uniqId'];
+  if (!linkId) return res.status(HTTPStatus.BadRequest).send(UnsubState.INVALID);
+
+  const Link = (await LinkModel.findOne({ uniqId: linkId }).exec()) as models.Links;
+
+  const state = checkLinkState(Link);
+
+  Logger.debug(state)
+
+  return res.status(HTTPStatus.OK).send(state);
+};
+
+export const guestUnsub = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const linkId = req.body.uniqId;
+    if (!linkId) return res.status(HTTPStatus.BadRequest);
+
+    const Link = (await LinkModel.findOne({ uniqId: linkId }).exec()) as models.Links;
+
+    const state = checkLinkState(Link);
+
+    if (state === UnsubState.INVALID) {
+      return res.sendStatus(HTTPStatus.OK);
+    }
+
+    await SubscriberModel.findOneAndUpdate({ email: Link.email }, { active: false }).exec();
+    await Link.remove();
+  } catch (error) {
+    Logger.error('error to update SubscriberModel', error);
+  } finally {
+    return res.sendStatus(HTTPStatus.OK);
+  }
+};

@@ -40,6 +40,9 @@ export function router(
   app.post('/api/guest/comments/new/blog', controllers.newComment);
   app.get('/api/guest/comments/comment', controllers.getComment);
 
+  app.get('/api/guest/unsub/state', controllers.getUnsubLinkState);
+  app.put('/api/guest/unsub', controllers.guestUnsub);
+
   // user
   app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
   app.post('/api/app/user/logout', userBruteforce.prevent, identity.validateToken, auth.logout);
@@ -93,6 +96,12 @@ export function router(
   });
   app.get('/gallery/album/:id', (req, res) => {
     const actualPage = '/gallery/album/blog'
+    const queryParams = { id: req.params.id }
+    appNext.render(req, res, actualPage, queryParams)
+  });
+
+  app.get('/unsub/:id', (req, res) => {
+    const actualPage = '/unsub/guest'
     const queryParams = { id: req.params.id }
     appNext.render(req, res, actualPage, queryParams)
   });

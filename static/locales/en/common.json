@@ -62,12 +62,20 @@
     "password": "Password"
   },
 
+  "unsub": {
+    "title": "Unsubscribe from all e-mail notifications",
+    "invalid": "Link is invalid",
+    "content": "By clicking on button unsubscribe You will stop receiving all e-mail notifications from this web-site.",
+    "verySorry": "We are very sorry, that You unsubscribed. If you want to get e-mail notifications, You will need to send a message through conatct form."
+  },
+
   "buttons": {
     "send": "Send",
     "cancel": "Cancel",
     "add": "Add",
     "login": "Sign in",
-    "save": "Save"
+    "save": "Save",
+    "unsub": "Unsubscribe"
   },
 
   "typeHere": "Type here..."
