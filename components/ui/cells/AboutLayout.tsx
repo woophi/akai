@@ -76,6 +76,7 @@ const useStyles = makeStyles<Theme, StyleProps>(theme => ({
     width: '320px',
     visibility: 'visible',
     opacity: 1,
-    transition: '.2s ease-in-out'
+    transition: '.2s ease-in-out',
+    objectFit: 'cover'
   })
 }));
