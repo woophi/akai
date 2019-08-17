@@ -7,6 +7,7 @@ export type AppState = {
   ui: {
     youtube: {
       selectedVideoId: string;
+      chatId: string;
     };
     user: AuthData;
     blogs: BlogStateModel[];
@@ -16,6 +17,7 @@ export type AppState = {
 
 export type AppDispatch =
   | { type: 'SET_VIDEO_ID'; payload: string }
+  | { type: 'SET_CHAT_ID'; payload: string }
   | { type: 'SET_USER'; payload: AppState['ui']['user'] }
   | { type: 'SET_USER_TOKEN'; payload: AppState['ui']['user']['token'] }
   | { type: 'SET_USER_FETCHING'; payload: AppState['ui']['user']['fetching'] }

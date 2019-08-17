@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import YoutubeModel from 'server/models/youtube';
+import StreamModel from 'server/models/streaming';
 import * as models from 'server/models/types';
 import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
 import * as async from 'async';
 import { HTTPStatus } from 'server/lib/models';
 import { youtubePattern } from 'server/utils/helpers';
-// TODO: add youtube chat id before translation
+
 
 export const createNewYoutubeUrl = async (
   req: Request,
@@ -165,4 +166,32 @@ export const updateYoutubes = async (
       );
     }
   );
+};
+
+export const getLastChatLiveStreamId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const streaming = (await StreamModel.findOne()
+    .sort({ createdAt: -1 })
+    .lean()) as models.Streaming;
+
+  Logger.info('Getting streaming id');
+  return res.status(HTTPStatus.OK).send(streaming ? streaming.chatId : '');
+};
+
+export const saveChatLiveStreamId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const chatId = req.body.chatId;
+  if (!chatId) {
+    return res.sendStatus(HTTPStatus.BadRequest);
+  }
+  await new StreamModel({ chatId } as models.StreamingModel).save();
+  Logger.info('Saving streaming id');
+
+  return res.sendStatus(HTTPStatus.OK);
 };

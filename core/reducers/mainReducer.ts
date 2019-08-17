@@ -2,7 +2,8 @@ import * as models from 'core/models';
 
 export const initialState: models.AppState['ui'] = {
   youtube: {
-    selectedVideoId: ''
+    selectedVideoId: '',
+    chatId: ''
   },
   blogs: [],
   user: {
@@ -38,7 +39,17 @@ export const reducer = (state = initialState, dispatch: models.AppDispatch): mod
       return {
         ...state,
         youtube: {
+          ...state.youtube,
           selectedVideoId: dispatch.payload
+        }
+      };
+    }
+    case 'SET_CHAT_ID': {
+      return {
+        ...state,
+        youtube: {
+          ...state.youtube,
+          chatId: dispatch.payload
         }
       };
     }

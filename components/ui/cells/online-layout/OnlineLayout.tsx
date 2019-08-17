@@ -4,13 +4,25 @@ import { H1, SocialButtons, BoxContent } from 'ui/atoms';
 import getConfig from 'next/config';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'server/lib/i18n';
+import { SaveChatId } from './SaveChatId';
+import { connect as redux } from 'react-redux';
+import { AppState } from 'core/models';
+import { getLastChatLiveStreamId } from 'core/operations';
 
 const { publicRuntimeConfig } = getConfig();
-const { CHANNEL_ID, CHAT_VIDEO_ID, CHAT_DOMAIN } = publicRuntimeConfig;
+const { CHANNEL_ID, CHAT_DOMAIN } = publicRuntimeConfig;
 
-export const OnlineLayout = React.memo(() => {
+type Props = {
+  chatId: string;
+}
+
+const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
   const classes = useStyles({});
   const { t } = useTranslation();
+  React.useEffect(() => {
+    getLastChatLiveStreamId();
+  }, []);
+
   return (
     <BoxContent>
       <H1 upperCase>{t('common:video.online.title')}</H1>
@@ -41,18 +53,27 @@ export const OnlineLayout = React.memo(() => {
             {t('common:AA')}
           </Typography>
           <SocialButtons />
+          <SaveChatId />
         </div>
-        <iframe
-          frameBorder="0"
-          height="750"
-          width="480"
-          src={`https://www.youtube.com/live_chat?v=${CHAT_VIDEO_ID}&embed_domain=${CHAT_DOMAIN}`}
-          className={classes.chat}
-        />
+        {chatId && (
+          <iframe
+            frameBorder="0"
+            height="750"
+            width="480"
+            src={`https://www.youtube.com/live_chat?v=${
+              chatId
+            }&embed_domain=${CHAT_DOMAIN}`}
+            className={classes.chat}
+          />
+        )}
       </div>
     </BoxContent>
   );
 });
+
+export const OnlineLayout = redux((state: AppState) => ({
+  chatId: state.ui.youtube.chatId
+}))(OnlineLayoutComponent);
 
 const useStyles = makeStyles(theme => ({
   wrap: {

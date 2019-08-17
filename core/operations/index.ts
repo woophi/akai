@@ -1,5 +1,6 @@
-import { callApi } from 'core/common';
+import { callApi, callAdminApi } from 'core/common';
 import * as models from 'core/models';
+import { store } from 'core/store';
 
 export const subscribe = (email: string) =>
   callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
@@ -34,3 +35,11 @@ export const getVisitorName = () =>
 
 export const getCommentById = (commentId: string) =>
   callApi<models.CommentItem>('get', `api/guest/comments/comment?id=${commentId}`);
+
+export const getLastChatLiveStreamId = async () => {
+  const chatId = await callApi<string>('get', `api/guest/youtube/live/chat`);
+  store.dispatch({ type: 'SET_CHAT_ID', payload: chatId });
+}
+
+export const saveChatLiveStreamId = (chatId: string) =>
+  callAdminApi<void>('post', `api/admin/save/live/chat`, { chatId });

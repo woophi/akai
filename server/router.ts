@@ -28,6 +28,7 @@ export function router(
   app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
   app.get('/api/guest/biography', controllers.getBiography);
   app.get('/api/guest/youtubes', controllers.getYoutubeUrls);
+  app.get('/api/guest/youtube/live/chat', controllers.getLastChatLiveStreamId);
   app.get('/api/guest/photos', controllers.getPhotos);
   app.get('/api/guest/albums', controllers.getAlbums);
   app.get('/api/guest/album', controllers.getAlbum);
@@ -73,6 +74,7 @@ export function router(
 
   app.post('/api/admin/update/youtubes', identity.authorizedForAdmin, controllers.updateYoutubes);
   app.post('/api/admin/create/youtube', identity.authorizedForAdmin, controllers.createNewYoutubeUrl);
+  app.post('/api/admin/save/live/chat', identity.authorizedForAdmin, controllers.saveChatLiveStreamId);
 
   app.post('/storage/upload', identity.authorizedForAdmin, storage.startUpload);
   app.get('/api/admin/files', identity.authorizedForAdmin, controllers.getAllFiles);
