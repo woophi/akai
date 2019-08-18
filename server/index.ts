@@ -28,7 +28,6 @@ import * as fileUpload from 'express-fileupload';
 import { checkConfiguration } from './utils/helpers';
 import { applyMigration } from './lib/updates';
 import connection, { agenda } from './lib/db';
-import { enforceHttps } from './utils/middleware';
 
 checkConfiguration(config);
 
@@ -37,8 +36,6 @@ appNext.prepare().then(async () => {
   appExpress.use(bodyParser.urlencoded({ extended: true }));
   appExpress.use(bodyParser.json());
   appExpress.use(fileUpload());
-  appExpress.use(enforceHttps);
-
   if (config.DEV_MODE) {
     appExpress.use(logger('dev'));
   } else {
