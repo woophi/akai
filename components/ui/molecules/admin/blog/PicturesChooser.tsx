@@ -6,6 +6,9 @@ import Box from '@material-ui/core/Box';
 import { FilesList } from './FilesList';
 import { PaperDropzone } from '../uploader';
 import { deselectFile } from '../uploader/operations';
+import { connect as redux } from 'react-redux';
+import { AppState, FileItem } from 'core/models';
+import { getSelectedFile } from 'core/selectors';
 
 type Props = {
   label?: string;
@@ -15,16 +18,28 @@ type Props = {
   className?: string;
 };
 
-export const PicturesChooser = React.memo<Props>(
+type ReduxProps = {
+  file: FileItem;
+} & Props;
+
+const PicturesChooserComponent = React.memo<ReduxProps>(
   ({
     label = 'Добавить картины',
     error,
     disabled = false,
     onConfirm,
-    className = ''
+    className = '',
+    file
   }) => {
     const [open, setOpen] = React.useState(false);
     const [chosenFiles, chooseFile] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+      if (!!file._id && !chosenFiles.some(f => f == file._id)) {
+        chooseFile([...chosenFiles.filter(f => !!f), file._id]);
+      }
+    }, [file._id]);
+
     const handleClickOpen = () => setOpen(true);
     const handleClickClose = () => {
       setOpen(false);
@@ -69,3 +84,7 @@ export const PicturesChooser = React.memo<Props>(
     );
   }
 );
+
+export const PicturesChooser = redux((state: AppState, _: Props) => ({
+  file: getSelectedFile(state)
+}))(PicturesChooserComponent);
