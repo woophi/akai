@@ -48,7 +48,7 @@ const onSubmit = async (data: AlbumForm, albumId?: string) => {
       await editAlbum(albumId, data);
     } else {
       const id = await createNewAlbum(data);
-      goToSpecific(`/admin/album/${id}`);
+      goToSpecific(`/admin/albums/edit/${id}`);
     }
   } catch (error) {
     return { [FORM_ERROR]: error.error };
