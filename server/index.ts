@@ -41,7 +41,7 @@ appNext.prepare().then(async () => {
   } else {
     appExpress.use(helmet());
     appExpress.disable('x-powered-by');
-    appExpress.use(logger('combined'));
+    appExpress.use(logger('tiny'));
     appExpress.set('trust proxy', 1);
   }
   appExpress.use(cookieParser(config.COOKIE_SECRET));
