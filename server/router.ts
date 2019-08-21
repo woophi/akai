@@ -7,6 +7,12 @@ import * as storage from './storage';
 import { userBruteforce } from './lib/rate-limiter';
 import { Server } from 'next';
 import { UrlLike } from 'next/router';
+import { join } from 'path';
+import { HTTPStatus } from './lib/models';
+
+const options = {
+  root: join(__dirname, '/assets')
+};
 
 export function router(
   app: express.Express,
@@ -17,7 +23,10 @@ export function router(
   ) => Promise<void>,
   appNext: Server
 ) {
-  app.use('/favicon.ico', (req, res) => res.status(200).send());
+  app.use('/favicon.ico', (_, res) => res.status(HTTPStatus.OK).sendFile('favicon.ico', options));
+
+  app.get('/robots.txt', (_, res) => res.status(HTTPStatus.OK).sendFile('robots.txt', options));
+  app.get('/sitemap.xml', (_, res) => res.status(HTTPStatus.OK).sendFile('sitemap.xml', options));
 
   app.get('/api/health', identity.authorizedForSuperAdmin, controllers.getApiHealth);
   app.post('/api/guest/visit', controllers.connectedUniqVisitor);
