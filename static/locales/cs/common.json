@@ -76,9 +76,15 @@
     "add": "Přidat",
     "login": "Přihlásit se",
     "save": "Ulozit",
-    "unsub": "Odhlásit se"
+    "unsub": "Odhlásit se",
+    "home": "Jít na domovskou stránku"
   },
 
+  "errors": {
+    "404": "Stránka nenalezena",
+    "404Sub": "Nic jsme nenašli.",
+    "others": "Jejda! Něco se pokazilo..."
+  },
   "typeHere": "Pište zde..."
 
 }

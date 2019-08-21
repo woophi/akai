@@ -75,7 +75,14 @@
     "add": "Add",
     "login": "Sign in",
     "save": "Save",
-    "unsub": "Unsubscribe"
+    "unsub": "Unsubscribe",
+    "home": "Go to homepage"
+  },
+
+  "errors": {
+    "404": "Page not found",
+    "404Sub": "We could not find anything.",
+    "others": "Oops... something went wrong..."
   },
 
   "typeHere": "Type here..."
