@@ -11,7 +11,7 @@ import { join } from 'path';
 import { HTTPStatus } from './lib/models';
 
 const options = {
-  root: join(__dirname, '/assets')
+  root: join(__dirname, '../assets')
 };
 
 export function router(
