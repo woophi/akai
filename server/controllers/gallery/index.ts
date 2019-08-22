@@ -3,6 +3,7 @@ import AlbumModel from 'server/models/album';
 import BlogModel from 'server/models/blog';
 import { HTTPStatus } from 'server/lib/models';
 import { Logger } from 'server/logger';
+import { Validator } from 'server/validator';
 export * from './comments';
 export * from './views';
 export * from './likes';
@@ -34,6 +35,9 @@ export const getAlbum = async (req: Request, res: Response, next: NextFunction) 
   if (!albumId || !localeId)
     return res.send({ blogs: [], albumTitle: '' }).status(HTTPStatus.Empty);
 
+  const validate = new Validator();
+  if (validate.notMongooseObject(albumId))
+    return res.send({ blogs: [], albumTitle: '' }).status(HTTPStatus.Empty);
   try {
     const album = await AlbumModel.findById(albumId)
       .populate({
@@ -69,6 +73,9 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
   const blogId = req.query['id'];
   const localeId = req.query['localeId'];
   if (!blogId || !localeId) return res.send({}).status(HTTPStatus.Empty);
+  const validate = new Validator();
+  if (validate.notMongooseObject(blogId))
+    return res.send({}).status(HTTPStatus.Empty);
   try {
     const blog = await BlogModel.findById(blogId)
       .where('deleted', undefined)

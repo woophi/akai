@@ -10,6 +10,7 @@ import { Logger } from 'server/logger';
 import * as models from 'server/models/types';
 import { EventBus, BusEvents } from 'server/lib/events';
 import { connectUniqVisitor } from '../visitors';
+import { Validator } from 'server/validator';
 
 export const getBlogComments = async (
   req: Request,
@@ -18,6 +19,8 @@ export const getBlogComments = async (
 ) => {
   const blogId = req.query['id'];
   if (!blogId) return res.send([]).status(HTTPStatus.OK);
+  const validate = new Validator();
+  if (validate.notMongooseObject(blogId)) return res.send([]).status(HTTPStatus.OK);
   try {
     const comments = await CommentModel.find()
       .where('blog', blogId)
@@ -50,8 +53,10 @@ export const getComment = async (
 ) => {
   const commentId = req.query['id'];
   if (!commentId) return res.sendStatus(HTTPStatus.BadRequest);
+  const validate = new Validator();
+  if (validate.notMongooseObject(commentId))
+    return res.send({}).status(HTTPStatus.OK);
   try {
-
     const comment = await CommentModel.findById(commentId)
       .where('deleted', undefined)
       .populate({
@@ -104,7 +109,7 @@ export const newComment = async (
       cb =>
         validate.check(
           {
-            blog: validate.required,
+            blog: validate.notMongooseObject,
             text: validate.required,
             visitor: validate.required,
             name: validate.required

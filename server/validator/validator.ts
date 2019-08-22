@@ -1,5 +1,7 @@
 
 import { Request, Response, NextFunction } from 'express';
+import { HTTPStatus } from 'server/lib/models';
+import { Types } from 'mongoose';
 
 export class Validator {
   constructor(req?: Request, res?: Response, next?: NextFunction) {
@@ -27,12 +29,12 @@ export class Validator {
       }
     });
     if (!this.isEmpty(errors)) {
-      return this.Exception(errors, 400)
+      return this.Exception(errors, HTTPStatus.BadRequest)
     }
     return cb();
   }
 
-  private Exception = <T>(error: T, code: number) => {
+  private Exception = <T>(error: T, code: HTTPStatus) => {
     if (error && this.res) {
       return this.res.status(code).send({ error: error });
     }
@@ -94,4 +96,10 @@ export class Validator {
     return;
   }
 
+  notMongooseObject = <T>(value: T) => {
+    this.required(value);
+    if (!Types.ObjectId.isValid(value as any)) {
+      return 'invalid';
+    }
+  }
 }
