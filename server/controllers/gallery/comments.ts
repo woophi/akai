@@ -18,24 +18,29 @@ export const getBlogComments = async (
 ) => {
   const blogId = req.query['id'];
   if (!blogId) return res.send([]).status(HTTPStatus.OK);
-  const comments = await CommentModel.find()
-    .where('blog', blogId)
-    .where('deleted', undefined)
-    .populate({
-      path: 'visitor',
-      select: 'name -_id'
-    })
-    .select('text createdAt')
-    .sort('createdAt')
-    .lean();
+  try {
+    const comments = await CommentModel.find()
+      .where('blog', blogId)
+      .where('deleted', undefined)
+      .populate({
+        path: 'visitor',
+        select: 'name -_id'
+      })
+      .select('text createdAt')
+      .sort('createdAt')
+      .lean();
 
-  const data = comments.map(c => ({
-    id: c._id,
-    name: c.visitor.name,
-    text: c.text,
-    createdAt: c.createdAt
-  }));
-  return res.send(data).status(HTTPStatus.OK);
+    const data = comments.map(c => ({
+      id: c._id,
+      name: c.visitor.name,
+      text: c.text,
+      createdAt: c.createdAt
+    }));
+    return res.send(data).status(HTTPStatus.OK);
+  } catch (error) {
+    Logger.error(error);
+    return res.send([]).status(HTTPStatus.OK);
+  }
 };
 
 export const getComment = async (
@@ -45,28 +50,34 @@ export const getComment = async (
 ) => {
   const commentId = req.query['id'];
   if (!commentId) return res.sendStatus(HTTPStatus.BadRequest);
-  const comment = await CommentModel.findById(commentId)
-    .where('deleted', undefined)
-    .populate({
-      path: 'visitor',
-      select: 'name -_id'
-    })
-    .select('text createdAt')
-    .sort('createdAt')
-    .lean();
+  try {
 
-  if (!comment) {
-    return res.sendStatus(HTTPStatus.NotFound);
+    const comment = await CommentModel.findById(commentId)
+      .where('deleted', undefined)
+      .populate({
+        path: 'visitor',
+        select: 'name -_id'
+      })
+      .select('text createdAt')
+      .sort('createdAt')
+      .lean();
+
+    if (!comment) {
+      return res.sendStatus(HTTPStatus.NotFound);
+    }
+
+    return res
+      .send({
+        id: comment._id,
+        name: comment.visitor.name,
+        text: comment.text,
+        createdAt: comment.createdAt
+      })
+      .status(HTTPStatus.OK);
+  } catch (error) {
+    Logger.error(error);
+    return res.send({}).status(HTTPStatus.OK);
   }
-
-  return res
-    .send({
-      id: comment._id,
-      name: comment.visitor.name,
-      text: comment.text,
-      createdAt: comment.createdAt
-    })
-    .status(HTTPStatus.OK);
 };
 
 export const newComment = async (
@@ -148,7 +159,7 @@ export const newComment = async (
         return res.sendStatus(HTTPStatus.OK);
       } catch (error) {
         Logger.error(error);
-        return res.sendStatus(HTTPStatus.ServerError);
+        return res.sendStatus(HTTPStatus.BadRequest);
       }
     }
   );
