@@ -30,7 +30,8 @@ export const connectUniqVisitor = (req: Request, res: Response) => {
 
   const ua = new parser(req.headers['user-agent']);
   const ip = getUserIp(req);
-  const geo = geoip.lookup(ip && ip.length ? ip[0] : ip);
+  const splitIp = typeof ip === 'string' ? ip.split(',') : ip;
+  const geo = geoip.lookup(splitIp && splitIp.length ? splitIp[0] : splitIp);
   let newVisitorData = {
     visitorId,
     uniqVisits: 1,
