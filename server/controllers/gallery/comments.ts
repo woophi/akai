@@ -160,6 +160,14 @@ export const newComment = async (
             ? [...blog.comments, newComment.id]
             : [newComment.id]
         });
+        const visitor = (await VisitorModel.findOne()
+          .where('visitorId', visitorId)
+          .exec()) as models.Visitor;
+        await visitor.set({
+          comments: visitor.comments
+            ? [...visitor.comments, newComment.id]
+            : [newComment.id]
+        });
         EventBus.emit(BusEvents.NEW_COMMENT, newComment.id, blogId);
         return res.sendStatus(HTTPStatus.OK);
       } catch (error) {
