@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserIp } from 'server/utils/helpers';
+import { getUserIp, getLocaleIds } from 'server/utils/helpers';
 const parser = require('ua-parser-js');
 import * as uuidv4 from 'uuid/v4';
 const geoip = require('geoip-lite');
@@ -9,7 +9,7 @@ import { Logger } from 'server/logger';
 import { VisitorCookie } from './types';
 import { HTTPStatus } from 'server/lib/models';
 
-export const connectUniqVisitor = (req: Request, res: Response) => {
+export const connectUniqVisitor = async (req: Request, res: Response) => {
   const visitorId = req.signedCookies[VisitorCookie.VisitId];
   const uniqID = uuidv4();
   const newDate = new Date();
@@ -20,9 +20,10 @@ export const connectUniqVisitor = (req: Request, res: Response) => {
     newDate.getDay()
   );
   if (!visitorId) {
+    const localeIds = await getLocaleIds();
     res.cookie(VisitorCookie.VisitId, uniqID, { signed: true, expires });
-    const lngs = req.acceptsLanguages();
-    res.cookie(VisitorCookie.Lang, lngs ? lngs.find(l => l.length == 2) : 'en', {
+    const lng = req.acceptsLanguages(localeIds);
+    res.cookie(VisitorCookie.Lang, lng || 'en', {
       expires
     });
   }
