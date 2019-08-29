@@ -1,5 +1,5 @@
 import * as async from 'async';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import * as models from '../models/types';
 
 const Photo = mongoose.model(models.SchemaNames.PHOTOS);

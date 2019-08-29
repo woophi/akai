@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import * as models from '../models/types';
 
 module.exports = (done) => {

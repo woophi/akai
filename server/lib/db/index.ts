@@ -1,7 +1,7 @@
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import config from 'server/config';
 import { Logger } from 'server/logger';
-import * as Agenda from 'agenda';
+import Agenda from 'agenda';
 import { SchemaNames } from 'server/models/types';
 mongoose.set('useCreateIndex', true);
 export const databaseUri = config.PORT_MONGO;

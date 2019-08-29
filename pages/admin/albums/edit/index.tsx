@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { ensureNotAuthorized } from 'core/operations/auth';
 import { AdminLayout, AdminAlbumComponent } from 'ui/index';
-import { withRouter, WithRouterProps } from 'next/router';
+import { withRouter } from 'next/router';
+import { WithRouterProps } from 'next/dist/client/with-router';
 
 class Album extends React.PureComponent<WithRouterProps> {
   async componentDidMount() {

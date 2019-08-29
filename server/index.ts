@@ -8,26 +8,29 @@ if (!process.env.NO_DV) {
 }
 import * as fs from 'fs';
 import { join } from 'path';
-import * as express from 'express';
-import * as next from 'next';
-import * as bodyParser from 'body-parser';
-import * as logger from 'morgan';
-import * as cookieParser from 'cookie-parser';
-import * as helmet from 'helmet';
+import express from 'express';
+// import next from 'next';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import { createServer } from 'http';
 import config from './config';
-const appNext = next({ dev: config.DEV_MODE });
-const handle = appNext.getRequestHandler();
+
 const nextI18NextMiddleware = require('next-i18next/middleware');
 
 import nextI18next from './lib/i18n';
 import { registerSocket } from './lib/sockets';
 import { router } from './router';
 import { initExpressSession } from './identity';
-import * as fileUpload from 'express-fileupload';
+import fileUpload from 'express-fileupload';
 import { checkConfiguration } from './utils/helpers';
 import { applyMigration } from './lib/updates';
 import connection, { agenda } from './lib/db';
+import next from 'next';
+
+const appNext = next({ dev: config.DEV_MODE });
+const handle = appNext.getRequestHandler();
 
 checkConfiguration(config);
 

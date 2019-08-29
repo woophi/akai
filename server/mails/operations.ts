@@ -1,7 +1,7 @@
-import * as uuidv4 from 'uuid/v4';
+import uuidv4 from 'uuid/v4';
 import LinksModel from 'server/models/links';
 import * as models from 'server/models/types';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Logger } from 'server/logger';
 import { UnsubState } from './types';
 import { agenda } from 'server/lib/db';

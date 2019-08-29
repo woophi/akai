@@ -4,13 +4,13 @@ import * as controllers from './controllers';
 import * as auth from './auth';
 import * as identity from './identity';
 import * as storage from './storage';
-import { Server } from 'next';
-import { UrlLike } from 'next/router';
 import { join } from 'path';
 import { HTTPStatus } from './lib/models';
 import { agenda } from './lib/db';
 import { rateLimiterMiddleware } from './lib/rate-limiter';
 const Agendash = require('agendash');
+import Server from 'next-server/dist/server/next-server';
+import { UrlWithParsedQuery } from 'url';
 
 const options = {
   root: join(__dirname, '../assets')
@@ -21,7 +21,7 @@ export function router(
   handle: (
     req: IncomingMessage,
     res: ServerResponse,
-    parsedUrl?: UrlLike
+    parsedUrl?: UrlWithParsedQuery
   ) => Promise<void>,
   appNext: Server
 ) {
