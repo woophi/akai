@@ -38,7 +38,8 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: `url( '/static/img/like_anim.png')`,
     backgroundPosition: selected ? 'right' : 'left',
     backgroundRepeat: 'no-repeat',
-    backgroundSize: '2900%'
+    backgroundSize: '2900%',
+    margin: 'auto'
   }),
   is_animating: {
     animation: '$heart-burst .8s steps(28) 1'

@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { Logger } from 'server/logger';
 import { UnsubState } from './types';
 
-// TODO: check every 5 days if link is there still valid with agenda task
 const rofl = 'kek';
 export const createUniqLink = async (email: string) => {
   try {
