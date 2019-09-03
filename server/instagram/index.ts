@@ -7,7 +7,7 @@ import * as models from '../models/types';
 import { IgEventParams, IgEvents } from './types';
 import * as axios from 'axios';
 
-export const loginToIg = async () => {
+const loginToIg = async () => {
   try {
     const ig = new IgApiClient();
     Logger.debug('Instagram generate device');

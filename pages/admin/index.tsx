@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ensureNotAuthorized } from 'core/operations/auth';
-import { AdminLayout } from 'ui/index';
-import Box from '@material-ui/core/Box';
+import { AdminLayout, AdminDashboard } from 'ui/index';
 
 class Admin extends React.PureComponent {
   async componentDidMount() {
@@ -15,9 +14,7 @@ class Admin extends React.PureComponent {
   render() {
     return (
       <AdminLayout>
-        <Box flexDirection="column" flex={1}>
-          {'Hello'}
-        </Box>
+        <AdminDashboard />
       </AdminLayout>
     );
   }

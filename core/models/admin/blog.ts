@@ -28,3 +28,11 @@ export type NewBlogData = GeneralBlogData;
 export type BlogData = {
   id: string;
 } & GeneralBlogData;
+
+
+export type BlogTopItem = {
+  _id: string,
+  photos: string[],
+  views: number,
+  title: string
+}

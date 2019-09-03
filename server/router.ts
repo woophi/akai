@@ -68,6 +68,9 @@ export function router(
   // admin
   app.post('/api/admin/new/user', identity.authorizedForSuperAdmin, controllers.createUser);
 
+  // dashboard
+  app.get('/api/admin/dashboard/topBlogs', identity.authorizedForSuperAdmin, controllers.getTopFiveViewBlogs);
+
   app.post('/api/admin/new/blog', identity.authorizedForAdmin, controllers.createNewPost);
   app.get('/api/admin/get/blog', identity.authorizedForAdmin, controllers.getAdminBlogData);
   app.put('/api/admin/edit/blog', identity.authorizedForAdmin, controllers.editAdminBlogData);

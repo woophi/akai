@@ -8,3 +8,4 @@ export * from './youtube';
 export * from './files';
 export * from './album';
 export * from './photos';
+export * from './dashboard';
