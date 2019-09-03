@@ -11,7 +11,11 @@ export const SketchBookSchema = new mongoose.Schema(
 		content: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: SchemaNames.FILES
-    }]
+    }],
+    coverPhoto: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.FILES
+    }
   },
 	{ collection: SchemaNames.SKETCH_BOOK }
 );
