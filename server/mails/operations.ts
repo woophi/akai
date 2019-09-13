@@ -4,6 +4,7 @@ import * as models from 'server/models/types';
 import * as moment from 'moment';
 import { Logger } from 'server/logger';
 import { UnsubState } from './types';
+import { agenda } from 'server/lib/db';
 
 const rofl = 'kek';
 export const createUniqLink = async (email: string) => {
@@ -17,17 +18,20 @@ export const createUniqLink = async (email: string) => {
             .add(5, 'days')
             .toDate()
         }).save();
+        queueLinkScheduler(Link.uniqId, Link.valid);
       }
       return Link.uniqId;
     } else {
       const uniqId = uuidv4();
+      const valid = moment()
+        .add(5, 'days')
+        .toDate();
       await new LinksModel({
         email,
         uniqId,
-        valid: moment()
-          .add(5, 'days')
-          .toDate()
+        valid
       } as models.LinksModel).save();
+      queueLinkScheduler(uniqId, valid);
       return uniqId;
     }
   } catch (error) {
@@ -44,4 +48,19 @@ export const checkLinkState = (link: models.Links) => {
   if (!link || !checkLinkTimeValidation(link.valid)) return UnsubState.INVALID;
 
   return UnsubState.VALID;
+};
+
+const queueLinkScheduler = async (uniqId: string, execDate: Date) => {
+  const task = `queueLinkScheduler id ${uniqId}`;
+  const jobs = await agenda.jobs({ name: task });
+  if (jobs.length) {
+    const j = jobs[0];
+    j.schedule(execDate);
+  } else {
+    agenda.define(task, { priority: 'high', concurrency: 10 }, async () => {
+      Logger.debug('Runnig link deletion task', uniqId);
+      await LinksModel.deleteOne({ uniqId });
+    });
+    await agenda.schedule(execDate, task);
+  }
 };
