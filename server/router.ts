@@ -105,6 +105,10 @@ export function router(
   app.get('/api/admin/fb/pages', identity.authorizedForAdmin, controllers.getFBPIds);
   app.patch('/api/admin/fb/check/token', identity.authorizedForAdmin, controllers.checkTokenValidation);
 
+  app.patch('/api/admin/ig/check', identity.authorizedForAdmin, controllers.checkLoginInstagram);
+  app.patch('/api/admin/ig/login', identity.authorizedForAdmin, controllers.verrifyLoginInstagram);
+  app.patch('/api/admin/ig/code', identity.authorizedForAdmin, controllers.sendCodeInstagram);
+
   // facebook connect
   app.get('/setup/fb', controllers.fbLogin);
   app.get('/processLogin/fb/at', controllers.processLogin);

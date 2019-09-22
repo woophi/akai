@@ -98,9 +98,7 @@ export const createNewPost = async (
           fPages[0]
         );
 
-        process.nextTick(() =>
-          EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId })
-        );
+        EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId });
       }
       if (notifySubscribers && savedBlogId) {
         sendMailToSubscribersAfterBlogPost(savedBlogId, adminName);

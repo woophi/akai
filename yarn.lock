@@ -1093,7 +1093,7 @@
   resolved "https://registry.yarnpkg.com/@types/async/-/async-3.0.0.tgz#d403560ee2aabccdb7936cb9a3fee5f147d626bd"
   integrity sha512-DvEhEeG8ynipwkg7LtNHlO99+vEVbin+E+3YuzeJCM9TREewJ1B5fdZsQzykR7fKuh6rKh8mEir36zKd3uafOA==
 
-"@types/bluebird@*":
+"@types/bluebird@*", "@types/bluebird@^3.5.27":
   version "3.5.27"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.27.tgz#61eb4d75dc6bfbce51cf49ee9bbebe941b2cb5d0"
   integrity sha512-6BmYWSBea18+tSjjSC3QIyV93ZKAeNWGM7R6aYt1ryTZXrlHF+QLV0G2yV0viEGVyRkyQsWfMoJ0k/YghBX5sQ==
@@ -2216,6 +2216,11 @@ bluebird@^3.5.0, bluebird@^3.5.3, bluebird@^3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
   integrity sha512-FG+nFEZChJrbQ9tIccIfZJBz3J7mLrAhxakAbnrJWn8d7aKOC+LWifa0G+p4ZqKp4y13T7juYvdhq9NzKdsrjw==
+
+bluebird@^3.5.5:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
@@ -4364,10 +4369,10 @@ ini@^1.3.4, ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
 
-instagram-private-api@^1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/instagram-private-api/-/instagram-private-api-1.20.0.tgz#d379dfcde4902ba053ecda540a835d5d146ea3d5"
-  integrity sha512-xdsZ0Yp99m+1CUQnJLYgX17b0w1WVv9KBtpZGRTf2hNCjEjRCVNgV7ktgRBa4aHrJ4w/Bm/hJenfbC/AxydLDg==
+instagram-private-api@^1.28.0:
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/instagram-private-api/-/instagram-private-api-1.28.0.tgz#1c355788a8a82c1b864bdac72ae4b0a01df2e0da"
+  integrity sha512-UhrnrPRYiRRoiUh6aydCREPCGp6DoRP8q6NGyzWa/cYobYgO8AeHkWrRUTYPwebRyi0axIiWLelUugh/vz5y2Q==
   dependencies:
     "@lifeomic/attempt" "^3.0.0"
     "@types/chance" "^1.0.2"
@@ -4382,7 +4387,7 @@ instagram-private-api@^1.20.0:
     reflect-metadata "^0.1.13"
     request "^2.88.0"
     request-promise "^4.2.4"
-    rxjs "^6.4.0"
+    rxjs "^6.5.2"
     tough-cookie "^2.5.0"
     ts-custom-error "^2.2.2"
     ts-xor "^1.0.6"
@@ -7128,10 +7133,10 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^6.4.0:
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.1.tgz#f7a005a9386361921b8524f38f54cbf80e5d08f4"
-  integrity sha512-y0j31WJc83wPu31vS1VlAFW5JGrnGC+j+TtGAa1fRQphy48+fDYiDmX8tjGloToEsMkxnouOg/1IzXGKkJnZMg==
+rxjs@^6.5.2:
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.3.tgz#510e26317f4db91a7eb1de77d9dd9ba0a4899a3a"
+  integrity sha512-wuYsAYYFdWTAnAaPoKGNhfpWwKZbJW+HgAJ+mImp+Epl7BG8oNWBCTyRM8gba9k4lk8BgWdoYm21Mo/RYhhbgA==
   dependencies:
     tslib "^1.9.0"
 

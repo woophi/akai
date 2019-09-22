@@ -9,3 +9,4 @@ export * from './files';
 export * from './album';
 export * from './photos';
 export * from './dashboard';
+export * from './instagram';

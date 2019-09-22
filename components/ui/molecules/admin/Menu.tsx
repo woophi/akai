@@ -4,6 +4,7 @@ import PhotoAlbum from '@material-ui/icons/PhotoAlbum';
 import Wallpaper from '@material-ui/icons/Wallpaper';
 // import Files from '@material-ui/icons/PermMedia';
 import Slideshow from '@material-ui/icons/Slideshow';
+import InsertPhoto from '@material-ui/icons/InsertPhoto';
 import AssignmentInd from '@material-ui/icons/AssignmentInd';
 import PictureInPicture from '@material-ui/icons/PictureInPicture';
 import Block from '@material-ui/icons/Block';
@@ -108,6 +109,12 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
             />
           </ListItemIcon>
           <ListItemText primary={'Facebook'} />
+        </ListItem>
+        <ListItem button onClick={constants.toInstagram}>
+          <ListItemIcon>
+            <InsertPhoto />
+          </ListItemIcon>
+          <ListItemText primary={'Instagram'} />
         </ListItem>
 
         <ListItem button onClick={constants.toFollowers} disabled>

@@ -8,3 +8,4 @@ export * from './youtube';
 export * from './facebook';
 export * from './users';
 export * from './dashboard';
+export * from './instagram';
