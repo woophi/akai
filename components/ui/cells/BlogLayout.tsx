@@ -27,7 +27,6 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
         <div className={classes.wrapCarusel}>
           <Carousel
             autoPlay={false}
-            infiniteLoop
             showStatus={false}
             showThumbs={blog.photos.length > 1}
             className={classes.carusel}
@@ -88,7 +87,6 @@ const useStyles = makeStyles(theme => ({
   },
   caruselImg: {
     margin: 'auto',
-    maxHeight: '100%',
     maxWidth: '100%'
   },
   text: ({ isSmallEnough }: { isSmallEnough: boolean }) => ({
