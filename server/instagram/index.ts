@@ -5,7 +5,7 @@ import config from '../config';
 import BlogModel from '../models/blog';
 import * as models from '../models/types';
 import { IgEventParams, IgEvents } from './types';
-import * as axios from 'axios';
+const Jimp = require('jimp');
 
 export const ig = new IgApiClient();
 const loginToIg = async () => {
@@ -24,13 +24,9 @@ const loginToIg = async () => {
     Logger.error(error);
     return null;
   }
-}
+};
 
-export const postToInstagram = async ({
-  blogId,
-  done
-}: IgEventParams) => {
-
+export const postToInstagram = async ({ blogId, done }: IgEventParams) => {
   Logger.debug('Fetching blog data by Id');
 
   const blog: models.Blog = await BlogModel.findById(blogId)
@@ -53,17 +49,21 @@ export const postToInstagram = async ({
   try {
     const ig = await loginToIg();
     if (!ig) throw Error('failed login to instagram');
-    const { data } = await axios.default
-      .get(blog.socialShare.photo.url, {
-        responseType: 'arraybuffer',
-        headers: {
-          'Accept': '*/*'
-        }
+
+    const jimpInit = await Jimp.read(blog.socialShare.photo.url);
+    jimpInit.contain(igPerfectResolution, igPerfectResolution, async (e, v) => {
+      if (e) {
+        Logger.info(e);
+        throw Error('something went wrong with jimp contain');
+      }
+      Logger.debug('trying to get buff');
+      const buffData = await v.getBufferAsync('image/jpeg');
+      Logger.debug('got buff');
+      await ig.publish.photo({
+        file: buffData,
+        caption: topic ? topic.content : ''
       });
-    if (!data) throw Error('failed to fetch img data');
-    await ig.publish.photo({
-      file: data,
-      caption: topic ? topic.content : ''
+      Logger.debug('ig photo published');
     });
   } catch (error) {
     Logger.error(error);
@@ -77,3 +77,5 @@ export const registerInstagramEvents = () => {
   Logger.debug('Register Instagram Events');
   EventBus.on(IgEvents.INSTAGRAM_ASK, postToInstagram);
 };
+
+const igPerfectResolution = 1080;
