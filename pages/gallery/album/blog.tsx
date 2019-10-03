@@ -10,6 +10,7 @@ import { WithRouterProps } from 'next/dist/client/with-router';
 import { connectSocketBlog, joinRoom, leaveRoom } from 'core/socket/blog';
 import Head from 'next/head';
 import getConfig from 'next/config';
+import isEmpty from 'ramda/src/isEmpty';
 
 const { publicRuntimeConfig } = getConfig();
 const { SITE_URL } = publicRuntimeConfig;
@@ -53,6 +54,9 @@ class Blog extends React.PureComponent<Props, LocalState> {
 
   get imgContent() {
     const { blog } = this.props;
+    if (isEmpty(blog)) {
+      return '';
+    }
     return blog.socialShare && blog.socialShare.photo && blog.socialShare.photo.url
       ? blog.socialShare.photo.url
       : blog.photos[0].url;
