@@ -4,6 +4,7 @@ import { YoutubeItem, AppState } from 'core/models';
 import { VideoModuleItem } from './VideoModuleItem';
 import { connect as redux } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
+import { Spinner } from 'ui/atoms';
 
 type OwnProps = {
   youtubeItems: YoutubeItem[];
@@ -15,6 +16,7 @@ type Props = {
 
 const VideoModuleComponent: React.FC<Props> = React.memo(
   ({ youtubeItems = [], selectedVideoId }) => {
+    const [loading, setLoading] = React.useState(false);
     const classes = useStyles({});
     const { t } = useTranslation();
     return (
@@ -28,12 +30,14 @@ const VideoModuleComponent: React.FC<Props> = React.memo(
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               width="100%"
               height="100%"
+              onLoad={() => setLoading(false)}
             />
           ) : (
             <div className={classes.noVideos}>
               {t('common:video.noVideos')}
             </div>
           )}
+          <Spinner isShow={loading} />
         </div>
         <div className={classes.videoContent}>
           {youtubeItems.map((yi, i) => (
@@ -42,6 +46,7 @@ const VideoModuleComponent: React.FC<Props> = React.memo(
               videoId={yi.videoId}
               videoTitle={yi.title}
               ordinal={i}
+              toggleLoading={setLoading}
             />
           ))}
         </div>
@@ -65,7 +70,8 @@ const useStyles = makeStyles(theme => ({
     minWidth: 320,
     width: '40vw',
     display: 'flex',
-    height: 450
+    height: 450,
+    position: 'relative'
   },
   videoContent: {
     width: 320,

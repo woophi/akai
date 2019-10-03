@@ -8,6 +8,7 @@ type OwnProps = {
   videoId: string;
   videoTitle: string;
   ordinal: number;
+  toggleLoading: (arg: boolean) => void
 };
 
 type Props = {
@@ -16,19 +17,24 @@ type Props = {
 } & OwnProps;
 
 const VideoModuleItemComponent: React.FC<Props> = React.memo(
-  ({ videoId, videoTitle, ordinal, selectVideoId, selectedVideoId }) => {
+  ({ videoId, videoTitle, ordinal, selectVideoId, selectedVideoId, toggleLoading }) => {
     const classes = useStyles({ seleceted: selectedVideoId === videoId });
 
     React.useEffect(() => {
       if (ordinal === 0) {
-        selectVideoId(videoId);
+        toggleVideo();
       }
     }, []);
+
+    const toggleVideo = React.useCallback(() => {
+      toggleLoading(true);
+      selectVideoId(videoId);
+    }, [videoId])
 
     return (
       <div
         className={classes.videoContentItem}
-        onClick={() => selectVideoId(videoId)}
+        onClick={toggleVideo}
       >
         <div className={classes.videoContentItemImg}>
           <img
