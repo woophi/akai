@@ -24,10 +24,7 @@ type LocalState = {
 
 class Blog extends React.PureComponent<Props, LocalState> {
   static async getInitialProps(context) {
-    const blog = await getBlogData(
-      String(context.query.id),
-      'en'
-    );
+    const blog = await getBlogData(String(context.query.id), 'en');
     return { blog };
   }
   state: LocalState = {
@@ -63,6 +60,9 @@ class Blog extends React.PureComponent<Props, LocalState> {
   }
 
   render() {
+    if (isEmpty(this.props.blog) || isEmpty(this.state.blog)) {
+      return null;
+    }
     return (
       <>
         <Head>

@@ -4,25 +4,25 @@ import { dislikeBlog, likeBlog, getLikeState } from './operations';
 
 type Props = {
   blogId: string;
-}
+};
 
 export const Like = React.memo<Props>(({ blogId }) => {
   const [animate, setAnimate] = React.useState(null);
-  const classes = useStyles({ selected: !!animate });
+  const [liked, setLike] = React.useState(false);
+  const classes = useStyles({ selected: liked });
 
   React.useEffect(() => {
-    getLikeState(blogId).then(r => {
-      setAnimate(!r ? null : classes.is_animating);
-    })
-  }, [blogId])
+    getLikeState(blogId).then(setLike);
+  }, [blogId]);
 
   const handleClick = () => {
-    if (animate) {
+    setAnimate(liked ? classes.dislike : classes.is_like);
+    if (liked) {
       dislikeBlog(blogId);
     } else {
       likeBlog(blogId);
     }
-    setAnimate(animate ? null : classes.is_animating);
+    setLike(!liked);
   };
 
   return (
@@ -31,7 +31,7 @@ export const Like = React.memo<Props>(({ blogId }) => {
 });
 
 const useStyles = makeStyles(theme => ({
-  heart: ({ selected }: {selected: boolean}) => ({
+  heart: ({ selected }: { selected: boolean }) => ({
     cursor: 'pointer',
     height: '60px',
     width: '60px',
@@ -41,14 +41,25 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: '2900%',
     margin: 'auto'
   }),
-  is_animating: {
+  is_like: {
     animation: '$heart-burst .8s steps(28) 1'
+  },
+  dislike: {
+    animation: '$heart-burst-reverse .8s steps(28) 1'
   },
   '@keyframes heart-burst': {
     from: {
       backgroundPosition: 'left'
     },
     to: {
+      backgroundPosition: 'right'
+    }
+  },
+  '@keyframes heart-burst-reverse': {
+    to: {
+      backgroundPosition: 'left'
+    },
+    from: {
       backgroundPosition: 'right'
     }
   }
