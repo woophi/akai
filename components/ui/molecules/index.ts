@@ -9,3 +9,4 @@ export * from './comments';
 export * from './admin';
 export * from './sortable';
 export * from './likes';
+export * from './shares';

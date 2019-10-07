@@ -6,7 +6,8 @@ import { BlogModel } from 'core/models';
 import { Carousel } from 'react-responsive-carousel';
 import Typography from '@material-ui/core/Typography';
 import { useMediaQuery } from '@material-ui/core';
-import { Comments, Like } from 'ui/molecules';
+import { Comments, Like, Shares } from 'ui/molecules';
+import { getWindow } from 'core/common';
 
 type Props = {
   blog: BlogModel;
@@ -15,6 +16,11 @@ type Props = {
 export const BlogLayout = React.memo<Props>(({ blog }) => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   const classes = useStyles({ isSmallEnough });
+  const [w, setW] = React.useState(null);
+
+  React.useEffect(() => {
+    setW(getWindow());
+  }, [])
 
   if (!blog) {
     return <Spinner withBox />;
@@ -38,6 +44,7 @@ export const BlogLayout = React.memo<Props>(({ blog }) => {
             ))}
           </Carousel>
           <div className={classes.info}>
+            <Shares linkToShare={w ? w.location.href : ''} />
             <Like blogId={blog.id} />
             {blog.topic}
             {blog.parameters.map((p, i) => (
