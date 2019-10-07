@@ -5,6 +5,7 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useInterval } from 'core/lib';
+import axios from 'axios';
 
 let shareWindow: Window = null;
 
@@ -29,7 +30,10 @@ export const Shares = React.memo<Props>(({ linkToShare }) => {
   React.useEffect(() => {
     console.warn(
       'dasd',
-      `https://vk.com/share.php?act=count&url=${encodeURIComponent(linkToShare)}`
+      axios({
+        url: `https://vk.com/share.php?act=count&url=${encodeURIComponent(linkToShare)}`,
+        method: 'get'
+      })
     );
   }, [linkToShare]);
 
