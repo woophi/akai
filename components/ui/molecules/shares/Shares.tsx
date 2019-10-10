@@ -43,13 +43,15 @@ export const Shares = React.memo<Props>(({ linkToShare }) => {
       shareWindow.close();
     }
     shareWindow = window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkToShare)}`,
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        linkToShare
+      )}`,
       '_blank',
       'width=626,height=436'
     );
   }, []);
   return (
-    <Box>
+    <Box display="flex" justifyContent="center">
       <Button disabled={processing} className={vk} onClick={vkShare}>
         <Icon className={`fab fa-vk`} />
       </Button>
