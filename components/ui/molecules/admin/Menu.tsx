@@ -92,12 +92,12 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
           <ListItemText primary={'Youtube'} />
         </ListItem>
         {/* {TODO: add infinity loader} */}
-        <ListItem button onClick={constants.toComments} disabled>
+        {/* <ListItem button onClick={constants.toComments} disabled>
           <ListItemIcon>
             <Comment />
           </ListItemIcon>
           <ListItemText primary={'Комментарии'} />
-        </ListItem>
+        </ListItem> */}
         <ListItem button onClick={constants.toFacebook}>
           <ListItemIcon>
             <ThumbUp
@@ -117,12 +117,12 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
           <ListItemText primary={'Instagram'} />
         </ListItem>
 
-        <ListItem button onClick={constants.toFollowers} disabled>
+        {/* <ListItem button onClick={constants.toFollowers} disabled>
           <ListItemIcon>
             <Group />
           </ListItemIcon>
           <ListItemText primary={'Подписчики'} />
-        </ListItem>
+        </ListItem> */}
 
         {isSuperAdmin && (
           <ListItem button onClick={constants.toUsers}>
