@@ -9,6 +9,8 @@ import { Server } from 'next';
 import { UrlLike } from 'next/router';
 import { join } from 'path';
 import { HTTPStatus } from './lib/models';
+import { agenda } from './lib/db';
+const Agendash = require('agendash');
 
 const options = {
   root: join(__dirname, '../assets')
@@ -24,6 +26,7 @@ export function router(
   appNext: Server
 ) {
   app.use('/favicon.ico', (_, res) => res.status(HTTPStatus.OK).sendFile('favicon.ico', options));
+  app.use('/dash', identity.authorizedForSuperAdmin, Agendash(agenda));
 
   app.get('/robots.txt', (_, res) => res.status(HTTPStatus.OK).sendFile('robots.txt', options));
   app.get('/sitemap.xml', (_, res) => res.status(HTTPStatus.OK).sendFile('sitemap.xml', options));

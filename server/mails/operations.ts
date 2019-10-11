@@ -57,9 +57,12 @@ const queueLinkScheduler = async (uniqId: string, execDate: Date) => {
     const j = jobs[0];
     j.schedule(execDate);
   } else {
-    agenda.define(task, { priority: 'high', concurrency: 10 }, async () => {
+    agenda.define(task, { priority: 'high', concurrency: 10 }, async (_, done: (err?: Error) => void) => {
       Logger.debug('Runnig link deletion task', uniqId);
       await LinksModel.deleteOne({ uniqId });
+      if (done) {
+        done();
+      }
     });
     await agenda.schedule(execDate, task);
   }
