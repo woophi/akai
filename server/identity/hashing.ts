@@ -19,8 +19,7 @@ export class Hashing extends Encryption {
       return false;
     }
     try {
-
-      let salt = await crypto.randomBytes(16);
+      let salt = crypto.randomBytes(16);
 
       // take the salt from the stored hash in the database.
       // we effectively overwrite the bytes here from our random buffer.
@@ -41,7 +40,7 @@ export class Hashing extends Encryption {
         13 + saltLength + expectedSubkey.length
       );
 
-      let acutalSubkey = await crypto.pbkdf2Sync(
+      let acutalSubkey = crypto.pbkdf2Sync(
         String(password),
         salt,
         this.iteration,
@@ -49,7 +48,7 @@ export class Hashing extends Encryption {
         'sha256'
       );
 
-      return Buffer.compare(acutalSubkey, decodedBuffer);
+      return Buffer.compare(acutalSubkey, decodedBuffer) === 0;
     } catch (e) {
       new Error(e);
     }
@@ -58,9 +57,15 @@ export class Hashing extends Encryption {
   async hashPassword(password: string) {
     try {
       // Create a salt with cryptographically secure method.
-      let salt = await crypto.randomBytes(16);
+      let salt = crypto.randomBytes(16);
 
-      let subkey = await crypto.pbkdf2Sync(String(password), salt, this.iteration, 32, 'sha256');
+      let subkey = crypto.pbkdf2Sync(
+        String(password),
+        salt,
+        this.iteration,
+        32,
+        'sha256'
+      );
 
       let outputBytes = Buffer.alloc(13 + salt.length + subkey.length);
 
@@ -106,7 +111,7 @@ export class Hashing extends Encryption {
       (buffer[offset + 0] << 0) |
       (buffer[offset + 1] << 8) |
       (buffer[offset + 2] << 16) |
-      buffer[offset + 3] << 24
+      (buffer[offset + 3] << 24)
     );
   }
 }

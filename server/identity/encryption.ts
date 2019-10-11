@@ -6,7 +6,7 @@ export class Encryption {
 
   public encrypt = async (value: string, password: string) => {
     try {
-      const key = await crypto.scryptSync(String(password), 'salt', 24);
+      const key = crypto.scryptSync(String(password), 'salt', 24);
       const iv = Buffer.alloc(16, 0);
       const cipher = crypto.createCipheriv(this.algorithm, key, iv);
       let encrypted = cipher.update(String(value), 'utf8', 'hex');
@@ -19,7 +19,7 @@ export class Encryption {
 
   public decrypt = async (encryptedValue: string, password: string) => {
     try {
-      const key = await crypto.scryptSync(String(password), 'salt', 24);
+      const key = crypto.scryptSync(String(password), 'salt', 24);
       const iv = Buffer.alloc(16, 0);
       const decipher = crypto.createDecipheriv(this.algorithm, key, iv);
 
