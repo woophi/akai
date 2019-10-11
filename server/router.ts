@@ -9,8 +9,8 @@ import { HTTPStatus } from './lib/models';
 import { agenda } from './lib/db';
 import { rateLimiterMiddleware } from './lib/rate-limiter';
 const Agendash = require('agendash');
-import Server from 'next-server/dist/server/next-server';
 import { UrlWithParsedQuery } from 'url';
+import Server from 'next/dist/next-server/server/next-server';
 
 const options = {
   root: join(__dirname, '../assets')
