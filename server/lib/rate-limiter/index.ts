@@ -1,38 +1,43 @@
-import * as ExpressBrute from 'express-brute';
-import { MongooseStore } from './bruteForceStore';
-import * as moment from 'moment';
-import { Logger } from 'server/logger';
-import BruteForceModel from 'server/models/bruteForce';
+import * as RateLimiter from 'rate-limiter-flexible';
+import { databaseUri } from '../db';
 import { Request, Response, NextFunction } from 'express';
+import { Logger } from 'server/logger';
+import * as mongoose from 'mongoose';
 import { HTTPStatus } from '../models';
-import config from 'server/config';
+import * as moment from 'moment';
 
-const store = new MongooseStore(BruteForceModel);
+const mongoOpts = {
+  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+  reconnectInterval: 100 // Reconnect every 100ms
+};
 
-const failCallback = (
+const connectStore = mongoose.createConnection(databaseUri, mongoOpts);
+const opts = {
+  storeClient: connectStore,
+  points: 10, // Number of points
+  duration: 60 // Per second(s)
+};
+
+const rateLimiterMongo = new RateLimiter.RateLimiterMongo({
+  ...opts,
+  keyPrefix: 'bruteForce'
+});
+
+export const rateLimiterMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction,
-  nextValidRequestDate
-) => {
-  const error = `You've made too many failed attempts in a short period of time, please try again ${moment(
-    nextValidRequestDate
-  ).fromNow()}`;
-  res.send({ error }).status(HTTPStatus.TooManyRequests);
-};
-const handleStoreError = error => {
-  Logger.error(error);
+  next: NextFunction
+) =>
+  rateLimiterMongo
+    .consume(req.ip)
+    .then(() => {
+      next();
+    })
+    .catch(rateLimiterRes => {
+      Logger.info(rateLimiterRes);
 
-  throw {
-    message: error.message,
-    parent: error.parent
-  };
-};
-
-export const userBruteforce = new ExpressBrute(store, {
-  freeRetries: config.DEV_MODE ? 999 : 100,
-  minWait: 5 * 60 * 1000, // 5 minutes
-  maxWait: 60 * 60 * 1000, // 1 hour,
-  failCallback: failCallback,
-  handleStoreError: handleStoreError,
-});
+      const error = `You've made too many failed attempts in a short period of time, please try again at ${moment()
+        .add(rateLimiterRes.msBeforeNext, 'milliseconds')
+        .format()}`;
+      return res.status(HTTPStatus.TooManyRequests).send({ error });
+    });

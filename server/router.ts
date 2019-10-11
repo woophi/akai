@@ -4,12 +4,12 @@ import * as controllers from './controllers';
 import * as auth from './auth';
 import * as identity from './identity';
 import * as storage from './storage';
-import { userBruteforce } from './lib/rate-limiter';
 import { Server } from 'next';
 import { UrlLike } from 'next/router';
 import { join } from 'path';
 import { HTTPStatus } from './lib/models';
 import { agenda } from './lib/db';
+import { rateLimiterMiddleware } from './lib/rate-limiter';
 const Agendash = require('agendash');
 
 const options = {
@@ -31,13 +31,12 @@ export function router(
   app.get('/robots.txt', (_, res) => res.status(HTTPStatus.OK).sendFile('robots.txt', options));
   app.get('/sitemap.xml', (_, res) => res.status(HTTPStatus.OK).sendFile('sitemap.xml', options));
 
-  app.get('/api/health', identity.authorizedForSuperAdmin, controllers.getApiHealth);
   app.post('/api/guest/visit', controllers.connectedUniqVisitor);
   app.get('/api/guest/name', controllers.getVisitorName);
 
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
-  app.post('/api/guest/subscribe', userBruteforce.prevent, controllers.subscribeNewVisitor);
-  app.post('/api/guest/send/message', userBruteforce.prevent, controllers.sendMailToAdmins);
+  app.post('/api/guest/subscribe', rateLimiterMiddleware, controllers.subscribeNewVisitor);
+  app.post('/api/guest/send/message', rateLimiterMiddleware, controllers.sendMailToAdmins);
   app.get('/api/guest/biography', controllers.getBiography);
 
   app.get('/api/guest/youtubes', controllers.getYoutubeUrls);
@@ -49,23 +48,23 @@ export function router(
   app.get('/api/guest/album', controllers.getAlbum);
   app.get('/api/guest/blog', controllers.getBlog);
 
-  app.post('/api/guest/blog/like', controllers.likeBlog);
+  app.post('/api/guest/blog/like', rateLimiterMiddleware, controllers.likeBlog);
   app.get('/api/guest/blog/like', controllers.getPersonalLikeState);
-  app.delete('/api/guest/blog/dislike', controllers.removeLikeFromBlog);
+  app.delete('/api/guest/blog/dislike', rateLimiterMiddleware, controllers.removeLikeFromBlog);
 
   app.get('/api/guest/comments/blog', controllers.getBlogComments);
-  app.post('/api/guest/comments/new/blog', controllers.newComment);
+  app.post('/api/guest/comments/new/blog', rateLimiterMiddleware, controllers.newComment);
   app.get('/api/guest/comments/comment', controllers.getComment);
   // pass reset
-  app.post('/api/guest/password/reset', controllers.resetPassword);
+  app.post('/api/guest/password/reset', rateLimiterMiddleware, controllers.resetPassword);
   app.patch('/api/guest/password/update', controllers.updatePassword);
   // unsub
-  app.get('/api/guest/unsub/state', controllers.getUnsubLinkState);
-  app.put('/api/guest/unsub', controllers.guestUnsub);
+  app.get('/api/guest/unsub/state', rateLimiterMiddleware, controllers.getUnsubLinkState);
+  app.put('/api/guest/unsub', rateLimiterMiddleware, controllers.guestUnsub);
 
   // user
-  app.post('/api/app/user/login', userBruteforce.prevent, auth.login);
-  app.post('/api/app/user/logout', userBruteforce.prevent, identity.validateToken, auth.logout);
+  app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);
+  app.post('/api/app/user/logout', rateLimiterMiddleware, identity.validateToken, auth.logout);
   app.post('/api/app/user/check', auth.checkUser);
 
   // admin
