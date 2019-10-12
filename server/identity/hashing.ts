@@ -48,7 +48,7 @@ export class Hashing extends Encryption {
         'sha256'
       );
 
-      return Buffer.compare(acutalSubkey, decodedBuffer) === 0;
+      return decodedBuffer.compare(acutalSubkey, 0, 32, 29) === 0;
     } catch (e) {
       new Error(e);
     }
