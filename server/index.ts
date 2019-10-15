@@ -9,7 +9,6 @@ if (!process.env.NO_DV) {
 import * as fs from 'fs';
 import { join } from 'path';
 import express from 'express';
-// import next from 'next';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';

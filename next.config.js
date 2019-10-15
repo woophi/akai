@@ -1,5 +1,4 @@
 const withCSS = require('@zeit/next-css');
-// const nextTypescript = require('@zeit/next-typescript');
 const path = require('path');
 module.exports = withCSS({
   webpack(config, options) {
