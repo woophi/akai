@@ -22,7 +22,7 @@ export const logout = async () => {
   });
   store.dispatch({ type: 'SET_USER_FETCHING', payload: false });
   const w = getWindow();
-  w ? w.location.reload() : await Router.reload(Router.route);
+  w ? w.location.reload() : await Router.reload();
 };
 
 export const checkAuth = async () => {

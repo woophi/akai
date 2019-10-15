@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IgCheckpointError } from 'instagram-private-api';
 import config from 'server/config';
-import * as Bluebird from 'bluebird';
+import Bluebird from 'bluebird';
 import { HTTPStatus } from 'server/lib/models';
 import { Logger } from 'server/logger';
 import { ig } from 'server/instagram';

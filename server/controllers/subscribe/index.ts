@@ -78,7 +78,6 @@ export const subscribeNewVisitor = async (
       cb =>
         checkMailonPing(newSub.email, (err, valid) => {
           if (!valid || err) {
-            // if (err) Logger.error(err);
             return res
               .send({ done: false, error: 'Email probably doesn\'t exist' })
               .status(HTTPStatus.OK);

@@ -69,7 +69,8 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
         }
         validate={(v: CommentForm) => validate(v, t)}
         initialValues={{
-          name: visitorName
+          name: visitorName,
+          message: ''
         }}
         render={({ handleSubmit, pristine, submitting, submitError, form }) => (
           <>

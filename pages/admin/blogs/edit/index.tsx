@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AdminLayout, BlogForm, AdminBlogs } from 'ui/index';
 import { ensureNotAuthorized } from 'core/operations/auth';
-import { withRouter, WithRouterProps } from 'next/router';
+import { withRouter } from 'next/router';
 import { BlogData, AlbumModel } from 'core/models';
 import { getBlogData } from 'ui/molecules/admin/blog/operations';
-import { getAllAlbums } from 'core/operations';
+import { WithRouterProps } from 'next/dist/client/with-router';
 
 type localState = {
   blogData: BlogData;

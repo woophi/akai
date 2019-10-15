@@ -1,7 +1,6 @@
 const withCSS = require('@zeit/next-css');
-const nextTypescript = require('@zeit/next-typescript');
 const path = require('path');
-module.exports = withCSS(nextTypescript({
+module.exports = withCSS({
   webpack(config, options) {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -27,4 +26,4 @@ module.exports = withCSS(nextTypescript({
     CHAT_VIDEO_ID: process.env.CHAT_VIDEO_ID,
     CHAT_DOMAIN: process.env.CHAT_DOMAIN
   }
-}));
+});

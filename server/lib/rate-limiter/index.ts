@@ -2,9 +2,9 @@ import * as RateLimiter from 'rate-limiter-flexible';
 import { databaseUri } from '../db';
 import { Request, Response, NextFunction } from 'express';
 import { Logger } from 'server/logger';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { HTTPStatus } from '../models';
-import * as moment from 'moment';
+import moment from 'moment';
 
 const mongoOpts = {
   reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect

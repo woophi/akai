@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import * as async from 'async';
 import * as fs from 'fs';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import * as path from 'path';
 import * as semver from 'semver';
 import config from '../../config';
