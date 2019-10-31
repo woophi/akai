@@ -4,6 +4,7 @@ import { Logger } from '../logger';
 import { agenda } from '../lib/db';
 import { EmailTemplate } from './types';
 import { createUniqLink } from './operations';
+import Mail from 'nodemailer/lib/mailer';
 const hbs = require('nodemailer-express-handlebars');
 
 export class Mailer {
@@ -18,7 +19,7 @@ export class Mailer {
   ) {
     this.init();
   }
-  private transporter;
+  private transporter: Mail;
 
   private init = () => {
     this.transporter = nodemailer.createTransport({
@@ -47,7 +48,8 @@ export class Mailer {
     viewEngine: {
       extName: '.hbs',
       partialsDir: 'server/mails/views',
-      layoutsDir: 'server/mails/views'
+      layoutsDir: 'server/mails/views',
+      defaultLayout: false
     },
     viewPath: 'server/mails/views',
     extName: '.hbs'
@@ -61,7 +63,7 @@ export class Mailer {
     try {
       this.transporter.use('compile', hbs(this.handlebarOptions));
       const unsubId = await createUniqLink(to);
-      let info = await this.transporter.sendMail({
+      const configurationMail = {
         from: `${this.from} <${config.GMAIL_USER}>`,
         to,
         subject: personalContext ? personalContext.subject : this.subject,
@@ -71,7 +73,8 @@ export class Mailer {
           ...(personalContext || this.context),
           unsubLink: `${config.SITE_URI}unsub/${unsubId}`
         }
-      });
+      };
+      let info = await this.transporter.sendMail(configurationMail);
       Logger.debug('Message sent: ' + info.messageId);
       if (done) {
         done();
