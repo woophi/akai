@@ -28,6 +28,7 @@ import { applyMigration } from './lib/updates';
 import connection, { agenda } from './lib/db';
 import next from 'next';
 import cors from 'cors';
+import { Logger } from './logger';
 
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
@@ -36,6 +37,8 @@ checkConfiguration(config);
 const whitelist = config.ALLOWED_ORIGINS.split(',');
 const corsOptions = {
   origin: function(origin, callback) {
+    Logger.debug(origin);
+    Logger.debug(whitelist);
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
