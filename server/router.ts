@@ -29,10 +29,15 @@ export function router(
   app.use((_, res, next) => {
     if (!config.DEV_MODE) {
       res.header('Access-Control-Allow-Origin', config.ALLOWED_ORIGINS); // update to match the domain you will make the request from
-      res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-      );
+      // Request methods you wish to allow
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+      // Request headers you wish to allow
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+      // Set to true if you need the website to include cookies in the requests sent
+      // to the API (e.g. in case you use sessions)
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
     }
     next();
   });
