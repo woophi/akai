@@ -28,6 +28,7 @@ import { applyMigration } from './lib/updates';
 import connection, { agenda } from './lib/db';
 import next from 'next';
 import cors from 'cors';
+import { LocalErros } from './lib/models';
 
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
@@ -39,7 +40,7 @@ const corsOptions = {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback('Not allowed by CORS');
+      callback(new Error(LocalErros.CORS));
     }
   }
 };

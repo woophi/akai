@@ -5,7 +5,7 @@ import * as auth from './auth';
 import * as identity from './identity';
 import * as storage from './storage';
 import { join } from 'path';
-import { HTTPStatus } from './lib/models';
+import { HTTPStatus, LocalErros } from './lib/models';
 import { agenda } from './lib/db';
 import { rateLimiterMiddleware } from './lib/rate-limiter';
 const Agendash = require('agendash');
@@ -25,6 +25,10 @@ export function router(
   ) => Promise<void>,
   appNext: Server
 ) {
+  app.use((err, _, res, next) => {
+    if (err.message !== LocalErros.CORS) return next();
+    return res.send({ error: LocalErros.CORS }).status(HTTPStatus.NotAllowed);
+  });
 
   app.use('/favicon.ico', (_, res) => res.status(HTTPStatus.OK).sendFile('favicon.ico', options));
   app.use('/dash', identity.authorizedForSuperAdmin, Agendash(agenda));
