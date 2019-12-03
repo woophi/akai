@@ -27,6 +27,7 @@ import { checkConfiguration } from './utils/helpers';
 import { applyMigration } from './lib/updates';
 import connection, { agenda } from './lib/db';
 import next from 'next';
+import cors from 'cors';
 
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
@@ -41,6 +42,7 @@ appNext.prepare().then(async () => {
   if (config.DEV_MODE) {
     appExpress.use(logger('dev'));
   } else {
+    appExpress.use(cors())
     appExpress.use(helmet());
     appExpress.disable('x-powered-by');
     appExpress.use(logger('tiny'));
