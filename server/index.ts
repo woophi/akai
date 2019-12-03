@@ -33,6 +33,16 @@ const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
 
 checkConfiguration(config);
+const whitelist = config.ALLOWED_ORIGINS.split(',');
+const corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback('Not allowed by CORS');
+    }
+  }
+};
 
 appNext.prepare().then(async () => {
   const appExpress = express();
@@ -42,7 +52,7 @@ appNext.prepare().then(async () => {
   if (config.DEV_MODE) {
     appExpress.use(logger('dev'));
   } else {
-    appExpress.use(cors())
+    appExpress.use(cors(corsOptions));
     appExpress.use(helmet());
     appExpress.disable('x-powered-by');
     appExpress.use(logger('tiny'));
