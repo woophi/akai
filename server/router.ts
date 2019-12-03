@@ -11,6 +11,7 @@ import { rateLimiterMiddleware } from './lib/rate-limiter';
 const Agendash = require('agendash');
 import { UrlWithParsedQuery } from 'url';
 import Server from 'next/dist/next-server/server/next-server';
+import config from './config';
 
 const options = {
   root: join(__dirname, '../assets')
@@ -25,6 +26,16 @@ export function router(
   ) => Promise<void>,
   appNext: Server
 ) {
+  app.use((_, res, next) => {
+    if (!config.DEV_MODE) {
+      res.header('Access-Control-Allow-Origin', config.ALLOWED_ORIGINS); // update to match the domain you will make the request from
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+      );
+    }
+    next();
+  });
   app.use('/favicon.ico', (_, res) => res.status(HTTPStatus.OK).sendFile('favicon.ico', options));
   app.use('/dash', identity.authorizedForSuperAdmin, Agendash(agenda));
 

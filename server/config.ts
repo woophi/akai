@@ -4,6 +4,7 @@ export default {
   PORT_CORE: parseInt(process.env.PORT || '3000', 10),
   SITE_URI: process.env.SITE_URI,
   PORT_MONGO: process.env.MONGO_URI || process.env.MONGODB_URI,
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
 
   DEV_MODE: process.env.NODE_ENV !== 'production',
 
