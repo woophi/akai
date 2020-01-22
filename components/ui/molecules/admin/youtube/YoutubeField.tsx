@@ -20,7 +20,7 @@ export const YoutubeField = React.memo<Props>(
   ({ onRemoveField, videoId, text = '', withDrag = false }) => {
     return (
       <ListItem>
-        {withDrag && <DragHandler />}
+        <DragHandler />
         <ListItemAvatar>
           <Avatar
             src={`https://img.youtube.com/vi/${videoId}/default.jpg`}

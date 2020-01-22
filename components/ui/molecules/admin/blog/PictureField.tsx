@@ -28,9 +28,7 @@ const PictureFieldComponent = React.memo<Props>(
     const file = files.find(f => f._id == fileId) || ({} as FileItem);
     return (
       <ListItem>
-        {withDrag && (
-          <DragHandler />
-        )}
+        <DragHandler />
         <ListItemAvatar>
           <Avatar alt={file.name} src={file.url} />
         </ListItemAvatar>
