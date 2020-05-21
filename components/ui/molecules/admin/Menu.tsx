@@ -26,7 +26,7 @@ import { hasRoleSuperAdmin } from 'core/selectors';
 import * as constants from 'ui/atoms/constants';
 import { getFacebookActiveStatus } from 'core/selectors/facebook';
 import { theme } from 'core/lib';
-import { checkFBOnePage } from './facebook/operations';
+// import { checkFBOnePage } from './facebook/operations';
 
 type Props = {
   isSuperAdmin: boolean;
@@ -40,7 +40,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
 
   React.useEffect(() => {
     if (!fetchedOnce) {
-      checkFBOnePage();
+      // checkFBOnePage();
       fetchedOnce = true;
     }
   }, [])
