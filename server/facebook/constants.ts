@@ -1,1 +1,1 @@
-export const FB_API_VERSION = 'v7.0';
+export const FB_API_VERSION = 'v6.0';
