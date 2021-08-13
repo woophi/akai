@@ -52,7 +52,7 @@
     "mongoose": "^5.7.3",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.9.1",
-    "next": "^9.3.2",
+    "next": "^11.1.0",
     "next-i18next": "^0.42.0",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "nodemailer": "^6.3.0",
