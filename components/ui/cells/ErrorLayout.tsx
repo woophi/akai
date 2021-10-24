@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { H1, BoxContent, LinkButton } from 'ui/atoms';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 

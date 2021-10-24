@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Icon from '@material-ui/core/Icon';
 import { ContactForm } from './ContactForm';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 export const ContactLayout: React.FC = React.memo(() => {
   const classes = useStyles({});

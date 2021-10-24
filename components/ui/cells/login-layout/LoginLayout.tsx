@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { H1, BoxContent, LinkButton } from 'ui/atoms';
 import { LoginForm } from './LoginForm';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import Box from '@material-ui/core/Box';
 
 export const LoginLayout = React.memo(() => {

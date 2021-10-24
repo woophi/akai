@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { H1, BoxContent } from 'ui/atoms';
 import { VideoModule } from 'ui/molecules';
 import { YoutubeItem } from 'core/models';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   items: YoutubeItem[]

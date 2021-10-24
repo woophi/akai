@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
 import { Form, Field } from 'react-final-form';
 import { testEmail } from 'core/lib';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { FORM_ERROR } from 'final-form';
 import { resetPassword } from 'core/operations';
 

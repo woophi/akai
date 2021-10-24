@@ -4,7 +4,7 @@ import { TextField, ButtonsForm } from 'ui/atoms';
 import { Form, Field } from 'react-final-form';
 import { testEmail } from 'core/lib';
 import { sendMessage } from 'core/operations';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 type ContactForm = {
   name: string;

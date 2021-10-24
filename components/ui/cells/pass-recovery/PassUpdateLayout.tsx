@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { LinkState } from 'core/models';
 import { getResetPassLinkState } from 'core/operations';
 import { UpdateForm } from './UpdateForm';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   linkId: string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { LocaleIds } from 'core/models';
 import { setCookie, getCookie } from 'core/cookieManager';
 import Router from 'next/router'
@@ -28,19 +28,19 @@ export const Languages: React.FC = React.memo(() => {
       <img
         onClick={() => changeLanguage('en', i18n)}
         className={classes.img}
-        src="/static/img/en.png"
+        src="/public/img/en.png"
         alt="language_en"
       />
       <img
         onClick={() => changeLanguage('ru', i18n)}
         className={classes.img}
-        src="/static/img/ru.png"
+        src="/public/img/ru.png"
         alt="language_ru"
       />
       <img
         onClick={() => changeLanguage('cs', i18n)}
         className={classes.img}
-        src="/static/img/cz.png"
+        src="/public/img/cz.png"
         alt="language_cz"
       />
     </div>

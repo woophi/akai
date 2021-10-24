@@ -1,5 +1,5 @@
 import * as React from 'react';
-require('./spinner.css');
+import styles from './spinner.module.css'
 
 type Props = {
   isShow?: boolean;
@@ -12,9 +12,9 @@ export const Spinner = React.memo<Props>(({ isShow = true, withBox = false }) =>
       isShow && (
         <div style={box}>
           <div style={container}>
-            <div className="spinner">
-              <div className="cube1" />
-              <div className="cube2" />
+            <div className={styles.spinner}>
+              <div className={styles.cube1} />
+              <div className={styles.cube2} />
             </div>
           </div>
         </div>
@@ -24,9 +24,9 @@ export const Spinner = React.memo<Props>(({ isShow = true, withBox = false }) =>
   return (
     isShow && (
       <div style={container}>
-        <div className="spinner">
-          <div className="cube1" />
-          <div className="cube2" />
+        <div className={styles.spinner}>
+          <div className={styles.cube1} />
+          <div className={styles.cube2} />
         </div>
       </div>
     )

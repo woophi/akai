@@ -10,7 +10,7 @@ import { agenda } from './lib/db';
 import { rateLimiterMiddleware } from './lib/rate-limiter';
 const Agendash = require('agendash');
 import { UrlWithParsedQuery } from 'url';
-import Server from 'next/dist/next-server/server/next-server';
+import { NextServer } from 'next/dist/server/next';
 
 const options = {
   root: join(__dirname, '../assets')
@@ -23,7 +23,7 @@ export function router(
     res: ServerResponse,
     parsedUrl?: UrlWithParsedQuery
   ) => Promise<void>,
-  appNext: Server
+  appNext: NextServer
 ) {
   app.use((err, _, res, next) => {
     if (err.message !== LocalErros.CORS) return next();

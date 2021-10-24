@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Layout, BoxMain, BlogLayout } from 'ui/index';
 import { BlogModel } from 'core/models';
 import { getBlogData } from 'core/operations';
-import { i18next } from 'server/lib/i18n';
+import { i18next } from 'next-i18next';
 import { getCookie } from 'core/cookieManager';
 import { WithRouterProps } from 'next/dist/client/with-router';
 import { connectSocketBlog, joinRoom, leaveRoom } from 'core/socket/blog';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Layout, BoxMain, GalleryLayout } from 'ui/index';
 import { AlbumModel } from 'core/models';
 import { getAllAlbums } from 'core/operations';
-import { i18next } from 'server/lib/i18n';
+import { i18next } from 'next-i18next';
 import { getCookie } from 'core/cookieManager';
 import { connectUniqGuest } from 'core/socket/uniq-guest';
 

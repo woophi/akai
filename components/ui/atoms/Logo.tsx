@@ -16,7 +16,7 @@ export const Logo: React.FC<Props> = React.memo(({
     <div className={classes.content}>
       <img
         className={`${classes.logoSign} ${classNameLogo}`}
-        src="/static/img/akaisign.png"
+        src="/public/img/akaisign.png"
         alt="logo_akai_akaev_sign"
       />
       <div className={classes.logoText}>

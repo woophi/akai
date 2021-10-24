@@ -9,7 +9,7 @@ import Icon from '@material-ui/core/Icon';
 import EmailIcon from '@material-ui/icons/Email';
 import { ResultSubscribe } from 'core/models';
 import { ArrowTooltip } from 'ui/atoms';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import InputLabel from '@material-ui/core/InputLabel';
 
 type Props = {

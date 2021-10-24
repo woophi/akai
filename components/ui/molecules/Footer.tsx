@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { SocialButtons } from 'ui/atoms';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 const useStyles = makeStyles(theme => ({
   footer: {

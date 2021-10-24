@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { H1, Block, BoxContent } from 'ui/atoms';
 import { AlbumModel } from 'core/models';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   albums: AlbumModel[]

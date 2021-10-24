@@ -16,9 +16,6 @@ import helmet from 'helmet';
 import { createServer } from 'http';
 import config from './config';
 
-const nextI18NextMiddleware = require('next-i18next/middleware');
-
-import nextI18next from './lib/i18n';
 import { registerSocket } from './lib/sockets';
 import { router } from './router';
 import { initExpressSession } from './identity';
@@ -61,9 +58,6 @@ appNext.prepare().then(async () => {
   }
   appExpress.use(cookieParser(config.COOKIE_SECRET));
   appExpress.use(initExpressSession());
-  appExpress.use(nextI18NextMiddleware(nextI18next));
-  // serve locales for client
-  appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
   await connection;
   if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
     fs.mkdirSync(join(__dirname, 'storage/temp'));

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core';
 import { compose } from 'redux';
-import { withTranslation } from 'server/lib/i18n';
+import { withTranslation } from 'next-i18next';
 import { getComments } from './operations';
 import { withRouter } from 'next/router';
 import { AddComment } from './AddComment';

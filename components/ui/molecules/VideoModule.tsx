@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { YoutubeItem, AppState } from 'core/models';
 import { VideoModuleItem } from './VideoModuleItem';
 import { connect as redux } from 'react-redux';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { Spinner } from 'ui/atoms';
 
 type OwnProps = {

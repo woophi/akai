@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     height: '60px',
     width: '60px',
-    backgroundImage: `url( '/static/img/like_anim.png')`,
+    backgroundImage: `url( '/public/img/like_anim.png')`,
     backgroundPosition: selected ? 'right' : 'left',
     backgroundRepeat: 'no-repeat',
     backgroundSize: '2900%',

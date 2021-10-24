@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { safeTrim } from 'core/lib';
 import { newComment } from './operations';
 import { Form, Field } from 'react-final-form';

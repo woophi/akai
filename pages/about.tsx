@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Layout, BoxMain, AboutLayout } from 'ui/index';
 import { getBio } from 'core/operations';
 import * as models from 'core/models';
-import { i18next } from 'server/lib/i18n';
+import { i18next } from 'next-i18next';
 import { getCookie } from 'core/cookieManager';
 
 type LocalState = {

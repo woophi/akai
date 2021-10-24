@@ -9,7 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 export const Navigation: React.FC = React.memo(() => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');

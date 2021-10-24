@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { H1, SocialButtons, BoxContent } from 'ui/atoms';
 import getConfig from 'next/config';
 import Typography from '@material-ui/core/Typography';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { SaveChatId } from './SaveChatId';
 import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';

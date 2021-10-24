@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { H1, BoxContent, Spinner, ActionButton } from 'ui/atoms';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { getUnsubLinkState, guestUnsub } from 'core/operations';
 import { LinkState } from 'core/models';
 import Typography from '@material-ui/core/Typography';

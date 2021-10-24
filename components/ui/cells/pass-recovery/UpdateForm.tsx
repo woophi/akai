@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
 import { Form, Field } from 'react-final-form';
-import { useTranslation } from 'server/lib/i18n';
+import { useTranslation } from 'next-i18next';
 import { FORM_ERROR } from 'final-form';
 import { updatePassword } from 'core/operations';
 import { login, ensureAuthorized } from 'core/operations/auth';

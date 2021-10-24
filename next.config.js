@@ -1,6 +1,6 @@
-const withCSS = require('@zeit/next-css');
 const path = require('path');
-module.exports = withCSS({
+const { i18n } = require('./next-i18next.config')
+module.exports = {
   webpack(config, options) {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -25,5 +25,6 @@ module.exports = withCSS({
     CHANNEL_ID: process.env.CHANNEL_ID,
     CHAT_VIDEO_ID: process.env.CHAT_VIDEO_ID,
     CHAT_DOMAIN: process.env.CHAT_DOMAIN
-  }
-});
+  },
+  i18n
+};
