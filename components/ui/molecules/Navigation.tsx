@@ -1,17 +1,16 @@
-import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { LinkButton, Logo, ArrowTooltip } from '../atoms';
-import { ZIndexes } from '../constants';
-import { Languages } from './Languages';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link';
+import * as React from 'react';
 import { useTranslation } from 'server/lib/i18n';
+import { ArrowTooltip, LinkButton, Logo } from '../atoms';
+import { Languages } from './Languages';
 
-export const Navigation: React.FC = React.memo(() => {
+export const Navigation = React.memo(() => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   const { t } = useTranslation();
   const classes = useStyles({});
@@ -121,42 +120,39 @@ const useStyles = makeStyles(theme => ({
   nav: {
     padding: '16px',
     width: '100%',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    zIndex: ZIndexes.navigationBar,
     backgroundColor: theme.palette.primary.light,
     display: 'flex',
     justifyContent: 'space-evenly',
-    minHeight: 84
+    minHeight: 84,
   },
   mobileLogo: {
     right: '85px !important',
-    left: 'unset'
+    left: 'unset',
+    top: '110px',
   },
   iconButton: {
-    padding: 10
+    padding: 10,
   },
   navMobile: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   mobileContainer: {
     display: 'flex',
     flexDirection: 'column',
     margin: '0 2rem 2rem',
     height: '100%',
-    minWidth: '150px'
+    minWidth: '150px',
   },
   alignButton: {
     margin: '8px auto',
-    padding: 0
+    padding: 0,
   },
   divider: {
-    margin: '8px -2rem'
+    margin: '8px -2rem',
   },
   mobileButtonsHC: {
     display: 'flex',
     justifyContent: 'space-between',
     marginTop: '1rem',
-  }
+  },
 }));

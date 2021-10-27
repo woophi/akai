@@ -1,20 +1,20 @@
-import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { H1, SocialButtons, BoxContent } from 'ui/atoms';
-import getConfig from 'next/config';
 import Typography from '@material-ui/core/Typography';
-import { useTranslation } from 'server/lib/i18n';
-import { SaveChatId } from './SaveChatId';
-import { connect as redux } from 'react-redux';
 import { AppState } from 'core/models';
 import { getLastChatLiveStreamId } from 'core/operations';
+import getConfig from 'next/config';
+import * as React from 'react';
+import { connect as redux } from 'react-redux';
+import { useTranslation } from 'server/lib/i18n';
+import { BoxContent, H1 } from 'ui/atoms';
+import { SaveChatId } from './SaveChatId';
 
 const { publicRuntimeConfig } = getConfig();
 const { CHANNEL_ID, CHAT_DOMAIN } = publicRuntimeConfig;
 
 type Props = {
   chatId: string;
-}
+};
 
 const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
   const classes = useStyles({});
@@ -36,23 +36,12 @@ const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
             allowFullScreen
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           />
-          <Typography
-            variant="button"
-            display="block"
-            gutterBottom
-            className={classes.m12}
-          >
+          <Typography variant="button" display="block" gutterBottom className={classes.m12}>
             {t('common:video.online.atelier')}
           </Typography>
-          <Typography
-            variant="h5"
-            display="block"
-            gutterBottom
-            className={classes.m12}
-          >
+          <Typography variant="h5" display="block" gutterBottom className={classes.m12}>
             {t('common:AA')}
           </Typography>
-          <SocialButtons />
           <SaveChatId />
         </div>
         {chatId && (
@@ -60,9 +49,7 @@ const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
             frameBorder="0"
             height="750"
             width="480"
-            src={`https://www.youtube.com/live_chat?v=${
-              chatId
-            }&embed_domain=${CHAT_DOMAIN}`}
+            src={`https://www.youtube.com/live_chat?v=${chatId}&embed_domain=${CHAT_DOMAIN}`}
             className={classes.chat}
           />
         )}
@@ -72,7 +59,7 @@ const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
 });
 
 export const OnlineLayout = redux((state: AppState) => ({
-  chatId: state.ui.youtube.chatId
+  chatId: state.ui.youtube.chatId,
 }))(OnlineLayoutComponent);
 
 const useStyles = makeStyles(theme => ({
@@ -81,18 +68,18 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     margin: '2rem 0',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   chat: {
-    padding: '1rem'
+    padding: '1rem',
   },
   stream: {
     marginBottom: 'auto',
     paddingTop: '1rem',
     minWidth: 320,
-    width: 560
+    width: 560,
   },
   m12: {
-    marginLeft: '.5rem'
-  }
+    marginLeft: '.5rem',
+  },
 }));
