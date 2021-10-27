@@ -1,3 +1,4 @@
+import { Box } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,7 +21,7 @@ export const Navigation = React.memo(() => {
   return (
     <nav className={classes.nav}>
       <Logo />
-      <div>
+      <Box margin="auto 0 auto 74px">
         <LinkButton href="/about" label={t('common:navigation.about')} />
         <LinkButton href="/gallery" label={t('common:navigation.gallery')} />
         <ArrowTooltip
@@ -38,8 +39,7 @@ export const Navigation = React.memo(() => {
         </ArrowTooltip>
         <LinkButton href="/photo" label={t('common:navigation.photo')} />
         <LinkButton href="/contact" label={t('common:navigation.contact')} />
-      </div>
-      <Languages />
+      </Box>
     </nav>
   );
 });
@@ -51,7 +51,7 @@ const MobileNavigation: React.FC = React.memo(() => {
   const toggle = () => setOpen(!openedMenu);
   return (
     <nav className={`${classes.nav} ${classes.navMobile}`}>
-      <Logo classNameLogo={classes.mobileLogo} />
+      <Logo small />
       <IconButton color="secondary" className={classes.iconButton} onClick={toggle}>
         <MenuIcon />
       </IconButton>
@@ -122,13 +122,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     backgroundColor: theme.palette.primary.light,
     display: 'flex',
-    justifyContent: 'space-evenly',
     minHeight: 84,
-  },
-  mobileLogo: {
-    right: '85px !important',
-    left: 'unset',
-    top: '110px',
+    position: 'relative',
   },
   iconButton: {
     padding: 10,
