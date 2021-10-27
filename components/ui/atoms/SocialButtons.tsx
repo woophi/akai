@@ -33,7 +33,7 @@ export const SocialButtons = React.memo<Props>(({ size = 'm' }) => {
       >
         <Icon className={clsx(classes.icon, 'fab fa-instagram', classes.ig)} color="primary" />
       </Link>
-      <Link className={classes.link} component="a" variant="body2" href="https://wa.me/15551234567" target="_blank">
+      <Link className={classes.link} component="a" variant="body2" href="https://wa.me/420776561613" target="_blank">
         <Icon className={clsx(classes.icon, 'fab fa-whatsapp', classes.iWA)} color="primary" />
       </Link>
 
