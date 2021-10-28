@@ -2,9 +2,11 @@ import * as React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
 import flush from 'styled-jsx/server';
-import { theme } from 'core/lib/theme';
+import { Script } from 'ui/atoms';
+
 class MyDocument extends Document {
   render() {
+    console.debug(process.env.NODE_ENV);
     return (
       <html lang="en" dir="ltr">
         <Head>
@@ -22,6 +24,14 @@ class MyDocument extends Document {
           />
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+          <Script async src="https://www.googletagmanager.com/gtag/js?id=G-1GNZ6LDGQ1" />
+          <Script>{`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-1GNZ6LDGQ1');          
+          `}</Script>
         </Head>
         <body>
           <Main />
