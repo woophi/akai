@@ -20,6 +20,11 @@ const useStyles = makeStyles(theme => ({
 
 export const Layout: React.FC<Props> = React.memo(({ title = 'Akai Akaev | Official website', children }) => {
   const classes = useStyles({});
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      ga('send', 'pageview');
+    }
+  }, []);
   return (
     <>
       <Head>

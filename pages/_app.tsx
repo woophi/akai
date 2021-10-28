@@ -10,23 +10,20 @@ import { theme } from 'core/lib';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { getCookie } from 'core/cookieManager';
 import('core/fire-callbacks');
+import 'autotrack';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
-    const lang = ctx.req
-      ? ctx.req.cookies['akai_lng']
-      : getCookie('akai_lng') || 'en';
+    const lang = ctx.req ? ctx.req.cookies['akai_lng'] : getCookie('akai_lng') || 'en';
     const curLang = (ctx.req && ctx.req.language) || i18next.language;
     const i18n = (ctx.req && ctx.req.i18n) || i18next;
     if (i18n && i18n.changeLanguage && curLang !== lang) {
       i18n.changeLanguage(lang);
     }
 
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
     return {
-      pageProps
+      pageProps,
     };
   }
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
