@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Layout: React.FC<Props> = React.memo(({ title = 'Akai Akaev', children }) => {
+export const Layout: React.FC<Props> = React.memo(({ title = 'Akai Akaev | Official website', children }) => {
   const classes = useStyles({});
   return (
     <>

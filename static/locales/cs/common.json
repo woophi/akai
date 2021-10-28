@@ -10,8 +10,9 @@
     "KM": "Konstantin Mikheev"
   },
   "contact": {
-    "title": "Být v kontaktu",
-    "orders": "Vaše objednávky"
+    "title": "Kontakt Akai Akaev",
+    "orders": "Vaše objednávky",
+    "thx": "Děkuji vám za vaši zprávu"
   },
   "photo": {
     "title": "Foto galerie"
@@ -50,8 +51,6 @@
   "login": {
     "title": "Přihlašovací formulář"
   },
-
-
   "forms": {
     "field": {
       "required": "Povinné",
@@ -62,14 +61,12 @@
     "message": "Zpráva",
     "password": "Heslo"
   },
-
   "unsub": {
     "title": "Zrušit odběr všech e-mailových oznámení",
     "invalid": "Odkaz je neplatný",
     "content": "Kliknutím na tlačítko odhlásit přestanete dostávat všechna e-mailová upozornění z tohoto webu.",
     "verySorry": "Je nám velmi líto, že jste se odhlásili. Pokud chcete dostávat e-mailová upozornění, budete muset odeslat zprávu prostřednictvím koncipovaného formuláře."
   },
-
   "buttons": {
     "send": "Odeslat",
     "cancel": "Zrušit",
@@ -79,12 +76,10 @@
     "unsub": "Odhlásit se",
     "home": "Jít na domovskou stránku"
   },
-
   "errors": {
     "404": "Stránka nenalezena",
     "404Sub": "Nic jsme nenašli.",
     "others": "Jejda! Něco se pokazilo..."
   },
   "typeHere": "Pište zde..."
-
 }

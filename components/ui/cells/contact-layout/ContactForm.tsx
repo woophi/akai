@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, ButtonsForm } from 'ui/atoms';
+import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
 import { Form, Field } from 'react-final-form';
-import { testEmail } from 'core/lib';
+import { delay, testEmail } from 'core/lib';
 import { sendMessage } from 'core/operations';
 import { useTranslation } from 'server/lib/i18n';
+import { FORM_ERROR } from 'final-form';
 
 type ContactForm = {
   name: string;
@@ -32,7 +33,11 @@ const validate = (values: ContactForm, t: (s: string) => string) => {
 };
 
 const onSubmit = async (data: ContactForm) => {
-  await sendMessage(data);
+  try {
+    await sendMessage(data);
+  } catch (error) {
+    return { [FORM_ERROR]: JSON.stringify(error.error) };
+  }
 };
 
 export const ContactForm: React.FC = () => {
@@ -42,11 +47,22 @@ export const ContactForm: React.FC = () => {
     <Form
       onSubmit={onSubmit}
       validate={(v: ContactForm) => validate(v, t)}
-      render={({ handleSubmit, pristine, submitting, form }) => (
+      render={({ handleSubmit, pristine, submitting, form, submitError, submitSucceeded }) => (
         <form
-          onSubmit={async event => await handleSubmit(event).then(form.reset)}
+          onSubmit={async event =>
+            await handleSubmit(event)
+              .then(() => delay(2000))
+              .then(form.reset)
+          }
           className={classes.form}
         >
+          <Snakbars variant="error" message={submitError} className={classes.field} />
+          <Snakbars
+            variant="success"
+            message={submitSucceeded && !submitError ? t('common:contact.thx') : null}
+            className={classes.field}
+            timerValue={1000}
+          />
           <Field
             name="name"
             render={({ input, meta }) => (
@@ -115,6 +131,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     minWidth: '320px',
-    maxWidth: '50%'
-  }
+    maxWidth: '50%',
+  },
+  field: {
+    margin: '0 1rem 1rem',
+  },
 }));

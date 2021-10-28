@@ -10,8 +10,9 @@
     "KM": "Konstantin Mikheev"
   },
   "contact": {
-    "title": "Contact form",
-    "orders": "Your orders"
+    "title": "Contact Akai Akaev",
+    "orders": "Your orders",
+    "thx": "Thank you for Your message"
   },
   "photo": {
     "title": "Photo gallery"
@@ -50,7 +51,6 @@
   "login": {
     "title": "Sign in form"
   },
-
   "forms": {
     "field": {
       "required": "Please, fill this field",
@@ -61,14 +61,12 @@
     "message": "Message",
     "password": "Password"
   },
-
   "unsub": {
     "title": "Unsubscribe from all e-mail notifications",
     "invalid": "Link is invalid",
     "content": "By clicking on button unsubscribe You will stop receiving all e-mail notifications from this web-site.",
     "verySorry": "We are very sorry, that You unsubscribed. If you want to get e-mail notifications, You will need to send a message through conatct form."
   },
-
   "buttons": {
     "send": "Send",
     "cancel": "Cancel",
@@ -78,13 +76,10 @@
     "unsub": "Unsubscribe",
     "home": "Go to homepage"
   },
-
   "errors": {
     "404": "Page not found",
     "404Sub": "We could not find anything.",
     "others": "Oops... something went wrong..."
   },
-
   "typeHere": "Type here..."
-
 }
