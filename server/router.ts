@@ -116,39 +116,39 @@ export function router(
   app.get('/gallery/:id', (req, res) => {
     const actualPage = '/gallery/album';
     const queryParams = { id: req.params.id };
-    appNext.render(req, res, actualPage, queryParams);
+    appNext.render(req, res as any, actualPage, queryParams);
   });
   app.get('/gallery/album/:id', (req, res) => {
     const actualPage = '/gallery/album/blog';
     const queryParams = { id: req.params.id };
-    appNext.render(req, res, actualPage, queryParams);
+    appNext.render(req, res as any, actualPage, queryParams);
   });
 
   app.get('/unsub/:id', (req, res) => {
     const actualPage = '/unsub/guest';
     const queryParams = { id: req.params.id };
-    appNext.render(req, res, actualPage, queryParams);
+    appNext.render(req, res as any, actualPage, queryParams);
   });
 
   app.get('/password/update/:id', (req, res) => {
     const actualPage = '/password/update';
     const queryParams = { id: req.params.id };
-    appNext.render(req, res, actualPage, queryParams);
+    appNext.render(req, res as any, actualPage, queryParams);
   });
 
   app.get('/admin/albums/edit/:id', identity.authorizedForAdmin, (req, res) => {
     const actualPage = '/admin/albums/edit';
     const queryParams = { id: req.params.id };
-    appNext.render(req, res, actualPage, queryParams);
+    appNext.render(req, res as any, actualPage, queryParams);
   });
 
   app.get('/admin/blogs/edit/:id', identity.authorizedForAdmin, (req, res) => {
     const actualPage = '/admin/blogs/edit';
     const queryParams = { id: req.params.id };
-    appNext.render(req, res, actualPage, queryParams);
+    appNext.render(req, res as any, actualPage, queryParams);
   });
 
   app.get('*', (req, res) => {
-    return handle(req, res);
+    return handle(req, res as any);
   });
 }

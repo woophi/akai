@@ -47,8 +47,8 @@ const corsOptions = {
 
 appNext.prepare().then(async () => {
   const appExpress = express();
-  appExpress.use(bodyParser.urlencoded({ extended: true }));
-  appExpress.use(bodyParser.json());
+  appExpress.use(bodyParser.urlencoded({ extended: true }) as any);
+  appExpress.use(bodyParser.json() as any);
   appExpress.use(fileUpload());
   if (config.DEV_MODE) {
     appExpress.use(logger('dev'));

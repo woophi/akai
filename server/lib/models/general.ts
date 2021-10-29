@@ -8,15 +8,15 @@ export enum HTTPStatus {
   NotAllowed = 405,
   Conflict = 409,
   TooManyRequests = 429,
-  ServerError = 500
+  ServerError = 500,
 }
 
 export type HTTPMethod = 'get' | 'post' | 'put' | 'delete';
 
 export type IDictionary<T> = {
-  [key: string]: T
-}
+  [key: string]: T;
+};
 
 export enum LocalErros {
-  CORS = 'Not allowed by CORS'
-} 
+  CORS = 'Not allowed by CORS',
+}

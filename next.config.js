@@ -1,7 +1,4 @@
 module.exports = {
-  future: {
-    webpack5: true,
-  },
   publicRuntimeConfig: {
     SITE_URL: process.env.SITE_URI,
     CHANNEL_ID: process.env.CHANNEL_ID,
