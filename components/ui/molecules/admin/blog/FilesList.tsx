@@ -1,17 +1,17 @@
-import * as React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
-import { connect as redux } from 'react-redux';
-import { AppState, FileItem } from 'core/models';
-import { fetchFiles } from '../operations';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Avatar from '@material-ui/core/Avatar';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Box from '@material-ui/core/Box';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { FileItem } from 'core/models';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import * as React from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import { InputSearch, Snakbars, Spinner, styleTruncate } from 'ui/atoms';
+import { fetchFiles } from '../operations';
 import { selectFile } from '../uploader/operations';
 
 type OwnProps = {
@@ -29,9 +29,7 @@ const Row = (props: ListChildComponentProps) => {
 
   const checked = selectedFiles.indexOf(files[index]._id) !== -1;
   const handleClick = () => {
-    const data = checked
-      ? selectedFiles.filter(id => id != files[index]._id)
-      : [...selectedFiles, files[index]._id];
+    const data = checked ? selectedFiles.filter(id => id != files[index]._id) : [...selectedFiles, files[index]._id];
     onClickCb(data);
     selectFile(files[index]);
   };
@@ -60,10 +58,12 @@ const Row = (props: ListChildComponentProps) => {
   );
 };
 
-const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) => {
+export const FilesList: React.FC<OwnProps> = ({ onClickCb, selectedFiles }) => {
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [query, search] = React.useState('');
+
+  const files = useAppSelector(state => state.ui.admin.files);
 
   React.useEffect(() => {
     fetchFiles()
@@ -74,8 +74,7 @@ const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) =>
       });
   }, []);
 
-  const getList = () =>
-    files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  const getList = () => files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
   return (
     <>
@@ -88,14 +87,14 @@ const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) =>
             itemData={{
               files: getList(),
               onClickCb,
-              selectedFiles
+              selectedFiles,
             }}
             height={height - 74}
             width={width}
             itemSize={46}
             itemCount={getList().length}
             style={{
-              overflowX: 'hidden'
+              overflowX: 'hidden',
             }}
           >
             {Row}
@@ -106,7 +105,3 @@ const FilesComponent: React.FC<Props> = ({ files, onClickCb, selectedFiles }) =>
     </>
   );
 };
-
-export const FilesList = redux((state: AppState, _: OwnProps) => ({
-  files: state.ui.admin.files
-}))(FilesComponent);

@@ -1,16 +1,13 @@
+import Box from '@material-ui/core/Box';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { getAdminPhotos } from 'core/selectors';
 import * as React from 'react';
 import { fetchFiles } from '../operations';
-import { connect as redux } from 'react-redux';
-import { AppState, PhotoItem } from 'core/models';
-import { getAdminPhotos } from 'core/selectors';
-import Box from '@material-ui/core/Box';
-import { getAllPhotos } from './operations';
 import { PhotosForm } from './Form';
+import { getAllPhotos } from './operations';
 
-type Props = {
-  photos: PhotoItem[];
-};
-const AdminPhotosComponent = React.memo<Props>(({ photos = [] }) => {
+export const AdminPhotos = React.memo(({}) => {
+  const photos = useAppSelector(getAdminPhotos);
   React.useEffect(() => {
     getAllPhotos();
     fetchFiles();
@@ -24,7 +21,3 @@ const AdminPhotosComponent = React.memo<Props>(({ photos = [] }) => {
     </>
   );
 });
-
-export const AdminPhotos = redux((state: AppState) => ({
-  photos: getAdminPhotos(state)
-}))(AdminPhotosComponent);

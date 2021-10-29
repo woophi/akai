@@ -1,41 +1,31 @@
-import * as React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import PhotoAlbum from '@material-ui/icons/PhotoAlbum';
-import Wallpaper from '@material-ui/icons/Wallpaper';
-// import Files from '@material-ui/icons/PermMedia';
-import Slideshow from '@material-ui/icons/Slideshow';
-import InsertPhoto from '@material-ui/icons/InsertPhoto';
-import AssignmentInd from '@material-ui/icons/AssignmentInd';
-import PictureInPicture from '@material-ui/icons/PictureInPicture';
-import Block from '@material-ui/icons/Block';
-import VideoLibrary from '@material-ui/icons/VideoLibrary';
-import ThumbUp from '@material-ui/icons/ThumbUp';
-import Comment from '@material-ui/icons/Comment';
-import Group from '@material-ui/icons/Group';
-import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
-import ExitToApp from '@material-ui/icons/ExitToApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles, Theme, createStyles } from '@material-ui/core';
+import AssignmentInd from '@material-ui/icons/AssignmentInd';
+import Block from '@material-ui/icons/Block';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+import InsertPhoto from '@material-ui/icons/InsertPhoto';
+import PhotoAlbum from '@material-ui/icons/PhotoAlbum';
+import PictureInPicture from '@material-ui/icons/PictureInPicture';
+// import Files from '@material-ui/icons/PermMedia';
+import Slideshow from '@material-ui/icons/Slideshow';
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
+import VideoLibrary from '@material-ui/icons/VideoLibrary';
+import Wallpaper from '@material-ui/icons/Wallpaper';
 import { logout } from 'core/operations/auth';
-import { connect as redux } from 'react-redux';
-import { AppState } from 'core/models';
+import { useAppSelector } from 'core/reducers/rootReducer';
 import { hasRoleSuperAdmin } from 'core/selectors';
+import * as React from 'react';
 import * as constants from 'ui/atoms/constants';
-import { getFacebookActiveStatus } from 'core/selectors/facebook';
-import { theme } from 'core/lib';
 // import { checkFBOnePage } from './facebook/operations';
-
-type Props = {
-  isSuperAdmin: boolean;
-  facebookActive: boolean;
-};
 
 let fetchedOnce = false;
 
-const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) => {
+export const AdminMenu = React.memo(() => {
+  const isSuperAdmin = useAppSelector(hasRoleSuperAdmin);
   const classes = useStyles({});
 
   React.useEffect(() => {
@@ -43,7 +33,7 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
       // checkFBOnePage();
       fetchedOnce = true;
     }
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -98,18 +88,16 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
           </ListItemIcon>
           <ListItemText primary={'Комментарии'} />
         </ListItem> */}
-        <ListItem button onClick={constants.toFacebook}>
+        {/* <ListItem button onClick={constants.toFacebook}>
           <ListItemIcon>
             <ThumbUp
               style={{
-                color: facebookActive
-                  ? theme.palette.primary[100]
-                  : theme.palette.error.main
+                color: theme.palette.error.main,
               }}
             />
           </ListItemIcon>
           <ListItemText primary={'Facebook'} />
-        </ListItem>
+        </ListItem> */}
         <ListItem button onClick={constants.toInstagram}>
           <ListItemIcon>
             <InsertPhoto />
@@ -161,16 +149,11 @@ const AdminMenuComponent = React.memo<Props>(({ isSuperAdmin, facebookActive }) 
   );
 });
 
-export const AdminMenu = redux((state: AppState) => ({
-  isSuperAdmin: hasRoleSuperAdmin(state),
-  facebookActive: getFacebookActiveStatus(state)
-}))(AdminMenuComponent);
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
       ...theme.mixins.toolbar,
-      minHeight: '73px !important'
-    }
+      minHeight: '73px !important',
+    },
   })
 );

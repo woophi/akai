@@ -7,6 +7,7 @@ import { FORM_ERROR } from 'final-form';
 import { updatePassword } from 'core/operations';
 import { login, ensureAuthorized } from 'core/operations/auth';
 import { store } from 'core/store';
+import { userActions } from 'core/reducers/user';
 
 type UpdateForm = {
   password: string;
@@ -26,7 +27,7 @@ const onSubmit = async (data: UpdateForm, linkId: string) => {
     const email = await updatePassword(data.password, linkId);
     if (email) {
       const { token } = await login(email, data.password);
-      store.dispatch({ type: 'SET_USER_TOKEN', payload: token });
+      store.dispatch(userActions.setUserToken(token));
       await ensureAuthorized();
     }
   } catch (error) {
@@ -35,8 +36,8 @@ const onSubmit = async (data: UpdateForm, linkId: string) => {
 };
 
 type Props = {
-  linkId: string
-}
+  linkId: string;
+};
 
 export const UpdateForm: React.FC<Props> = ({ linkId }) => {
   const classes = useStyles({});
@@ -63,7 +64,7 @@ export const UpdateForm: React.FC<Props> = ({ linkId }) => {
               variant="error"
               message={submitError}
               style={{
-                margin: '0 1rem .5rem'
+                margin: '0 1rem .5rem',
               }}
             />
             <Snakbars
@@ -71,7 +72,7 @@ export const UpdateForm: React.FC<Props> = ({ linkId }) => {
               message={done ? 'Пароль изменен' : ''}
               onClose={() => setDone(false)}
               style={{
-                margin: '0 1rem .5rem'
+                margin: '0 1rem .5rem',
               }}
             />
             <Field
@@ -114,6 +115,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     minWidth: '320px',
-    maxWidth: '50%'
-  }
+    maxWidth: '50%',
+  },
 }));

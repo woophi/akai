@@ -1,17 +1,16 @@
-import * as React from 'react';
 import Box from '@material-ui/core/Box';
 import Fade from '@material-ui/core/Fade';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { safeTrim } from 'core/lib';
-import { FORM_ERROR } from 'final-form';
-import { Form, Field } from 'react-final-form';
-import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
-import { saveChatLiveStreamId, getLastChatLiveStreamId } from 'core/operations';
-import { connect as redux } from 'react-redux';
-import { AppState } from 'core/models';
-import { isUserAuthorized } from 'core/selectors';
+import { getLastChatLiveStreamId, saveChatLiveStreamId } from 'core/operations';
 import { checkAuth } from 'core/operations/auth';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { isUserAuthorized } from 'core/selectors';
+import { FORM_ERROR } from 'final-form';
+import * as React from 'react';
+import { Field, Form } from 'react-final-form';
+import { ButtonsForm, Snakbars, TextField } from 'ui/atoms';
 
 type ChatIdForm = {
   chatId: string;
@@ -34,16 +33,12 @@ const onSubmit = async (data: ChatIdForm) => {
   }
 };
 
-type Props = {
-  authorized: boolean;
-};
-
-const SaveChatIdComponent = React.memo<Props>(({ authorized }) => {
+export const SaveChatId = React.memo(({}) => {
   const [open, setOpen] = React.useState(false);
-
+  const authorized = useAppSelector(isUserAuthorized);
   React.useEffect(() => {
     checkAuth();
-  }, [])
+  }, []);
 
   const handleToggle = () => setOpen(!open);
 
@@ -54,14 +49,7 @@ const SaveChatIdComponent = React.memo<Props>(({ authorized }) => {
   return (
     <Box display="flex" justifyContent="center" flexWrap="wrap">
       <FormControlLabel
-        control={
-          <Switch
-            checked={open}
-            onChange={handleToggle}
-            value="checkedB"
-            color="primary"
-          />
-        }
+        control={<Switch checked={open} onChange={handleToggle} value="checkedB" color="primary" />}
         label={'Обновить чат ID'}
       />
       <Fade in={open}>
@@ -116,7 +104,3 @@ const SaveChatIdComponent = React.memo<Props>(({ authorized }) => {
     </Box>
   );
 });
-
-export const SaveChatId = redux((state: AppState) => ({
-  authorized: isUserAuthorized(state)
-}))(SaveChatIdComponent);

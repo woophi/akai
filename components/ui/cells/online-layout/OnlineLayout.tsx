@@ -1,10 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { AppState } from 'core/models';
 import { getLastChatLiveStreamId } from 'core/operations';
+import { useAppSelector } from 'core/reducers/rootReducer';
 import getConfig from 'next/config';
 import * as React from 'react';
-import { connect as redux } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
 import { BoxContent, H1 } from 'ui/atoms';
 import { SaveChatId } from './SaveChatId';
@@ -12,11 +11,8 @@ import { SaveChatId } from './SaveChatId';
 const { publicRuntimeConfig } = getConfig();
 const { CHANNEL_ID, CHAT_DOMAIN } = publicRuntimeConfig;
 
-type Props = {
-  chatId: string;
-};
-
-const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
+export const OnlineLayout = React.memo(() => {
+  const chatId = useAppSelector(state => state.ui.youtube.chatId);
   const classes = useStyles({});
   const { t } = useTranslation();
   React.useEffect(() => {
@@ -57,10 +53,6 @@ const OnlineLayoutComponent = React.memo<Props>(({ chatId }) => {
     </BoxContent>
   );
 });
-
-export const OnlineLayout = redux((state: AppState) => ({
-  chatId: state.ui.youtube.chatId,
-}))(OnlineLayoutComponent);
 
 const useStyles = makeStyles(theme => ({
   wrap: {

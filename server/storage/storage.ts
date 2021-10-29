@@ -7,10 +7,7 @@ import { agenda } from '../lib/db';
 import { getFilePath } from './helpers';
 
 export class Storage {
-  constructor(
-    protected files: FileArray,
-    protected job?: string
-  ) {
+  constructor(protected files: FileArray, protected job?: string) {
     Logger.debug('Storage init');
     this.upload();
     if (job) {
@@ -18,6 +15,7 @@ export class Storage {
     }
   }
 
+  // @ts-ignore
   private fileNames = Object.keys(this.files);
   private upload = () => {
     this.fileNames.forEach(fileName => {
@@ -40,7 +38,7 @@ export class Storage {
       Logger.debug('Storage process -> ' + FStorageEvents.CLOUDINARY_ASK);
       EventBus.emit(FStorageEvents.CLOUDINARY_ASK, { fileName, done });
     });
-  }
+  };
 
   performQueue = () => {
     agenda.now(this.job);

@@ -1,17 +1,14 @@
-import * as React from 'react';
-import { connect as redux } from 'react-redux';
-import { YoutubeItem, AppState } from 'core/models';
 import Box from '@material-ui/core/Box';
-import { VideoModule } from 'ui/molecules/VideoModule';
+import { useAppSelector } from 'core/reducers/rootReducer';
 import { getAdminYoutubes } from 'core/selectors';
-import { getAllYoutubes } from './operations';
+import * as React from 'react';
+import { VideoModule } from 'ui/molecules/VideoModule';
 import { YoutubeForm } from './Form';
 import { NewYoutube } from './NewYoutube';
+import { getAllYoutubes } from './operations';
 
-type Props = {
-  youtubes: YoutubeItem[];
-};
-const AdminYoutubeComponent = React.memo<Props>(({ youtubes = [] }) => {
+export const AdminYoutube = React.memo(() => {
+  const youtubes = useAppSelector(getAdminYoutubes);
   React.useEffect(() => {
     getAllYoutubes();
   }, []);
@@ -26,7 +23,3 @@ const AdminYoutubeComponent = React.memo<Props>(({ youtubes = [] }) => {
     </Box>
   );
 });
-
-export const AdminYoutube = redux((state: AppState) => ({
-  youtubes: getAdminYoutubes(state)
-}))(AdminYoutubeComponent);

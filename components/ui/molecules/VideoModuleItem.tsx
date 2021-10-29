@@ -1,66 +1,44 @@
-import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect as redux } from 'react-redux';
-import { AppState, AppDispatch } from 'core/models';
-import { Dispatch } from 'redux';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { youtubeActions } from 'core/reducers/youtube';
+import * as React from 'react';
+import { useDispatch } from 'react-redux';
 
-type OwnProps = {
+type Props = {
   videoId: string;
   videoTitle: string;
   ordinal: number;
-  toggleLoading: (arg: boolean) => void
+  toggleLoading: (arg: boolean) => void;
 };
 
-type Props = {
-  selectedVideoId: string;
-  selectVideoId: (payload: string) => void;
-} & OwnProps;
+export const VideoModuleItem = React.memo<Props>(({ videoId, videoTitle, ordinal, toggleLoading }) => {
+  const selectedVideoId = useAppSelector(state => state.ui.youtube.selectedVideoId);
+  const classes = useStyles({ seleceted: selectedVideoId === videoId });
+  const dispatch = useDispatch();
 
-const VideoModuleItemComponent: React.FC<Props> = React.memo(
-  ({ videoId, videoTitle, ordinal, selectVideoId, selectedVideoId, toggleLoading }) => {
-    const classes = useStyles({ seleceted: selectedVideoId === videoId });
-
-    React.useEffect(() => {
-      if (ordinal === 0) {
-        toggleVideo();
-      }
-    }, []);
-
-    const toggleVideo = React.useCallback(() => {
-      toggleLoading(true);
-      selectVideoId(videoId);
-    }, [videoId])
-
-    return (
-      <div
-        className={classes.videoContentItem}
-        onClick={toggleVideo}
-      >
-        <div className={classes.videoContentItemImg}>
-          <img
-            src={`https://img.youtube.com/vi/${videoId}/default.jpg`}
-            alt={videoTitle}
-          />
-        </div>
-        <span className={classes.videoContentItemImgText}>{videoTitle}</span>
-      </div>
-    );
-  }
-);
-
-export const VideoModuleItem = redux(
-  (state: AppState, props: OwnProps) => ({
-    selectedVideoId: state.ui.youtube.selectedVideoId
-  }),
-  (dispatch: Dispatch<AppDispatch>) => ({
-    selectVideoId: (payload: string) => {
-      dispatch({ type: 'SET_VIDEO_ID', payload });
+  React.useEffect(() => {
+    if (ordinal === 0) {
+      toggleVideo();
     }
-  })
-)(VideoModuleItemComponent);
+  }, []);
+
+  const toggleVideo = React.useCallback(() => {
+    toggleLoading(true);
+    dispatch(youtubeActions.setVideoId(videoId));
+  }, [videoId]);
+
+  return (
+    <div className={classes.videoContentItem} onClick={toggleVideo}>
+      <div className={classes.videoContentItemImg}>
+        <img src={`https://img.youtube.com/vi/${videoId}/default.jpg`} alt={videoTitle} />
+      </div>
+      <span className={classes.videoContentItemImgText}>{videoTitle}</span>
+    </div>
+  );
+});
 
 const useStyles = makeStyles(theme => ({
-  videoContentItem: ({ seleceted }: {seleceted: boolean}) => ({
+  videoContentItem: ({ seleceted }: { seleceted: boolean }) => ({
     display: 'flex',
     height: 50,
     backgroundColor: seleceted ? '#525252' : '#232323',
@@ -68,26 +46,26 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0px 8px 20px 0px rgba(0,0,0,0.39)',
     '&:active': {
       transform: 'translateY(1px)',
-      boxShadow: 'none'
+      boxShadow: 'none',
     },
     '&:hover': {
-      backgroundColor: '#3a3939'
+      backgroundColor: '#3a3939',
     },
-    transition: '.2s ease-in-out'
+    transition: '.2s ease-in-out',
   }),
   videoContentItemImg: {
     minWidth: 75,
     height: 50,
     '&>img': {
       maxWidth: '100%',
-      maxHeight: '100%'
-    }
+      maxHeight: '100%',
+    },
   },
   videoContentItemImgText: {
     color: theme.palette.text.secondary,
     padding: '.5rem .25rem',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
-  }
+    textOverflow: 'ellipsis',
+  },
 }));

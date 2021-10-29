@@ -7,6 +7,7 @@ import { useTranslation } from 'server/lib/i18n';
 import { FORM_ERROR } from 'final-form';
 import { store } from 'core/store';
 import { login, ensureAuthorized } from 'core/operations/auth';
+import { userActions } from 'core/reducers/user';
 
 type LoginForm = {
   email: string;
@@ -31,7 +32,7 @@ const validate = (values: LoginForm, t: (s: string) => string) => {
 const onSubmit = async (data: LoginForm) => {
   try {
     const { token } = await login(data.email, data.password);
-    store.dispatch({ type: 'SET_USER_TOKEN', payload: token });
+    store.dispatch(userActions.setUserToken(token));
     await ensureAuthorized();
   } catch (error) {
     return { [FORM_ERROR]: error.error };
@@ -50,7 +51,9 @@ export const LoginForm: React.FC = () => {
           <form
             onSubmit={async event => {
               const error = await handleSubmit(event);
-              if (error) { return error; }
+              if (error) {
+                return error;
+              }
               form.reset();
             }}
             className={classes.form}
@@ -59,7 +62,7 @@ export const LoginForm: React.FC = () => {
               variant="error"
               message={submitError}
               style={{
-                margin: '0 1rem .5rem'
+                margin: '0 1rem .5rem',
               }}
             />
             <Field
@@ -121,6 +124,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     minWidth: '320px',
-    maxWidth: '50%'
-  }
+    maxWidth: '50%',
+  },
 }));

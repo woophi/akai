@@ -3,15 +3,15 @@ import { Layout, BoxMain, LoginLayout, Spinner } from 'ui/index';
 import { ensureAuthorized } from 'core/operations/auth';
 import { connect as redux } from 'react-redux';
 import { getUserFetching } from 'core/selectors';
-import { AppState } from 'core/models';
+import { AppState } from 'core/reducers/rootReducer';
 
 type Props = {
-  userFetching: boolean
-}
+  userFetching: boolean;
+};
 
 class Login extends React.PureComponent<Props> {
   componentDidMount() {
-    ensureAuthorized()
+    ensureAuthorized();
   }
 
   render() {
@@ -27,5 +27,5 @@ class Login extends React.PureComponent<Props> {
 }
 
 export default redux((state: AppState) => ({
-  userFetching: getUserFetching(state)
+  userFetching: getUserFetching(state),
 }))(Login);

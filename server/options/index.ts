@@ -1,8 +1,8 @@
-exports._options = {};
+const mem_options = {};
 
 export const get = (key: string) => {
-  return this._options[key];
-}
+  return mem_options[key];
+};
 export const set = (key: any, value: any) => {
-  this._options[key] = value;
-}
+  mem_options[key] = value;
+};

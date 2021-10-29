@@ -1,26 +1,22 @@
-import * as React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { getUserFetching, getUserId } from 'core/selectors';
+import * as React from 'react';
+import { Bread, ScrollButton, Spinner } from 'ui/atoms';
 import { drawerWidth } from './constants';
 import { AdminMenu } from './Menu';
-import { connect as redux } from 'react-redux';
-import { AppState } from 'core/models';
-import { getUserFetching, getUserId } from 'core/selectors';
-import { Spinner, Bread, ScrollButton } from 'ui/atoms';
 
-type Props = {
-  fetching: boolean;
-  userId: string
-}
-
-const AdminLayoutComponent = React.memo<Props>(({ children, fetching, userId }) => {
+export const AdminLayout = React.memo(({ children }) => {
+  const fetching = useAppSelector(getUserFetching);
+  const userId = useAppSelector(getUserId);
   const classes = useStyles({});
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -30,7 +26,7 @@ const AdminLayoutComponent = React.memo<Props>(({ children, fetching, userId }) 
   }
 
   if (fetching || !userId) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
@@ -63,7 +59,7 @@ const AdminLayoutComponent = React.memo<Props>(({ children, fetching, userId }) 
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true
+              keepMounted: true,
             }}
           >
             <AdminMenu />
@@ -88,13 +84,7 @@ const AdminLayoutComponent = React.memo<Props>(({ children, fetching, userId }) 
       </main>
     </div>
   );
-})
-
-export const AdminLayout = redux((state: AppState) => ({
-  fetching: getUserFetching(state),
-  userId: getUserId(state)
-}))(AdminLayoutComponent)
-
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -126,7 +116,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       display: 'flex',
       paddingTop: '4rem',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
-  }),
+  })
 );

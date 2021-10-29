@@ -1,16 +1,13 @@
+import Box from '@material-ui/core/Box';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { getAdminBioData } from 'core/selectors';
 import * as React from 'react';
 import { fetchFiles } from '../operations';
-import { connect as redux } from 'react-redux';
-import { AppState, BioData } from 'core/models';
-import { getAdminBioData } from 'core/selectors';
-import Box from '@material-ui/core/Box';
 import { BioForm } from './Form';
 import { getBio } from './operations';
 
-type Props = {
-  bio: BioData;
-};
-const AdminBioComponent = React.memo<Props>(({ bio }) => {
+export const AdminBio = React.memo(() => {
+  const bio = useAppSelector(getAdminBioData);
   React.useEffect(() => {
     getBio();
     fetchFiles();
@@ -24,7 +21,3 @@ const AdminBioComponent = React.memo<Props>(({ bio }) => {
     </>
   );
 });
-
-export const AdminBio = redux((state: AppState) => ({
-  bio: getAdminBioData(state)
-}))(AdminBioComponent);

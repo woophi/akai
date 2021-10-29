@@ -1,56 +1,16 @@
-import thunk from 'redux-thunk';
-import {
-  applyMiddleware,
-  combineReducers,
-  createStore,
-  Reducer,
-  ReducersMapObject,
-  Store
-} from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { initialState, reducer as uiReducer } from 'core/reducers';
-import { AppState, AppDispatch } from 'core/models';
+import { configureStore } from '@reduxjs/toolkit';
+import { rootReducer } from './reducers/rootReducer';
 
-const middleware = applyMiddleware(thunk);
+export const store = configureStore({
+  reducer: rootReducer,
+  devTools: true,
+});
 
-const rootReducerMap: ReducersMapObject<AppState, AppDispatch> = {
-  ui: uiReducer
-};
+type extendend = { hot: { accept: (f: string, cb: () => void) => void } } & NodeModule;
 
-let asyncReducers: any = {};
-
-function updateRootReducer() {
-  store.replaceReducer(
-    combineReducers({
-      ...rootReducerMap,
-      ...asyncReducers
-    })
-  );
+if (process.env.NODE_ENV === 'development' && (module as extendend).hot) {
+  (module as extendend).hot.accept('./reducers/rootReducer', () => {
+    const newRootReducer = require('./reducers/rootReducer').default;
+    store.replaceReducer(newRootReducer);
+  });
 }
-
-export function injectReducer<T>(name: string, reducer: Reducer<T>) {
-  asyncReducers[name] = reducer;
-  updateRootReducer();
-  return store;
-}
-
-export function injectReducers(reducers: ReducersMapObject) {
-  asyncReducers = {
-    ...asyncReducers,
-    ...reducers
-  };
-  updateRootReducer();
-  return store;
-}
-
-export const store: Store<AppState, AppDispatch> = createStore(
-  combineReducers(rootReducerMap),
-  { ui: initialState },
-  composeWithDevTools(middleware)
-) as any;
-
-export const initStore = (
-  initState = { ui: initialState }
-): any => {
-  return store;
-};

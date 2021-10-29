@@ -1,5 +1,6 @@
 import { callApi, callAdminApi } from 'core/common';
 import * as models from 'core/models';
+import { youtubeActions } from 'core/reducers/youtube';
 import { store } from 'core/store';
 
 export const subscribe = (email: string) => callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
@@ -36,7 +37,7 @@ export const guestUnsub = (uniqId: string) => callApi<void>('put', 'api/guest/un
 
 export const getLastChatLiveStreamId = async () => {
   const chatId = await callApi<string>('get', `api/guest/youtube/live/chat`);
-  store.dispatch({ type: 'SET_CHAT_ID', payload: chatId });
+  store.dispatch(youtubeActions.setChatId(chatId));
 };
 
 export const saveChatLiveStreamId = (chatId: string) => callAdminApi<void>('post', `api/admin/save/live/chat`, { chatId });

@@ -1,77 +1,56 @@
-import * as React from 'react';
-import { connect as redux } from 'react-redux';
-import * as models from 'core/models';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core';
-import { compose } from 'redux';
-import { withTranslation } from 'server/lib/i18n';
-import { getComments } from './operations';
-import { withRouter } from 'next/router';
+import Typography from '@material-ui/core/Typography';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useTranslation } from 'server/lib/i18n';
 import { AddComment } from './AddComment';
 import { Comment } from './Comment';
-import { WithRouterProps } from 'next/dist/client/with-router';
+import { getComments } from './operations';
 
-const styles = (theme: Theme) => createStyles({
-  root: {
-    maxWidth: '600px',
-    margin:' 0 auto',
-    width: '100%',
-    padding: '1rem',
-  },
-  wraper: {
-    position: 'relative',
-    minHeight: '90px',
-    marginTop: '1rem'
-  }
+export const Comments = React.memo(() => {
+  const { t } = useTranslation();
+  const classes = useStyles();
+  const { query } = useRouter();
+  const blogId = String(query.id);
+  const comments = useAppSelector(state => state.ui.blogs[blogId]);
+
+  React.useEffect(() => {
+    getComments(blogId);
+  }, []);
+
+  const content = React.useMemo(() => {
+    if (comments) {
+      return comments.map(c => <Comment key={c.id} {...c} />);
+    }
+    return null;
+  }, [comments]);
+
+  return (
+    <div className={classes.root}>
+      <Typography gutterBottom variant="body1">
+        {t('gallery.comments')}
+      </Typography>
+      <Divider variant="fullWidth" />
+      <div className={classes.wraper}>{content}</div>
+      <AddComment blogId={blogId} />
+    </div>
+  );
 });
 
-
-type Props = {
-  blogs: models.BlogStateModel[]
-} & WithStyles<typeof styles> & models.TranslationProps & WithRouterProps;
-
-class CommnetsComponent extends React.PureComponent<Props> {
-
-  componentDidMount() {
-    getComments(String(this.props.router.query.id));
-  }
-
-  get content() {
-    const blog = this.props.blogs.find(b => b.id === String(this.props.router.query.id));
-    if (blog) {
-      return blog.comments.map(c => (
-        <Comment
-          key={c.id}
-          {...c}
-        />
-      ));
-    }
-    return null
-  }
-
-  render() {
-    const { classes, t, router: { query } } = this.props;
-    return (
-      <div className={classes.root}>
-        <Typography gutterBottom variant="body1">
-          {t('gallery.comments')}
-        </Typography>
-        <Divider variant="fullWidth" />
-        <div className={classes.wraper}>
-          {this.content}
-        </div>
-        <AddComment blogId={String(query.id)} />
-      </div>
-    )
-  }
-}
-
-export const Comments = compose(
-  redux((state: models.AppState) => ({
-    blogs: state.ui.blogs
-  })),
-  withStyles(styles),
-  withTranslation('common'),
-  withRouter
-)(CommnetsComponent);
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      maxWidth: '600px',
+      margin: ' 0 auto',
+      width: '100%',
+      padding: '1rem',
+    },
+    wraper: {
+      position: 'relative',
+      minHeight: '90px',
+      marginTop: '1rem',
+    },
+  })
+);

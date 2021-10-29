@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { selectFile } from './operations';
-import { Spinner, Snakbars, InputSearch, styleTruncate } from 'ui/atoms';
-import { connect as redux } from 'react-redux';
-import { AppState, FileItem } from 'core/models';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { FileItem } from 'core/models';
+import { useAppSelector } from 'core/reducers/rootReducer';
 import { getSelectedFile } from 'core/selectors';
+import * as React from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import { InputSearch, Snakbars, Spinner, styleTruncate } from 'ui/atoms';
 import { fetchFiles } from '../operations';
+import { selectFile } from './operations';
 
 type Props = {
   files: FileItem[];
@@ -22,13 +22,7 @@ const Row = (props: ListChildComponentProps) => {
   const handleSelect = () => selectFile(files[index]);
 
   return (
-    <ListItem
-      button
-      style={style}
-      key={index}
-      onClick={handleSelect}
-      selected={selectedFile._id === files[index]._id}
-    >
+    <ListItem button style={style} key={index} onClick={handleSelect} selected={selectedFile._id === files[index]._id}>
       <ListItemText
         primary={files[index].name}
         primaryTypographyProps={{ noWrap: true }}
@@ -39,11 +33,14 @@ const Row = (props: ListChildComponentProps) => {
   );
 };
 
-const FilesComponent: React.FC<Props> = ({ files, selectedFile }) => {
+export const FilesList: React.FC = () => {
   const classes = useStyles({});
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [query, search] = React.useState('');
+
+  const files = useAppSelector(state => state.ui.admin.files);
+  const selectedFile = useAppSelector(getSelectedFile);
 
   React.useEffect(() => {
     fetchFiles()
@@ -54,8 +51,7 @@ const FilesComponent: React.FC<Props> = ({ files, selectedFile }) => {
       });
   }, []);
 
-  const getList = () =>
-    files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  const getList = () => files.filter(f => f.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
   return (
     <div className={classes.root}>
@@ -66,14 +62,14 @@ const FilesComponent: React.FC<Props> = ({ files, selectedFile }) => {
           <FixedSizeList
             itemData={{
               files: getList(),
-              selectedFile
+              selectedFile,
             }}
             height={height}
             width={width}
             itemSize={46}
             itemCount={getList().length}
             style={{
-              overflowX: 'hidden'
+              overflowX: 'hidden',
             }}
           >
             {Row}
@@ -85,18 +81,13 @@ const FilesComponent: React.FC<Props> = ({ files, selectedFile }) => {
   );
 };
 
-export const FilesList = redux((state: AppState) => ({
-  files: state.ui.admin.files,
-  selectedFile: getSelectedFile(state)
-}))(FilesComponent);
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
       height: 'calc(100% - 74px)',
       maxWidth: 360,
-      backgroundColor: theme.palette.background.paper
-    }
+      backgroundColor: theme.palette.background.paper,
+    },
   })
 );

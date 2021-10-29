@@ -59,8 +59,3 @@ export type PhotoItemModel = {
   name: string;
   id: string;
 };
-
-export type BlogStateModel = {
-  id: string;
-  comments: CommentItem[];
-};

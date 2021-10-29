@@ -1,16 +1,13 @@
+import Box from '@material-ui/core/Box';
+import { useAppSelector } from 'core/reducers/rootReducer';
+import { getAdminSlides } from 'core/selectors';
 import * as React from 'react';
 import { fetchFiles } from '../operations';
-import { connect as redux } from 'react-redux';
-import { AppState, SlideItem } from 'core/models';
-import { getAdminSlides } from 'core/selectors';
-import Box from '@material-ui/core/Box';
 import { SliderForm } from './Form';
 import { getAllSlides } from './operations';
 
-type Props = {
-  slides: SlideItem[];
-};
-const AdminSliderComponent = React.memo<Props>(({ slides = [] }) => {
+export const AdminSlider = React.memo(() => {
+  const slides = useAppSelector(getAdminSlides);
   React.useEffect(() => {
     getAllSlides();
     fetchFiles();
@@ -24,7 +21,3 @@ const AdminSliderComponent = React.memo<Props>(({ slides = [] }) => {
     </>
   );
 });
-
-export const AdminSlider = redux((state: AppState) => ({
-  slides: getAdminSlides(state)
-}))(AdminSliderComponent);

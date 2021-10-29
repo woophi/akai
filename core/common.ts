@@ -4,8 +4,8 @@ import Router from 'next/router';
 import { getUserToken } from './selectors';
 import { store } from './store';
 
-const {publicRuntimeConfig} = getConfig();
-const {SITE_URL} = publicRuntimeConfig;
+const { publicRuntimeConfig } = getConfig();
+const { SITE_URL } = publicRuntimeConfig;
 
 export type HTTPMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -13,9 +13,9 @@ export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any =
   const rc: AxiosRequestConfig = {
     url: SITE_URL + url,
     headers: {
-      'Accept': 'application/json'
+      Accept: 'application/json',
     },
-    method
+    method,
   };
 
   if (typeof data === 'string') {
@@ -32,18 +32,23 @@ export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any =
     rc.headers.Authorization = `${auth}`;
   }
 
-  return axios(rc)
-    .then(r => r.status === 204 ? null : r.data as T, f => {
-      const errorData = ((f && ('response' in f) && f.response) ? f.response['data'] as any : null) || {code: null, message: null};
+  return axios(rc).then(
+    r => (r.status === 204 ? null : (r.data as T)),
+    f => {
+      const errorData = (f && 'response' in f && f.response ? (f.response['data'] as any) : null) || {
+        code: null,
+        message: null,
+      };
       return Promise.reject(errorData) as any;
-    });
-}
+    }
+  );
+};
 
 export const callAdminApi = <T>(method: HTTPMethod = 'post', url: string, data: any = null): Promise<T> =>
   callApi<T>(method, url, data, getUserToken(store.getState()));
 
 export const uploadFiles = (files: File[]) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const formData = new FormData();
     files.forEach(f => formData.append(f.name, f));
 
@@ -63,7 +68,7 @@ export const uploadFiles = (files: File[]) => {
     request.open('POST', url);
     request.send(formData);
   });
-}
+};
 
 export const allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
 
@@ -71,8 +76,8 @@ export const getWindow = () => {
   if (typeof window !== undefined) {
     return window;
   }
-  return null
-}
+  return null;
+};
 
 export const goToDeep = (href: string) => Router.push(`${Router.route}/${href}`);
 export const goToSpecific = (href: string) => Router.push(href);

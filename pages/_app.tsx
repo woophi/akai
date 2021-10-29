@@ -1,12 +1,11 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 import { theme } from 'core/lib';
-import { initStore } from 'core/store';
-import withRedux from 'next-redux-wrapper';
+import { store } from 'core/store';
 import App from 'next/app';
 import Head from 'next/head';
 import * as React from 'react';
-import { Provider } from 'react-redux';
+import { Provider as Redux } from 'react-redux';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { appWithTranslation } from 'server/lib/i18n';
 import 'ui/atoms/spinner/spinner.css';
@@ -24,12 +23,12 @@ class MyApp extends App {
     }
   }
   render() {
-    const { Component, pageProps, store } = this.props as any;
+    const { Component, pageProps } = this.props as any;
     return (
       <>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Provider store={store}>
+          <Redux store={store}>
             <div>
               <Head>
                 <meta charSet="utf-8" />
@@ -40,10 +39,10 @@ class MyApp extends App {
               </Head>
               <Component {...pageProps} />
             </div>
-          </Provider>
+          </Redux>
         </ThemeProvider>
       </>
     );
   }
 }
-export default withRedux(initStore)(appWithTranslation(MyApp));
+export default appWithTranslation(MyApp);
