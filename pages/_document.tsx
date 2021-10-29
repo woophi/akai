@@ -4,8 +4,6 @@ import { ServerStyleSheets } from '@material-ui/styles';
 import flush from 'styled-jsx/server';
 import { Script } from 'ui/atoms';
 
-ga('create', 'UA-291587756-Y', 'auto');
-
 class MyDocument extends Document {
   render() {
     return (

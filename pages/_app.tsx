@@ -10,7 +10,6 @@ import { theme } from 'core/lib';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { getCookie } from 'core/cookieManager';
 import('core/fire-callbacks');
-import 'autotrack';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
