@@ -7,27 +7,23 @@ mongoose.set('useCreateIndex', true);
 export const databaseUri = config.PORT_MONGO;
 export const connection = mongoose.connect(databaseUri, {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
 });
 
 export let agenda: Agenda;
 
 connection
   .then(db => {
-    Logger.info(
-      `Successfully connected to ${databaseUri} MongoDB cluster in ${
-        config.DEV_MODE ? 'dev' : 'prod'
-      } mode.`
-    );
+    Logger.info(`Successfully connected to ${databaseUri} MongoDB cluster in ${config.DEV_MODE ? 'dev' : 'prod'} mode.`);
     agenda = new Agenda(
       {
         db: {
           address: databaseUri,
           collection: SchemaNames.JOBS,
           options: {
-            useNewUrlParser: true
-          }
-        }
+            useNewUrlParser: true,
+          },
+        },
       },
       () => agenda.start()
     );

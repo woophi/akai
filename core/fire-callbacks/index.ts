@@ -4,18 +4,13 @@ import { getCommentById } from 'core/operations';
 import { store } from 'core/store';
 import { selectAllBlogs } from 'core/selectors';
 
-client.welcome = () => {
-  console.warn('welcome uniq guest');
-  callApi('post', 'api/guest/visit');
-};
-
 client.upload_done = (fileName, fileId, url) => {
   console.warn(fileName, 'fileName', 'fileId', fileId);
   if (fileId) {
     const file = {
       _id: fileId,
       name: fileName,
-      url
+      url,
     };
     store.dispatch({ type: 'UPDATE_FILES', payload: file });
     store.dispatch({ type: 'SELECT_FILE', payload: file });
@@ -31,7 +26,7 @@ client.new_comment = async (commentId, blogId) => {
     if (comment) {
       store.dispatch({
         type: 'UPDATE_COMMENTS',
-        payload: { blogId, comments: [...blog.comments, comment] }
+        payload: { blogId, comments: [...blog.comments, comment] },
       });
     }
   }

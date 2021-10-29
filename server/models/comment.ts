@@ -3,23 +3,19 @@ import { SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const CommentSchema = new mongoose.Schema(
-	{
+  {
     text: {
-      type: String
+      type: String,
     },
-		deleted: {
-			type: Date
-		},
-		visitor: {
-			type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.VISITORS
+    deleted: {
+      type: Date,
     },
     blog: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.BLOG
-    }
+      ref: SchemaNames.BLOG,
+    },
   },
-	{ collection: SchemaNames.COMMENT }
+  { collection: SchemaNames.COMMENT }
 );
 
 CommentSchema.plugin(timestamps);

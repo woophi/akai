@@ -10,7 +10,6 @@ export enum SchemaNames {
   SLIDER = 'slider',
   SUBS = 'subscribers',
   USERS = 'users',
-  VISITORS = 'visitors',
   BIOGRAPHY = 'biography',
   YOUTUBE = 'youtube',
   PHOTOS = 'photos',
@@ -21,5 +20,5 @@ export enum SchemaNames {
   APP_SESSIONS = 'app_sessions',
   JOBS = 'jobs_queue',
   MIGRATIONS = 'app_update',
-  BRUTE_FORCE = 'brute_force'
+  BRUTE_FORCE = 'brute_force',
 }

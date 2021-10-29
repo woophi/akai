@@ -43,15 +43,6 @@ export const registerSocket = (server: Server) => {
     });
   });
 
-  const nspUniqGuest = IO.of(NameSpaces.UNIQ_GUEST);
-  nspUniqGuest.on('connection', socket => {
-    Logger.info('uniq-guest connected');
-    socket.emit(EmitEvents.welcome);
-    socket.on('disconnect', () => {
-      Logger.info('uniq-guest disconnected');
-    });
-  });
-
   const nspAdmin = IO.of(NameSpaces.ADMIN);
   nspAdmin.on('connection', socket => {
     Logger.debug('admin connected ' + socket.id);
@@ -65,14 +56,8 @@ export const registerSocket = (server: Server) => {
 
     socket.on('disconnect', () => {
       Logger.info('admin disconnected');
-      EventBus.removeListener(
-        storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS,
-        fileSuc
-      );
-      EventBus.removeListener(
-        storageTypes.FStorageEvents.UPLOADED_FILE_ERROR,
-        fileErr
-      );
+      EventBus.removeListener(storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS, fileSuc);
+      EventBus.removeListener(storageTypes.FStorageEvents.UPLOADED_FILE_ERROR, fileErr);
     });
 
     EventBus.on(storageTypes.FStorageEvents.UPLOADED_FILE_SUCCESS, fileSuc);

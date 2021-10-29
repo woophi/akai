@@ -36,13 +36,13 @@ const handle = appNext.getRequestHandler();
 checkConfiguration(config);
 const whitelist = config.ALLOWED_ORIGINS.split(',');
 const corsOptions = {
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error(LocalErros.CORS));
     }
-  }
+  },
 };
 
 appNext.prepare().then(async () => {
@@ -63,7 +63,7 @@ appNext.prepare().then(async () => {
   appExpress.use(initExpressSession());
   appExpress.use(nextI18NextMiddleware(nextI18next));
   // serve locales for client
-  appExpress.use('/locales', express.static(join(__dirname, '../static/locales')));
+  appExpress.use('/public/locales', express.static(join(__dirname, '../public/locales')));
   await connection;
   if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
     fs.mkdirSync(join(__dirname, 'storage/temp'));
@@ -88,10 +88,7 @@ appNext.prepare().then(async () => {
   server.on('error', (err: any) => {
     if (err.syscall !== 'listen') throw err;
 
-    const bind =
-      typeof config.PORT_CORE === 'string'
-        ? `Pipe ${config.PORT_CORE}`
-        : `Port ${config.PORT_CORE}`;
+    const bind = typeof config.PORT_CORE === 'string' ? `Pipe ${config.PORT_CORE}` : `Port ${config.PORT_CORE}`;
 
     switch (err.code) {
       case 'EACCES':

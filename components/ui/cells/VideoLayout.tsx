@@ -12,13 +12,13 @@ export const VideoLayout: React.FC = React.memo(() => {
       <div className={classes.wrap}>
         <Block
           title={t('common:video.online.title')}
-          imgSrc="static/img/watch_online.jpg"
+          imgSrc="/img/watch_online.jpg"
           subTitle={t('common:watch')}
           href="online"
         />
         <Block
           title={t('common:video.youtube.title')}
-          imgSrc="static/img/youtube.jpg"
+          imgSrc="/img/youtube.jpg"
           subTitle={t('common:watch')}
           href="youtube"
         />
@@ -31,6 +31,6 @@ const useStyles = makeStyles(theme => ({
   wrap: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '2rem 0'
-  }
+    margin: '2rem 0',
+  },
 }));

@@ -13,9 +13,9 @@ const options = {
     escapeValue: false, // not needed for react!!
     formatSeparator: ',',
     format: (value, format, lng) => {
-        if (format === 'uppercase') return value.toUpperCase()
-        return value
-    }
+      if (format === 'uppercase') return value.toUpperCase();
+      return value;
+    },
   },
   detection: {
     lookupCookie: 'akai_lng',
@@ -23,8 +23,9 @@ const options = {
     caches: ['cookie'],
   },
   react: {
-    useSuspense: false
-  }
+    useSuspense: false,
+  },
+  localePath: 'public/locales',
 };
 
 const i18n = new NextI18Next(options);

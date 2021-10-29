@@ -11,7 +11,7 @@ export const Logo = React.memo<Props>(({ classNameLogo = '', small = false }) =>
   const classes = useStyles({ small });
   return (
     <div className={classes.content}>
-      <img className={`${classes.logoSign} ${classNameLogo}`} src="/static/img/akaisign.png" alt="logo_akai_akaev_sign" />
+      <img className={`${classes.logoSign} ${classNameLogo}`} src="/img/akaisign.png" alt="logo_akai_akaev_sign" />
       <div className={classes.logoText}>
         <Link href="/">
           <a className={classes.link}>

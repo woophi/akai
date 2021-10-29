@@ -1,5 +1,4 @@
 import * as React from 'react';
-require('./spinner.css');
 
 type Props = {
   isShow?: boolean;
@@ -43,7 +42,7 @@ const container: React.CSSProperties = {
   backgroundColor: 'rgba(255, 255, 255, .5)',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
 };
 const box: React.CSSProperties = {
   width: '100%',

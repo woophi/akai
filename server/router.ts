@@ -1,29 +1,25 @@
 import * as express from 'express';
 import { IncomingMessage, ServerResponse } from 'http';
-import * as controllers from './controllers';
-import * as auth from './auth';
-import * as identity from './identity';
-import * as storage from './storage';
+import { NextServer } from 'next/dist/server/next';
 import { join } from 'path';
-import { HTTPStatus, LocalErros } from './lib/models';
-import { agenda } from './lib/db';
-import { rateLimiterMiddleware } from './lib/rate-limiter';
-const Agendash = require('agendash');
 import { UrlWithParsedQuery } from 'url';
-import Server from 'next/dist/next-server/server/next-server';
+import * as auth from './auth';
+import * as controllers from './controllers';
+import * as identity from './identity';
+import { agenda } from './lib/db';
+import { HTTPStatus, LocalErros } from './lib/models';
+import { rateLimiterMiddleware } from './lib/rate-limiter';
+import * as storage from './storage';
+const Agendash = require('agendash');
 
 const options = {
-  root: join(__dirname, '../assets')
+  root: join(__dirname, '../assets'),
 };
 
 export function router(
   app: express.Express,
-  handle: (
-    req: IncomingMessage,
-    res: ServerResponse,
-    parsedUrl?: UrlWithParsedQuery
-  ) => Promise<void>,
-  appNext: Server
+  handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlWithParsedQuery) => Promise<void>,
+  appNext: NextServer
 ) {
   app.use((err, _, res, next) => {
     if (err.message !== LocalErros.CORS) return next();
@@ -35,9 +31,6 @@ export function router(
 
   app.get('/robots.txt', (_, res) => res.status(HTTPStatus.OK).sendFile('robots.txt', options));
   app.get('/sitemap.xml', (_, res) => res.status(HTTPStatus.OK).sendFile('sitemap.xml', options));
-
-  app.post('/api/guest/visit', controllers.connectedUniqVisitor);
-  app.get('/api/guest/name', controllers.getVisitorName);
 
   app.get('/api/guest/slides', controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', rateLimiterMiddleware, controllers.subscribeNewVisitor);
@@ -121,38 +114,38 @@ export function router(
   app.get('/processLogin/fb/at', controllers.processLogin);
 
   app.get('/gallery/:id', (req, res) => {
-    const actualPage = '/gallery/album'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
+    const actualPage = '/gallery/album';
+    const queryParams = { id: req.params.id };
+    appNext.render(req, res, actualPage, queryParams);
   });
   app.get('/gallery/album/:id', (req, res) => {
-    const actualPage = '/gallery/album/blog'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
+    const actualPage = '/gallery/album/blog';
+    const queryParams = { id: req.params.id };
+    appNext.render(req, res, actualPage, queryParams);
   });
 
   app.get('/unsub/:id', (req, res) => {
-    const actualPage = '/unsub/guest'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
+    const actualPage = '/unsub/guest';
+    const queryParams = { id: req.params.id };
+    appNext.render(req, res, actualPage, queryParams);
   });
 
   app.get('/password/update/:id', (req, res) => {
-    const actualPage = '/password/update'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
+    const actualPage = '/password/update';
+    const queryParams = { id: req.params.id };
+    appNext.render(req, res, actualPage, queryParams);
   });
 
   app.get('/admin/albums/edit/:id', identity.authorizedForAdmin, (req, res) => {
-    const actualPage = '/admin/albums/edit'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
+    const actualPage = '/admin/albums/edit';
+    const queryParams = { id: req.params.id };
+    appNext.render(req, res, actualPage, queryParams);
   });
 
   app.get('/admin/blogs/edit/:id', identity.authorizedForAdmin, (req, res) => {
-    const actualPage = '/admin/blogs/edit'
-    const queryParams = { id: req.params.id }
-    appNext.render(req, res, actualPage, queryParams)
+    const actualPage = '/admin/blogs/edit';
+    const queryParams = { id: req.params.id };
+    appNext.render(req, res, actualPage, queryParams);
   });
 
   app.get('*', (req, res) => {

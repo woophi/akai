@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { FORM_ERROR } from 'final-form';
-import { getVisitorName } from 'core/operations';
 
 type Props = {
   blogId: string;
@@ -32,18 +31,9 @@ const validate = (values: CommentForm, t: (s: string) => string) => {
   return errors;
 };
 
-const onSubmit = async (
-  data: CommentForm,
-  blogId: string,
-  visitorName: string,
-  setName: (v: string) => void
-) => {
+const onSubmit = async (data: CommentForm, blogId: string) => {
   try {
     await newComment(data, blogId);
-    if (!visitorName) {
-      const name = await getVisitorName();
-      setName(name);
-    }
   } catch (error) {
     return { [FORM_ERROR]: 'Cannot add comment' };
   }
@@ -52,11 +42,6 @@ const onSubmit = async (
 export const AddComment = React.memo<Props>(({ blogId }) => {
   const { t } = useTranslation();
   const classes = useStyles({});
-  const [visitorName, setName] = React.useState('');
-
-  React.useEffect(() => {
-    getVisitorName().then(setName);
-  }, []);
 
   return (
     <Paper elevation={4} className={classes.paper}>
@@ -64,13 +49,11 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
         {t('gallery.addComments')}
       </Typography>
       <Form
-        onSubmit={(d: CommentForm) =>
-          onSubmit(d, blogId, visitorName, setName)
-        }
+        onSubmit={(d: CommentForm) => onSubmit(d, blogId)}
         validate={(v: CommentForm) => validate(v, t)}
         initialValues={{
-          name: visitorName,
-          message: ''
+          name: '',
+          message: '',
         }}
         render={({ handleSubmit, pristine, submitting, submitError, form }) => (
           <>
@@ -78,7 +61,9 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
             <form
               onSubmit={async event => {
                 const error = await handleSubmit(event);
-                if (error) { return error; }
+                if (error) {
+                  return error;
+                }
                 form.reset();
               }}
               className={classes.form}
@@ -96,12 +81,10 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     className={classes.field}
                     {...input}
                     error={Boolean(meta.touched && meta.error)}
-                    helperText={
-                      (meta.touched && meta.error) || `${input.value.length}/256`
-                    }
+                    helperText={(meta.touched && meta.error) || `${input.value.length}/256`}
                     disabled={submitting}
                     inputProps={{
-                      maxLength: 256
+                      maxLength: 256,
                     }}
                   />
                 )}
@@ -118,12 +101,10 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     className={classes.field}
                     {...input}
                     error={Boolean(meta.touched && meta.error)}
-                    helperText={
-                      (meta.touched && meta.error) || `${input.value.length}/2000`
-                    }
+                    helperText={(meta.touched && meta.error) || `${input.value.length}/2000`}
                     disabled={submitting}
                     inputProps={{
-                      maxLength: 2000
+                      maxLength: 2000,
                     }}
                   />
                 )}
@@ -147,15 +128,15 @@ const useStyles = makeStyles(theme => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '1rem'
+    marginTop: '1rem',
   },
   paper: {
     margin: '0 auto .5rem',
     padding: '1rem',
     maxWidth: '600px',
-    width: '100%'
+    width: '100%',
   },
   field: {
-    margin: 0
-  }
+    margin: 0,
+  },
 }));

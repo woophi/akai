@@ -25,9 +25,7 @@ export const Like = React.memo<Props>(({ blogId }) => {
     setLike(!liked);
   };
 
-  return (
-    <div onClick={handleClick} className={`${classes.heart}  ${animate || ''}`} />
-  );
+  return <div onClick={handleClick} className={`${classes.heart}  ${animate || ''}`} />;
 });
 
 const useStyles = makeStyles(theme => ({
@@ -35,32 +33,32 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     height: '60px',
     width: '60px',
-    backgroundImage: `url( '/static/img/like_anim.png')`,
+    backgroundImage: `url( '/img/like_anim.png')`,
     backgroundPosition: selected ? 'right' : 'left',
     backgroundRepeat: 'no-repeat',
     backgroundSize: '2900%',
-    margin: 'auto'
+    margin: 'auto',
   }),
   is_like: {
-    animation: '$heart-burst .8s steps(28) 1'
+    animation: '$heart-burst .8s steps(28) 1',
   },
   dislike: {
-    animation: '$heart-burst-reverse .8s steps(28) 1'
+    animation: '$heart-burst-reverse .8s steps(28) 1',
   },
   '@keyframes heart-burst': {
     from: {
-      backgroundPosition: 'left'
+      backgroundPosition: 'left',
     },
     to: {
-      backgroundPosition: 'right'
-    }
+      backgroundPosition: 'right',
+    },
   },
   '@keyframes heart-burst-reverse': {
     to: {
-      backgroundPosition: 'left'
+      backgroundPosition: 'left',
     },
     from: {
-      backgroundPosition: 'right'
-    }
-  }
+      backgroundPosition: 'right',
+    },
+  },
 }));
