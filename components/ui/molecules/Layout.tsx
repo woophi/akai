@@ -18,13 +18,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Layout: React.FC<Props> = React.memo(({ title = 'Akai Akaev | Official website', children }) => {
+export const Layout: React.FC<Props> = React.memo(({ title, children }) => {
   const classes = useStyles({});
+
+  const tt = title ? `Akai Akaev | ${title}` : 'Akai Akaev | Official website';
 
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{tt}</title>
         <meta name="description" content="Akai Akaev showcases of wonderful works" />
         <meta name="keywords" content="photos, arts, actor, paints" />
       </Head>

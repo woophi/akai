@@ -4,7 +4,7 @@ import { Layout, BoxMain, ContactLayout } from 'ui/index';
 class Contact extends React.PureComponent {
   render() {
     return (
-      <Layout title="Contact - Akai Akaev">
+      <Layout title="Contact">
         <BoxMain>
           <ContactLayout />
         </BoxMain>

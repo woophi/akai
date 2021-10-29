@@ -2,29 +2,37 @@ import * as React from 'react';
 import { Layout, Carusel, BoxMain } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
+import Head from 'next/head';
 
-type LocalState = {
+type Props = {
   data: models.SlideModel[];
-}
+};
 
-class Index extends React.Component<unknown, LocalState> {
-  state: LocalState = {
-    data: []
-  }
-  componentDidMount() {
-    callApi<models.SlideModel[]>('get', 'api/guest/slides')
-      .then(data => this.setState({ data }));
+const Home = (props: Props) => {
+  return (
+    <Layout>
+      <Head>
+        <meta property="og:title" content="Akai Akaev" />
+        <meta property="og:image" content={props.data && props.data[0].src} />
+      </Head>
+      <BoxMain>
+        <Carusel imgs={props.data} />
+      </BoxMain>
+    </Layout>
+  );
+};
 
+export const getServerSideProps = async () => {
+  let data = null;
+  try {
+    data = await callApi<models.SlideModel[]>('get', 'api/guest/slides');
+  } catch (error) {
+    console.error(error);
   }
-  render() {
-    return (
-      <Layout>
-        <BoxMain>
-          <Carusel imgs={this.state.data} />
-        </BoxMain>
-      </Layout>
-    );
-  }
-}
 
-export default Index;
+  return {
+    props: { data },
+  };
+};
+
+export default Home;

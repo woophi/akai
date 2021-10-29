@@ -1,36 +1,42 @@
-import * as React from 'react';
-import { Layout, BoxMain, GalleryLayout } from 'ui/index';
+import { getLanguage } from 'core/lib/lang';
 import { AlbumModel } from 'core/models';
 import { getAllAlbums } from 'core/operations';
-import { i18next } from 'server/lib/i18n';
-import { getCookie } from 'core/cookieManager';
+import { Request } from 'express';
+import * as React from 'react';
+import { BoxMain, GalleryLayout, Layout } from 'ui/index';
 
-type LocalState = {
+type Props = {
   albums: AlbumModel[];
 };
 
-class Gallery extends React.PureComponent<unknown, LocalState> {
-  state: LocalState = {
-    albums: [],
+const Gallery = (props: Props) => {
+  return (
+    <Layout>
+      <BoxMain>
+        <GalleryLayout albums={props.albums} />
+      </BoxMain>
+    </Layout>
+  );
+};
+
+export const getServerSideProps = async ({ req }) => {
+  let albums = null;
+  try {
+    const lang = getLanguage(req as Request);
+    albums = await getAllAlbums(lang);
+  } catch (error) {
+    console.error(error);
+  }
+
+  if (!albums) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { albums },
   };
-  async componentDidMount() {
-    try {
-      const currentLanguage = getCookie('akai_lng') || i18next.language;
-      const albums = await getAllAlbums(currentLanguage);
-      this.setState({ albums });
-    } catch (e) {
-      console.error('Error in Gallery fetch', e);
-    }
-  }
-  render() {
-    return (
-      <Layout>
-        <BoxMain>
-          <GalleryLayout albums={this.state.albums} />
-        </BoxMain>
-      </Layout>
-    );
-  }
-}
+};
 
 export default Gallery;

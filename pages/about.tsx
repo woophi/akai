@@ -5,20 +5,15 @@ import { Request } from 'express';
 import Head from 'next/head';
 import * as React from 'react';
 import { AboutLayout, BoxMain, Layout } from 'ui/index';
-import NotFoundPage from './404';
 
 type Props = {
   data: models.BioModel;
-  notFound: boolean;
 };
 
 const About = (props: Props) => {
-  const { data, notFound } = props;
-  if (notFound) {
-    return <NotFoundPage />;
-  }
+  const { data } = props;
   return (
-    <Layout title="About Akai Akaev">
+    <Layout title="About">
       <Head>
         <meta property="og:title" content="About" />
         <meta property="og:description" content={data.content} />
@@ -31,7 +26,7 @@ const About = (props: Props) => {
   );
 };
 
-About.getInitialProps = async ({ req }) => {
+export const getServerSideProps = async ({ req }) => {
   let data = null;
   try {
     const lang = getLanguage(req as Request);
@@ -47,7 +42,7 @@ About.getInitialProps = async ({ req }) => {
   }
 
   return {
-    data,
+    props: { data },
   };
 };
 

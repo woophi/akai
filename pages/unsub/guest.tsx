@@ -1,19 +1,16 @@
+import { useRouter } from 'next/router';
 import * as React from 'react';
-import { Layout, BoxMain, UnsubLayout } from 'ui/index';
-import { withRouter } from 'next/router';
-import { WithRouterProps } from 'next/dist/client/with-router';
+import { BoxMain, Layout, UnsubLayout } from 'ui/index';
 
-class UnsubGuest extends React.PureComponent<WithRouterProps> {
+const UnsubGuest = () => {
+  const { query } = useRouter();
+  return (
+    <Layout>
+      <BoxMain>
+        <UnsubLayout uniqId={String(query.id)} />
+      </BoxMain>
+    </Layout>
+  );
+};
 
-  render() {
-    return (
-      <Layout>
-        <BoxMain>
-          <UnsubLayout uniqId={String(this.props.router.query.id)} />
-        </BoxMain>
-      </Layout>
-    );
-  }
-}
-
-export default withRouter(UnsubGuest);
+export default UnsubGuest;
