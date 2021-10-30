@@ -1,11 +1,10 @@
 import { getLanguage } from 'core/lib/lang';
 import { BlogsModel } from 'core/models';
 import { getAlbumData } from 'core/operations';
-import { Request } from 'express';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import * as React from 'react';
 import { AlbumLayout, BoxMain, Layout } from 'ui/index';
-import Head from 'next/head';
 
 const Album = (props: { data: BlogsModel }) => {
   return (
@@ -24,7 +23,7 @@ const Album = (props: { data: BlogsModel }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   let data = null;
   try {
-    const lang = getLanguage(req as Request);
+    const lang = getLanguage(req);
     data = await getAlbumData(String(query.id), lang);
   } catch (error) {
     console.error(error);

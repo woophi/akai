@@ -1,7 +1,6 @@
 import { getLanguage } from 'core/lib/lang';
 import { AlbumModel } from 'core/models';
 import { getAllAlbums } from 'core/operations';
-import { Request } from 'express';
 import { GetServerSideProps } from 'next';
 import * as React from 'react';
 import { BoxMain, GalleryLayout, Layout } from 'ui/index';
@@ -23,7 +22,7 @@ const Gallery = (props: Props) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let albums = null;
   try {
-    const lang = getLanguage(req as Request);
+    const lang = getLanguage(req);
     albums = await getAllAlbums(lang);
   } catch (error) {
     console.error(error);

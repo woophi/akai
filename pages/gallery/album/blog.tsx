@@ -2,7 +2,6 @@ import { getLanguage } from 'core/lib/lang';
 import { BlogModel } from 'core/models';
 import { getBlogData } from 'core/operations';
 import { connectSocketBlog, joinRoom, leaveRoom } from 'core/socket/blog';
-import { Request } from 'express';
 import { GetServerSideProps } from 'next';
 import getConfig from 'next/config';
 import Head from 'next/head';
@@ -58,7 +57,7 @@ const Blog = ({ blog }: { blog: BlogModel }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   let blog = null;
   try {
-    const lang = getLanguage(req as Request);
+    const lang = getLanguage(req);
     blog = await getBlogData(String(query.id), lang);
   } catch (error) {
     console.error(error);

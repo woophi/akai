@@ -1,7 +1,6 @@
 import { getLanguage } from 'core/lib/lang';
 import * as models from 'core/models';
 import { getBio } from 'core/operations';
-import { Request } from 'express';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import * as React from 'react';
@@ -30,7 +29,7 @@ const About = (props: Props) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let data = null;
   try {
-    const lang = getLanguage(req as Request);
+    const lang = getLanguage(req);
     data = await getBio(lang);
   } catch (error) {
     console.error(error);
