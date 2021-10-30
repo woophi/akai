@@ -5,33 +5,29 @@ import * as models from 'server/models/types';
 import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
 import * as async from 'async';
-import { HTTPStatus } from 'server/lib/models';
+import { HTTPStatus, SessionData } from 'server/lib/models';
 import { getFacebookPageIds, createImgPost } from 'server/facebook';
 import config from 'server/config';
 import { EventBus } from 'server/lib/events';
 import { IgEvents } from 'server/instagram/types';
 import { sendMailToSubscribersAfterBlogPost } from '../subscribers';
 
-export const createNewPost = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
   const blogPost: models.SaveBlogModel = {
     body: req.body.body || [],
-    createdBy: req.session.user._id,
+    createdBy: (req.session as unknown as SessionData).user?._id ?? '',
     title: req.body.title,
     topic: req.body.topic,
     socialShare: req.body.socialShare,
     photos: req.body.photos,
     creationPictureDate: req.body.creationPictureDate,
-    parameters: req.body.parameters || []
+    parameters: req.body.parameters || [],
   };
   const notifySubscribers = req.body.notifySubscribers;
   const albumId = req.body.albumId;
-  const adminName = req.session.user.name;
+  const adminName = (req.session as unknown as SessionData).user?.name ?? '';
   let savedBlogId: string;
   async.series(
     [
@@ -40,7 +36,7 @@ export const createNewPost = async (
           {
             title: validate.notIsEmpty,
             topic: validate.notIsEmpty,
-            photos: validate.notIsEmpty
+            photos: validate.notIsEmpty,
           },
           blogPost,
           cb
@@ -60,14 +56,14 @@ export const createNewPost = async (
       cb => {
         if (!savedBlogId) return res.sendStatus(HTTPStatus.BadRequest);
         if (!albumId) return cb();
-        AlbumModel.findById(albumId).exec((err, album: models.Album) => {
-          if (err) {
+        AlbumModel.findById(albumId).exec((err, album) => {
+          if (err || !album) {
             Logger.error('err to get AlbumModel' + err);
             return res.sendStatus(HTTPStatus.ServerError);
           }
           album
             .set({
-              blogs: [...album.blogs, savedBlogId]
+              blogs: [...album.blogs, savedBlogId],
             })
             .save(err => {
               if (err) {
@@ -77,26 +73,15 @@ export const createNewPost = async (
               return cb();
             });
         });
-      }
+      },
     ],
     async () => {
-      if (
-        blogPost.socialShare &&
-        blogPost.socialShare.localeId &&
-        blogPost.socialShare.photo &&
-        savedBlogId
-      ) {
+      if (blogPost.socialShare && blogPost.socialShare.localeId && blogPost.socialShare.photo && savedBlogId) {
         // TODO: choose from post data
         const fPages = await getFacebookPageIds();
         Logger.debug('should fetch fb pages', fPages);
-        const caption = blogPost.topic.find(
-          t => t.localeId === blogPost.socialShare.localeId
-        ).content;
-        await createImgPost(
-          `${config.SITE_URI}gallery/album/${savedBlogId}`,
-          caption,
-          fPages[0]
-        );
+        const caption = blogPost.topic.find(t => t.localeId === blogPost.socialShare.localeId)?.content ?? '';
+        await createImgPost(`${config.SITE_URI}gallery/album/${savedBlogId}`, caption, fPages[0]);
 
         EventBus.emit(IgEvents.INSTAGRAM_ASK, { blogId: savedBlogId });
       }
@@ -108,25 +93,21 @@ export const createNewPost = async (
   );
 };
 
-export const getAllBlogs = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAllBlogs = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await BlogModel.find()
       .where('deleted', undefined)
       .populate({
         path: 'photos',
-        select: 'thumbnail -_id'
+        select: 'thumbnail -_id',
       })
       .select('title photos')
       .lean();
     const blogs = data.map(b => {
       return {
         id: b._id,
-        title: b.title.find(t => t.localeId === 'ru').content,
-        coverPhoto: b.photos[0] ? b.photos[0].thumbnail : ''
+        title: b.title.find(t => t.localeId === 'ru')?.content,
+        coverPhoto: b.photos?.[0] ? b.photos[0].thumbnail : '',
       };
     });
     return res.send(blogs).status(HTTPStatus.OK);
@@ -136,27 +117,21 @@ export const getAllBlogs = async (
   }
 };
 
-export const getAdminBlogData = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAdminBlogData = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const blogId = req.query['id'];
     if (!blogId) return res.sendStatus(HTTPStatus.BadRequest);
-    const blog = (await BlogModel.findById(blogId)
-      .where('deleted', undefined)
-      .lean()) as models.Blog;
+    const blog = (await BlogModel.findById(blogId).where('deleted', undefined).lean()) as models.Blog;
 
     if (!blog) return res.sendStatus(HTTPStatus.NotFound);
 
     const payload = {
-      titleEn: blog.title.find(t => t.localeId === 'en').content,
-      titleCs: blog.title.find(t => t.localeId === 'cs').content,
-      titleRu: blog.title.find(t => t.localeId === 'ru').content,
-      topicEn: blog.topic.find(t => t.localeId === 'en').content,
-      topicCs: blog.topic.find(t => t.localeId === 'cs').content,
-      topicRu: blog.topic.find(t => t.localeId === 'ru').content,
+      titleEn: blog.title.find(t => t.localeId === 'en')?.content,
+      titleCs: blog.title.find(t => t.localeId === 'cs')?.content,
+      titleRu: blog.title.find(t => t.localeId === 'ru')?.content,
+      topicEn: blog.topic.find(t => t.localeId === 'en')?.content,
+      topicCs: blog.topic.find(t => t.localeId === 'cs')?.content,
+      topicRu: blog.topic.find(t => t.localeId === 'ru')?.content,
       bodyEn: blog.body.find(t => t.localeId === 'en')!.content,
       bodyCs: blog.body.find(t => t.localeId === 'cs')!.content,
       bodyRu: blog.body.find(t => t.localeId === 'ru')!.content,
@@ -164,7 +139,7 @@ export const getAdminBlogData = async (
       creationPictureDate: blog.creationPictureDate,
       photos: blog.photos,
       socialShare: blog.socialShare,
-      parameters: blog.parameters
+      parameters: blog.parameters,
     };
 
     return res.send(payload).status(HTTPStatus.OK);
@@ -174,11 +149,7 @@ export const getAdminBlogData = async (
   }
 };
 
-export const editAdminBlogData = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const editAdminBlogData = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
   const blogId = req.query['id'];
   const blogPost: Partial<models.SaveBlogModel> = {
@@ -187,7 +158,7 @@ export const editAdminBlogData = async (
     topic: req.body.topic,
     photos: req.body.photos,
     creationPictureDate: req.body.creationPictureDate,
-    parameters: req.body.parameters || []
+    parameters: req.body.parameters || [],
   };
   async.series(
     [
@@ -198,19 +169,17 @@ export const editAdminBlogData = async (
             topic: validate.notIsEmpty,
             socialShare: validate.notIsEmpty,
             photos: validate.notIsEmpty,
-            blogId: validate.required
+            blogId: validate.required,
           },
           {
             ...blogPost,
-            blogId
+            blogId,
           },
           cb
-        )
+        ),
     ],
     async () => {
-      const blog = (await BlogModel.findById(blogId)
-        .where('deleted', undefined)
-        .exec()) as models.Blog;
+      const blog = (await BlogModel.findById(blogId).where('deleted', undefined).exec()) as models.Blog;
       if (!blog) {
         return res.sendStatus(HTTPStatus.NotFound);
       }
@@ -226,11 +195,7 @@ export const editAdminBlogData = async (
   );
 };
 
-export const deleteBlog = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const deleteBlog = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
   const blogId = req.query['id'];
   async.series(
@@ -238,18 +203,16 @@ export const deleteBlog = async (
       cb =>
         validate.check(
           {
-            blogId: validate.required
+            blogId: validate.required,
           },
           {
-            blogId
+            blogId,
           },
           cb
-        )
+        ),
     ],
     async () => {
-      const blog = (await BlogModel.findById(blogId)
-        .where('deleted', undefined)
-        .exec()) as models.Blog;
+      const blog = (await BlogModel.findById(blogId).where('deleted', undefined).exec()) as models.Blog;
       if (!blog) {
         return res.sendStatus(HTTPStatus.NotFound);
       }

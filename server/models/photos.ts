@@ -1,20 +1,20 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { Photos, SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const PhotosSchema = new mongoose.Schema(
-	{
-		file: {
+  {
+    file: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.FILES
+      ref: SchemaNames.FILES,
     },
     ordinal: {
-      type: Number
-    }
+      type: Number,
+    },
   },
-	{ collection: SchemaNames.PHOTOS }
+  { collection: SchemaNames.PHOTOS }
 );
 
 PhotosSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.PHOTOS, PhotosSchema);
+export default mongoose.model<Photos>(SchemaNames.PHOTOS, PhotosSchema);

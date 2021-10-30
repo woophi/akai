@@ -7,14 +7,14 @@ import { getBlogData } from 'ui/molecules/admin/blog/operations';
 import { WithRouterProps } from 'next/dist/client/with-router';
 
 type localState = {
-  blogData: BlogData;
+  blogData?: BlogData;
   albums: AlbumModel[];
 };
 
 class EditBlog extends React.PureComponent<WithRouterProps, localState> {
   state: localState = {
     blogData: undefined,
-    albums: []
+    albums: [],
   };
   async componentDidMount() {
     try {

@@ -6,7 +6,7 @@ type Props = {
   err: any;
 };
 
-const Error: React.FC<Props> = props => {
+const Error = (props: Props) => {
   return (
     <Layout>
       <BoxMain>
@@ -16,7 +16,7 @@ const Error: React.FC<Props> = props => {
   );
 };
 
-(Error as any).getInitialProps = ({ res, err }) => {
+Error.getInitialProps = ({ res, err }: any) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : null;
   return { statusCode, err };
 };

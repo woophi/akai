@@ -5,7 +5,7 @@ import { getFacebookPageIds, checkTokenValidation } from './operations';
 import { LinkButton, ArrowTooltip, Spinner } from 'ui/atoms';
 
 export const AdminFacebook = React.memo(() => {
-  const [pages, setPages] = React.useState([]);
+  const [pages, setPages] = React.useState<number[]>([]);
   const [valid, setValid] = React.useState(false);
   const [fetching, setFetching] = React.useState(true);
 
@@ -15,9 +15,10 @@ export const AdminFacebook = React.memo(() => {
 
   React.useEffect(() => {
     if (pages.length === 1) {
-      checkTokenValidation(pages[0]).then(setValid)
-      .then(() => setFetching(false))
-      .catch(() => setFetching(false));
+      checkTokenValidation(pages[0])
+        .then(setValid)
+        .then(() => setFetching(false))
+        .catch(() => setFetching(false));
     } else {
       setFetching(false);
     }
@@ -35,24 +36,13 @@ export const AdminFacebook = React.memo(() => {
         />
         <Box>
           {!valid && (
-            <ArrowTooltip
-              placement="top"
-              title={'Сайт не может получить доступ к facebook странице'}
-            >
-              <Icon
-                className={`fas fa-exclamation-triangle`}
-                color="error"
-                style={{ width: 'auto' }}
-              />
+            <ArrowTooltip placement="top" title={'Сайт не может получить доступ к facebook странице'}>
+              <Icon className={`fas fa-exclamation-triangle`} color="error" style={{ width: 'auto' }} />
             </ArrowTooltip>
           )}
           {valid && (
             <ArrowTooltip placement="top" title={'Facebook страница добавлена'}>
-              <Icon
-                className={`fas fa-check`}
-                color="primary"
-                style={{ width: 'auto' }}
-              />
+              <Icon className={`fas fa-check`} color="primary" style={{ width: 'auto' }} />
             </ArrowTooltip>
           )}
         </Box>

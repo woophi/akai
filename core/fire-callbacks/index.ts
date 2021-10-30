@@ -5,7 +5,7 @@ import { blogsActions } from 'core/reducers/blogs';
 import { selectAllBlogs } from 'core/selectors';
 import { store } from 'core/store';
 
-client.upload_done = (fileName, fileId, url) => {
+client.upload_done = (fileName, fileId, url = '') => {
   console.warn(fileName, 'fileName', 'fileId', fileId);
   if (fileId) {
     const file = {

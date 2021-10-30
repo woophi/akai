@@ -1,4 +1,4 @@
-const mem_options = {};
+const mem_options: Record<string, any> = {};
 
 export const get = (key: string) => {
   return mem_options[key];

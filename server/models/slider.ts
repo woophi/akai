@@ -1,20 +1,20 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { SchemaNames, Slider } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const SliderSchema = new mongoose.Schema(
-	{
-		slide: {
+  {
+    slide: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.FILES
+      ref: SchemaNames.FILES,
     },
     ordinal: {
-      type: Number
-    }
+      type: Number,
+    },
   },
-	{ collection: SchemaNames.SLIDER }
+  { collection: SchemaNames.SLIDER }
 );
 
 SliderSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.SLIDER, SliderSchema, SchemaNames.SLIDER);
+export default mongoose.model<Slider>(SchemaNames.SLIDER, SliderSchema, SchemaNames.SLIDER);

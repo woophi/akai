@@ -38,17 +38,10 @@ export const Subscribe: React.FC<Props> = React.memo(({ onSubscribe }) => {
   }, [value]);
   return (
     <section className={classes.content}>
-      <Button
-        href="mailto:akaidoart@gmail.com"
-        color="primary"
-        variant="contained"
-        className={classes.button}
-      >
+      <Button href="mailto:akaidoart@gmail.com" color="primary" variant="contained" className={classes.button}>
         {t('common:subscribe.emailBtn')}
       </Button>
-      <InputLabel style={{ marginBottom: '.5rem' }}>
-        {t('common:subscribe.label')}
-      </InputLabel>
+      <InputLabel style={{ marginBottom: '.5rem' }}>{t('common:subscribe.label')}</InputLabel>
       <Paper className={classes.root}>
         <InputBase
           className={classes.input}
@@ -69,28 +62,13 @@ export const Subscribe: React.FC<Props> = React.memo(({ onSubscribe }) => {
         >
           <EmailIcon />
         </IconButton>
-        {loading && (
-          <Icon
-            className={`${classes.statusIcon} fas fa-circle-notch fa-spin`}
-            color="primary"
-          />
-        )}
+        {loading && <Icon className={`${classes.statusIcon} fas fa-circle-notch fa-spin`} color="primary" />}
         {error && (
           <ArrowTooltip placement="top" title={JSON.stringify(error)}>
-            <Icon
-              className={`${classes.statusIcon} ${
-                classes.error
-              } fas fa-exclamation-triangle`}
-              color="primary"
-            />
+            <Icon className={`${classes.statusIcon} ${classes.error} fas fa-exclamation-triangle`} color="primary" />
           </ArrowTooltip>
         )}
-        {done && (
-          <Icon
-            className={`${classes.statusIcon} ${classes.success} fas fa-check`}
-            color="primary"
-          />
-        )}
+        {done && <Icon className={`${classes.statusIcon} ${classes.success} fas fa-check`} color="primary" />}
       </Paper>
     </section>
   );
@@ -102,39 +80,39 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   button: {
     margin: theme.spacing(2),
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   root: {
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
     maxWidth: 400,
-    width: '100%'
+    width: '100%',
   },
   input: {
     marginLeft: 8,
-    flex: 1
+    flex: 1,
   },
   iconButton: {
-    padding: 10
+    padding: 10,
   },
   divider: {
     width: 1,
     height: 28,
-    margin: 4
+    margin: 4,
   },
   statusIcon: {
     margin: theme.spacing(1),
-    width: 'auto'
+    width: 'auto',
   },
   error: {
-    color: theme.palette.error.main
+    color: theme.palette.error.main,
   },
   success: {
-    color: theme.palette.primary['100']
-  }
+    color: theme.palette.primary.light,
+  },
 }));

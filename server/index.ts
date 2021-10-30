@@ -9,7 +9,7 @@ if (!process.env.NO_DV) {
 import * as fs from 'fs';
 import { join } from 'path';
 import express from 'express';
-import bodyParser from 'body-parser';
+import { json, urlencoded } from 'body-parser';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -35,32 +35,37 @@ const handle = appNext.getRequestHandler();
 
 checkConfiguration(config);
 const whitelist = config.ALLOWED_ORIGINS.split(',');
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error(LocalErros.CORS));
-    }
-  },
-};
 
 appNext.prepare().then(async () => {
   const appExpress = express();
-  appExpress.use(bodyParser.urlencoded({ extended: true }) as any);
-  appExpress.use(bodyParser.json() as any);
-  appExpress.use(fileUpload());
+  appExpress.use(urlencoded({ extended: true }) as any);
+  appExpress.use(json() as any);
+  appExpress.use(fileUpload() as any);
   if (config.DEV_MODE) {
     appExpress.use(logger('dev'));
   } else {
-    appExpress.use(cors(corsOptions));
-    appExpress.use(helmet());
+    appExpress.use(
+      cors({
+        origin: (origin, callback) => {
+          if (!origin || whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+          } else {
+            callback(new Error(LocalErros.CORS));
+          }
+        },
+      })
+    );
+    appExpress.use(
+      helmet({
+        contentSecurityPolicy: false,
+      })
+    );
     appExpress.disable('x-powered-by');
     appExpress.use(logger('tiny'));
     appExpress.set('trust proxy', 1);
   }
-  appExpress.use(cookieParser(config.COOKIE_SECRET));
-  appExpress.use(initExpressSession());
+  appExpress.use(cookieParser(config.COOKIE_SECRET) as any);
+  appExpress.use(initExpressSession() as any);
   appExpress.use(nextI18NextMiddleware(nextI18next));
   // serve locales for client
   appExpress.use('/public/locales', express.static(join(__dirname, '../public/locales')));
@@ -80,7 +85,7 @@ appNext.prepare().then(async () => {
 
   server.on('listening', () => {
     const addr = server.address();
-    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr?.port}`;
 
     console.log(`Listening on ${bind}`);
   });

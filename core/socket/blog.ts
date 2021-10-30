@@ -1,9 +1,9 @@
-import io from 'socket.io-client';
-import { initCallbacks } from '.';
+import io, { Socket } from 'socket.io-client';
+import { initCallbacks } from './index';
 
 let socketBlogConnected = false;
 
-let socketBlog: SocketIOClient.Socket;
+let socketBlog: Socket;
 
 const blogsNs = '/blogs';
 
@@ -15,11 +15,11 @@ export const connectSocketBlog = () => {
     initCallbacks(socketBlog);
     socketBlogConnected = true;
   });
-}
+};
 
 export const joinRoom = (blogId: string) => {
-  socketBlog.emit('joinRoom', blogId)
-}
+  socketBlog.emit('joinRoom', blogId);
+};
 export const leaveRoom = (blogId: string) => {
-  socketBlog.emit('leaveRoom', blogId)
-}
+  socketBlog.emit('leaveRoom', blogId);
+};

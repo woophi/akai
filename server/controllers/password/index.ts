@@ -16,7 +16,7 @@ export const resetPassword = (req: Request, res: Response, next: NextFunction) =
   const validate = new kia.Validator(req, res, next);
 
   const data = {
-    email: String(req.body.email).toLowerCase()
+    email: String(req.body.email).toLowerCase(),
   };
 
   async.series(
@@ -24,7 +24,7 @@ export const resetPassword = (req: Request, res: Response, next: NextFunction) =
       cb =>
         validate.check(
           {
-            email: validate.isEmail
+            email: validate.isEmail,
           },
           data,
           cb
@@ -43,16 +43,13 @@ export const resetPassword = (req: Request, res: Response, next: NextFunction) =
             }
             return cb();
           });
-      }
+      },
     ],
     async () => {
       try {
         const linkId = await createUniqLink(data.email);
 
-        await UserModel.findOneAndUpdate(
-          { email: data.email },
-          { resetId: linkId }
-        ).exec();
+        await UserModel.findOneAndUpdate({ email: data.email }, { resetId: linkId }).exec();
 
         const mailer = new mails.Mailer(
           'message to admin reset password',
@@ -62,7 +59,7 @@ export const resetPassword = (req: Request, res: Response, next: NextFunction) =
           '',
           'Администрация сайта',
           {
-            resetUrl: `${config.SITE_URI}password/update/${linkId}`
+            resetUrl: `${config.SITE_URI}password/update/${linkId}`,
           }
         );
 
@@ -81,7 +78,7 @@ export const updatePassword = (req: Request, res: Response, next: NextFunction) 
 
   const data = {
     password: req.body.password,
-    linkId: req.body.linkId
+    linkId: req.body.linkId,
   };
 
   let userEmail: string;
@@ -92,7 +89,7 @@ export const updatePassword = (req: Request, res: Response, next: NextFunction) 
         validate.check(
           {
             password: validate.required,
-            linkId: validate.required
+            linkId: validate.required,
           },
           data,
           cb
@@ -100,7 +97,7 @@ export const updatePassword = (req: Request, res: Response, next: NextFunction) 
       cb => {
         UserModel.findOne()
           .where('resetId', data.linkId)
-          .exec((err, user: models.User) => {
+          .exec((err, user) => {
             if (err) {
               Logger.error(err);
               return res.sendStatus(HTTPStatus.ServerError);
@@ -111,7 +108,7 @@ export const updatePassword = (req: Request, res: Response, next: NextFunction) 
             userEmail = user.email;
             return cb();
           });
-      }
+      },
     ],
     async () => {
       try {
@@ -126,10 +123,7 @@ export const updatePassword = (req: Request, res: Response, next: NextFunction) 
         const hashing = new Hashing();
         const newPass = await hashing.hashPassword(data.password);
 
-        await UserModel.findOneAndUpdate(
-          { resetId: data.linkId },
-          { password: newPass, resetId: null }
-        ).exec();
+        await UserModel.findOneAndUpdate({ resetId: data.linkId }, { password: newPass, resetId: null }).exec();
 
         await Link.remove();
         return res.status(HTTPStatus.OK).send(userEmail);

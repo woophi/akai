@@ -12,24 +12,20 @@ type OrdinalModel = {
   fileId: string;
 };
 
-export const updateMainSlider = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const updateMainSlider = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
   const slidersData: {
     slides: OrdinalModel[];
   } = {
-    slides: req.body.slides
+    slides: req.body.slides,
   };
   async.series(
     [
       cb =>
         validate.check(
           {
-            slides: validate.notIsEmpty
+            slides: validate.notIsEmpty,
           },
           slidersData,
           cb
@@ -44,15 +40,11 @@ export const updateMainSlider = async (
             return cb();
           }
           const shouldBeDeleted = slides.filter(
-            s =>
-              !slidersData.slides.find(us =>
-                us.id ? us.id == s._id.toString() : false
-              )
+            s => !slidersData.slides.find(us => (us.id ? us.id == s._id.toString() : false))
           );
 
           if (shouldBeDeleted.length) {
-            const deleteSlide = (slide: models.Slider, callback) =>
-              slide.remove(callback);
+            const deleteSlide = (slide: models.Slider, callback: async.ErrorCallback<Error>) => slide.remove(callback);
 
             async.eachSeries(
               shouldBeDeleted,
@@ -69,14 +61,14 @@ export const updateMainSlider = async (
             return cb();
           }
         });
-      }
+      },
     ],
     () => {
-      const saveModel = async (slide: OrdinalModel, callback) => {
+      const saveModel = async (slide: OrdinalModel, callback: async.ErrorCallback<Error>) => {
         if (slide.id) {
           SliderModel.findByIdAndUpdate(
             slide.id,
-            { ordinal: slide.ordinal, slide: slide.fileId },
+            { ordinal: slide.ordinal, slide: slide.fileId as unknown as models.Files },
             err => {
               if (err) {
                 Logger.error('err to update SliderModel ', err, slide.id);
@@ -86,15 +78,13 @@ export const updateMainSlider = async (
             }
           );
         } else {
-          new SliderModel({ slide: slide.fileId, ordinal: slide.ordinal }).save(
-            err => {
-              if (err) {
-                Logger.error('err to save new SliderModel ' + err);
-                return callback(err);
-              }
-              return callback();
+          new SliderModel({ slide: slide.fileId, ordinal: slide.ordinal }).save(err => {
+            if (err) {
+              Logger.error('err to save new SliderModel ' + err);
+              return callback(err);
             }
-          );
+            return callback();
+          });
         }
       };
       async.eachSeries(
@@ -112,20 +102,13 @@ export const updateMainSlider = async (
   );
 };
 
-export const getAdminSlider = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAdminSlider = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const slides = (await SliderModel.find()
-      .populate('slide')
-      .sort({ ordinal: 1 })
-      .lean()) as models.Slider[];
+    const slides = (await SliderModel.find().populate('slide').sort({ ordinal: 1 }).lean()) as models.Slider[];
     const payload = slides.map(s => ({
       id: s._id,
       file: s.slide,
-      ordinal: s.ordinal
+      ordinal: s.ordinal,
     }));
     return res.send(payload).status(HTTPStatus.OK);
   } catch (error) {

@@ -1,21 +1,21 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { SchemaNames, Youtube } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const YoutubeSchema = new mongoose.Schema(
-	{
-		videoId: {
-			type: String,
-      required: true
+  {
+    videoId: {
+      type: String,
+      required: true,
     },
     title: {
-      type: String
+      type: String,
     },
-    ordinal: Number
+    ordinal: Number,
   },
-	{ collection: SchemaNames.YOUTUBE }
+  { collection: SchemaNames.YOUTUBE }
 );
 
 YoutubeSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.YOUTUBE, YoutubeSchema, SchemaNames.YOUTUBE);
+export default mongoose.model<Youtube>(SchemaNames.YOUTUBE, YoutubeSchema, SchemaNames.YOUTUBE);

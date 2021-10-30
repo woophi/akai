@@ -58,7 +58,10 @@ const onSubmit = async (data: AlbumForm, albumId?: string) => {
 export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => {
   const classes = useStyles({});
 
-  const handleDeleteAlbum = () => deleteAlbum(albumId);
+  const handleDeleteAlbum = () => {
+    if (albumId) return deleteAlbum(albumId);
+    return Promise.resolve();
+  };
 
   return (
     <>
@@ -74,7 +77,7 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
         onSubmit={(d: AlbumForm) => onSubmit(d, albumId)}
         validate={validate}
         mutators={{
-          ...arrayMutators
+          ...arrayMutators,
         }}
         initialValues={albumId ? initialValues : {}}
         render={({ handleSubmit, pristine, submitting, submitError, form }) => (
@@ -92,11 +95,7 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
             }}
             className={classes.form}
           >
-            <Snakbars
-              variant="error"
-              message={submitError}
-              className={classes.field}
-            />
+            <Snakbars variant="error" message={submitError} className={classes.field} />
             <Field
               name="nameRu"
               render={({ input, meta }) => (
@@ -104,18 +103,16 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
                   id="outlined-name-input"
                   label={'Название альбома на русском'}
                   type="text"
+                  {...input}
                   name="nameRu"
                   required
                   variant="outlined"
                   className={classes.field}
-                  {...input}
                   error={Boolean(meta.touched && meta.error)}
-                  helperText={
-                    (meta.touched && meta.error) || `${input.value.length}/256`
-                  }
+                  helperText={(meta.touched && meta.error) || `${input.value.length}/256`}
                   disabled={submitting}
                   inputProps={{
-                    maxLength: 256
+                    maxLength: 256,
                   }}
                 />
               )}
@@ -127,18 +124,16 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
                   id="outlined-name-input"
                   label={'Название альбома на английском'}
                   type="text"
+                  {...input}
                   name="nameEn"
                   required
                   variant="outlined"
                   className={classes.field}
-                  {...input}
                   error={Boolean(meta.touched && meta.error)}
-                  helperText={
-                    (meta.touched && meta.error) || `${input.value.length}/256`
-                  }
+                  helperText={(meta.touched && meta.error) || `${input.value.length}/256`}
                   disabled={submitting}
                   inputProps={{
-                    maxLength: 256
+                    maxLength: 256,
                   }}
                 />
               )}
@@ -150,18 +145,16 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
                   id="outlined-name-input"
                   label={'Название альбома на чешском'}
                   type="text"
+                  {...input}
                   name="nameCs"
                   required
                   variant="outlined"
                   className={classes.field}
-                  {...input}
                   error={Boolean(meta.touched && meta.error)}
-                  helperText={
-                    (meta.touched && meta.error) || `${input.value.length}/256`
-                  }
+                  helperText={(meta.touched && meta.error) || `${input.value.length}/256`}
                   disabled={submitting}
                   inputProps={{
-                    maxLength: 256
+                    maxLength: 256,
                   }}
                 />
               )}
@@ -185,12 +178,7 @@ export const AlbumForm = React.memo<Props>(({ albumId, initialValues = {} }) => 
                     <Field
                       name={`${name}`}
                       key={name}
-                      render={({ input }) => (
-                        <BlogItemField
-                          input={input}
-                          onRemoveField={() => fields.remove(index)}
-                        />
-                      )}
+                      render={({ input }) => <BlogItemField input={input} onRemoveField={() => fields.remove(index)} />}
                     />
                   ))}
                 </>
@@ -218,12 +206,12 @@ const useStyles = makeStyles(theme => ({
     minWidth: 320,
     maxWidth: '50vw',
     width: '100%',
-    margin: '1rem auto'
+    margin: '1rem auto',
   },
   field: {
-    margin: '0 1rem 1rem'
+    margin: '0 1rem 1rem',
   },
   delete: {
-    margin: '1.3rem auto'
-  }
+    margin: '1.3rem auto',
+  },
 }));

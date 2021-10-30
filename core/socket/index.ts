@@ -1,3 +1,5 @@
+import { Socket } from 'socket.io-client';
+
 let clientCallbacks: { [name: string]: any } = {};
 
 type CallbackMethod = <M>() => M;
@@ -14,11 +16,11 @@ export function clientPerformCallback<T>(perform: (c: CallbackMethod) => T): T {
   return callbacks as T;
 }
 
-export function initCallbacks(socket: SocketIOClient.Socket) {
+export function initCallbacks(socket: Socket) {
   Object.keys(clientCallbacks).forEach(m => {
     let subscribe: Function = socket['on'];
 
-    subscribe.call(socket, m, function() {
+    subscribe.call(socket, m, function () {
       const cb = clientCallbacks[m];
       if (cb) {
         cb.apply(socket, arguments);

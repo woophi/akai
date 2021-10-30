@@ -8,22 +8,15 @@ import * as async from 'async';
 import { HTTPStatus } from 'server/lib/models';
 import { youtubePattern } from 'server/utils/helpers';
 
-
-export const createNewYoutubeUrl = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createNewYoutubeUrl = async (req: Request, res: Response, next: NextFunction) => {
   const youtubeData = {
     url: req.body.url,
-    title: req.body.title
+    title: req.body.title,
   };
   const matchedGroup = String(youtubeData.url).match(youtubePattern);
   if (!matchedGroup || !matchedGroup.length || !matchedGroup[2]) {
     Logger.error('failed to parse youtube url', JSON.stringify(matchedGroup));
-    return res
-      .status(HTTPStatus.BadRequest)
-      .send({ error: 'failed to parse youtube url' });
+    return res.status(HTTPStatus.BadRequest).send({ error: 'failed to parse youtube url' });
   }
   const validate = new kia.Validator(req, res, next);
   async.series(
@@ -32,7 +25,7 @@ export const createNewYoutubeUrl = async (
         validate.check(
           {
             url: validate.required,
-            title: validate.required
+            title: validate.required,
           },
           youtubeData,
           cb
@@ -44,20 +37,18 @@ export const createNewYoutubeUrl = async (
             return res.sendStatus(HTTPStatus.ServerError);
           }
           if (video) {
-            return res
-              .status(HTTPStatus.Conflict)
-              .send({ error: 'Video already exists' });
+            return res.status(HTTPStatus.Conflict).send({ error: 'Video already exists' });
           }
           return cb();
         });
-      }
+      },
     ],
     async () => {
       const allYoutubes = await YoutubeModel.find().lean();
       new YoutubeModel({
         videoId: matchedGroup[2],
         title: youtubeData.title,
-        ordinal: allYoutubes.length
+        ordinal: allYoutubes.length,
       }).save(err => {
         if (err) {
           Logger.error('err to save new YoutubeModel ' + err);
@@ -69,37 +60,26 @@ export const createNewYoutubeUrl = async (
     }
   );
 };
-export const getYoutubeUrls = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const youtubes = await YoutubeModel.find()
-    .sort({ ordinal: 1 })
-    .select('videoId ordinal title -_id')
-    .lean();
+export const getYoutubeUrls = async (req: Request, res: Response, next: NextFunction) => {
+  const youtubes = await YoutubeModel.find().sort({ ordinal: 1 }).select('videoId ordinal title -_id').lean();
 
   return res.send(youtubes).status(HTTPStatus.OK);
 };
 
-export const updateYoutubes = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const updateYoutubes = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
   const youtubeData: {
     youtubes: models.YoutubeModel[];
   } = {
-    youtubes: req.body.youtubes
+    youtubes: req.body.youtubes,
   };
   async.series(
     [
       cb =>
         validate.check(
           {
-            youtubes: validate.notIsEmpty
+            youtubes: validate.notIsEmpty,
           },
           youtubeData,
           cb
@@ -113,18 +93,15 @@ export const updateYoutubes = async (
           if (!youtubes || !youtubes.length) {
             return cb();
           }
-          const shouldBeDeleted = youtubes.filter(
-            s => !youtubeData.youtubes.find(us => us.videoId == s.videoId)
-          );
+          const shouldBeDeleted = youtubes.filter(s => !youtubeData.youtubes.find(us => us.videoId == s.videoId));
 
           if (shouldBeDeleted.length) {
-            const deleteYoutube = (youtube: models.Youtube, callback) =>
+            const deleteYoutube = (youtube: models.Youtube, callback: async.ErrorCallback<Error>) =>
               youtube.remove(callback);
 
             async.eachSeries(
               shouldBeDeleted,
-              (youtube: models.Youtube, callback) =>
-                deleteYoutube(youtube, callback),
+              (youtube: models.Youtube, callback) => deleteYoutube(youtube, callback),
               err => {
                 if (err) {
                   return res.sendStatus(HTTPStatus.ServerError);
@@ -137,21 +114,17 @@ export const updateYoutubes = async (
             return cb();
           }
         });
-      }
+      },
     ],
     () => {
-      const saveModel = async (yotube: models.YoutubeModel, callback) => {
-        YoutubeModel.findOneAndUpdate(
-          { videoId: yotube.videoId },
-          { ordinal: yotube.ordinal },
-          err => {
-            if (err) {
-              Logger.error('err to update YoutubeModel ', err, yotube.videoId);
-              return callback(err);
-            }
-            return callback();
+      const saveModel = async (yotube: models.YoutubeModel, callback: async.ErrorCallback<Error>) => {
+        YoutubeModel.findOneAndUpdate({ videoId: yotube.videoId }, { ordinal: yotube.ordinal }, (err: Error) => {
+          if (err) {
+            Logger.error('err to update YoutubeModel ', err, yotube.videoId);
+            return callback(err);
           }
-        );
+          return callback();
+        });
       };
       async.eachSeries(
         youtubeData.youtubes,
@@ -168,24 +141,14 @@ export const updateYoutubes = async (
   );
 };
 
-export const getLastChatLiveStreamId = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const streaming = (await StreamModel.findOne()
-    .sort({ createdAt: -1 })
-    .lean()) as models.Streaming;
+export const getLastChatLiveStreamId = async (req: Request, res: Response, next: NextFunction) => {
+  const streaming = (await StreamModel.findOne().sort({ createdAt: -1 }).lean()) as models.Streaming;
 
   Logger.info('Getting streaming id');
   return res.status(HTTPStatus.OK).send(streaming ? streaming.chatId : '');
 };
 
-export const saveChatLiveStreamId = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const saveChatLiveStreamId = async (req: Request, res: Response, next: NextFunction) => {
   const chatId = req.body.chatId;
   if (!chatId) {
     return res.sendStatus(HTTPStatus.BadRequest);

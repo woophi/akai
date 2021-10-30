@@ -3,6 +3,7 @@ import { Layout, Carusel, BoxMain } from 'components/ui';
 import { callApi } from 'core/common';
 import * as models from 'core/models';
 import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 
 type Props = {
   data: models.SlideModel[];
@@ -22,7 +23,7 @@ const Home = (props: Props) => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   let data = null;
   try {
     data = await callApi<models.SlideModel[]>('get', 'api/guest/slides');

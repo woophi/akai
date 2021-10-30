@@ -9,6 +9,7 @@ import { SlideItem } from 'core/models';
 import { PicturesChooser } from '../blog/PicturesChooser';
 import { updateSlides, getAllSlides } from './operations';
 import { SortableFactory } from 'ui/molecules/sortable';
+import { SortEndHandler } from 'react-sortable-hoc';
 
 type Props = {
   initialValues?: {
@@ -39,7 +40,7 @@ export const SliderForm = React.memo<Props>(({ initialValues }) => {
     <Form
       onSubmit={(d: SliderForm) => onSubmit(d)}
       mutators={{
-        ...arrayMutators
+        ...arrayMutators,
       }}
       initialValues={initialValues}
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
@@ -53,14 +54,10 @@ export const SliderForm = React.memo<Props>(({ initialValues }) => {
           }}
           className={classes.form}
         >
-          <Snakbars
-            variant="error"
-            message={submitError}
-            className={classes.field}
-          />
+          <Snakbars variant="error" message={submitError} className={classes.field} />
           <FieldArray name="slides">
             {({ fields }) => {
-              const onSortEnd = ({ oldIndex, newIndex }) => {
+              const onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {
                 fields.move(oldIndex, newIndex);
               };
               const removeCb = (index: number) => {
@@ -109,9 +106,9 @@ const useStyles = makeStyles(theme => ({
     minWidth: 320,
     maxWidth: '50vw',
     width: '100%',
-    margin: '1rem auto'
+    margin: '1rem auto',
   },
   field: {
-    margin: '0 1rem 1rem'
-  }
+    margin: '0 1rem 1rem',
+  },
 }));

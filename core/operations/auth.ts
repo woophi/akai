@@ -15,7 +15,7 @@ export const logout = async () => {
   store.dispatch(
     userActions.setUser({
       name: '',
-      roles: null,
+      roles: [],
       token: '',
       userId: '',
     })

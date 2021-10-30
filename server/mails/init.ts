@@ -28,14 +28,14 @@ export class Mailer {
       secure: true,
       auth: {
         user: config.GMAIL_USER,
-        pass: config.GMAIL_APP_PASS
-      }
+        pass: config.GMAIL_APP_PASS,
+      },
     });
     agenda.define(this.job, (job, done) => {
       this.to.forEach(emailAddress => {
-        const personal = this.context.personal;
+        const personal = this.context?.personal;
         if (personal) {
-          const personalData = this.context.data.find(d => d.email == emailAddress);
+          const personalData = this.context?.data.find((d: any) => d.email == emailAddress);
           this.sendMail(emailAddress, done, personalData);
         } else {
           this.sendMail(emailAddress, done);
@@ -49,17 +49,13 @@ export class Mailer {
       extName: '.hbs',
       partialsDir: 'server/mails/views',
       layoutsDir: 'server/mails/views',
-      defaultLayout: false
+      defaultLayout: false,
     },
     viewPath: 'server/mails/views',
-    extName: '.hbs'
+    extName: '.hbs',
   };
 
-  sendMail = async (
-    to: string,
-    done?: (err?: Error) => void,
-    personalContext?: { [key: string]: any }
-  ) => {
+  sendMail = async (to: string, done?: (err?: Error) => void, personalContext?: { [key: string]: any }) => {
     try {
       this.transporter.use('compile', hbs(this.handlebarOptions));
       const unsubId = await createUniqLink(to);
@@ -71,8 +67,8 @@ export class Mailer {
         template: personalContext ? personalContext.templateName : this.templateName,
         context: {
           ...(personalContext || this.context),
-          unsubLink: `${config.SITE_URI}unsub/${unsubId}`
-        }
+          unsubLink: `${config.SITE_URI}unsub/${unsubId}`,
+        },
       };
       let info = await this.transporter.sendMail(configurationMail);
       Logger.debug('Message sent: ' + info.messageId);
@@ -88,6 +84,6 @@ export class Mailer {
   };
 
   performQueue = () => {
-    agenda.now(this.job);
+    agenda.now(this.job, null);
   };
 }

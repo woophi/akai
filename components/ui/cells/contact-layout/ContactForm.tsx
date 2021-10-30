@@ -50,9 +50,9 @@ export const ContactForm: React.FC = () => {
       render={({ handleSubmit, pristine, submitting, form, submitError, submitSucceeded }) => (
         <form
           onSubmit={async event =>
-            await handleSubmit(event)
+            await handleSubmit(event)!
               .then(() => delay(2000))
-              .then(form.reset)
+              .then(() => form.reset())
           }
           className={classes.form}
         >
@@ -70,11 +70,11 @@ export const ContactForm: React.FC = () => {
                 id="outlined-name-input"
                 label={t('common:forms.name')}
                 type="text"
+                {...input}
                 name="name"
                 margin="normal"
                 variant="outlined"
                 required
-                {...input}
                 error={Boolean(meta.touched && meta.error)}
                 helperText={meta.touched && meta.error}
                 disabled={submitting}
@@ -88,12 +88,12 @@ export const ContactForm: React.FC = () => {
                 id="outlined-email-input"
                 label={t('common:forms.email')}
                 type="email"
+                {...input}
                 name="email"
                 autoComplete="email"
                 margin="normal"
                 variant="outlined"
                 required
-                {...input}
                 error={Boolean(meta.touched && meta.error)}
                 helperText={meta.touched && meta.error}
                 disabled={submitting}

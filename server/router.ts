@@ -21,7 +21,7 @@ export function router(
   handle: (req: IncomingMessage, res: ServerResponse, parsedUrl?: UrlWithParsedQuery) => Promise<void>,
   appNext: NextServer
 ) {
-  app.use((err, _, res, next) => {
+  app.use((err: any, _: any, res: any, next: any) => {
     if (err.message !== LocalErros.CORS) return next();
     return res.send({ error: LocalErros.CORS }).status(HTTPStatus.NotAllowed);
   });

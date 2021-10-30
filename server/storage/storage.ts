@@ -7,7 +7,7 @@ import { agenda } from '../lib/db';
 import { getFilePath } from './helpers';
 
 export class Storage {
-  constructor(protected files: FileArray, protected job?: string) {
+  constructor(protected files: FileArray, protected job: string) {
     Logger.debug('Storage init');
     this.upload();
     if (job) {
@@ -41,6 +41,6 @@ export class Storage {
   };
 
   performQueue = () => {
-    agenda.now(this.job);
+    agenda.now(this.job, null);
   };
 }

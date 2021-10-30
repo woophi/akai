@@ -30,12 +30,7 @@ export const AdminInstagram = React.memo(() => {
   return (
     <Box flexDirection="column" flex={1}>
       <Box display="flex" alignItems="center" margin="1rem">
-        <Button
-          disabled={fetching || open}
-          variant="contained"
-          color="primary"
-          onClick={handleAsk}
-        >
+        <Button disabled={fetching || open} variant="contained" color="primary" onClick={handleAsk}>
           {'Проверить instagram авторизацию'}
         </Button>
         <Box>
@@ -47,7 +42,7 @@ export const AdminInstagram = React.memo(() => {
                 style={{
                   width: 'auto',
                   marginLeft: '1rem',
-                  color: theme.palette.primary['100']
+                  color: theme.palette.primary.light,
                 }}
               />
             </ArrowTooltip>
@@ -65,12 +60,7 @@ export const AdminInstagram = React.memo(() => {
             value={value}
             onChange={e => change(e.target.value)}
           />
-          <Button
-            disabled={fetching || !value}
-            color="primary"
-            onClick={handleSendCode}
-            variant="contained"
-          >
+          <Button disabled={fetching || !value} color="primary" onClick={handleSendCode} variant="contained">
             {'Отправить код'}
           </Button>
         </Box>

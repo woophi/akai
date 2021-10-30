@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Layout, BoxMain, PhotoLayout } from 'ui/index';
 import { getPhotos } from 'core/operations';
 import { PhotoData } from 'core/models';
+import { GetServerSideProps } from 'next';
 
 type Props = {
   data: PhotoData[];
@@ -17,7 +18,7 @@ const Photo = (props: Props) => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   let data = null;
   try {
     data = await getPhotos();

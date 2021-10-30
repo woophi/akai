@@ -3,24 +3,23 @@ import { Logger } from '../logger';
 import * as identity from '../identity';
 import * as async from 'async';
 
-const createAdminUser = (done) => {
+const createAdminUser = (done: async.ErrorCallback<Error>) => {
   if (!process.env.SUPER_MAIL && !process.env.SUPER_PASS) {
     Logger.debug('no super provided');
     return done();
   }
   const userData = {
-    email: process.env.SUPER_MAIL,
+    email: process.env.SUPER_MAIL ?? '',
     name: 'admin',
-    password: process.env.SUPER_PASS,
-    roles: [ identity.ROLES.GODLIKE ]
+    password: process.env.SUPER_PASS ?? '',
+    roles: [identity.ROLES.GODLIKE],
   };
   async.series(
     [
       cb => {
         Logger.debug(`trying to find existing user`);
 
-        UserModel
-          .findOne({ email: userData.email.toLowerCase() })
+        UserModel.findOne({ email: userData.email.toLowerCase() })
           .lean()
           .exec((err, user) => {
             if (err) {
@@ -33,28 +32,23 @@ const createAdminUser = (done) => {
             }
             return cb();
           });
-
-      }
+      },
     ],
-    async (err) => {
+    async err => {
       if (err) {
         return done();
       }
       const hashing = new identity.Hashing();
-      Logger.debug(
-        `creating hash for new user password ${new Date().toLocaleTimeString()}`
-      );
+      Logger.debug(`creating hash for new user password ${new Date().toLocaleTimeString()}`);
 
       try {
-        userData.password = await hashing.hashPassword(userData.password);
+        userData.password = (await hashing.hashPassword(userData.password)) ?? '';
       } catch (e) {
         new Error(e);
         return done(e);
       }
 
-      Logger.debug(
-        `created hash for new user password ${new Date().toLocaleTimeString()}`
-      );
+      Logger.debug(`created hash for new user password ${new Date().toLocaleTimeString()}`);
 
       const newUser = new UserModel(userData);
       return newUser.save(err => {
@@ -67,6 +61,6 @@ const createAdminUser = (done) => {
       });
     }
   );
-}
+};
 
-module.exports = (done) => createAdminUser(done);
+module.exports = (done: async.ErrorCallback<Error>) => createAdminUser(done);

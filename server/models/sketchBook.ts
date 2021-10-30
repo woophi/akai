@@ -1,25 +1,29 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { SchemaNames, SketchBook } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const SketchBookSchema = new mongoose.Schema(
-	{
-		name: [{
-      localeId: String,
-      content: String
-    }],
-		content: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.FILES
-    }],
+  {
+    name: [
+      {
+        localeId: String,
+        content: String,
+      },
+    ],
+    content: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SchemaNames.FILES,
+      },
+    ],
     coverPhoto: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: SchemaNames.FILES
-    }
+      ref: SchemaNames.FILES,
+    },
   },
-	{ collection: SchemaNames.SKETCH_BOOK }
+  { collection: SchemaNames.SKETCH_BOOK }
 );
 
 SketchBookSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.SKETCH_BOOK, SketchBookSchema, SchemaNames.SKETCH_BOOK);
+export default mongoose.model<SketchBook>(SchemaNames.SKETCH_BOOK, SketchBookSchema, SchemaNames.SKETCH_BOOK);

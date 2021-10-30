@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import * as models from '../models/types';
 
 const Album = mongoose.model(models.SchemaNames.ALBUM);
-const createAlbum = (file: models.Files, done) => {
+const createAlbum = (file: models.Files, done: async.ErrorCallback<Error>) => {
   switch (file.name) {
     case 'black_white':
       return new Album({
@@ -11,17 +11,17 @@ const createAlbum = (file: models.Files, done) => {
         title: [
           {
             content: 'Graphics',
-            localeId: 'en'
+            localeId: 'en',
           },
           {
             content: 'Графика',
-            localeId: 'ru'
+            localeId: 'ru',
           },
           {
             content: 'Grafika',
-            localeId: 'cs'
-          }
-        ]
+            localeId: 'cs',
+          },
+        ],
       } as Partial<models.AlbumSaveModel>).save(done);
     case 'color':
       return new Album({
@@ -29,17 +29,17 @@ const createAlbum = (file: models.Files, done) => {
         title: [
           {
             content: 'Painting',
-            localeId: 'en'
+            localeId: 'en',
           },
           {
             content: 'Живопись',
-            localeId: 'ru'
+            localeId: 'ru',
           },
           {
             content: 'Malba',
-            localeId: 'cs'
-          }
-        ]
+            localeId: 'cs',
+          },
+        ],
       } as Partial<models.AlbumSaveModel>).save(done);
     case 'water_color':
       return new Album({
@@ -47,17 +47,17 @@ const createAlbum = (file: models.Files, done) => {
         title: [
           {
             content: 'Watercolor',
-            localeId: 'en'
+            localeId: 'en',
           },
           {
             content: 'Акварель',
-            localeId: 'ru'
+            localeId: 'ru',
           },
           {
             content: 'Akvarel',
-            localeId: 'cs'
-          }
-        ]
+            localeId: 'cs',
+          },
+        ],
       } as Partial<models.AlbumSaveModel>).save(done);
     case 'paints':
       return new Album({
@@ -65,17 +65,17 @@ const createAlbum = (file: models.Files, done) => {
         title: [
           {
             content: 'Paint',
-            localeId: 'en'
+            localeId: 'en',
           },
           {
             content: 'Рисунок',
-            localeId: 'ru'
+            localeId: 'ru',
           },
           {
             content: 'Paint',
-            localeId: 'cs'
-          }
-        ]
+            localeId: 'cs',
+          },
+        ],
       } as Partial<models.AlbumSaveModel>).save(done);
     case 'pastel':
       return new Album({
@@ -83,17 +83,17 @@ const createAlbum = (file: models.Files, done) => {
         title: [
           {
             content: 'Pastel',
-            localeId: 'en'
+            localeId: 'en',
           },
           {
             content: 'Пастэль',
-            localeId: 'ru'
+            localeId: 'ru',
           },
           {
             content: 'Pastel',
-            localeId: 'cs'
-          }
-        ]
+            localeId: 'cs',
+          },
+        ],
       } as Partial<models.AlbumSaveModel>).save(done);
 
     default:
@@ -101,10 +101,10 @@ const createAlbum = (file: models.Files, done) => {
   }
 };
 
-module.exports = done => {
-  const Files = mongoose.model(models.SchemaNames.FILES);
+module.exports = (done: async.ErrorCallback<Error>) => {
+  const Files = mongoose.model<models.Files>(models.SchemaNames.FILES);
 
-  Files.find().exec((err, files: models.Files[]) => {
+  Files.find().exec((err, files) => {
     async.forEach(files, createAlbum, done);
   });
 };

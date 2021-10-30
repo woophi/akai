@@ -6,7 +6,7 @@ import { blogsActions } from 'core/reducers/blogs';
 export const getComments = async (blogId: string) => {
   try {
     const comments = await getBlogComments(blogId);
-    store.dispatch(blogsActions.setComments({ blogId, comments }));
+    store.dispatch(blogsActions.setComments({ blogId, comments: comments ?? [] }));
   } catch (error) {
     console.error(error);
   }

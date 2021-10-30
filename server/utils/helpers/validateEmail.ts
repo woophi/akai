@@ -4,12 +4,11 @@ import { Logger } from 'server/logger';
 
 export const checkMailonPing = async (
   email: string,
-  callback: (error, validMail: boolean) => void,
-  timeout?: number,
+  callback: (error: Error | null, validMail: boolean) => void,
+  timeout = 5000,
   from_email?: string
 ) => {
   console.warn('checkMailonPing');
-  timeout = timeout || 5000;
   from_email = from_email || email;
 
   const MAX_EMAIL_LEN = 300;
@@ -30,11 +29,7 @@ export const checkMailonPing = async (
       });
       let j = 0;
       const conn = net.createConnection(25, addresses[j].exchange);
-      const commands = [
-        'helo ' + addresses[j].exchange,
-        'mail from: <' + from_email + '>',
-        'rcpt to: <' + email + '>'
-      ];
+      const commands = ['helo ' + addresses[j].exchange, 'mail from: <' + from_email + '>', 'rcpt to: <' + email + '>'];
 
       let i = 0;
       conn.setEncoding('ascii');

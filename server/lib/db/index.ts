@@ -3,12 +3,9 @@ import config from 'server/config';
 import { Logger } from 'server/logger';
 import Agenda from 'agenda';
 import { SchemaNames } from 'server/models/types';
-mongoose.set('useCreateIndex', true);
-export const databaseUri = config.PORT_MONGO;
-export const connection = mongoose.connect(databaseUri, {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-});
+
+export const databaseUri = config.MONGO;
+export const connection = mongoose.connect(databaseUri);
 
 export let agenda: Agenda;
 
@@ -20,9 +17,6 @@ connection
         db: {
           address: databaseUri,
           collection: SchemaNames.JOBS,
-          options: {
-            useNewUrlParser: true,
-          },
         },
       },
       () => agenda.start()

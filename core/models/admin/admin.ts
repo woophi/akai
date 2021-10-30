@@ -8,7 +8,7 @@ import { YoutubeItem } from '../youtube';
 export type AdminState = {
   section: Section;
   files: FileItem[];
-  selectedFile: FileItem;
+  selectedFile: FileItem | null;
   uploadingFile: boolean;
   blogs: BlogPreviewItem[];
   slides: SlideItem[];
@@ -32,5 +32,5 @@ export enum Section {
   Likes = 'Likes',
   Sketch = 'Sketch',
   Followers = 'Followers',
-  Users = 'Users'
+  Users = 'Users',
 }

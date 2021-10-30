@@ -35,7 +35,7 @@ const Row = (props: ListChildComponentProps) => {
   };
 
   return (
-    <ListItem button style={style} key={index} onClick={handleClick}>
+    <ListItem button style={style as React.CSSProperties} key={index} onClick={handleClick}>
       <ListItemAvatar>
         <Avatar alt={files[index].name} src={files[index].url} />
       </ListItemAvatar>

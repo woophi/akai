@@ -1,15 +1,15 @@
 import { Server } from 'http';
-import socket from 'socket.io';
+import { increaseBlogView } from 'server/controllers';
+import * as ig from 'server/instagram';
 import { Logger } from 'server/logger';
 import * as cl from 'server/storage/cloudinary';
-import * as ig from 'server/instagram';
-import { EventBus, BusEvents } from '../events';
 import * as storageTypes from 'server/storage/types';
-import { NameSpaces, EmitEvents } from './types';
-import { increaseBlogView } from 'server/controllers';
+import { Server as NewSocketServer } from 'socket.io';
+import { BusEvents, EventBus } from '../events';
+import { EmitEvents, NameSpaces } from './types';
 
 export const registerSocket = (server: Server) => {
-  const IO = socket(server);
+  const IO = new NewSocketServer(server);
   Logger.debug('Storage register events');
   cl.registerCloudinaryEvents();
   ig.registerInstagramEvents();
@@ -39,7 +39,6 @@ export const registerSocket = (server: Server) => {
 
     socket.on('disconnect', () => {
       Logger.info('nspBlogs disconnected');
-      socket.leaveAll();
     });
   });
 

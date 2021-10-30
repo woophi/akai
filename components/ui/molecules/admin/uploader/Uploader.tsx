@@ -51,7 +51,7 @@ export const PaperDropzone = React.memo(() => {
             >
               <Paper
                 style={{
-                  backgroundColor: theme.palette.primary['100'],
+                  backgroundColor: theme.palette.primary.light,
                   margin: 'auto',
                   height: 'min-content',
                   padding: '0 1rem',

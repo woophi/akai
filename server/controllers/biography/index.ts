@@ -1,20 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-import BiographyModel from 'server/models/biography';
-import * as models from 'server/models/types';
-import { Logger } from 'server/logger';
+import { NextFunction, Request, Response } from 'express';
 import { HTTPStatus } from 'server/lib/models';
+import { Logger } from 'server/logger';
+import BiographyModel from 'server/models/biography';
 
-export const getBiography = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getBiography = async (req: Request, res: Response, next: NextFunction) => {
   const localeId = req.query['localeId'];
   if (!localeId) return res.send({}).status(HTTPStatus.Empty);
   return BiographyModel.findOne()
     .populate('coverPhoto')
     .lean()
-    .exec((err, bio: models.Biography) => {
+    .exec((err, bio) => {
       if (err) {
         Logger.error('err to get biography' + err);
         return res.sendStatus(HTTPStatus.ServerError);
@@ -25,7 +20,7 @@ export const getBiography = async (
       const bioContent = bio.bio.find(b => b.localeId === localeId);
       const data = {
         content: bioContent ? bioContent.content : '',
-        photo: bio.coverPhoto.url
+        photo: bio.coverPhoto.url,
       };
       return res.send(data).status(HTTPStatus.OK);
     });

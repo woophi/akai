@@ -90,14 +90,14 @@ export const removeLikeFromBlog = async (req: Request, res: Response, next: Next
     }
 
     await Blog.set({
-      likes: Blog.likes.filter(lId => lId.toString() != Like._id.toString()),
+      likes: Blog.likes?.filter(lId => lId.toString() != Like._id.toString()),
     }).save(err => {
       if (err) {
         Logger.error('error to remove like from blog', err);
       }
     });
 
-    return Like.remove(err => {
+    return Like.remove((err: Error) => {
       if (err) {
         Logger.error('error to like blog', err);
         return res.status(HTTPStatus.ServerError).send(false);

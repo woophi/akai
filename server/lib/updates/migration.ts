@@ -10,8 +10,8 @@ import { SchemaNames } from '../../models/types';
 const _dashes_ = '------------------------------------------------';
 
 const UpdateModel = new mongoose.Schema({
-	key: { type: String, index: true },
-	appliedOn: { type: Date, default: Date.now },
+  key: { type: String, index: true },
+  appliedOn: { type: Date, default: Date.now },
 });
 mongoose.model(SchemaNames.MIGRATIONS, UpdateModel);
 
@@ -24,33 +24,35 @@ if (!fs.existsSync(updatesPath)) {
   process.exit();
 }
 
-var updates = fs.readdirSync(updatesPath)
-  .map((i) => {
+var updates = fs
+  .readdirSync(updatesPath)
+  .map(i => {
     const setExt = config.DEV_MODE ? '.ts' : '.js';
-    return (path.extname(i) !== setExt && path.extname(i) !== '.coffee') ? false : path.basename(i, setExt);
-  }).filter((i) => {
+    return path.extname(i) !== setExt && path.extname(i) !== '.coffee' ? false : path.basename(i, setExt);
+  })
+  .filter(i => {
     // exclude falsy values and filenames that without a valid semver
     return i && semver.valid(i.split('-')[0]);
-  }).sort((a: string, b: string) => {
+  })
+  .sort((a, b) => {
     // exclude anything after a hyphen from the version number
-    return semver.compare(a.split('-')[0], b.split('-')[0]);
+    return semver.compare(String(a).split('-')[0], String(b).split('-')[0]);
   });
 
-export const createMigration = (file, done) => {
-  Update
-    .findOne()
+export const createMigration = (file: string, done: async.ErrorCallback<Error>) => {
+  Update.findOne()
     .where('key', file)
     .exec((err, updateRecord) => {
       if (err) {
-				console.error('Error searching database for update ' + file + ':');
-				console.dir(err);
-			  return done(err);
+        console.error('Error searching database for update ' + file + ':');
+        console.dir(err);
+        return done(err);
       }
       if (!updateRecord) {
-      console.log(_dashes_ + '\nApplying update ' + file + '...');
+        console.log(_dashes_ + '\nApplying update ' + file + '...');
         let update = require(path.join(updatesPath, file));
         if (!update) {
-					return done();
+          return done();
         }
         if (R.is(Object, update.create)) {
           const items = update.create;
@@ -62,21 +64,17 @@ export const createMigration = (file, done) => {
             giveMeDatas.forEach(data => {
               new newModel(data).save(err => {
                 if (err) {
-                  console.error('\n' + _dashes_,
-									'\n' + ': Update ' + file  + ' failed with errors:',
-									'\n' + err,
-                  '\n');
+                  console.error('\n' + _dashes_, '\n' + ': Update ' + file + ' failed with errors:', '\n' + err, '\n');
                   process.nextTick(function () {
                     done(err);
                   });
                 }
               });
             });
-
           });
           new Update({ key: file }).save(done);
         } else {
-          update((err) => {
+          update((err: Error) => {
             if (!err) {
               new Update({ key: file }).save(done);
             } else {
@@ -84,18 +82,17 @@ export const createMigration = (file, done) => {
             }
           });
         }
-
       } else {
         done();
       }
-    })
-}
+    });
+};
 export const applyMigration = () =>
-  async.eachSeries(updates, createMigration, (err) => {
+  async.eachSeries(updates as string[], createMigration, err => {
     if (err) {
       console.warn(_dashes_);
-      console.error(err)
+      console.error(err);
     }
     console.dir(_dashes_);
     console.dir('Check for updates finished');
-  })
+  });

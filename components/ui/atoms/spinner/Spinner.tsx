@@ -6,29 +6,28 @@ type Props = {
 };
 
 export const Spinner = React.memo<Props>(({ isShow = true, withBox = false }) => {
-  if (withBox) {
+  if (withBox && isShow) {
     return (
-      isShow && (
-        <div style={box}>
-          <div style={container}>
-            <div className="spinner">
-              <div className="cube1" />
-              <div className="cube2" />
-            </div>
+      <div style={box}>
+        <div style={container}>
+          <div className="spinner">
+            <div className="cube1" />
+            <div className="cube2" />
           </div>
         </div>
-      )
+      </div>
     );
   }
+  if (!isShow) {
+    return null;
+  }
   return (
-    isShow && (
-      <div style={container}>
-        <div className="spinner">
-          <div className="cube1" />
-          <div className="cube2" />
-        </div>
+    <div style={container}>
+      <div className="spinner">
+        <div className="cube1" />
+        <div className="cube2" />
       </div>
-    )
+    </div>
   );
 });
 

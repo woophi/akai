@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { SchemaNames, Subscribers } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const SubscribersSchema = new mongoose.Schema(
@@ -18,4 +18,4 @@ export const SubscribersSchema = new mongoose.Schema(
 
 SubscribersSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.SUBS, SubscribersSchema);
+export default mongoose.model<Subscribers>(SchemaNames.SUBS, SubscribersSchema);

@@ -12,24 +12,20 @@ type OrdinalModel = {
   fileId: string;
 };
 
-export const updatePhotos = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const updatePhotos = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
   const photossData: {
     photos: OrdinalModel[];
   } = {
-    photos: req.body.photos
+    photos: req.body.photos,
   };
   async.series(
     [
       cb =>
         validate.check(
           {
-            photos: validate.notIsEmpty
+            photos: validate.notIsEmpty,
           },
           photossData,
           cb
@@ -44,15 +40,11 @@ export const updatePhotos = async (
             return cb();
           }
           const shouldBeDeleted = photos.filter(
-            s =>
-              !photossData.photos.find(us =>
-                us.id ? us.id == s._id.toString() : false
-              )
+            s => !photossData.photos.find(us => (us.id ? us.id == s._id.toString() : false))
           );
 
           if (shouldBeDeleted.length) {
-            const deletePhoto = (photo: models.Photos, callback) =>
-              photo.remove(callback);
+            const deletePhoto = (photo: models.Photos, callback: async.ErrorCallback<Error>) => photo.remove(callback);
 
             async.eachSeries(
               shouldBeDeleted,
@@ -69,32 +61,26 @@ export const updatePhotos = async (
             return cb();
           }
         });
-      }
+      },
     ],
     () => {
-      const saveModel = async (photo: OrdinalModel, callback) => {
+      const saveModel = async (photo: OrdinalModel, callback: async.ErrorCallback<Error>) => {
         if (photo.id) {
-          PhotosModel.findByIdAndUpdate(
-            photo.id,
-            { ordinal: photo.ordinal, slide: photo.fileId },
-            err => {
-              if (err) {
-                Logger.error('err to update PhotosModel ', err, photo.id);
-                return callback(err);
-              }
-              return callback();
+          PhotosModel.findByIdAndUpdate(photo.id, { ordinal: photo.ordinal, slide: photo.fileId }, err => {
+            if (err) {
+              Logger.error('err to update PhotosModel ', err, photo.id);
+              return callback(err);
             }
-          );
+            return callback();
+          });
         } else {
-          new PhotosModel({ file: photo.fileId, ordinal: photo.ordinal }).save(
-            err => {
-              if (err) {
-                Logger.error('err to save new PhotosModel ' + err);
-                return callback(err);
-              }
-              return callback();
+          new PhotosModel({ file: photo.fileId, ordinal: photo.ordinal }).save(err => {
+            if (err) {
+              Logger.error('err to save new PhotosModel ' + err);
+              return callback(err);
             }
-          );
+            return callback();
+          });
         }
       };
       async.eachSeries(
@@ -112,20 +98,13 @@ export const updatePhotos = async (
   );
 };
 
-export const getAdminPhotos = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAdminPhotos = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const photos = (await PhotosModel.find()
-      .populate('file')
-      .sort({ ordinal: 1 })
-      .lean()) as models.Photos[];
+    const photos = (await PhotosModel.find().populate('file').sort({ ordinal: 1 }).lean()) as models.Photos[];
     const payload = photos.map(s => ({
       id: s._id,
       file: s.file,
-      ordinal: s.ordinal
+      ordinal: s.ordinal,
     }));
     return res.send(payload).status(HTTPStatus.OK);
   } catch (error) {

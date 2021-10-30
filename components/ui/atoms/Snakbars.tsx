@@ -22,7 +22,7 @@ const variantIcon = {
 
 export interface Props {
   className?: string;
-  message?: string;
+  message?: string | null;
   onClose?: () => void;
   variant: keyof typeof variantIcon;
   style?: React.CSSProperties;

@@ -12,17 +12,13 @@ import { ROLES } from 'server/identity';
 import { HTTPStatus } from 'server/lib/models';
 import { checkLinkState } from 'server/mails';
 
-export const sendMailToAdmins = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const sendMailToAdmins = (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
   const message = {
     name: req.body.name,
     email: req.body.email,
-    message: req.body.message
+    message: req.body.message,
   };
   let addresses: string[] = [];
 
@@ -33,7 +29,7 @@ export const sendMailToAdmins = (
           {
             name: validate.required,
             email: validate.isEmail,
-            message: validate.required
+            message: validate.required,
           },
           message,
           cb
@@ -55,7 +51,7 @@ export const sendMailToAdmins = (
             }
             return cb();
           });
-      }
+      },
     ],
     () => {
       const mailer = new mails.Mailer(
@@ -66,7 +62,7 @@ export const sendMailToAdmins = (
         '',
         message.email,
         {
-          message: message.message
+          message: message.message,
         }
       );
       mailer.performQueue();
@@ -75,33 +71,25 @@ export const sendMailToAdmins = (
   );
 };
 
-export const getUnsubLinkState = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUnsubLinkState = async (req: Request, res: Response, next: NextFunction) => {
   const linkId = req.query['uniqId'];
   if (!linkId) return res.status(HTTPStatus.BadRequest).send(UnsubState.INVALID);
 
-  const Link = (await LinkModel.findOne({ uniqId: linkId }).exec()) as models.Links;
+  const Link = await LinkModel.findOne({ uniqId: String(linkId) }).exec();
 
   const state = checkLinkState(Link);
 
-  Logger.debug(state)
+  Logger.debug(state);
 
   return res.status(HTTPStatus.OK).send(state);
 };
 
-export const guestUnsub = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const guestUnsub = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const linkId = req.body.uniqId;
     if (!linkId) return res.status(HTTPStatus.BadRequest);
 
-    const Link = (await LinkModel.findOne({ uniqId: linkId }).exec()) as models.Links;
+    const Link = await LinkModel.findOne({ uniqId: linkId }).exec();
 
     const state = checkLinkState(Link);
 
@@ -109,8 +97,8 @@ export const guestUnsub = async (
       return res.sendStatus(HTTPStatus.OK);
     }
 
-    await SubscriberModel.findOneAndUpdate({ email: Link.email }, { active: false }).exec();
-    await Link.remove();
+    await SubscriberModel.findOneAndUpdate({ email: Link!.email }, { active: false }).exec();
+    await Link!.remove();
   } catch (error) {
     Logger.error('error to update SubscriberModel', error);
   } finally {

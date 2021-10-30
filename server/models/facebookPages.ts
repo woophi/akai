@@ -1,35 +1,35 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { FacebookPage, SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const FacebookPagesSchema = new mongoose.Schema(
-	{
+  {
     pageId: {
       type: Number,
       unique: true,
-      index: true
+      index: true,
     },
-		pageName: {
-			type: String,
-			required: true
-		},
-		longLiveToken: {
-			type: String,
-			required: true
+    pageName: {
+      type: String,
+      required: true,
+    },
+    longLiveToken: {
+      type: String,
+      required: true,
     },
     accessToken: {
       type: String,
-			required: true
+      required: true,
     },
     isValid: {
       type: Boolean,
-			required: true
-    }
+      required: true,
+    },
   },
-	{ collection: SchemaNames.FB_PAGES }
+  { collection: SchemaNames.FB_PAGES }
 );
 
 FacebookPagesSchema.plugin(timestamps);
 FacebookPagesSchema.index({ pageId: 1 });
 
-export default mongoose.model(SchemaNames.FB_PAGES, FacebookPagesSchema);
+export default mongoose.model<FacebookPage>(SchemaNames.FB_PAGES, FacebookPagesSchema);

@@ -11,19 +11,16 @@ type ScrollButtonProps = {
   position: 'left' | 'right';
 };
 
-export class ScrollButton extends React.PureComponent<
-  ScrollButtonProps,
-  LocalState
-> {
+export class ScrollButton extends React.PureComponent<ScrollButtonProps, LocalState> {
   static defaultProps: ScrollButtonProps = {
-    position: 'left'
+    position: 'left',
   };
 
-  timeInterval: NodeJS.Timeout = null;
+  timeInterval: NodeJS.Timeout | null = null;
   mounted: boolean = false;
 
   state: LocalState = {
-    show: false
+    show: false,
   };
 
   get checkWindow() {
@@ -47,7 +44,7 @@ export class ScrollButton extends React.PureComponent<
       window.removeEventListener('scroll', this.handleShow);
       window.removeEventListener('wheel', this.stopScrolling);
       window.removeEventListener('touchstart', this.stopScrolling);
-      clearInterval(this.timeInterval);
+      if (this.timeInterval) clearInterval(this.timeInterval);
     }
   }
 
@@ -58,12 +55,12 @@ export class ScrollButton extends React.PureComponent<
   };
 
   stopScrolling = () => {
-    clearInterval(this.timeInterval);
+    if (this.timeInterval) clearInterval(this.timeInterval);
   };
 
   scrollStep = () => {
     if (window.pageYOffset === 0) {
-      clearInterval(this.timeInterval);
+      if (this.timeInterval) clearInterval(this.timeInterval);
     }
     window.scroll(0, window.pageYOffset - 50);
   };
@@ -74,13 +71,7 @@ export class ScrollButton extends React.PureComponent<
   };
 
   render() {
-    return (
-      <ActionButton
-        onClick={this.scrollToTop}
-        visible={this.state.show}
-        position={this.props.position}
-      />
-    );
+    return <ActionButton onClick={this.scrollToTop} visible={this.state.show} position={this.props.position} />;
   }
 }
 
@@ -113,7 +104,7 @@ const useStyles = makeStyles<Theme, StyleProps>(theme => ({
     transition: '.2s ease-in-out',
     '&:hover': {
       opacity: props.visible ? 0.9 : 0,
-      transform: props.visible ? 'scale(1.1)' : 'scale(1)'
-    }
-  })
+      transform: props.visible ? 'scale(1.1)' : 'scale(1)',
+    },
+  }),
 }));

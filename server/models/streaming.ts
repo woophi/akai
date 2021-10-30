@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { SchemaNames, Streaming } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const StreamingSchema = new mongoose.Schema(
-	{
+  {
     chatId: {
-      type: String
-    }
+      type: String,
+    },
   },
-	{ collection: SchemaNames.STREAMING }
+  { collection: SchemaNames.STREAMING }
 );
 
 StreamingSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.STREAMING, StreamingSchema, SchemaNames.STREAMING);
+export default mongoose.model<Streaming>(SchemaNames.STREAMING, StreamingSchema, SchemaNames.STREAMING);

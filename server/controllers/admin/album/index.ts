@@ -4,13 +4,9 @@ import * as models from 'server/models/types';
 import { Logger } from 'server/logger';
 import * as kia from 'server/validator';
 import * as async from 'async';
-import { HTTPStatus } from 'server/lib/models';
+import { HTTPStatus, SessionData } from 'server/lib/models';
 
-export const createAlbum = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createAlbum = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
   /**
    * [{
@@ -21,8 +17,8 @@ export const createAlbum = async (
   const albumData: models.AlbumSaveModel = {
     blogs: req.body.blogs,
     coverPhoto: req.body.coverPhotoId,
-    createdBy: req.session.user._id,
-    title: req.body.title
+    createdBy: (req.session as unknown as SessionData).user!._id,
+    title: req.body.title,
   };
   async.series(
     [
@@ -31,11 +27,11 @@ export const createAlbum = async (
           {
             title: validate.notIsEmpty,
             coverPhoto: validate.required,
-            blogs: validate.notIsEmpty
+            blogs: validate.notIsEmpty,
           },
           albumData,
           cb
-        )
+        ),
     ],
     () => {
       const newAlbum = new AlbumModel(albumData);
@@ -51,18 +47,14 @@ export const createAlbum = async (
   );
 };
 
-export const getAlbumData = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAlbumData = async (req: Request, res: Response, next: NextFunction) => {
   const albumId = req.query['id'];
   if (!albumId) return res.sendStatus(HTTPStatus.BadRequest);
   const album = (await AlbumModel.findById(albumId)
     .populate({
       path: 'blogs',
       match: { deleted: undefined },
-      select: 'title'
+      select: 'title',
     })
     .select('title blogs coverPhoto')
     .lean()) as models.Album;
@@ -70,10 +62,10 @@ export const getAlbumData = async (
   const payload = {
     coverPhotoId: album.coverPhoto,
     blogs: album.blogs.map(b => b._id),
-    nameEn: album.title.find(t => t.localeId === 'en').content,
-    nameCs: album.title.find(t => t.localeId === 'cs').content,
-    nameRu: album.title.find(t => t.localeId === 'ru').content,
-    id: album.id
+    nameEn: album.title.find(t => t.localeId === 'en')?.content,
+    nameCs: album.title.find(t => t.localeId === 'cs')?.content,
+    nameRu: album.title.find(t => t.localeId === 'ru')?.content,
+    id: album.id,
   };
 
   return res.send(payload).status(HTTPStatus.OK);
@@ -92,7 +84,7 @@ export const editAlbumData = (req: Request, res: Response, next: NextFunction) =
   const albumData: Partial<models.AlbumSaveModel> = {
     blogs: req.body.blogs,
     coverPhoto: req.body.coverPhotoId,
-    title: req.body.title
+    title: req.body.title,
   };
   async.series(
     [
@@ -101,11 +93,11 @@ export const editAlbumData = (req: Request, res: Response, next: NextFunction) =
           {
             title: validate.notIsEmpty,
             coverPhoto: validate.required,
-            blogs: validate.notIsEmpty
+            blogs: validate.notIsEmpty,
           },
           albumData,
           cb
-        )
+        ),
     ],
     async () => {
       const album = (await AlbumModel.findById(albumId).exec()) as models.Album;
@@ -131,20 +123,20 @@ export const deleteAlbum = (req: Request, res: Response, next: NextFunction) => 
       cb =>
         validate.check(
           {
-            albumId: validate.required
+            albumId: validate.required,
           },
           {
-            albumId
+            albumId,
           },
           cb
-        )
+        ),
     ],
     async () => {
-      const album = (await AlbumModel.findById(albumId).exec()) as models.Album;
+      const album = await AlbumModel.findById(albumId).exec();
       if (!album) {
         return res.sendStatus(HTTPStatus.NotFound);
       }
-      return album.remove(err => {
+      return album.remove((err: any) => {
         if (err) {
           Logger.error('err to delete album ', err);
           return res.sendStatus(HTTPStatus.ServerError);

@@ -5,20 +5,14 @@ import { Logger } from '../../../logger';
 import * as kia from '../../../validator';
 import * as async from 'async';
 
-export const createNewLanguage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createNewLanguage = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
-  Logger.debug(
-    `starting to create new language ${new Date().toLocaleTimeString()}`
-  );
+  Logger.debug(`starting to create new language ${new Date().toLocaleTimeString()}`);
 
   const languageData: models.LanguageModel = {
     localeId: req.body.localeId,
-    name: req.body.name
+    name: req.body.name,
   };
   async.series(
     [
@@ -32,19 +26,17 @@ export const createNewLanguage = async (
           cb
         ),
       cb => {
-        LanguageModel
-          .findOne()
+        LanguageModel.findOne()
           .where('localeId', languageData.localeId)
           .exec((err, result) => {
             if (err) {
               Logger.error(err);
               return cb(err);
             }
-            if (result)
-              return res.send({ error: 'LanguageModel already exists' });
+            if (result) return res.send({ error: 'LanguageModel already exists' });
             return cb();
           });
-      }
+      },
     ],
     () => {
       const newLanguage = new LanguageModel(languageData);
@@ -58,49 +50,40 @@ export const createNewLanguage = async (
       });
     }
   );
-}
-export const toggleActivationLanguage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+};
+export const toggleActivationLanguage = async (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);
 
   const languageData: Partial<models.LanguageModel> = {
-    localeId: req.body.localeId
+    localeId: req.body.localeId,
   };
   async.series(
     [
       cb =>
         validate.check(
           {
-            localeId: validate.required
+            localeId: validate.required,
           },
           languageData,
           cb
-        )
+        ),
     ],
     () => {
-      LanguageModel
-        .findOne()
+      LanguageModel.findOne()
         .where('localeId', languageData.localeId)
-        .exec((err, result: models.Language) => {
+        .exec((err, result) => {
           if (err) {
             Logger.error(err);
             return res.sendStatus(500);
           }
-          if (!result)
-            return res.send({ error: 'LanguageModel not found' }).status(404);
+          if (!result) return res.send({ error: 'LanguageModel not found' }).status(404);
 
           const toggle = result.deleted ? undefined : Date.now();
-          result
-            .set('deleted', toggle)
-            .save(err => {
-              if (err)
-                return res.sendStatus(500);
-              return res.sendStatus(200);
-            })
+          result.set('deleted', toggle).save(err => {
+            if (err) return res.sendStatus(500);
+            return res.sendStatus(200);
+          });
         });
     }
   );
-}
+};

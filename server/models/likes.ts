@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { SchemaNames } from './types';
+import { Likes, SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const LikesSchema = new mongoose.Schema(
@@ -14,4 +14,4 @@ export const LikesSchema = new mongoose.Schema(
 
 LikesSchema.plugin(timestamps);
 
-export default mongoose.model(SchemaNames.LIKES, LikesSchema);
+export default mongoose.model<Likes>(SchemaNames.LIKES, LikesSchema);

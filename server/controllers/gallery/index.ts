@@ -14,7 +14,7 @@ export const getAlbums = async (req: Request, res: Response, next: NextFunction)
   const albums = await AlbumModel.find()
     .populate({
       path: 'coverPhoto',
-      select: 'thumbnail -_id'
+      select: 'thumbnail -_id',
     })
     .select('coverPhoto title id')
     .lean();
@@ -22,8 +22,8 @@ export const getAlbums = async (req: Request, res: Response, next: NextFunction)
   const data = albums.map(a => {
     return {
       id: a._id,
-      title: a.title.find(t => t.localeId === localeId).content,
-      coverPhoto: a.coverPhoto ? a.coverPhoto.thumbnail : ''
+      title: a.title.find(t => t.localeId === localeId)?.content,
+      coverPhoto: a.coverPhoto ? a.coverPhoto.thumbnail : '',
     };
   });
   return res.send(data).status(HTTPStatus.OK);
@@ -32,12 +32,10 @@ export const getAlbums = async (req: Request, res: Response, next: NextFunction)
 export const getAlbum = async (req: Request, res: Response, next: NextFunction) => {
   const albumId = req.query['id'];
   const localeId = req.query['localeId'];
-  if (!albumId || !localeId)
-    return res.send({ blogs: [], albumTitle: '' }).status(HTTPStatus.Empty);
+  if (!albumId || !localeId) return res.send({ blogs: [], albumTitle: '' }).status(HTTPStatus.Empty);
 
   const validate = new Validator();
-  if (validate.notMongooseObject(albumId))
-    return res.send({ blogs: [], albumTitle: '' }).status(HTTPStatus.Empty);
+  if (validate.notMongooseObject(albumId)) return res.send({ blogs: [], albumTitle: '' }).status(HTTPStatus.Empty);
   try {
     const album = await AlbumModel.findById(albumId)
       .populate({
@@ -45,20 +43,22 @@ export const getAlbum = async (req: Request, res: Response, next: NextFunction) 
         match: { deleted: undefined },
         populate: {
           path: 'photos',
-          select: 'thumbnail -_id'
+          select: 'thumbnail -_id',
         },
-        select: 'title photos'
+        select: 'title photos',
       })
       .select('title blogs')
       .lean();
+
+    if (!album) return res.sendStatus(HTTPStatus.NotFound);
 
     const albumTitleData = album.title.find(t => t.localeId === localeId);
     const albumTitle = albumTitleData ? albumTitleData.content : '';
     const blogs = album.blogs.map(b => {
       return {
         id: b._id,
-        title: b.title.find(t => t.localeId === localeId).content,
-        coverPhoto: b.photos[0] ? b.photos[0].thumbnail : ''
+        title: b.title.find(t => t.localeId === localeId)?.content,
+        coverPhoto: b.photos?.[0] ? b.photos[0].thumbnail : '',
       };
     });
 
@@ -74,8 +74,7 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
   const localeId = req.query['localeId'];
   if (!blogId || !localeId) return res.send({}).status(HTTPStatus.Empty);
   const validate = new Validator();
-  if (validate.notMongooseObject(blogId))
-    return res.send({}).status(HTTPStatus.Empty);
+  if (validate.notMongooseObject(blogId)) return res.send({}).status(HTTPStatus.Empty);
   try {
     const blog = await BlogModel.findById(blogId)
       .where('deleted', undefined)
@@ -88,14 +87,14 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
 
     const data = {
       id: blog._id,
-      body: blog.body.find(b => b.localeId === localeId).content,
+      body: blog.body.find(b => b.localeId === localeId)?.content,
       creationPictureDate: blog.creationPictureDate,
-      parameters: blog.parameters.filter(p => p.localeId === localeId),
-      photos: blog.photos.map(p => ({
+      parameters: blog.parameters?.filter(p => p.localeId === localeId) ?? [],
+      photos: blog.photos?.map((p: any) => ({
         id: p._id,
         name: p.name,
         url: p.url,
-        thumbnail: p.thumbnail
+        thumbnail: p.thumbnail,
       })),
       socialShare: blog.socialShare
         ? {
@@ -105,13 +104,13 @@ export const getBlog = async (req: Request, res: Response, next: NextFunction) =
                   id: blog.socialShare.photo._id,
                   name: blog.socialShare.photo.name,
                   thumbnail: blog.socialShare.photo.thumbnail,
-                  url: blog.socialShare.photo.url
+                  url: blog.socialShare.photo.url,
                 }
-              : {}
+              : {},
           }
         : null,
-      title: blog.title.find(t => t.localeId === localeId).content,
-      topic: blog.topic.find(t => t.localeId === localeId).content
+      title: blog.title.find(t => t.localeId === localeId)?.content,
+      topic: blog.topic.find(t => t.localeId === localeId)?.content,
     };
     return res.send(data).status(HTTPStatus.OK);
   } catch (error) {

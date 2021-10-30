@@ -43,14 +43,7 @@ export const NewYoutube = React.memo(() => {
   return (
     <Box display="flex" justifyContent="center" flexWrap="wrap">
       <FormControlLabel
-        control={
-          <Switch
-            checked={open}
-            onChange={handleToggle}
-            value="checkedB"
-            color="primary"
-          />
-        }
+        control={<Switch checked={open} onChange={handleToggle} value="checkedB" color="primary" />}
         label={'Добавить видео'}
       />
       <Fade in={open}>
@@ -80,10 +73,10 @@ export const NewYoutube = React.memo(() => {
                     <TextField
                       label={'Youtube ссылка'}
                       type="text"
+                      {...input}
                       name="youtube"
                       required
                       variant="standard"
-                      {...input}
                       error={Boolean(meta.touched && meta.error)}
                       disabled={submitting}
                     />
@@ -95,10 +88,10 @@ export const NewYoutube = React.memo(() => {
                     <TextField
                       label={'Youtube заголовок'}
                       type="text"
+                      {...input}
                       name="title"
                       required
                       variant="standard"
-                      {...input}
                       error={Boolean(meta.touched && meta.error)}
                       disabled={submitting}
                     />

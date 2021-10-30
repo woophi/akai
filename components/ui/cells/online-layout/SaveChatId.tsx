@@ -79,10 +79,10 @@ export const SaveChatId = React.memo(({}) => {
                     <TextField
                       label={'Чат ID'}
                       type="text"
+                      {...input}
                       name="chatId"
                       required
                       variant="standard"
-                      {...input}
                       error={Boolean(meta.touched && meta.error)}
                       disabled={submitting}
                     />

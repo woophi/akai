@@ -33,7 +33,7 @@ export const postToInstagram = async ({ blogId, done }: IgEventParams) => {
     .select('socialShare topic -_id')
     .populate({
       path: 'socialShare.photo',
-      select: 'url -_id'
+      select: 'url -_id',
     })
     .lean();
 
@@ -51,7 +51,7 @@ export const postToInstagram = async ({ blogId, done }: IgEventParams) => {
     if (!ig) throw Error('failed login to instagram');
 
     const jimpInit = await Jimp.read(blog.socialShare.photo.url);
-    jimpInit.contain(igPerfectResolution, igPerfectResolution, async (e, v) => {
+    jimpInit.contain(igPerfectResolution, igPerfectResolution, async (e: any, v: any) => {
       if (e) {
         Logger.info(e);
         throw Error('something went wrong with jimp contain');
@@ -61,7 +61,7 @@ export const postToInstagram = async ({ blogId, done }: IgEventParams) => {
       Logger.debug('got buff');
       await ig.publish.photo({
         file: buffData,
-        caption: topic ? topic.content : ''
+        caption: topic ? topic.content : '',
       });
       Logger.debug('ig photo published');
     });

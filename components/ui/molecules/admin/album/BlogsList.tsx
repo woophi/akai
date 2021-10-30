@@ -21,14 +21,12 @@ const Row = (props: ListChildComponentProps) => {
   const { onClickCb, selectedBlogs, blogs } = data as Props & LocalState;
   const checked = selectedBlogs.indexOf(blogs[index].id) !== -1;
   const handleClick = () => {
-    const data = checked
-      ? selectedBlogs.filter(id => id != blogs[index].id)
-      : [...selectedBlogs, blogs[index].id];
+    const data = checked ? selectedBlogs.filter(id => id != blogs[index].id) : [...selectedBlogs, blogs[index].id];
     onClickCb(data);
   };
 
   return (
-    <ListItem button style={style} key={index} onClick={handleClick}>
+    <ListItem button style={style as React.CSSProperties} key={index} onClick={handleClick}>
       <ListItemAvatar>
         <Avatar alt={blogs[index].title} src={blogs[index].coverPhoto} />
       </ListItemAvatar>
@@ -74,8 +72,7 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
       });
   }, []);
 
-  const getList = () =>
-    blogs.filter(b => b.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  const getList = () => blogs.filter(b => b.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   return (
     <Box flex={1} minHeight={250} maxHeight={500} display="flex" flexDirection="column">
       <Snakbars message={error} variant="error" />
@@ -87,14 +84,14 @@ export const BlogsList: React.FC<Props> = ({ onClickCb, selectedBlogs }) => {
             itemData={{
               blogs: getList(),
               onClickCb,
-              selectedBlogs
+              selectedBlogs,
             }}
             height={height - 74}
             width={width}
             itemSize={46}
             itemCount={getList().length}
             style={{
-              overflowX: 'hidden'
+              overflowX: 'hidden',
             }}
           >
             {Row}

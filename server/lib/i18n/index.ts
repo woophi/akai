@@ -12,7 +12,7 @@ const options = {
   interpolation: {
     escapeValue: false, // not needed for react!!
     formatSeparator: ',',
-    format: (value, format, lng) => {
+    format: (value: string, format: string) => {
       if (format === 'uppercase') return value.toUpperCase();
       return value;
     },

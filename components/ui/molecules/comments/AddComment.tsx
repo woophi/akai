@@ -75,11 +75,11 @@ export const AddComment = React.memo<Props>(({ blogId }) => {
                     id="outlined-name-input"
                     label={t('common:forms.name')}
                     type="text"
+                    {...input}
                     name="name"
                     fullWidth
                     required
                     className={classes.field}
-                    {...input}
                     error={Boolean(meta.touched && meta.error)}
                     helperText={(meta.touched && meta.error) || `${input.value.length}/256`}
                     disabled={submitting}

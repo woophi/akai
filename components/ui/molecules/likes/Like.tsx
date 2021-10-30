@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const Like = React.memo<Props>(({ blogId }) => {
-  const [animate, setAnimate] = React.useState(null);
+  const [animate, setAnimate] = React.useState<string>('');
   const [liked, setLike] = React.useState(false);
   const classes = useStyles({ selected: liked });
 
@@ -25,7 +25,7 @@ export const Like = React.memo<Props>(({ blogId }) => {
     setLike(!liked);
   };
 
-  return <div onClick={handleClick} className={`${classes.heart}  ${animate || ''}`} />;
+  return <div onClick={handleClick} className={`${classes.heart}  ${animate}`} />;
 });
 
 const useStyles = makeStyles(theme => ({

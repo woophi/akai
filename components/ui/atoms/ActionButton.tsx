@@ -11,55 +11,41 @@ type Props = {
   backToUrl?: string;
 };
 
-export const ActionButton = React.memo<Props>(
-  ({ className = '', label, action, backToUrl = '' }) => {
-    const [working, setWorking] = React.useState(false);
-    const [error, setError] = React.useState(false);
+export const ActionButton = React.memo<Props>(({ className = '', label, action, backToUrl = '' }) => {
+  const [working, setWorking] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
-    const handleClick = React.useCallback(() => {
-      setWorking(true);
-      action()
-        .then(() => setWorking(false))
-        .then(() => backToUrl && goToSpecific(backToUrl))
-        .catch(e => {
-          setError(e.error || e);
-          setWorking(false);
-        });
-    }, [action]);
+  const handleClick = React.useCallback(() => {
+    setWorking(true);
+    action()
+      .then(() => {
+        setWorking(false);
+        if (backToUrl) goToSpecific(backToUrl);
+      })
+      .catch(e => {
+        setError(e.error || e);
+        setWorking(false);
+      });
+  }, [action]);
 
-    return (
-      <Button
-        variant={'contained'}
-        color="primary"
-        onClick={handleClick}
-        disabled={working}
-        className={className}
-      >
-        {working ? (
-          <Icon
-            className={`fas fa-circle-notch fa-spin`}
-            color="action"
-            style={{
-              margin: 'auto'
-            }}
-          />
-        ) : (
-          label
-        )}
-        {error && (
-          <ArrowTooltip
-            placement="top"
-            title={error}
-            style={{ marginLeft: '.5rem' }}
-          >
-            <Icon
-              className={'fas fa-exclamation-triangle'}
-              color="error"
-              style={{ width: 'auto' }}
-            />
-          </ArrowTooltip>
-        )}
-      </Button>
-    );
-  }
-);
+  return (
+    <Button variant={'contained'} color="primary" onClick={handleClick} disabled={working} className={className}>
+      {working ? (
+        <Icon
+          className={`fas fa-circle-notch fa-spin`}
+          color="action"
+          style={{
+            margin: 'auto',
+          }}
+        />
+      ) : (
+        label
+      )}
+      {error && (
+        <ArrowTooltip placement="top" title={error} style={{ marginLeft: '.5rem' }}>
+          <Icon className={'fas fa-exclamation-triangle'} color="error" style={{ width: 'auto' }} />
+        </ArrowTooltip>
+      )}
+    </Button>
+  );
+});

@@ -6,28 +6,19 @@ import mongoose from 'mongoose';
 import { HTTPStatus } from '../models';
 import moment from 'moment';
 
-const mongoOpts = {
-  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-  reconnectInterval: 100 // Reconnect every 100ms
-};
-
-const connectStore = mongoose.createConnection(databaseUri, mongoOpts);
+const connectStore = mongoose.createConnection(databaseUri);
 const opts = {
   storeClient: connectStore,
   points: 10, // Number of points
-  duration: 60 // Per second(s)
+  duration: 60, // Per second(s)
 };
 
 const rateLimiterMongo = new RateLimiter.RateLimiterMongo({
   ...opts,
-  keyPrefix: 'bruteForce'
+  keyPrefix: 'bruteForce',
 });
 
-export const rateLimiterMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) =>
+export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFunction) =>
   rateLimiterMongo
     .consume(req.ip)
     .then(() => {

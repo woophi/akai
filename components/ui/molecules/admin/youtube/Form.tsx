@@ -8,6 +8,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { YoutubeItem } from 'core/models';
 import { updateYoutubes, getAllYoutubes } from './operations';
 import { SortableFactory } from 'ui/molecules/sortable';
+import { SortEndHandler } from 'react-sortable-hoc';
 
 type Props = {
   initialValues?: {
@@ -38,7 +39,7 @@ export const YoutubeForm = React.memo<Props>(({ initialValues }) => {
     <Form
       onSubmit={onSubmit}
       mutators={{
-        ...arrayMutators
+        ...arrayMutators,
       }}
       initialValues={initialValues}
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
@@ -52,14 +53,10 @@ export const YoutubeForm = React.memo<Props>(({ initialValues }) => {
           }}
           className={classes.form}
         >
-          <Snakbars
-            variant="error"
-            message={submitError}
-            className={classes.field}
-          />
+          <Snakbars variant="error" message={submitError} className={classes.field} />
           <FieldArray name="youtubes">
             {({ fields }) => {
-              const onSortEnd = ({ oldIndex, newIndex }) => {
+              const onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {
                 fields.move(oldIndex, newIndex);
               };
               const removeCb = (index: number) => {
@@ -103,9 +100,9 @@ const useStyles = makeStyles(theme => ({
     minWidth: 320,
     maxWidth: '50vw',
     width: '100%',
-    margin: '1rem auto'
+    margin: '1rem auto',
   },
   field: {
-    margin: '0 1rem 1rem'
-  }
+    margin: '0 1rem 1rem',
+  },
 }));

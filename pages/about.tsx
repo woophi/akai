@@ -2,6 +2,7 @@ import { getLanguage } from 'core/lib/lang';
 import * as models from 'core/models';
 import { getBio } from 'core/operations';
 import { Request } from 'express';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import * as React from 'react';
 import { AboutLayout, BoxMain, Layout } from 'ui/index';
@@ -26,7 +27,7 @@ const About = (props: Props) => {
   );
 };
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let data = null;
   try {
     const lang = getLanguage(req as Request);

@@ -20,16 +20,16 @@ export const callApi = <T>(method: HTTPMethod = 'post', url: string, data: any =
 
   if (typeof data === 'string') {
     rc.data = data;
-    rc.headers['Content-Type'] = 'application/octet-stream';
+    if (rc.headers) rc.headers['Content-Type'] = 'application/octet-stream';
   } else if (data === null) {
     data = null;
   } else {
     rc.data = JSON.stringify(data);
-    rc.headers['Content-Type'] = 'application/json; charset=UTF-8';
+    if (rc.headers) rc.headers['Content-Type'] = 'application/json; charset=UTF-8';
   }
 
   if (auth) {
-    rc.headers.Authorization = `${auth}`;
+    if (rc.headers) rc.headers.Authorization = `${auth}`;
   }
 
   return axios(rc).then(
@@ -72,6 +72,7 @@ export const uploadFiles = (files: File[]) => {
 
 export const allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
 
+export type GetW = (Window & typeof globalThis) | null;
 export const getWindow = () => {
   if (typeof window !== undefined) {
     return window;

@@ -1,17 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
+import { HTTPStatus, SessionData } from 'server/lib/models';
 import UserModel from 'server/models/users';
-import { HTTPStatus } from 'server/lib/models';
 
-export const logout = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.session.user) {
+export const logout = async (req: Request, res: Response) => {
+  if (!(req.session as unknown as SessionData).user) {
     return res.sendStatus(HTTPStatus.Empty);
   }
   try {
-    const User = await UserModel.findById(req.session.userId).exec();
+    const User = await UserModel.findById((req.session as unknown as SessionData).userId).exec();
 
-    await User.set({
-      refreshToken: ''
-    }).save();
+    await User!
+      .set({
+        refreshToken: '',
+      })
+      .save();
 
     req.session.destroy(err => {
       if (err) return res.send({ error: err.message }).status(HTTPStatus.BadRequest);

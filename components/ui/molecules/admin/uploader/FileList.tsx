@@ -22,7 +22,13 @@ const Row = (props: ListChildComponentProps) => {
   const handleSelect = () => selectFile(files[index]);
 
   return (
-    <ListItem button style={style} key={index} onClick={handleSelect} selected={selectedFile._id === files[index]._id}>
+    <ListItem
+      button
+      style={style as React.CSSProperties}
+      key={index}
+      onClick={handleSelect}
+      selected={selectedFile._id === files[index]._id}
+    >
       <ListItemText
         primary={files[index].name}
         primaryTypographyProps={{ noWrap: true }}
