@@ -1,13 +1,16 @@
-import * as React from 'react';
-import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
+import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import { safeTrim } from 'core/lib';
-import { Form, Field } from 'react-final-form';
-import { makeStyles } from '@material-ui/core';
-import { FORM_ERROR } from 'final-form';
-import { ModalUpload } from '../uploader';
 import { BioData } from 'core/models';
+import { FORM_ERROR } from 'final-form';
+import * as React from 'react';
+import { Field, Form } from 'react-final-form';
+import { ButtonsForm, Snakbars } from 'ui/atoms';
+import { TabPanel } from 'ui/atoms/TabPanel';
+import { QuillText } from 'ui/molecules/quill-editor';
+import { ModalUpload } from '../uploader';
 import { updateBio } from './operations';
-import { InputBaseComponentProps } from '@material-ui/core/InputBase';
 
 type Props = {
   initialValues: BioData;
@@ -44,12 +47,9 @@ const onSubmit = async (data: BioForm) => {
 
 export const BioForm = React.memo<Props>(({ initialValues }) => {
   const classes = useStyles({});
-
-  const inputProps: InputBaseComponentProps = {
-    maxLength: 2000,
-    style: {
-      resize: 'vertical'
-    }
+  const [tabValue, setValue] = React.useState(0);
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
   };
 
   return (
@@ -68,66 +68,103 @@ export const BioForm = React.memo<Props>(({ initialValues }) => {
           }}
           className={classes.form}
         >
-          <Snakbars
-            variant="error"
-            message={submitError}
-            className={classes.field}
-          />
+          <Snakbars variant="error" message={submitError} className={classes.field} />
+          <Box padding="1rem">
+            <Paper>
+              <Tabs value={tabValue} onChange={handleChange} indicatorColor="secondary" centered>
+                <Tab label="Редактор" />
+                <Tab label="Предпросмотр" />
+              </Tabs>
+            </Paper>
+          </Box>
           <Field
             name="bioCs"
-            render={({ input, meta }) => (
-              <TextField
-                variant="outlined"
-                label={'Описание биографии на чешском'}
-                multiline
-                rows="8"
-                className={classes.field}
-                {...input}
-                error={Boolean(meta.touched && meta.error)}
-                helperText={
-                  (meta.touched && meta.error) || `${input.value.length}/2000`
-                }
-                disabled={submitting}
-                inputProps={inputProps}
-              />
+            render={({ input: { onChange, value, onBlur, onFocus } }) => (
+              <Box className={classes.field}>
+                <TabPanel value={tabValue} index={0}>
+                  <QuillText
+                    onChange={onChange}
+                    value={value}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
+                    ownId={'bio-cs'}
+                    placeholder={'Описание биографии на чешском'}
+                  />
+                </TabPanel>
+                <TabPanel value={tabValue} index={1}>
+                  <Paper>
+                    <Box minWidth="50vw" padding="1rem" maxWidth="720px">
+                      <Typography component="div" gutterBottom>
+                        <div className="quill ">
+                          <div className="ql-snow">
+                            <div className="ql-editor" dangerouslySetInnerHTML={{ __html: value }} />
+                          </div>
+                        </div>
+                      </Typography>
+                    </Box>
+                  </Paper>
+                </TabPanel>
+              </Box>
             )}
           />
           <Field
             name="bioEn"
-            render={({ input, meta }) => (
-              <TextField
-                variant="outlined"
-                label={'Описание биографии на английском'}
-                multiline
-                rows="8"
-                className={classes.field}
-                {...input}
-                error={Boolean(meta.touched && meta.error)}
-                helperText={
-                  (meta.touched && meta.error) || `${input.value.length}/2000`
-                }
-                disabled={submitting}
-                inputProps={inputProps}
-              />
+            render={({ input: { onChange, value, onBlur, onFocus } }) => (
+              <Box className={classes.field}>
+                <TabPanel value={tabValue} index={0}>
+                  <QuillText
+                    onChange={onChange}
+                    value={value}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
+                    ownId={'bio-en'}
+                    placeholder={'Описание биографии на английском'}
+                  />
+                </TabPanel>
+                <TabPanel value={tabValue} index={1}>
+                  <Paper>
+                    <Box minWidth="50vw" padding="1rem" maxWidth="720px">
+                      <Typography component="div" gutterBottom>
+                        <div className="quill ">
+                          <div className="ql-snow">
+                            <div className="ql-editor" dangerouslySetInnerHTML={{ __html: value }} />
+                          </div>
+                        </div>
+                      </Typography>
+                    </Box>
+                  </Paper>
+                </TabPanel>
+              </Box>
             )}
           />
           <Field
             name="bioRu"
-            render={({ input, meta }) => (
-              <TextField
-                variant="outlined"
-                label={'Описание биографии на русском'}
-                multiline
-                rows="8"
-                className={classes.field}
-                {...input}
-                error={Boolean(meta.touched && meta.error)}
-                helperText={
-                  (meta.touched && meta.error) || `${input.value.length}/2000`
-                }
-                disabled={submitting}
-                inputProps={inputProps}
-              />
+            render={({ input: { onChange, value, onBlur, onFocus } }) => (
+              <Box className={classes.field}>
+                <TabPanel value={tabValue} index={0}>
+                  <QuillText
+                    onChange={onChange}
+                    value={value}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
+                    ownId={'bio-ru'}
+                    placeholder={'Описание биографии на русском'}
+                  />
+                </TabPanel>
+                <TabPanel value={tabValue} index={1}>
+                  <Paper>
+                    <Box minWidth="50vw" padding="1rem" maxWidth="720px">
+                      <Typography component="div" gutterBottom>
+                        <div className="quill ">
+                          <div className="ql-snow">
+                            <div className="ql-editor" dangerouslySetInnerHTML={{ __html: value }} />
+                          </div>
+                        </div>
+                      </Typography>
+                    </Box>
+                  </Paper>
+                </TabPanel>
+              </Box>
             )}
           />
           <Field
@@ -163,9 +200,9 @@ const useStyles = makeStyles(theme => ({
     minWidth: 320,
     maxWidth: '50vw',
     width: '100%',
-    margin: '1rem auto'
+    margin: '1rem auto',
   },
   field: {
-    margin: '0 1rem 1rem'
-  }
+    margin: '0 1rem 1rem',
+  },
 }));

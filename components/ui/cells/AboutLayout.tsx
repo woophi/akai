@@ -21,16 +21,16 @@ export const AboutLayout: React.FC<Props> = React.memo(({ content = '', photoUrl
           <img className={classes.img} alt="akai" src={photoUrl} />
         </div>
         <div className={classes.wrapChildText}>
-          {content && (
-            <>
-              <Typography variant="button" display="block" gutterBottom>
-                {t('common:about.subTitle')}
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                {content}
-              </Typography>
-            </>
-          )}
+          <Typography variant="button" display="block" gutterBottom>
+            {t('common:about.subTitle')}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <div className="quill ">
+              <div className="ql-snow">
+                <div className="ql-editor no-padding" dangerouslySetInnerHTML={{ __html: content }} />
+              </div>
+            </div>
+          </Typography>
         </div>
       </div>
     </BoxContent>

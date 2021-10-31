@@ -9,6 +9,7 @@ import { Provider as Redux } from 'react-redux';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { appWithTranslation } from 'server/lib/i18n';
 import 'ui/atoms/spinner/spinner.css';
+import 'ui/molecules/quill-editor/quill.css';
 import('core/fire-callbacks');
 
 class MyApp extends App {
