@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import { HTTPStatus } from '../models';
 import moment from 'moment';
 
-const connectStore = mongoose.createConnection(databaseUri);
+const connectStore = mongoose.createConnection(databaseUri, { keepAliveInitialDelay: 100 });
 const opts = {
   storeClient: connectStore,
   points: 10, // Number of points
