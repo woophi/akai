@@ -5,20 +5,20 @@ import { store } from 'core/store';
 
 export const subscribe = (email: string) => callApi<models.ResultSubscribe>('post', 'api/guest/subscribe', { email });
 
-export const getBio = (localeId: models.LocaleIds) =>
+export const getBio = (localeId: models.LocaleId) =>
   callApi<models.BioModel>('get', `api/guest/biography?localeId=${localeId}`);
 
 export const sendMessage = (data: models.MessageModel) => callApi<void>('post', `api/guest/send/message`, data);
 
 export const getYoutubes = () => callApi<models.YoutubeItem[]>('get', `api/guest/youtubes`);
 export const getPhotos = () => callApi<models.PhotoData[]>('get', `api/guest/photos`);
-export const getAllAlbums = (localeId: models.LocaleIds) =>
+export const getAllAlbums = (localeId: models.LocaleId) =>
   callApi<models.AlbumModel[]>('get', `api/guest/albums?localeId=${localeId}`);
 
-export const getAlbumData = (albumId: string, localeId: models.LocaleIds) =>
+export const getAlbumData = (albumId: string, localeId: models.LocaleId) =>
   callApi<models.BlogsModel>('get', `api/guest/album?id=${albumId}&localeId=${localeId}`);
 
-export const getBlogData = (blogId: string, localeId: models.LocaleIds) =>
+export const getBlogData = (blogId: string, localeId: models.LocaleId) =>
   callApi<models.BlogModel>('get', `api/guest/blog?id=${blogId}&localeId=${localeId}`);
 
 export const getBlogComments = (blogId: string) =>

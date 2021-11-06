@@ -1,5 +1,5 @@
 import { callAdminApi } from 'core/common';
-import { BioData, SaveBioModel } from 'core/models';
+import { BioData, LocaleId, SaveBioModel } from 'core/models';
 import { adminActions } from 'core/reducers/admin';
 import { store } from 'core/store';
 
@@ -17,15 +17,15 @@ export const updateBio = (data: BioData) => {
     bio: [
       {
         content: data.bioCs,
-        localeId: 'cs',
+        localeId: LocaleId.Cs,
       },
       {
         content: data.bioEn,
-        localeId: 'en',
+        localeId: LocaleId.En,
       },
       {
         content: data.bioRu,
-        localeId: 'ru',
+        localeId: LocaleId.Ru,
       },
     ],
     photoId: data.photoId,

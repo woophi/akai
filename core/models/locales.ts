@@ -1,1 +1,5 @@
-export type LocaleIds = 'en' | 'cs' | 'ru';
+export enum LocaleId {
+  En = 'en',
+  Cs = 'cs',
+  Ru = 'ru',
+}

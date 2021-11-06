@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AdminLayout, BlogForm, AdminBlogs } from 'ui/index';
 import { ensureNotAuthorized } from 'core/operations/auth';
-import { AlbumModel } from 'core/models';
+import { AlbumModel, LocaleId } from 'core/models';
 import { getAllAlbums } from 'core/operations';
 
 type localState = {
@@ -10,12 +10,12 @@ type localState = {
 
 class NewBlog extends React.PureComponent<unknown, localState> {
   state: localState = {
-    albums: []
+    albums: [],
   };
   async componentDidMount() {
     try {
       await ensureNotAuthorized();
-      const albums = await getAllAlbums('ru');
+      const albums = await getAllAlbums(LocaleId.Ru);
       this.setState({ albums });
     } catch (e) {
       console.error('Error in Admin NewBlog fetch', e);

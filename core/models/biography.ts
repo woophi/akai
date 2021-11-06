@@ -1,4 +1,4 @@
-import { LocaleIds } from './locales';
+import { LocaleId } from './locales';
 
 export type BioModel = {
   content: string;
@@ -8,7 +8,7 @@ export type BioModel = {
 export type SaveBioModel = {
   id: string;
   bio: {
-    localeId: LocaleIds;
+    localeId: LocaleId;
     content: string;
   }[];
   photoId: string;

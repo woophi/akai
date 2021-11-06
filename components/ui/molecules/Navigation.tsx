@@ -9,7 +9,7 @@ import Link from 'next/link';
 import * as React from 'react';
 import { useTranslation } from 'server/lib/i18n';
 import { ArrowTooltip, LinkButton, Logo } from '../atoms';
-import { Languages } from './Languages';
+import { Languages, SelectLanguage } from './Languages';
 
 export const Navigation = React.memo(() => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
@@ -39,6 +39,7 @@ export const Navigation = React.memo(() => {
         </ArrowTooltip>
         <LinkButton href="/photo" label={t('common:navigation.photo')} />
         <LinkButton href="/contact" label={t('common:navigation.contact')} />
+        <SelectLanguage />
       </Box>
     </nav>
   );
