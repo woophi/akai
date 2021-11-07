@@ -9,5 +9,5 @@ export const getUserId = createSelector(getUser, user => user.userId);
 export const getUserName = createSelector(getUser, user => user.name);
 export const hasRoleAdmin = createSelector(getUserRoles, roles => roles.indexOf(ROLES.ADMIN) !== -1);
 export const hasRoleSuperAdmin = createSelector(getUserRoles, roles => roles.indexOf(ROLES.GODLIKE) !== -1);
-export const isUserAuthorized = createSelector(hasRoleAdmin, hasRoleSuperAdmin, (admin, superAdmin) => admin || superAdmin);
+export const isAdmin = createSelector(hasRoleAdmin, hasRoleSuperAdmin, (admin, superAdmin) => admin || superAdmin);
 export const getUserFetching = createSelector(getUser, user => !!user.fetching);

@@ -1,5 +1,5 @@
 import { store } from 'core/store';
-import { isUserAuthorized } from 'core/selectors';
+import { isAdmin } from 'core/selectors';
 import Router from 'next/router';
 import { callApi, getWindow } from 'core/common';
 import * as models from 'core/models';
@@ -22,7 +22,7 @@ export const logout = async () => {
   );
   store.dispatch(userActions.setUserFetching(false));
   const w = getWindow();
-  w ? w.location.reload() : await Router.reload();
+  w ? w.location.reload() : Router.reload();
 };
 
 export const checkAuth = async () => {
@@ -38,8 +38,7 @@ export const checkAuth = async () => {
 
 export const ensureNotAuthorized = async () => {
   await checkAuth();
-  const state = store.getState();
-  if (!isUserAuthorized(state)) {
+  if (!isAdmin(store.getState())) {
     Router.push('/login');
   } else {
     connectAdminSocket();
@@ -47,8 +46,7 @@ export const ensureNotAuthorized = async () => {
 };
 export const ensureAuthorized = async () => {
   await checkAuth();
-  const state = store.getState();
-  if (isUserAuthorized(state)) {
+  if (isAdmin(store.getState())) {
     connectAdminSocket();
     Router.push('/admin');
   }

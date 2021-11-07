@@ -6,7 +6,7 @@ import { safeTrim } from 'core/lib';
 import { getLastChatLiveStreamId, saveChatLiveStreamId } from 'core/operations';
 import { checkAuth } from 'core/operations/auth';
 import { useAppSelector } from 'core/reducers/rootReducer';
-import { isUserAuthorized } from 'core/selectors';
+import { isAdmin } from 'core/selectors';
 import { FORM_ERROR } from 'final-form';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
@@ -35,14 +35,14 @@ const onSubmit = async (data: ChatIdForm) => {
 
 export const SaveChatId = React.memo(({}) => {
   const [open, setOpen] = React.useState(false);
-  const authorized = useAppSelector(isUserAuthorized);
+  const admin = useAppSelector(isAdmin);
   React.useEffect(() => {
     checkAuth();
   }, []);
 
   const handleToggle = () => setOpen(!open);
 
-  if (!authorized) {
+  if (!admin) {
     return null;
   }
 
