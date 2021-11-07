@@ -11,6 +11,23 @@ export const SliderSchema = new mongoose.Schema(
     ordinal: {
       type: Number,
     },
+    title: {
+      type: String,
+      default: null,
+    },
+    subTitle: {
+      type: String,
+      default: null,
+    },
+    button: {
+      link: {
+        type: String,
+        default: null,
+      },
+      name: {
+        type: String,
+      },
+    },
   },
   { collection: SchemaNames.SLIDER }
 );
