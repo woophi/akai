@@ -1,8 +1,9 @@
-export default {
+export const config = {
   PORT_CORE: parseInt(process.env.PORT || '3000', 10),
   SITE_URI: process.env.SITE_URI || '',
   MONGO: process.env.MONGO_URI || process.env.MONGODB_URI || '',
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || '',
+  REDIS_URI: process.env.REDISCLOUD_URL || '',
 
   DEV_MODE: process.env.NODE_ENV !== 'production',
 
@@ -27,3 +28,5 @@ export default {
   FB_APP_ID: process.env.FB_APP_ID || '',
   FB_APP_SECRET: process.env.FB_APP_SECRET || '',
 };
+
+export default config;
