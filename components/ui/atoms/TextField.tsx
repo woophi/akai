@@ -1,11 +1,11 @@
-import * as React from 'react';
-import MuiTextField, { TextFieldProps } from '@material-ui/core/TextField';
+import { IconButton, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { InputAdornment, IconButton } from '@material-ui/core';
+import MuiTextField, { TextFieldProps } from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import * as React from 'react';
 
-export const TextField: React.FC<TextFieldProps> = React.memo(({ className, ...props }) => {
+export const TextField = React.memo<TextFieldProps>(({ className, ...props }) => {
   const classes = useStyles({ textArea: !!props.multiline });
   const [showPass, setShowPass] = React.useState(false);
   const handleClickShowPassword = React.useCallback(() => {

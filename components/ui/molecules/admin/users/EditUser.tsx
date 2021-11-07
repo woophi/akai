@@ -1,25 +1,22 @@
-import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField, ButtonsForm, Snakbars } from 'ui/atoms';
-import { Form, Field } from 'react-final-form';
-import { testEmail, theme } from 'core/lib';
-import { useTranslation } from 'server/lib/i18n';
-import { FORM_ERROR } from 'final-form';
-import { createNewUser } from './operations';
-import { CreatableRole, NewUser as NewUserForm } from 'core/models';
 import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { testEmail, theme } from 'core/lib';
+import { CreatableRole, EditUser as EditUserForm } from 'core/models';
+import { FORM_ERROR } from 'final-form';
+import * as React from 'react';
+import { Field, Form } from 'react-final-form';
+import { useTranslation } from 'server/lib/i18n';
+import { ButtonsForm, Snakbars, TextField } from 'ui/atoms';
+import { editUser, getUser } from './operations';
 
-const validate = (values: NewUserForm, t: (s: string) => string) => {
-  const errors: Partial<NewUserForm> = {};
+const validate = (values: EditUserForm, t: (s: string) => string) => {
+  const errors: Partial<EditUserForm> = {};
 
   if (!values.email) {
     errors.email = t('common:forms.field.required');
   }
   if (values.email && !testEmail.test(values.email.toLowerCase())) {
     errors.email = t('common:forms.field.invalid');
-  }
-  if (!values.password) {
-    errors.password = t('common:forms.field.required');
   }
   if (!values.name) {
     errors.name = t('common:forms.field.required');
@@ -30,21 +27,27 @@ const validate = (values: NewUserForm, t: (s: string) => string) => {
   return errors;
 };
 
-const onSubmit = async (data: NewUserForm) => {
+const onSubmit = async (data: EditUserForm) => {
   try {
-    await createNewUser(data);
+    await editUser(data);
+    getUser(data._id);
   } catch (error) {
     return { [FORM_ERROR]: error.error };
   }
 };
 
-export const NewUser: React.FC = () => {
+type Props = {
+  initialValues?: EditUserForm;
+};
+
+export const EditUser: React.FC<Props> = ({ initialValues }) => {
   const classes = useStyles({});
   const { t } = useTranslation();
   return (
     <Form
+      initialValues={initialValues}
       onSubmit={onSubmit}
-      validate={(v: NewUserForm) => validate(v, t)}
+      validate={(v: EditUserForm) => validate(v, t)}
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
         <>
           <form
@@ -112,7 +115,6 @@ export const NewUser: React.FC = () => {
                   autoComplete="new-password"
                   margin="normal"
                   variant="outlined"
-                  required
                   error={Boolean(meta.touched && meta.error)}
                   helperText={meta.touched && meta.error}
                   disabled={submitting}
@@ -135,13 +137,7 @@ export const NewUser: React.FC = () => {
                 </FormControl>
               )}
             />
-            <ButtonsForm
-              pristine={pristine}
-              submitting={submitting}
-              both
-              onCancel={form.reset}
-              submitLabel={'common:buttons.add'}
-            />
+            <ButtonsForm pristine={pristine} submitting={submitting} both onCancel={form.reset} submitLabel={'сохранить'} />
           </form>
         </>
       )}

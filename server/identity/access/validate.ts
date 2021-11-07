@@ -46,3 +46,13 @@ export const authorizedForSuperAdmin = async (req: Request, res: Response, next:
     return res.send({ error: 'Unable to get data' }).status(HTTPStatus.BadRequest);
   next();
 };
+export const authorizedForCustomer = async (req: Request, res: Response, next: NextFunction) => {
+  if (!requireUser(req, res)) return;
+  const token = getToken(req);
+  const { claims, verificaitionError } = await verifyToken(token);
+  if (verificaitionError) return res.send({ error: 'Authentication failed' }).status(HTTPStatus.Forbidden);
+
+  if (!claims.roles?.find(r => r === ROLES.CUSTOMER))
+    return res.send({ error: 'Unable to get data' }).status(HTTPStatus.BadRequest);
+  next();
+};

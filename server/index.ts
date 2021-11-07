@@ -29,6 +29,7 @@ import connection, { agenda } from './lib/db';
 import next from 'next';
 import cors from 'cors';
 import { LocalErros } from './lib/models';
+import requestTimeout from 'connect-timeout';
 
 const appNext = next({ dev: config.DEV_MODE });
 const handle = appNext.getRequestHandler();
@@ -63,6 +64,7 @@ appNext.prepare().then(async () => {
     appExpress.disable('x-powered-by');
     appExpress.use(logger('tiny'));
     appExpress.set('trust proxy', 1);
+    appExpress.use(requestTimeout('60s') as any);
   }
   appExpress.use(cookieParser(config.COOKIE_SECRET) as any);
   appExpress.use(initExpressSession() as any);

@@ -4,6 +4,7 @@ import { SlideItem } from './slider';
 import { BioData } from './bio';
 import { PhotoItem } from './photos';
 import { YoutubeItem } from '../youtube';
+import { UserModel } from './user';
 
 export type AdminState = {
   section: Section;
@@ -16,6 +17,10 @@ export type AdminState = {
   photos: PhotoItem[];
   youtubes: YoutubeItem[];
   facebookActive: boolean;
+  users: {
+    list: UserModel[];
+    selectedUser: UserModel;
+  };
 };
 
 export enum Section {

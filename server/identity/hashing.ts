@@ -35,7 +35,7 @@ export class Hashing extends Encryption {
 
       return decodedBuffer.compare(acutalSubkey, 0, 32, 29) === 0;
     } catch (e) {
-      new Error(e);
+      throw new Error(e);
     }
   }
 
@@ -62,7 +62,7 @@ export class Hashing extends Encryption {
 
       return outputBytes.toString('base64');
     } catch (e) {
-      new Error(e);
+      throw new Error(e);
     }
   }
 

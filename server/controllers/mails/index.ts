@@ -1,16 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-import { Logger } from 'server/logger';
-import * as kia from 'server/validator';
 import * as async from 'async';
-import * as mails from 'server/mails';
-import { EmailTemplate, UnsubState } from 'server/mails/types';
-import UserModel from 'server/models/users';
-import LinkModel from 'server/models/links';
-import SubscriberModel from 'server/models/subscribers';
-import * as models from 'server/models/types';
+import { NextFunction, Request, Response } from 'express';
 import { ROLES } from 'server/identity';
 import { HTTPStatus } from 'server/lib/models';
+import { Logger } from 'server/logger';
+import * as mails from 'server/mails';
 import { checkLinkState } from 'server/mails';
+import { EmailTemplate, UnsubState } from 'server/mails/types';
+import LinkModel from 'server/models/links';
+import SubscriberModel from 'server/models/subscribers';
+import UserModel from 'server/models/users';
+import * as kia from 'server/validator';
 
 export const sendMailToAdmins = (req: Request, res: Response, next: NextFunction) => {
   const validate = new kia.Validator(req, res, next);

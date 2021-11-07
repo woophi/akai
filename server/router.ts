@@ -11,10 +11,13 @@ import { HTTPStatus, LocalErros } from './lib/models';
 import { rateLimiterMiddleware } from './lib/rate-limiter';
 import * as storage from './storage';
 const Agendash = require('agendash');
+import { createValidator } from 'express-joi-validation';
 
 const options = {
   root: join(__dirname, '../assets'),
 };
+
+const validator = createValidator();
 
 export function router(
   app: express.Express,
@@ -66,7 +69,20 @@ export function router(
   app.post('/api/app/user/check', auth.checkUser);
 
   // admin
-  app.post('/api/admin/new/user', identity.authorizedForSuperAdmin, controllers.createUser);
+  app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);
+  app.put(
+    '/api/admin/user',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateUserEdit),
+    controllers.editUser
+  );
+  app.get('/api/admin/users', identity.authorizedForAdmin, controllers.getUsers);
+  app.get(
+    '/api/admin/user/:id',
+    identity.authorizedForAdmin,
+    validator.params(controllers.validateUserGet),
+    controllers.getUser
+  );
 
   // dashboard
   app.get('/api/admin/dashboard/topBlogs', identity.authorizedForSuperAdmin, controllers.getTopFiveViewBlogs);

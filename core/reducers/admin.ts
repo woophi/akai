@@ -1,5 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AdminState, BioData, BlogPreviewItem, FileItem, PhotoItem, Section, SlideItem, YoutubeItem } from 'core/models';
+import {
+  AdminState,
+  BioData,
+  BlogPreviewItem,
+  FileItem,
+  PhotoItem,
+  Section,
+  SlideItem,
+  UserModel,
+  YoutubeItem,
+} from 'core/models';
 
 const initialState: AdminState = {
   section: Section.Albums,
@@ -18,6 +28,16 @@ const initialState: AdminState = {
   photos: [],
   youtubes: [],
   facebookActive: false,
+  users: {
+    list: [],
+    selectedUser: {
+      _id: '',
+      createdAt: '',
+      email: '',
+      name: '',
+      roles: [],
+    },
+  },
 };
 
 const adminSlice = createSlice({
@@ -53,6 +73,9 @@ const adminSlice = createSlice({
     },
     fetchYoutubes: (state, a: PayloadAction<YoutubeItem[]>) => {
       state.youtubes = a.payload;
+    },
+    fetchUser: (state, a: PayloadAction<UserModel>) => {
+      state.users.selectedUser = a.payload;
     },
   },
 });

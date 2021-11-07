@@ -1,12 +1,9 @@
+import { ROLES } from './admin/user';
+
 export type AuthData = {
   token: string;
-  roles: IROLES[];
+  roles: ROLES[];
   name: string;
   userId: string;
   fetching?: boolean;
-};
-
-export enum IROLES {
-	GODLIKE = 'Godlike',
-	ADMIN = 'Admin'
 };
