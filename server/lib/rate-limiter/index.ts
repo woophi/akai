@@ -25,7 +25,7 @@ const rateLimiter = new RateLimiter.RateLimiterRedis({
 
 export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFunction) =>
   rateLimiter
-    .consume(req.ip)
+    .consume(`p_${req.path}_ip_${req.ip}_u_${req.session.id ?? 0}`)
     .then(() => {
       next();
     })
