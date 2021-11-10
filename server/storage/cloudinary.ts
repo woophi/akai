@@ -32,7 +32,7 @@ export const upload_stream = (fileName: string, done: FileEventParams['done']) =
             thumbnail = image.secure_url.substr(0, indexOfUpload) + 'h_400/' + image.secure_url.substr(indexOfUpload);
           }
 
-          const newFile: models.FilesModel = {
+          const newFile: models.FileModel = {
             name: fileName,
             url: image.secure_url,
             thumbnail: thumbnail ? thumbnail : image.secure_url,

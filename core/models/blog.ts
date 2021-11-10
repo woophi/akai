@@ -1,5 +1,3 @@
-import { CommentItem } from './comment';
-
 export type Parameter = {
   name: string;
   value: string;

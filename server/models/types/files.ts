@@ -1,9 +1,9 @@
 import { Model } from './mongoModel';
 
-export type Files = Model<FilesModel>
+export type File = Model<FileModel>;
 
-export type FilesModel = {
+export type FileModel = {
   name: string;
   url: string;
   thumbnail?: string;
-}
+};

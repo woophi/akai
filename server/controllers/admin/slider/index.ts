@@ -68,7 +68,7 @@ export const updateMainSlider = async (req: Request, res: Response, next: NextFu
         if (slide.id) {
           SliderModel.findByIdAndUpdate(
             slide.id,
-            { ordinal: slide.ordinal, slide: slide.fileId as unknown as models.Files },
+            { ordinal: slide.ordinal, slide: slide.fileId as unknown as models.File },
             err => {
               if (err) {
                 Logger.error('err to update SliderModel ', err, slide.id);

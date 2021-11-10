@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import * as models from '../models/types';
 
 const Album = mongoose.model(models.SchemaNames.ALBUM);
-const createAlbum = (file: models.Files, done: async.ErrorCallback<Error>) => {
+const createAlbum = (file: models.File, done: async.ErrorCallback<Error>) => {
   switch (file.name) {
     case 'black_white':
       return new Album({
@@ -102,7 +102,7 @@ const createAlbum = (file: models.Files, done: async.ErrorCallback<Error>) => {
 };
 
 module.exports = (done: async.ErrorCallback<Error>) => {
-  const Files = mongoose.model<models.Files>(models.SchemaNames.FILES);
+  const Files = mongoose.model<models.File>(models.SchemaNames.FILES);
 
   Files.find().exec((err, files) => {
     async.forEach(files, createAlbum, done);

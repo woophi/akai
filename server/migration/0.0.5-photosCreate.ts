@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import * as models from '../models/types';
 
 const Photo = mongoose.model(models.SchemaNames.PHOTOS);
-const createPhoto = (file: models.Files, done: async.ErrorCallback<Error>) => {
+const createPhoto = (file: models.File, done: async.ErrorCallback<Error>) => {
   const splitPhotoName = file.name.split('_');
   if (splitPhotoName.length && splitPhotoName[0] == 'photo') {
     return new Photo({
@@ -16,7 +16,7 @@ const createPhoto = (file: models.Files, done: async.ErrorCallback<Error>) => {
 };
 
 module.exports = (done: async.ErrorCallback<Error>) => {
-  const Files = mongoose.model<models.Files>(models.SchemaNames.FILES);
+  const Files = mongoose.model<models.File>(models.SchemaNames.FILES);
 
   Files.find().exec((err, files) => {
     async.forEach(files, createPhoto, done);

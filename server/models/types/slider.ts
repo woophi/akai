@@ -1,10 +1,10 @@
 import { Model } from './mongoModel';
-import { Files } from './files';
+import { File } from './files';
 
 export type Slider = Model<SliderModel>;
 
 export type SliderModel = {
-  slide: Files;
+  slide: File;
   ordinal: number;
   title: string | null;
   subTitle: string | null;

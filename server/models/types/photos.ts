@@ -1,13 +1,13 @@
 import { Model } from './mongoModel';
-import { Files } from './files';
+import { File } from './files';
 
 export type Photos = Model<PhotosModel>;
 
 export type PhotosModel = {
-  file: Files;
+  file: File;
   ordinal: number;
-}
+};
 export type PhotosSaveModel = {
   file: string;
   ordinal: number;
-}
+};

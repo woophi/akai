@@ -1,5 +1,6 @@
 import { CommentModel } from './comment';
-import { FilesModel, Files } from './files';
+import { FileModel, File } from './files';
+import { LanguageContent } from './language';
 import { LikesModel } from './likes';
 import { Model } from './mongoModel';
 import { UserModel } from './user';
@@ -10,18 +11,13 @@ export type Parameter = {
   localeId: string;
 };
 
-export type LanguageContent = {
-  localeId: string;
-  content: string;
-};
-
 export type SocialShare = {
   localeId: string;
   photo: string;
 };
 export type SocialShare2 = {
   localeId: string;
-  photo: Files;
+  photo: File;
 };
 
 type GeneralBlogModel = {
@@ -42,7 +38,7 @@ export type SaveBlogModel = GeneralBlogModel & {
 export type BlogModel = GeneralBlogModel & {
   createdBy: UserModel;
   comments: CommentModel[];
-  photos?: FilesModel[];
+  photos?: FileModel[];
   socialShare: SocialShare2;
   likes?: LikesModel[];
   views?: number;

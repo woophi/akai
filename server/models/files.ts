@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Files, SchemaNames } from './types';
+import { File, SchemaNames } from './types';
 const timestamps = require('mongoose-timestamp');
 
 export const FilesSchema = new mongoose.Schema(
@@ -21,4 +21,4 @@ export const FilesSchema = new mongoose.Schema(
 
 FilesSchema.plugin(timestamps);
 
-export default mongoose.model<Files>(SchemaNames.FILES, FilesSchema);
+export default mongoose.model<File>(SchemaNames.FILES, FilesSchema);

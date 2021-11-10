@@ -6,7 +6,6 @@ export enum SchemaNames {
   FB_PAGES = 'facebook_pages',
   FILES = 'files',
   LANGUAGE = 'language',
-  SKETCH_BOOK = 'sketch_book',
   SLIDER = 'slider',
   SUBS = 'subscribers',
   USERS = 'users',
@@ -16,9 +15,10 @@ export enum SchemaNames {
   LIKES = 'likes',
   LINKS = 'links',
   STREAMING = 'streaming',
+  SHOP_ITEMS = 'shop_items',
+  SHOP_CATEGORY = 'shop_category',
 
   APP_SESSIONS = 'app_sessions',
   JOBS = 'jobs_queue',
   MIGRATIONS = 'app_update',
-  BRUTE_FORCE = 'brute_force',
 }
