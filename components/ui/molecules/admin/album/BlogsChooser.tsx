@@ -33,29 +33,15 @@ export const BlogsChooser = React.memo<Props>(
     return (
       <div className={className}>
         <InputLabel style={{ color: '#000', marginBottom: '.5rem' }}>{'Блоги в альбоме'}</InputLabel>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleClickOpen}
-          disabled={disabled}
-        >
+        <Button variant="contained" color="primary" onClick={handleClickOpen} disabled={disabled}>
           {label}
           {error && (
             <ArrowTooltip placement="top" title={error}>
-              <Icon
-                className={'fas fa-exclamation-triangle'}
-                color="error"
-                style={{ width: 'auto' }}
-              />
+              <Icon className={'fas fa-exclamation-triangle'} color="error" style={{ width: 'auto' }} />
             </ArrowTooltip>
           )}
         </Button>
-        <ModalDialog
-          open={open}
-          onClose={handleClickClose}
-          onConfirm={handleConfirm}
-          title={'Выберете блог'}
-        >
+        <ModalDialog open={open} onClose={handleClickClose} onConfirm={handleConfirm} title={'Выберите блог'}>
           <BlogsList onClickCb={chooseBlog} selectedBlogs={chosenBlogs} />
         </ModalDialog>
       </div>

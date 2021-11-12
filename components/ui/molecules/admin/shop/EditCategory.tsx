@@ -6,8 +6,8 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
-import { ButtonsForm, Snakbars, TextField } from 'ui/atoms';
-import { getShopCategory, updateShopCategory } from './operations';
+import { ActionButton, ButtonsForm, Snakbars, TextField } from 'ui/atoms';
+import { getShopCategory, updateShopCategory, deleteShopCategory } from './operations';
 
 const validate = (values: ShopCategoryInfo, t: (s: string) => string) => {
   const errors: ShopCategoryInfo = {} as ShopCategoryInfo;
@@ -38,106 +38,124 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
       await updateShopCategory({ _id: data._id, name: data.name, shopItems: data.shopItems.map(d => d._id) });
       getShopCategory(data._id).then(d => dispatch(adminShopActions.selectCategory(d)));
     } catch (error) {
-      return { [FORM_ERROR]: error.error };
+      return { [FORM_ERROR]: error };
     }
   }, []);
 
-  return (
-    <Form
-      initialValues={initialValues}
-      onSubmit={submit}
-      validate={(v: ShopCategoryInfo) => validate(v, t)}
-      render={({ handleSubmit, pristine, submitting, submitError, form }) => (
-        <>
-          <form
-            onSubmit={async event => {
-              const error = await handleSubmit(event);
-              if (error) {
-                return error;
-              }
-            }}
-            className={classes.form}
-          >
-            <Snakbars
-              variant="error"
-              message={submitError}
-              style={{
-                margin: '0 1rem .5rem',
-              }}
-            />
-            <Field
-              name={`name.${LocaleId.Ru}`}
-              render={({ input, meta }) => (
-                <TextField
-                  {...input}
-                  label={'Название на русском'}
-                  type="text"
-                  name="name"
-                  margin="normal"
-                  variant="outlined"
-                  autoComplete="name"
-                  required
-                  error={Boolean(meta.touched && meta.error)}
-                  helperText={meta.touched && meta.error}
-                  disabled={submitting}
-                />
-              )}
-            />
-            <Field
-              name={`name.${LocaleId.En}`}
-              render={({ input, meta }) => (
-                <TextField
-                  {...input}
-                  label={'Название на английском'}
-                  type="text"
-                  name="name"
-                  margin="normal"
-                  variant="outlined"
-                  autoComplete="name"
-                  required
-                  error={Boolean(meta.touched && meta.error)}
-                  helperText={meta.touched && meta.error}
-                  disabled={submitting}
-                />
-              )}
-            />
-            <Field
-              name={`name.${LocaleId.Cs}`}
-              render={({ input, meta }) => (
-                <TextField
-                  {...input}
-                  label={'Название на чешском'}
-                  type="text"
-                  name="name"
-                  margin="normal"
-                  variant="outlined"
-                  autoComplete="name"
-                  required
-                  error={Boolean(meta.touched && meta.error)}
-                  helperText={meta.touched && meta.error}
-                  disabled={submitting}
-                />
-              )}
-            />
+  const handleDeleteAlbum = React.useCallback(() => {
+    if (initialValues?._id) return deleteShopCategory(initialValues?._id);
+    return Promise.resolve();
+  }, [initialValues?._id]);
 
-            <ButtonsForm pristine={pristine} submitting={submitting} both onCancel={form.reset} submitLabel={'сохранить'} />
-          </form>
-        </>
-      )}
-    />
+  return (
+    <>
+      <ActionButton
+        action={handleDeleteAlbum}
+        label={'Удалить категорию'}
+        backToUrl={'/admin/shop'}
+        className={classes.delete}
+      />
+      <Form
+        initialValues={initialValues}
+        onSubmit={submit}
+        validate={(v: ShopCategoryInfo) => validate(v, t)}
+        render={({ handleSubmit, pristine, submitting, submitError, form }) => (
+          <>
+            <form
+              onSubmit={async event => {
+                const error = await handleSubmit(event);
+                if (error) {
+                  return error;
+                }
+              }}
+              className={classes.form}
+            >
+              <Snakbars
+                variant="error"
+                message={submitError}
+                style={{
+                  margin: '0 1rem .5rem',
+                }}
+              />
+              <Field
+                name={`name.${LocaleId.Ru}`}
+                render={({ input, meta }) => (
+                  <TextField
+                    {...input}
+                    label={'Название на русском'}
+                    type="text"
+                    name="name"
+                    margin="normal"
+                    variant="outlined"
+                    required
+                    error={Boolean(meta.touched && meta.error)}
+                    helperText={meta.touched && meta.error}
+                    disabled={submitting}
+                  />
+                )}
+              />
+              <Field
+                name={`name.${LocaleId.En}`}
+                render={({ input, meta }) => (
+                  <TextField
+                    {...input}
+                    label={'Название на английском'}
+                    type="text"
+                    name="name"
+                    margin="normal"
+                    variant="outlined"
+                    required
+                    error={Boolean(meta.touched && meta.error)}
+                    helperText={meta.touched && meta.error}
+                    disabled={submitting}
+                  />
+                )}
+              />
+              <Field
+                name={`name.${LocaleId.Cs}`}
+                render={({ input, meta }) => (
+                  <TextField
+                    {...input}
+                    label={'Название на чешском'}
+                    type="text"
+                    name="name"
+                    margin="normal"
+                    variant="outlined"
+                    required
+                    error={Boolean(meta.touched && meta.error)}
+                    helperText={meta.touched && meta.error}
+                    disabled={submitting}
+                  />
+                )}
+              />
+
+              <ButtonsForm
+                pristine={pristine}
+                submitting={submitting}
+                both
+                onCancel={form.reset}
+                submitLabel={'сохранить'}
+              />
+            </form>
+          </>
+        )}
+      />
+    </>
   );
 };
 
 const useStyles = makeStyles(theme => ({
   form: {
-    margin: '0 auto 2rem',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    minWidth: '320px',
-    maxWidth: '50%',
+    flex: 1,
+    minWidth: 320,
+    maxWidth: '50vw',
+    width: '100%',
+    margin: '1rem auto',
   },
-  selectForm: {
-    margin: '1rem',
+  delete: {
+    display: 'flex',
+    margin: '1.3rem auto',
   },
 }));

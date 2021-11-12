@@ -6,7 +6,7 @@ import { ShopCategoryTable } from 'server/models/shopCategory';
 
 export const getShopCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const items = await ShopCategoryTable.find().select('name').lean();
+    const items = await ShopCategoryTable.find().where('deleted', null).select('name').lean();
     return res.send(items).status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);
@@ -26,7 +26,11 @@ interface ShopCategoryGet extends ValidatedRequestSchema {
 
 export const getShopCategory = async (req: ValidatedRequest<ShopCategoryGet>, res: Response, next: NextFunction) => {
   try {
-    const category = await ShopCategoryTable.findById(req.params.id).populate('shopItems').select('name shopItems').lean();
+    const category = await ShopCategoryTable.findById(req.params.id)
+      .where('deleted', null)
+      .populate('shopItems')
+      .select('name shopItems')
+      .lean();
     return res.send(category).status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);

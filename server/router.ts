@@ -111,6 +111,12 @@ export function router(
     validator.body(controllers.validateShopCategoryUpdate),
     controllers.updateShopCategory
   );
+  app.delete(
+    '/api/admin/shop/categories/:id',
+    identity.authorizedForAdmin,
+    validator.params(controllers.validateShopCategoryGet),
+    controllers.deleteShopCategory
+  );
 
   // dashboard
   app.get('/api/admin/dashboard/topBlogs', identity.authorizedForAdmin, controllers.getTopFiveViewBlogs);

@@ -36,6 +36,7 @@ export const ShopItemSchema = new mongoose.Schema(
     },
     deleted: {
       type: Date,
+      default: null,
     },
   },
   { collection: SchemaNames.SHOP_ITEMS }

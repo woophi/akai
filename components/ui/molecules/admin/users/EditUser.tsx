@@ -55,8 +55,6 @@ export const EditUser: React.FC<Props> = ({ initialValues }) => {
               const error = await handleSubmit(event);
               if (error) {
                 return error;
-              } else {
-                form.reset();
               }
             }}
             className={classes.form}

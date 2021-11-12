@@ -48,7 +48,7 @@ export const PicturesChooser = React.memo<Props>(
         <Button variant="contained" color="primary" onClick={handleClickOpen} disabled={disabled}>
           {label}
         </Button>
-        <ModalDialog open={open} onClose={handleClickClose} onConfirm={handleConfirm} title={'Выберете картины'}>
+        <ModalDialog open={open} onClose={handleClickClose} onConfirm={handleConfirm} title={'Выберите картины'}>
           <Box flex={1} height={500} display="flex" flexWrap="wrap">
             <Box minWidth={250} minHeight={250}>
               <FilesList onClickCb={chooseFile} selectedFiles={chosenFiles} />

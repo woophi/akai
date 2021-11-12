@@ -16,6 +16,7 @@ export const ShopCategorySchema = new mongoose.Schema(
     ],
     deleted: {
       type: Date,
+      default: null,
     },
   },
   { collection: SchemaNames.SHOP_CATEGORY }

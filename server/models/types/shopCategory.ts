@@ -5,7 +5,7 @@ import { ShopItem } from './shopItems';
 export type ShopCategoryModel = {
   name: Map<Locales, string>;
   shopItems: ShopItem[];
-  deleted?: Date;
+  deleted: Date | null;
 };
 
 export type ShopCategorySaveModel = ShopCategoryModel & {

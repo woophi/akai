@@ -18,7 +18,7 @@ export type ShopItemModel = {
   price: number;
   parameters: Map<Locales, ShopItemParameter>;
   stock: number;
-  deleted?: Date;
+  deleted: Date | null;
 };
 export type ShopItemSaveModel = ShopItemModel & {
   files: string[];
