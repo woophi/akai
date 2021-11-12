@@ -1,12 +1,12 @@
 import { callAdminApi } from 'core/common';
 import { SlideItem } from 'core/models';
-import { adminActions } from 'core/reducers/admin';
+import { adminListsActions } from 'core/reducers/admin';
 import { store } from 'core/store';
 
 export const getAllSlides = async () => {
   try {
     const data = await callAdminApi<SlideItem[]>('get', 'api/admin/get/slides');
-    store.dispatch(adminActions.fetchSlides(data));
+    store.dispatch(adminListsActions.fetchSlides(data));
     return data;
   } catch (error) {
     throw error.error;

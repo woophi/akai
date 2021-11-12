@@ -45,7 +45,7 @@ export const FilesList: React.FC = () => {
   const [error, setError] = React.useState(null);
   const [query, search] = React.useState('');
 
-  const files = useAppSelector(state => state.ui.admin.files);
+  const files = useAppSelector(state => state.ui.admin.files.list);
   const selectedFile = useAppSelector(getSelectedFile);
 
   React.useEffect(() => {

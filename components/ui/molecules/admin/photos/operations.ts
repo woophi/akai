@@ -1,12 +1,12 @@
 import { callAdminApi } from 'core/common';
 import { PhotoItem } from 'core/models';
-import { adminActions } from 'core/reducers/admin';
+import { adminListsActions } from 'core/reducers/admin';
 import { store } from 'core/store';
 
 export const getAllPhotos = async () => {
   try {
     const data = await callAdminApi<PhotoItem[]>('get', 'api/admin/get/photos');
-    store.dispatch(adminActions.fetchPhotos(data));
+    store.dispatch(adminListsActions.fetchPhotos(data));
     return data;
   } catch (error) {
     throw error.error;

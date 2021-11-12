@@ -4,12 +4,12 @@ import { goToSpecific } from 'core/common';
 export const styleTruncate: CSSProperties = {
   overflow: 'hidden',
   whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis'
+  textOverflow: 'ellipsis',
 };
 
 export const toAlbums = () => goToSpecific('/admin/albums');
 export const toBlogs = () => goToSpecific('/admin/blogs');
-//export const toFiles = () => goToSpecific('/admin/files');
+export const toShop = () => goToSpecific('/admin/shop');
 export const toSlider = () => goToSpecific('/admin/slider');
 export const toBio = () => goToSpecific('/admin/bio');
 export const toPhotos = () => goToSpecific('/admin/photos');

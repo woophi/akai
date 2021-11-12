@@ -5,7 +5,7 @@ import * as React from 'react';
 import { EditUser } from './EditUser';
 
 export const AdminEditUser = React.memo(() => {
-  const user = useAppSelector(s => s.ui.admin.users.selectedUser);
+  const user = useAppSelector(s => s.ui.admin.user.selectedUser);
   return (
     <Box flexDirection="column" flex={1}>
       <EditUser

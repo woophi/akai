@@ -1,12 +1,12 @@
 import { callAdminApi } from 'core/common';
 import { BioData, LocaleId, SaveBioModel } from 'core/models';
-import { adminActions } from 'core/reducers/admin';
+import { adminBioActions } from 'core/reducers/admin';
 import { store } from 'core/store';
 
 export const getBio = async () => {
   try {
     const data = await callAdminApi<BioData>('get', 'api/admin/get/bio');
-    store.dispatch(adminActions.fetchBio(data));
+    store.dispatch(adminBioActions.fetchBio(data));
     return data;
   } catch (error) {
     throw error.error;

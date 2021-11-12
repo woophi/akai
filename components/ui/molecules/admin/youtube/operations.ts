@@ -2,12 +2,12 @@ import { callAdminApi } from 'core/common';
 import { YoutubeItem } from 'core/models';
 import { store } from 'core/store';
 import { getYoutubes } from 'core/operations';
-import { adminActions } from 'core/reducers/admin';
+import { adminListsActions } from 'core/reducers/admin';
 
 export const getAllYoutubes = async () => {
   try {
     const data = await getYoutubes();
-    store.dispatch(adminActions.fetchYoutubes(data));
+    store.dispatch(adminListsActions.fetchYoutubes(data));
     return data;
   } catch (error) {
     throw error.error;

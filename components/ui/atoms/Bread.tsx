@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  emphasize,
-  withStyles,
-  makeStyles,
-  Theme,
-  createStyles
-} from '@material-ui/core/styles';
+import { emphasize, withStyles, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
@@ -20,20 +14,20 @@ const StyledBreadcrumb = withStyles((theme: Theme) => ({
     color: theme.palette.grey[800],
     fontWeight: theme.typography.fontWeightRegular,
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.grey[300]
+      backgroundColor: theme.palette.grey[300],
     },
     '&:active': {
       boxShadow: theme.shadows[1],
-      backgroundColor: emphasize(theme.palette.grey[300], 0.12)
-    }
-  }
+      backgroundColor: emphasize(theme.palette.grey[300], 0.12),
+    },
+  },
 }))(Chip) as typeof Chip;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: theme.spacing(1)
-    }
+      padding: theme.spacing(1),
+    },
   })
 );
 
@@ -44,15 +38,10 @@ export const Bread: React.FC = () => {
   const restRoutes = routes.filter(r => r !== 'admin');
   return (
     <Paper elevation={0} className={classes.root}>
-      <Breadcrumbs
-        separator={<NavigateNextIcon color="primary" fontSize="small" />}
-        aria-label="breadcrumb"
-      >
+      <Breadcrumbs separator={<NavigateNextIcon color="primary" fontSize="small" />} aria-label="breadcrumb">
         <StyledBreadcrumb label="Главная" onClick={constants.toHome} />
         <StyledBreadcrumb label="Админ" onClick={constants.toAdmin} />
-        {restRoutes.length && !!restRoutes.join('/') && (
-          <SpecificRoute currentRoute={restRoutes.join('/')} />
-        )}
+        {restRoutes.length && !!restRoutes.join('/') && <SpecificRoute currentRoute={restRoutes.join('/')} />}
       </Breadcrumbs>
     </Paper>
   );
@@ -95,6 +84,9 @@ const SpecificRoute: React.FC<SpecificRouteProps> = ({ currentRoute }) => {
   }
   if (currentRoute.indexOf('ban') !== -1) {
     return <StyledBreadcrumb label={'Бан'} onClick={constants.toBans} />;
+  }
+  if (currentRoute.indexOf('shop') !== -1) {
+    return <StyledBreadcrumb label={'Магазин'} onClick={constants.toShop} />;
   }
   return null;
 };

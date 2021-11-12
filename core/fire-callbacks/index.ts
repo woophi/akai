@@ -1,6 +1,6 @@
 import { client } from 'core/callbacks';
 import { getCommentById } from 'core/operations';
-import { adminActions } from 'core/reducers/admin';
+import { adminFilesActions } from 'core/reducers/admin';
 import { blogsActions } from 'core/reducers/blogs';
 import { selectAllBlogs } from 'core/selectors';
 import { store } from 'core/store';
@@ -13,10 +13,10 @@ client.upload_done = (fileName, fileId, url = '') => {
       name: fileName,
       url,
     };
-    store.dispatch(adminActions.updateFiles(file));
-    store.dispatch(adminActions.selectFile(file));
+    store.dispatch(adminFilesActions.updateFiles(file));
+    store.dispatch(adminFilesActions.selectFile(file));
   }
-  store.dispatch(adminActions.uploadingFile(false));
+  store.dispatch(adminFilesActions.uploadingFile(false));
 };
 
 client.new_comment = async (commentId, blogId) => {

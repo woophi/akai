@@ -7,35 +7,20 @@ import { YoutubeItem } from '../youtube';
 import { UserModel } from './user';
 
 export type AdminState = {
-  section: Section;
-  files: FileItem[];
-  selectedFile: FileItem | null;
-  uploadingFile: boolean;
-  blogs: BlogPreviewItem[];
-  slides: SlideItem[];
   bio: BioData;
-  photos: PhotoItem[];
-  youtubes: YoutubeItem[];
-  facebookActive: boolean;
   users: {
     list: UserModel[];
     selectedUser: UserModel;
   };
+  files: {
+    list: FileItem[];
+    selectedFile: FileItem | null;
+    uploadingFile: boolean;
+  };
+  lists: {
+    blogs: BlogPreviewItem[];
+    slides: SlideItem[];
+    photos: PhotoItem[];
+    youtubes: YoutubeItem[];
+  };
 };
-
-export enum Section {
-  Albums = 'Albums',
-  Blogs = 'Blogs',
-  Files = 'Files',
-  Slider = 'Slider',
-  Bio = 'Bio',
-  Photos = 'Photos',
-  BlackList = 'BlackList',
-  Youtube = 'Youtube',
-  Comments = 'Comments',
-  Facebook = 'Facebook',
-  Likes = 'Likes',
-  Sketch = 'Sketch',
-  Followers = 'Followers',
-  Users = 'Users',
-}

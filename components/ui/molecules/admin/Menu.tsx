@@ -10,7 +10,7 @@ import ExitToApp from '@material-ui/icons/ExitToApp';
 import InsertPhoto from '@material-ui/icons/InsertPhoto';
 import PhotoAlbum from '@material-ui/icons/PhotoAlbum';
 import PictureInPicture from '@material-ui/icons/PictureInPicture';
-// import Files from '@material-ui/icons/PermMedia';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Slideshow from '@material-ui/icons/Slideshow';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 import VideoLibrary from '@material-ui/icons/VideoLibrary';
@@ -20,25 +20,21 @@ import { useAppSelector } from 'core/reducers/rootReducer';
 import { hasRoleSuperAdmin } from 'core/selectors';
 import * as React from 'react';
 import * as constants from 'ui/atoms/constants';
-// import { checkFBOnePage } from './facebook/operations';
-
-let fetchedOnce = false;
 
 export const AdminMenu = React.memo(() => {
   const isSuperAdmin = useAppSelector(hasRoleSuperAdmin);
   const classes = useStyles({});
 
-  React.useEffect(() => {
-    if (!fetchedOnce) {
-      // checkFBOnePage();
-      fetchedOnce = true;
-    }
-  }, []);
-
   return (
     <div>
       <div className={classes.toolbar} />
       <List>
+        <ListItem button onClick={constants.toShop}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary={'Магазин'} />
+        </ListItem>
         <ListItem button onClick={constants.toAlbums}>
           <ListItemIcon>
             <PhotoAlbum />
@@ -51,12 +47,6 @@ export const AdminMenu = React.memo(() => {
           </ListItemIcon>
           <ListItemText primary={'Блоги'} />
         </ListItem>
-        {/* <ListItem button onClick={toFiles}>
-          <ListItemIcon>
-            <Files />
-          </ListItemIcon>
-          <ListItemText primary={'файлы'} />
-        </ListItem> */}
         <ListItem button onClick={constants.toSlider}>
           <ListItemIcon>
             <Slideshow />
@@ -81,36 +71,12 @@ export const AdminMenu = React.memo(() => {
           </ListItemIcon>
           <ListItemText primary={'Youtube'} />
         </ListItem>
-        {/* {TODO: add infinity loader} */}
-        {/* <ListItem button onClick={constants.toComments} disabled>
-          <ListItemIcon>
-            <Comment />
-          </ListItemIcon>
-          <ListItemText primary={'Комментарии'} />
-        </ListItem> */}
-        {/* <ListItem button onClick={constants.toFacebook}>
-          <ListItemIcon>
-            <ThumbUp
-              style={{
-                color: theme.palette.error.main,
-              }}
-            />
-          </ListItemIcon>
-          <ListItemText primary={'Facebook'} />
-        </ListItem> */}
         <ListItem button onClick={constants.toInstagram}>
           <ListItemIcon>
             <InsertPhoto />
           </ListItemIcon>
           <ListItemText primary={'Instagram'} />
         </ListItem>
-
-        {/* <ListItem button onClick={constants.toFollowers} disabled>
-          <ListItemIcon>
-            <Group />
-          </ListItemIcon>
-          <ListItemText primary={'Подписчики'} />
-        </ListItem> */}
 
         {isSuperAdmin && (
           <ListItem button onClick={constants.toUsers}>
@@ -120,15 +86,6 @@ export const AdminMenu = React.memo(() => {
             <ListItemText primary={'Пользователи'} />
           </ListItem>
         )}
-        {/* <ListItem button onClick={toSketchBooks}>
-          <ListItemIcon><ThumbUp /></ListItemIcon>
-          <ListItemText primary={'sketch books'} />
-        </ListItem> */}
-
-        {/* <ListItem button onClick={toLikes}>
-          <ListItemIcon><ThumbUp /></ListItemIcon>
-          <ListItemText primary={'Понравилось'} />
-        </ListItem> */}
       </List>
       <Divider />
       <List>
