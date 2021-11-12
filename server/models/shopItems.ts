@@ -16,6 +16,12 @@ export const ShopItemSchema = new mongoose.Schema(
         ref: SchemaNames.FILES,
       },
     ],
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SchemaNames.SHOP_CATEGORY,
+      },
+    ],
     description: [
       {
         localeId: String,

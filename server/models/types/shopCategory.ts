@@ -5,6 +5,7 @@ import { ShopItem } from './shopItems';
 export type ShopCategoryModel = {
   name: LanguageContent[];
   shopItems: ShopItem[];
+  deleted?: Date;
 };
 
 export type ShopCategorySaveModel = ShopCategoryModel & {
