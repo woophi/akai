@@ -26,7 +26,7 @@ const StyledBreadcrumb = withStyles((theme: Theme) => ({
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: theme.spacing(1),
+      padding: '.5rem .5rem .5rem 1rem',
     },
   })
 );
