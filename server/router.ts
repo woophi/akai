@@ -84,6 +84,22 @@ export function router(
     controllers.getUser
   );
 
+  // shop
+  app.get('/api/admin/shop/items', identity.authorizedForAdmin, controllers.getShopItems);
+  app.get(
+    '/api/admin/shop/items/:id',
+    identity.authorizedForAdmin,
+    validator.params(controllers.validateShopItemGet),
+    controllers.getShopItem
+  );
+  app.get('/api/admin/shop/categories', identity.authorizedForAdmin, controllers.getShopCategories);
+  app.get(
+    '/api/admin/shop/categories/:id',
+    identity.authorizedForAdmin,
+    validator.params(controllers.validateShopCategoryGet),
+    controllers.getShopCategory
+  );
+
   // dashboard
   app.get('/api/admin/dashboard/topBlogs', identity.authorizedForAdmin, controllers.getTopFiveViewBlogs);
 
