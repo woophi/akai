@@ -3,3 +3,5 @@ export enum LocaleId {
   Cs = 'cs',
   Ru = 'ru',
 }
+
+export type LocaleMap = Record<LocaleId, string>;

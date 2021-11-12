@@ -4,12 +4,10 @@ const timestamps = require('mongoose-timestamp');
 
 export const ShopItemSchema = new mongoose.Schema(
   {
-    title: [
-      {
-        localeId: String,
-        content: String,
-      },
-    ],
+    title: {
+      type: Map,
+      of: String,
+    },
     files: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,25 +20,20 @@ export const ShopItemSchema = new mongoose.Schema(
         ref: SchemaNames.SHOP_CATEGORY,
       },
     ],
-    description: [
-      {
-        localeId: String,
-        content: String,
-      },
-    ],
+    description: {
+      type: Map,
+      of: String,
+    },
     price: {
       type: Number,
     },
     stock: {
       type: Number,
     },
-    parameters: [
-      {
-        name: String,
-        value: String,
-        localeId: String,
-      },
-    ],
+    parameters: {
+      type: Map,
+      of: Object,
+    },
     deleted: {
       type: Date,
     },

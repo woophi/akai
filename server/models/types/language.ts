@@ -3,13 +3,14 @@ import { Model } from './mongoModel';
 export type Language = Model<LanguageModel>;
 
 export type LanguageContent = {
-  localeId: string;
+  localeId: Locales;
   content: string;
 };
+export type LanguageMap = Map<Locales, string>;
 
 export type LanguageModel = {
   name: string;
-  localeId: string;
+  localeId: Locales;
   deleted?: Date;
 };
 

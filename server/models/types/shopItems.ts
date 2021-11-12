@@ -1,6 +1,6 @@
-import { Model } from './mongoModel';
 import { File } from './files';
-import { LanguageContent } from './language';
+import { Locales } from './language';
+import { Model } from './mongoModel';
 import { ShopCategory } from './shopCategory';
 
 export type ShopItem = Model<ShopItemModel>;
@@ -8,16 +8,15 @@ export type ShopItem = Model<ShopItemModel>;
 export type ShopItemParameter = {
   name: string;
   value: string;
-  localeId: string;
 };
 
 export type ShopItemModel = {
   files: File[];
   categories: ShopCategory[];
-  title: LanguageContent[];
-  description: LanguageContent[];
+  title: Map<Locales, string>;
+  description: Map<Locales, string>;
   price: number;
-  parameters: ShopItemParameter[];
+  parameters: Map<Locales, ShopItemParameter>;
   stock: number;
   deleted?: Date;
 };

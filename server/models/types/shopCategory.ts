@@ -1,9 +1,9 @@
-import { LanguageContent } from './language';
+import { Locales } from './language';
 import { Model } from './mongoModel';
 import { ShopItem } from './shopItems';
 
 export type ShopCategoryModel = {
-  name: LanguageContent[];
+  name: Map<Locales, string>;
   shopItems: ShopItem[];
   deleted?: Date;
 };

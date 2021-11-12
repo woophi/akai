@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { adminBioReducer } from './admin/bio';
 import { adminFilesReducer } from './admin/files';
 import { adminListsReducer } from './admin/lists';
+import { adminShopReducer } from './admin/shop';
 import { adminUserReducer } from './admin/users';
 import { BlogsActions, blogsReducer } from './blogs';
 import { UserActions, userReducer } from './user';
@@ -17,6 +18,7 @@ const uiReducer = combineReducers({
     bio: adminBioReducer,
     files: adminFilesReducer,
     lists: adminListsReducer,
+    shop: adminShopReducer,
   }),
 });
 

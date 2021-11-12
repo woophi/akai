@@ -99,6 +99,18 @@ export function router(
     validator.params(controllers.validateShopCategoryGet),
     controllers.getShopCategory
   );
+  app.post(
+    '/api/admin/shop/category',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateShopCategorySave),
+    controllers.createShopCategory
+  );
+  app.put(
+    '/api/admin/shop/category',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateShopCategoryUpdate),
+    controllers.updateShopCategory
+  );
 
   // dashboard
   app.get('/api/admin/dashboard/topBlogs', identity.authorizedForAdmin, controllers.getTopFiveViewBlogs);
