@@ -81,6 +81,9 @@ export const EditProduct: React.FC<Props> = ({ initialValues }) => {
   };
 
   const submit = React.useCallback(async (data: ShopItemUpdate) => {
+    if (!data.files.length) {
+      return { [FORM_ERROR]: 'Необходимо выбрать хотя бы одну картину' };
+    }
     try {
       await updateShopItem(data);
       getShopItem(data._id).then(d => dispatch(adminShopActions.selectItem(d)));

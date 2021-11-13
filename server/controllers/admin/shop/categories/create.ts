@@ -3,7 +3,8 @@ import { ContainerTypes, ValidatedRequest, ValidatedRequestSchema } from 'expres
 import Joi from 'joi';
 import moment from 'moment';
 import { HTTPStatus } from 'server/lib/models';
-import ShopCategoryTable from 'server/models/shopCategory';
+import { ShopCategoryTable } from 'server/models/shopCategory';
+import { ShopItemTable } from 'server/models/shopItems';
 import { LanguageMap, ShopItem } from 'server/models/types';
 import { languageContent } from 'server/validations';
 
@@ -38,6 +39,13 @@ export const createShopCategory = async (req: ValidatedRequest<ShopCategorySave>
   try {
     const newShopCategory = new ShopCategoryTable(req.body);
     await newShopCategory.save();
+    if (req.body.shopItems.length) {
+      for (const itemId of req.body.shopItems) {
+        await ShopItemTable.findByIdAndUpdate(itemId, {
+          $push: { categories: newShopCategory.id },
+        }).exec();
+      }
+    }
     return res.sendStatus(HTTPStatus.OK);
   } catch (error) {
     console.error(error);
@@ -50,9 +58,20 @@ export const updateShopCategory = async (req: ValidatedRequest<ShopCategoryUpdat
     if (!shopCategory) {
       return res.sendStatus(HTTPStatus.NotFound);
     }
+    const oldShopItems = shopCategory.shopItems;
     shopCategory.name = req.body.name;
     shopCategory.shopItems = req.body.shopItems as unknown as ShopItem[];
     await shopCategory.save();
+    for (const itemId of oldShopItems) {
+      await ShopItemTable.findByIdAndUpdate(itemId, {
+        $pull: { categories: shopCategory.id },
+      }).exec();
+    }
+    for (const itemId of req.body.shopItems) {
+      await ShopItemTable.findByIdAndUpdate(itemId, {
+        $push: { categories: shopCategory.id },
+      }).exec();
+    }
     return res.sendStatus(HTTPStatus.OK);
   } catch (error) {
     console.error(error);

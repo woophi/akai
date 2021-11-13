@@ -77,6 +77,9 @@ export const NewProduct: React.FC = () => {
   };
 
   const submit = React.useCallback(async (data: ShopItemSave) => {
+    if (!data.files.length) {
+      return { [FORM_ERROR]: 'Необходимо выбрать хотя бы одну картину' };
+    }
     try {
       await createShopItem(data);
       goToSpecific('/admin/shop');

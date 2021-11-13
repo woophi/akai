@@ -73,7 +73,6 @@ export const NewCategory: React.FC = () => {
                   {...input}
                   label={'Название на русском'}
                   type="text"
-                  name="name"
                   margin="normal"
                   variant="outlined"
                   required
@@ -90,7 +89,6 @@ export const NewCategory: React.FC = () => {
                   {...input}
                   label={'Название на английском'}
                   type="text"
-                  name="name"
                   margin="normal"
                   variant="outlined"
                   required
@@ -107,7 +105,6 @@ export const NewCategory: React.FC = () => {
                   {...input}
                   label={'Название на чешском'}
                   type="text"
-                  name="name"
                   margin="normal"
                   variant="outlined"
                   required
