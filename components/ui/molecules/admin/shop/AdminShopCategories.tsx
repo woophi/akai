@@ -1,4 +1,5 @@
 import { Box, Chip, Typography } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import { goToDeep } from 'core/common';
 import { LocaleId } from 'core/models';
 import { adminShopActions } from 'core/reducers/admin/shop';
@@ -23,7 +24,12 @@ export const AdminShopCategories = memo(() => {
       <Box display="flex">
         {categories.map(c => (
           <Box key={c._id} margin=".25rem">
-            <Chip label={c.name[LocaleId.Ru]} onClick={() => goToDeep(`/category/edit/${c._id}`)} />
+            <Chip
+              label={c.name[LocaleId.Ru]}
+              onClick={() => goToDeep(`/category/edit/${c._id}`)}
+              onDelete={() => goToDeep(`/category/edit/${c._id}`)}
+              deleteIcon={<EditIcon />}
+            />
           </Box>
         ))}
       </Box>

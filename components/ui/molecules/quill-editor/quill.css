@@ -11,7 +11,7 @@
   height: 100%;
   margin: 0px;
   position: relative;
-  border-radius: 8px;
+  border-radius: 0px 0px 8px 8px;
 }
 .ql-container.ql-disabled .ql-tooltip {
   visibility: hidden;
@@ -871,7 +871,7 @@
   box-sizing: border-box;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   padding: 8px;
-  border-radius: 8 px;
+  border-radius: 8px 8px 0px 0px;
 }
 .ql-toolbar.ql-snow .ql-formats {
   margin-right: 15px;

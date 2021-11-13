@@ -70,7 +70,7 @@ export const BioForm = React.memo<Props>(({ initialValues }) => {
         >
           <Snakbars variant="error" message={submitError} className={classes.field} />
           <Box padding="1rem">
-            <Paper>
+            <Paper elevation={4}>
               <Tabs value={tabValue} onChange={handleChange} indicatorColor="secondary" centered>
                 <Tab label="Редактор" />
                 <Tab label="Предпросмотр" />

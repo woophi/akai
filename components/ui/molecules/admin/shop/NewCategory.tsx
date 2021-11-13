@@ -46,7 +46,6 @@ export const NewCategory: React.FC = () => {
           <form
             onSubmit={async event => {
               const error = await handleSubmit(event);
-              console.debug(error);
               if (error) {
                 return error;
               }

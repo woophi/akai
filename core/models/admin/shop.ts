@@ -21,16 +21,26 @@ export type ShopCategoryInfo = ShopCategoryItem & {
 export type ShopItemParameter = {
   name: string;
   value: string;
+  localeId: LocaleId;
 };
 
-export type ShopItemInfo = {
-  _id: string;
-  files: FileItem[];
-  categories: string[];
+type ShopItemModel = {
   title: LocaleMap;
   description: LocaleMap;
   price: number;
-  parameters: Record<LocaleId, ShopItemParameter>;
+  parameters: ShopItemParameter[];
   stock: number;
-  deleted?: Date;
+  categories: string[];
+};
+
+export type ShopItemInfo = ShopItemModel & {
+  _id: string;
+  files: FileItem[];
+};
+
+export type ShopItemSave = ShopItemModel & {
+  files: string[];
+};
+export type ShopItemUpdate = ShopItemSave & {
+  _id: string;
 };

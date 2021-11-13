@@ -30,10 +30,13 @@ export const ShopItemSchema = new mongoose.Schema(
     stock: {
       type: Number,
     },
-    parameters: {
-      type: Map,
-      of: Object,
-    },
+    parameters: [
+      {
+        name: String,
+        value: String,
+        localeId: String,
+      },
+    ],
     deleted: {
       type: Date,
       default: null,

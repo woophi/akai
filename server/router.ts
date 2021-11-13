@@ -92,6 +92,25 @@ export function router(
     validator.params(controllers.validateShopItemGet),
     controllers.getShopItem
   );
+  app.post(
+    '/api/admin/shop/item',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateShopItemSave),
+    controllers.createShopItem
+  );
+  app.put(
+    '/api/admin/shop/item',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateShopItemUpdate),
+    controllers.updateShopItem
+  );
+  app.delete(
+    '/api/admin/shop/items/:id',
+    identity.authorizedForAdmin,
+    validator.params(controllers.validateShopItemGet),
+    controllers.deleteShopItem
+  );
+
   app.get('/api/admin/shop/categories', identity.authorizedForAdmin, controllers.getShopCategories);
   app.get(
     '/api/admin/shop/categories/:id',

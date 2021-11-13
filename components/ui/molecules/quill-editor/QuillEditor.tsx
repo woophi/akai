@@ -1,3 +1,4 @@
+import { Chip, Typography } from '@material-ui/core';
 import * as React from 'react';
 import ReactQuill from 'react-quill';
 
@@ -8,6 +9,7 @@ type Props = {
   value: any;
   ownId?: string;
   placeholder?: string;
+  error?: any;
 };
 
 const toolbarOptions = [
@@ -32,7 +34,7 @@ const toolbarOptions = [
 
 export const quillPlaceholder = '<p><br></p>';
 
-const QuillEditor = React.memo<Props>(({ onChange, value, onFocus, onBlur, ownId = 'quill-editor', placeholder }) => {
+const QuillEditor = React.memo<Props>(({ onChange, value, onFocus, onBlur, ownId = 'quill-editor', placeholder, error }) => {
   const quillRef = React.useRef<ReactQuill | null>(null);
 
   React.useEffect(() => {
@@ -67,19 +69,22 @@ const QuillEditor = React.memo<Props>(({ onChange, value, onFocus, onBlur, ownId
   if (ReactQuill === null) return null;
 
   return (
-    <ReactQuill
-      id={ownId}
-      ref={el => (quillRef.current = el)}
-      value={value}
-      onChange={handleChange}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      modules={{
-        toolbar,
-      }}
-      scrollingContainer={document.documentElement}
-      placeholder={placeholder}
-    />
+    <>
+      <ReactQuill
+        id={ownId}
+        ref={el => (quillRef.current = el)}
+        value={value}
+        onChange={handleChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        modules={{
+          toolbar,
+        }}
+        scrollingContainer={document.documentElement}
+        placeholder={placeholder}
+      />
+      {error && <Typography children={error} color="error" variant="caption" />}
+    </>
   );
 });
 

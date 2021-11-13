@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 import { ensureNotAuthorized } from 'core/operations/auth';
 import * as React from 'react';
 import { AdminLayout, LinkButton } from 'ui/index';
-import { AdminShopCategories } from 'ui/molecules/admin/shop/AdminShopCategories';
+import { AdminShopCategories, AdminShopProducts } from 'ui/molecules/admin/shop';
 
 const Shop = React.memo(() => {
   React.useEffect(() => {
@@ -33,6 +33,7 @@ const Shop = React.memo(() => {
           />
         </Box>
         <AdminShopCategories />
+        <AdminShopProducts />
       </Box>
     </AdminLayout>
   );

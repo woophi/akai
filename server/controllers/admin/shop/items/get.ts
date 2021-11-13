@@ -6,7 +6,11 @@ import { ContainerTypes, ValidatedRequest, ValidatedRequestSchema } from 'expres
 
 export const getShopItems = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const items = await ShopItemTable.find().select('title price stock').lean();
+    const items = await ShopItemTable.find()
+      .where('deleted', null)
+      .populate('files')
+      .select('title price stock files')
+      .lean();
     return res.send(items).status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);
@@ -26,7 +30,10 @@ interface ShopItemGet extends ValidatedRequestSchema {
 
 export const getShopItem = async (req: ValidatedRequest<ShopItemGet>, res: Response, next: NextFunction) => {
   try {
-    const shopItem = await ShopItemTable.findById(req.params.id).lean();
+    const shopItem = await ShopItemTable.findById(req.params.id)
+      .where('deleted', null)
+      .select('title files categories description price stock parameters')
+      .lean();
     return res.send(shopItem).status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);

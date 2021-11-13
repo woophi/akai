@@ -43,7 +43,7 @@ export const PicturesChooser = React.memo<Props>(
     };
 
     return (
-      <div className={className}>
+      <Box className={className} margin="0 1rem 1rem">
         <InputLabel style={{ color: '#000', marginBottom: '.5rem' }}>{'Выбрать картины'}</InputLabel>
         <Button variant="contained" color="primary" onClick={handleClickOpen} disabled={disabled}>
           {label}
@@ -56,7 +56,7 @@ export const PicturesChooser = React.memo<Props>(
             <PaperDropzone />
           </Box>
         </ModalDialog>
-      </div>
+      </Box>
     );
   }
 );

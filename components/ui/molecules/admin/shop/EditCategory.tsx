@@ -25,7 +25,7 @@ const validate = (values: ShopCategoryInfo, t: (s: string) => string) => {
 };
 
 type Props = {
-  initialValues?: ShopCategoryInfo;
+  initialValues: ShopCategoryInfo;
 };
 
 export const EditCategory: React.FC<Props> = ({ initialValues }) => {
@@ -42,15 +42,14 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
     }
   }, []);
 
-  const handleDeleteAlbum = React.useCallback(() => {
-    if (initialValues?._id) return deleteShopCategory(initialValues?._id);
-    return Promise.resolve();
-  }, [initialValues?._id]);
+  const handleDeleteCategory = React.useCallback(() => {
+    return deleteShopCategory(initialValues._id);
+  }, [initialValues._id]);
 
   return (
     <>
       <ActionButton
-        action={handleDeleteAlbum}
+        action={handleDeleteCategory}
         label={'Удалить категорию'}
         backToUrl={'/admin/shop'}
         className={classes.delete}

@@ -8,6 +8,7 @@ export type ShopItem = Model<ShopItemModel>;
 export type ShopItemParameter = {
   name: string;
   value: string;
+  localeId: Locales;
 };
 
 export type ShopItemModel = {
@@ -16,7 +17,7 @@ export type ShopItemModel = {
   title: Map<Locales, string>;
   description: Map<Locales, string>;
   price: number;
-  parameters: Map<Locales, ShopItemParameter>;
+  parameters: ShopItemParameter[];
   stock: number;
   deleted: Date | null;
 };
