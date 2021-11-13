@@ -2,12 +2,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LocaleId, ShopCategoryInfo } from 'core/models';
 import { adminShopActions } from 'core/reducers/admin/shop';
 import { FORM_ERROR } from 'final-form';
+import arrayMutators from 'final-form-arrays';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
 import { ActionButton, ButtonsForm, Snakbars, TextField } from 'ui/atoms';
-import { getShopCategory, updateShopCategory, deleteShopCategory } from './operations';
+import { deleteShopCategory, getShopCategory, updateShopCategory } from './operations';
+import { ProductItemField } from './ProductItemField';
+import { ProductsChooser } from './ProductsChooser';
 
 const validate = (values: ShopCategoryInfo, t: (s: string) => string) => {
   const errors: ShopCategoryInfo = {} as ShopCategoryInfo;
@@ -56,6 +60,9 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
       />
       <Form
         initialValues={initialValues}
+        mutators={{
+          ...arrayMutators,
+        }}
         onSubmit={submit}
         validate={(v: ShopCategoryInfo) => validate(v, t)}
         render={({ handleSubmit, pristine, submitting, submitError, form }) => (
@@ -127,6 +134,21 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
                   />
                 )}
               />
+
+              <FieldArray name="shopItems">
+                {({ fields }) => (
+                  <>
+                    <ProductsChooser onConfirm={fields.push} />
+                    {fields.map((name, index) => (
+                      <Field
+                        name={`${name}`}
+                        key={name}
+                        render={({ input }) => <ProductItemField input={input} onRemoveField={() => fields.remove(index)} />}
+                      />
+                    ))}
+                  </>
+                )}
+              </FieldArray>
 
               <ButtonsForm
                 pristine={pristine}

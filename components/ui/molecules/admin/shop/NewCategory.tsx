@@ -2,11 +2,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { goToSpecific } from 'core/common';
 import { LocaleId, ShopCategorySave } from 'core/models';
 import { FORM_ERROR } from 'final-form';
+import arrayMutators from 'final-form-arrays';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import { useTranslation } from 'server/lib/i18n';
 import { ButtonsForm, Snakbars, TextField } from 'ui/atoms';
 import { createShopCategory } from './operations';
+import { ProductItemField } from './ProductItemField';
+import { ProductsChooser } from './ProductsChooser';
 
 const validate = (values: ShopCategorySave, t: (s: string) => string) => {
   const errors: ShopCategorySave = { name: {} } as ShopCategorySave;
@@ -29,7 +33,7 @@ export const NewCategory: React.FC = () => {
 
   const submit = React.useCallback(async (data: ShopCategorySave) => {
     try {
-      await createShopCategory({ ...data, shopItems: [] });
+      await createShopCategory(data);
       goToSpecific('/admin/shop');
     } catch (error) {
       return { [FORM_ERROR]: error };
@@ -39,7 +43,10 @@ export const NewCategory: React.FC = () => {
   return (
     <Form
       onSubmit={submit}
-      initialValues={{ name: {} }}
+      initialValues={{ name: {}, shopItems: [] }}
+      mutators={{
+        ...arrayMutators,
+      }}
       validate={(v: ShopCategorySave) => validate(v, t)}
       render={({ handleSubmit, pristine, submitting, submitError, form }) => (
         <>
@@ -110,6 +117,21 @@ export const NewCategory: React.FC = () => {
                 />
               )}
             />
+
+            <FieldArray name="shopItems">
+              {({ fields }) => (
+                <>
+                  <ProductsChooser onConfirm={fields.push} />
+                  {fields.map((name, index) => (
+                    <Field
+                      name={`${name}`}
+                      key={name}
+                      render={({ input }) => <ProductItemField input={input} onRemoveField={() => fields.remove(index)} />}
+                    />
+                  ))}
+                </>
+              )}
+            </FieldArray>
 
             <ButtonsForm pristine={pristine} submitting={submitting} both onCancel={form.reset} submitLabel={'сохранить'} />
           </form>

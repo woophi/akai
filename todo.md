@@ -1,1 +1,2 @@
 - trustpilot shop reviews
+- remove duplicated from chooser categories/products
