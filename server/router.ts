@@ -155,7 +155,12 @@ export function router(
   app.post('/api/admin/new/language', identity.authorizedForAdmin, controllers.createNewLanguage);
   app.patch('/api/admin/toggle/language', identity.authorizedForAdmin, controllers.toggleActivationLanguage);
 
-  app.post('/api/admin/update/slides', identity.authorizedForAdmin, controllers.updateMainSlider);
+  app.post(
+    '/api/admin/update/slides',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateSlideSave),
+    controllers.updateMainSlider
+  );
   app.get('/api/admin/get/slides', identity.authorizedForAdmin, controllers.getAdminSlider);
 
   app.get('/api/admin/get/bio', identity.authorizedForAdmin, controllers.getAdminBiography);

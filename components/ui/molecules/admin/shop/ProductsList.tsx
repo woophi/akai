@@ -18,12 +18,12 @@ type LocalState = {
 
 const Row = (props: ListChildComponentProps) => {
   const { index, style, data } = props;
-  const { onClickCb, selectedProducts, products } = data as Props & LocalState;
+  const { onClickCb, selectedProducts, products, single } = data as Props & LocalState;
   const product = products[index];
   const checked = selectedProducts.indexOf(product._id) !== -1;
   const handleClick = () => {
     const data = checked ? selectedProducts.filter(id => id != product._id) : [...selectedProducts, product._id];
-    onClickCb(data);
+    onClickCb(single ? [product._id] : data);
   };
 
   return (
@@ -54,9 +54,10 @@ const Row = (props: ListChildComponentProps) => {
 type Props = {
   selectedProducts: string[];
   onClickCb: (ids: string[]) => void;
+  single: boolean;
 };
 
-export const ProductsList: React.FC<Props> = ({ onClickCb, selectedProducts }) => {
+export const ProductsList: React.FC<Props> = ({ onClickCb, selectedProducts, single }) => {
   const [fetching, fetch] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [products, setProducts] = React.useState<ShopItemInfo[]>([]);
@@ -86,6 +87,7 @@ export const ProductsList: React.FC<Props> = ({ onClickCb, selectedProducts }) =
               products: getList(),
               onClickCb,
               selectedProducts,
+              single,
             }}
             height={height - 74}
             width={width}

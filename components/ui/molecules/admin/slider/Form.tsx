@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { ButtonsForm, Snakbars } from 'ui/atoms';
-import { Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core';
+import { SlideItem } from 'core/models';
 import { FORM_ERROR } from 'final-form';
 import arrayMutators from 'final-form-arrays';
+import * as React from 'react';
+import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { SlideItem } from 'core/models';
-import { PicturesChooser } from '../blog/PicturesChooser';
-import { updateSlides, getAllSlides } from './operations';
-import { SortableFactory } from 'ui/molecules/sortable';
 import { SortEndHandler } from 'react-sortable-hoc';
+import { ButtonsForm, Snakbars } from 'ui/atoms';
+import { SortableSlider } from 'ui/molecules/sortable/SortableSlider';
+import { PicturesChooser } from '../blog/PicturesChooser';
+import { getAllSlides, updateSlides } from './operations';
 
 type Props = {
   initialValues?: {
@@ -27,9 +27,9 @@ const onSubmit = async (data: SliderForm) => {
   }
   try {
     await updateSlides(data.slides);
-    await getAllSlides();
+    getAllSlides();
   } catch (error) {
-    return { [FORM_ERROR]: error.error };
+    return { [FORM_ERROR]: error.error ?? error };
   }
 };
 
@@ -70,7 +70,7 @@ export const SliderForm = React.memo<Props>(({ initialValues }) => {
                     className={classes.field}
                     label={'Добавить слайды'}
                   />
-                  <SortableFactory
+                  <SortableSlider
                     items={fields}
                     onSortEnd={onSortEnd}
                     lockAxis="y"
@@ -78,7 +78,7 @@ export const SliderForm = React.memo<Props>(({ initialValues }) => {
                     lockToContainerEdges
                     useDragHandle
                     transitionDuration={200}
-                    typeOfField="photo"
+                    disabled={submitting}
                   />
                 </>
               );

@@ -12,12 +12,12 @@ export const SliderSchema = new mongoose.Schema(
       type: Number,
     },
     title: {
-      type: String,
-      default: null,
+      type: Map,
+      of: String,
     },
     subTitle: {
-      type: String,
-      default: null,
+      type: Map,
+      of: String,
     },
     button: {
       link: {
@@ -25,7 +25,8 @@ export const SliderSchema = new mongoose.Schema(
         default: null,
       },
       name: {
-        type: String,
+        type: Map,
+        of: String,
       },
     },
   },

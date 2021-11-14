@@ -17,6 +17,9 @@ export const updateSlides = (slides: SlideItem[]) => {
     id: s.id,
     ordinal: index,
     fileId: s.file._id,
+    title: s.title,
+    subTitle: s.subTitle,
+    button: s.button,
   }));
   return callAdminApi<void>('post', 'api/admin/update/slides', { slides: mapSlides });
 };

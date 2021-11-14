@@ -19,12 +19,12 @@ type Props = {
   withDrag?: boolean;
 };
 
-export const PictureField = React.memo<Props>(({ onRemoveField, fileId, text = '', withDrag = false }) => {
+export const PictureField = React.memo<Props>(({ onRemoveField, fileId, text = '', withDrag = true }) => {
   const files = useAppSelector(getAdminFiles);
   const file = files.find(f => f._id == fileId) || ({} as FileItem);
   return (
     <ListItem>
-      <DragHandler />
+      {withDrag && <DragHandler />}
       <ListItemAvatar>
         <Avatar alt={file.name} src={file.url} />
       </ListItemAvatar>

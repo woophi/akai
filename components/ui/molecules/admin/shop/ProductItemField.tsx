@@ -35,11 +35,13 @@ export const ProductItemField = React.memo<Props>(({ onRemoveField, input }) => 
         <Avatar alt={product.title[LocaleId.Ru]} src={product.files[0]?.url} />
       </ListItemAvatar>
       <ListItemText primary={product.title[LocaleId.Ru]} primaryTypographyProps={{ noWrap: true }} />
-      <ListItemIcon>
-        <IconButton onClick={onRemoveField}>
-          <DeleteIcon />
-        </IconButton>
-      </ListItemIcon>
+      {onRemoveField && (
+        <ListItemIcon>
+          <IconButton onClick={onRemoveField}>
+            <DeleteIcon />
+          </IconButton>
+        </ListItemIcon>
+      )}
     </ListItem>
   );
 });
