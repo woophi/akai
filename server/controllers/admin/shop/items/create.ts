@@ -5,8 +5,9 @@ import moment from 'moment';
 import { HTTPStatus } from 'server/lib/models';
 import { ShopItemTable } from 'server/models/shopItems';
 import { ShopCategoryTable } from 'server/models/shopCategory';
-import { ShopItemSaveModel } from 'server/models/types';
+import { Locales, ShopItemSaveModel } from 'server/models/types';
 import { languageContent } from 'server/validations';
+import { parseProductHref } from 'server/utils/format';
 
 export const validateShopItemSave = Joi.object({
   title: languageContent.required(),
@@ -38,7 +39,10 @@ interface ShopItemGet extends ValidatedRequestSchema {
 
 export const createShopItem = async (req: ValidatedRequest<ShopItemSave>, res: Response, next: NextFunction) => {
   try {
-    const newShopItem = new ShopItemTable(req.body);
+    const newShopItem = new ShopItemTable({
+      ...req.body,
+      href: parseProductHref(req.body.title[Locales.EN]),
+    });
     await newShopItem.save();
     if (req.body.categories.length) {
       for (const categoryId of req.body.categories) {
@@ -61,6 +65,7 @@ export const updateShopItem = async (req: ValidatedRequest<ShopItemUpdate>, res:
     }
     const oldCategories = shopItem.categories;
     shopItem.title = req.body.title;
+    shopItem.href = parseProductHref(req.body.title[Locales.EN]);
     shopItem.description = req.body.description;
     shopItem.categories = req.body.categories;
     shopItem.files = req.body.files;

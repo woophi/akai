@@ -5,7 +5,7 @@ import { HTTPStatus } from 'server/lib/models';
 import { Logger } from 'server/logger';
 import SliderModel from 'server/models/slider';
 import * as models from 'server/models/types';
-import { LanguageMap } from 'server/models/types';
+import { LanguageMap, ShopItem } from 'server/models/types';
 import { languageContent } from 'server/validations';
 
 type OrdinalModel = {
@@ -15,7 +15,7 @@ type OrdinalModel = {
   title?: LanguageMap;
   subTitle?: LanguageMap;
   button: {
-    link: string | null;
+    shopItem: ShopItem;
     name?: LanguageMap;
   };
 };
@@ -27,7 +27,7 @@ const slideValidate = Joi.object({
   title: languageContent,
   subTitle: languageContent,
   button: Joi.object({
-    link: Joi.string().allow(null),
+    shopItem: Joi.string().allow(null),
     name: languageContent,
   }),
 });
@@ -58,7 +58,7 @@ export const updateMainSlider = async (req: ValidatedRequest<SlideSave>, res: Re
         slide: newSlide.fileId as unknown as models.File,
         title: newSlide.title,
         subTitle: newSlide.subTitle,
-        button: newSlide.button,
+        button: newSlide.button ?? { name: {} },
       });
     } else {
       await new SliderModel({
@@ -66,7 +66,7 @@ export const updateMainSlider = async (req: ValidatedRequest<SlideSave>, res: Re
         ordinal: newSlide.ordinal,
         title: newSlide.title,
         subTitle: newSlide.subTitle,
-        button: newSlide.button,
+        button: newSlide.button ?? { name: {} },
       }).save();
     }
   }

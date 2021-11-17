@@ -20,9 +20,9 @@ export const SliderSchema = new mongoose.Schema(
       of: String,
     },
     button: {
-      link: {
-        type: String,
-        default: null,
+      shopItem: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SchemaNames.SHOP_ITEMS,
       },
       name: {
         type: Map,

@@ -1,6 +1,7 @@
-import { Model } from './mongoModel';
 import { File } from './files';
 import { LanguageMap } from './language';
+import { Model } from './mongoModel';
+import { ShopItem } from './shopItems';
 
 export type Slider = Model<SliderModel>;
 
@@ -10,7 +11,7 @@ export type SliderModel = {
   title?: LanguageMap;
   subTitle?: LanguageMap;
   button: {
-    link: string | null;
+    shopItem: ShopItem;
     name?: LanguageMap;
   };
 };
@@ -20,7 +21,7 @@ export type SliderSaveModel = {
   title: LanguageMap;
   subTitle: LanguageMap;
   button: {
-    link: string | null;
+    shopItem: string;
     name: LanguageMap;
   };
 };

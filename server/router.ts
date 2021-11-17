@@ -35,7 +35,7 @@ export function router(
   app.get('/robots.txt', (_, res) => res.status(HTTPStatus.OK).sendFile('robots.txt', options));
   app.get('/sitemap.xml', (_, res) => res.status(HTTPStatus.OK).sendFile('sitemap.xml', options));
 
-  app.get('/api/guest/slides', controllers.getSlidesForGuest);
+  app.get('/api/guest/slides', validator.query(controllers.validateSlidesGet), controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', rateLimiterMiddleware, controllers.subscribeNewVisitor);
   app.post('/api/guest/send/message', rateLimiterMiddleware, controllers.sendMailToAdmins);
   app.get('/api/guest/biography', controllers.getBiography);

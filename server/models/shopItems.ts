@@ -8,6 +8,9 @@ export const ShopItemSchema = new mongoose.Schema(
       type: Map,
       of: String,
     },
+    href: {
+      type: String,
+    },
     files: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -46,6 +49,7 @@ export const ShopItemSchema = new mongoose.Schema(
 );
 
 ShopItemSchema.plugin(timestamps);
+ShopItemSchema.index({ href: 1 });
 
 export const ShopItemTable = mongoose.model<ShopItem>(SchemaNames.SHOP_ITEMS, ShopItemSchema, SchemaNames.SHOP_ITEMS);
 

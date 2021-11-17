@@ -6,7 +6,7 @@ export type LanguageContent = {
   localeId: Locales;
   content: string;
 };
-export type LanguageMap = Map<Locales, string>;
+export type LanguageMap = Record<Locales, string>;
 
 export type LanguageModel = {
   name: string;

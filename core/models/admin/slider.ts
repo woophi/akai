@@ -8,7 +8,7 @@ export type SlideItem = {
   title?: LocaleMap;
   subTitle?: LocaleMap;
   button: {
-    link: string | null;
+    shopItem: string | null;
     name?: LocaleMap;
   };
 };

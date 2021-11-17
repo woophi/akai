@@ -123,7 +123,7 @@ const SortableItem = SortableElement((props: P) => (
               )}
             />
             <Field
-              name={`${props.name}.button.link`}
+              name={`${props.name}.button.shopItem`}
               render={({ input }) => (
                 <>
                   <ProductsChooser label="Выбрать продукт для кнопки" subLabel="" onConfirm={input.onChange} single />
