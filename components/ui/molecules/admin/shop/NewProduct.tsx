@@ -60,7 +60,7 @@ const validate = (values: ShopItemSave, t: (s: string) => string) => {
   if (!values.price) {
     errors.price = t('common:forms.field.required');
   }
-  if (!values.stock) {
+  if (typeof Number(values.stock) !== 'number') {
     errors.stock = t('common:forms.field.required');
   }
   return errors;
@@ -80,7 +80,7 @@ export const NewProduct: React.FC = () => {
       return { [FORM_ERROR]: 'Необходимо выбрать хотя бы одну картину' };
     }
     try {
-      await createShopItem(data);
+      await createShopItem({ ...data, categories: [...new Set(data.categories)] });
       goToSpecific('/admin/shop');
     } catch (error) {
       return { [FORM_ERROR]: error };

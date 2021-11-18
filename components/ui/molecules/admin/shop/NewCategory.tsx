@@ -33,7 +33,7 @@ export const NewCategory: React.FC = () => {
 
   const submit = React.useCallback(async (data: ShopCategorySave) => {
     try {
-      await createShopCategory(data);
+      await createShopCategory({ ...data, shopItems: [...new Set(data.shopItems)] });
       goToSpecific('/admin/shop');
     } catch (error) {
       return { [FORM_ERROR]: error };

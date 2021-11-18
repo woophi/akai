@@ -13,6 +13,12 @@ export const ProductGallery = React.memo<{ files: FileItem[] }>(({ files }) => {
 
   const cb = React.useMemo<Callbacks>(() => ({ onSlideChange: v => setSelected(files[v.index]) }), [files]);
 
+  React.useEffect(() => {
+    if (files[0]?.url !== selectedImg.url) {
+      setSelected(files[0]);
+    }
+  }, [files[0]?.url]);
+
   return (
     <SimpleReactLightbox>
       <Box width="60%" minWidth="300px" marginRight="1rem">
@@ -27,7 +33,14 @@ export const ProductGallery = React.memo<{ files: FileItem[] }>(({ files }) => {
         />
         <Box marginTop="1rem">
           {files.map(f => (
-            <img key={f._id} src={f.url} alt={f.name} className={classes.imgs} onClick={() => setSelected(f)} />
+            <img
+              key={f._id}
+              src={f.url}
+              alt={f.name}
+              className={classes.imgs}
+              onClick={() => setSelected(f)}
+              style={{ opacity: selectedImg._id === f._id ? 1 : undefined }}
+            />
           ))}
         </Box>
       </Box>

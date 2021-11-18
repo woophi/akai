@@ -26,8 +26,8 @@ export const AdminShopCategories = memo(() => {
           <Box key={c._id} margin=".25rem">
             <Chip
               label={c.name[LocaleId.Ru]}
-              onClick={() => goToDeep(`/category/edit/${c._id}`)}
-              onDelete={() => goToDeep(`/category/edit/${c._id}`)}
+              onClick={() => goToDeep(`category/edit/${c._id}`)}
+              onDelete={() => goToDeep(`category/edit/${c._id}`)}
               deleteIcon={<EditIcon />}
             />
           </Box>

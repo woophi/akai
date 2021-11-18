@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { LocaleId, ShopCategoryInfo } from 'core/models';
+import { LocaleId, ShopCategoryInfo, ShopCategoryUpdate } from 'core/models';
 import { adminShopActions } from 'core/reducers/admin/shop';
 import { FORM_ERROR } from 'final-form';
 import arrayMutators from 'final-form-arrays';
@@ -13,8 +13,8 @@ import { deleteShopCategory, getShopCategory, updateShopCategory } from './opera
 import { ProductItemField } from './ProductItemField';
 import { ProductsChooser } from './ProductsChooser';
 
-const validate = (values: ShopCategoryInfo, t: (s: string) => string) => {
-  const errors: ShopCategoryInfo = {} as ShopCategoryInfo;
+const validate = (values: ShopCategoryUpdate, t: (s: string) => string) => {
+  const errors: ShopCategoryUpdate = {} as ShopCategoryUpdate;
 
   if (!values.name[LocaleId.Ru]) {
     errors.name[LocaleId.Ru] = t('common:forms.field.required');
@@ -37,9 +37,9 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const submit = React.useCallback(async (data: ShopCategoryInfo) => {
+  const submit = React.useCallback(async (data: ShopCategoryUpdate) => {
     try {
-      await updateShopCategory({ _id: data._id, name: data.name, shopItems: data.shopItems.map(d => d._id) });
+      await updateShopCategory({ _id: data._id, name: data.name, shopItems: [...new Set(data.shopItems)] });
       getShopCategory(data._id).then(d => dispatch(adminShopActions.selectCategory(d)));
     } catch (error) {
       return { [FORM_ERROR]: error };
@@ -64,7 +64,7 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
           ...arrayMutators,
         }}
         onSubmit={submit}
-        validate={(v: ShopCategoryInfo) => validate(v, t)}
+        validate={(v: ShopCategoryUpdate) => validate(v, t)}
         render={({ handleSubmit, pristine, submitting, submitError, form }) => (
           <>
             <form
