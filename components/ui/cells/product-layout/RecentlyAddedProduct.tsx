@@ -1,6 +1,16 @@
-import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { goToSpecific } from 'core/common';
-import { numberWithCommas } from 'core/lib';
+import { numberWithCommas, theme } from 'core/lib';
 import { RecentlyAddedProductData } from 'core/models';
 import React from 'react';
 import { useTranslation } from 'server/lib/i18n';
@@ -16,33 +26,38 @@ export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData 
   if (!data) return null;
 
   return (
-    <Paper elevation={2} className={classes.productBox} onClick={handleClick}>
-      <Box padding=".5rem">
-        <Typography variant="subtitle1">{t('shop.latestP')}</Typography>
-      </Box>
-      <Box>
-        <img src={data.file.url} width="100%" />
-      </Box>
-      <Box textAlign="center" paddingBottom=".5rem">
-        <Typography variant="caption" gutterBottom>
-          {data.categories[0]}
-        </Typography>
-        <Typography variant="h6">{data.title}</Typography>
-        <Typography variant="body1">${numberWithCommas(data.price)}</Typography>
-      </Box>
-    </Paper>
+    <Card className={classes.productBox}>
+      <CardActionArea onClick={handleClick}>
+        <CardMedia className={classes.media} image={data.file.url} />
+        <CardContent className={classes.content}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {data.title} - ${numberWithCommas(data.price)}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0}>
+          {t('shop.addToCart')} +
+        </Button>
+        {data.stock <= 0 && (
+          <Box component="span" marginLeft=".25rem" color={theme.palette.error.main}>
+            {t('shop.soldOut')}
+          </Box>
+        )}
+      </CardActions>
+    </Card>
   );
 });
 
 const useStyles = makeStyles(theme => ({
   productBox: {
     marginBottom: '1rem',
-    cursor: 'pointer',
+    width: '100%',
   },
-  price: {
-    color: theme.palette.success.main,
+  content: {
+    padding: '.5rem .5rem 0',
   },
-  capitalLetter: {
-    textTransform: 'capitalize',
+  media: {
+    height: '200px',
   },
 }));

@@ -17,7 +17,7 @@ export const ProductDescription = React.memo<Props>(({ description, params }) =>
     setValue(newValue);
   };
   return (
-    <Paper elevation={4}>
+    <Paper elevation={4} style={{ marginBottom: '1rem' }}>
       <Tabs value={tabValue} onChange={handleChange} indicatorColor="primary">
         <Tab label={t('shop.desc')} wrapped />
         <Tab label={t('shop.addInfo')} wrapped />

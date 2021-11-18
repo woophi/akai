@@ -17,6 +17,18 @@ interface GProductGet extends ValidatedRequestSchema {
   };
 }
 
+const increaseView = async (id: string) => {
+  try {
+    await ShopItemTable.findByIdAndUpdate(id, {
+      $inc: {
+        views: 1,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Response) => {
   try {
     const shopItem = await ShopItemTable.findOne({ deleted: null, href: req.query.name })
@@ -35,6 +47,8 @@ export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Re
       return res.sendStatus(HTTPStatus.NotFound);
     }
 
+    increaseView(shopItem._id);
+
     const recentlyAddedProduct = (
       await ShopItemTable.find({ deleted: null })
         .sort({ createdAt: -1 })
@@ -50,6 +64,22 @@ export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Re
         .select('title files categories price stock href')
         .lean()
     )[0];
+
+    const relatedProducts = await ShopItemTable.find({ deleted: null, _id: { $ne: shopItem._id } })
+      .where('categories')
+      .in([shopItem.categories[0]._id])
+      .sort({ views: -1 })
+      .limit(3)
+      .populate({
+        path: 'files',
+        select: 'name url',
+      })
+      .populate({
+        path: 'categories',
+        select: 'name',
+      })
+      .select('title files categories price stock href')
+      .lean();
 
     const data = {
       ...shopItem,
@@ -67,7 +97,18 @@ export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Re
             href: recentlyAddedProduct.href,
           }
         : null,
+
+      relatedProducts: relatedProducts.map(rp => ({
+        title: rp.title[req.query.localeId],
+        categories: rp.categories.map(c => c.name[req.query.localeId]),
+        price: rp.price,
+        stock: rp.stock,
+        file: rp.files[0],
+        href: rp.href,
+        id: rp._id,
+      })),
     };
+
     return res.send(data).status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);

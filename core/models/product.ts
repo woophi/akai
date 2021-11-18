@@ -15,6 +15,10 @@ export type RecentlyAddedProductData = {
   href: string;
 };
 
+export type RelatedProductData = RecentlyAddedProductData & {
+  id: string;
+};
+
 export type ProductData = {
   _id: string;
   files: FileItem[];
@@ -25,4 +29,5 @@ export type ProductData = {
   stock: number;
   categories: string[];
   recentlyAddedProduct: RecentlyAddedProductData | null;
+  relatedProducts: RelatedProductData[];
 };

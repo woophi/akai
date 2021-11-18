@@ -33,6 +33,10 @@ export const ShopItemSchema = new mongoose.Schema(
     stock: {
       type: Number,
     },
+    views: {
+      type: Number,
+      default: 1,
+    },
     parameters: [
       {
         name: String,

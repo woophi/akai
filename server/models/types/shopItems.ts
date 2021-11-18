@@ -27,6 +27,7 @@ export type ShopItemModel = {
   parameters: ShopItemParameter[];
   stock: number;
   deleted: Date | null;
+  views: number;
 };
 export type ShopItemSaveModel = ShopItemModel & {
   files: string[];

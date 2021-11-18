@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
 import BrushIcon from '@material-ui/icons/Brush';
 import ClearIcon from '@material-ui/icons/Clear';
 import { numberWithCommas } from 'core/lib';
@@ -13,6 +13,7 @@ import { RecentlyAddedProduct } from './RecentlyAddedProduct';
 export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
   const classes = useStyles();
   const { t } = useTranslation('common');
+  const isSmallEnough = useMediaQuery('(max-width:800px)');
 
   const typeOfParams = data.parameters.filter(f => !!f.typeOf);
   const restParams = data.parameters.filter(f => !f.typeOf);
@@ -23,7 +24,7 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
         <Paper className={classes.productBox} elevation={4}>
           <ProductGallery files={data.files} />
 
-          <Box width="35%" minWidth="260px">
+          <Box width="37%" minWidth="260px" style={{ wordBreak: 'break-word' }}>
             <Typography variant="h3" gutterBottom className={classes.capitalLetter}>
               {data.title}
             </Typography>
@@ -47,7 +48,7 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
             </Box>
             {data.stock > 0 && (
               <Button variant="contained" color="primary">
-                {t('shop.addToCart')}
+                {t('shop.addToCart')} +
               </Button>
             )}
             <Box marginY="1rem">
@@ -57,6 +58,20 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
           </Box>
         </Paper>
         <ProductDescription description={data.description} params={restParams} />
+
+        <Typography variant="h5" gutterBottom>
+          {t('shop.related')}
+        </Typography>
+        <Box
+          display="grid"
+          gridTemplateColumns={isSmallEnough ? '1fr' : '1fr 1fr 1fr'}
+          gridTemplateRows={isSmallEnough ? '1fr 1fr 1fr' : undefined}
+          style={{ gap: '1rem' }}
+        >
+          {data.relatedProducts.map(p => (
+            <RecentlyAddedProduct key={p.id} data={p} />
+          ))}
+        </Box>
       </Box>
       <Box width="30%" minWidth="320px">
         <RecentlyAddedProduct data={data.recentlyAddedProduct} />
