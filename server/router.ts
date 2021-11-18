@@ -63,6 +63,9 @@ export function router(
   app.get('/api/guest/unsub/state', rateLimiterMiddleware, controllers.getUnsubLinkState);
   app.put('/api/guest/unsub', rateLimiterMiddleware, controllers.guestUnsub);
 
+  // shop
+  app.get('/api/guest/product', validator.query(controllers.validateGProductGet), controllers.getProductData);
+
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);
   app.post('/api/app/user/logout', rateLimiterMiddleware, identity.validateToken, auth.logout);

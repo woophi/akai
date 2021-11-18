@@ -1,2 +1,3 @@
 - trustpilot shop reviews
 - remove duplicated from chooser categories/products
+- added recently viewed products save it in LS

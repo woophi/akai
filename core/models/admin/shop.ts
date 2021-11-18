@@ -18,10 +18,16 @@ export type ShopCategoryInfo = ShopCategoryItem & {
   shopItems: ShopItemInfo[];
 };
 
+export enum ShopItemParameterTypeOf {
+  Size = 'size',
+  Delivery = 'Delivery',
+}
+
 export type ShopItemParameter = {
   name: string;
   value: string;
   localeId: LocaleId;
+  typeOf?: ShopItemParameterTypeOf;
 };
 
 type ShopItemModel = {

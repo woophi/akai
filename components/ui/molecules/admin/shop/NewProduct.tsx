@@ -31,6 +31,7 @@ import { QuillText } from 'ui/molecules/quill-editor';
 import { PicturesChooser } from '../blog/PicturesChooser';
 import { CategoriesChooser } from './CategoriesChooser';
 import { CategoryField } from './CategoryField';
+import { defaultValues } from './constants';
 import { createShopItem } from './operations';
 
 const validate = (values: ShopItemSave, t: (s: string) => string) => {
@@ -64,8 +65,6 @@ const validate = (values: ShopItemSave, t: (s: string) => string) => {
   }
   return errors;
 };
-
-const defaultValues = { title: {}, description: {}, files: [], categories: [], parameters: [] };
 
 export const NewProduct: React.FC = () => {
   const classes = useStyles({});

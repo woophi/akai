@@ -6,12 +6,15 @@ import Router from 'next/router';
 import * as React from 'react';
 import { useTranslation } from 'server/lib/i18n';
 
+const reloadPaths = ['gallery', 'about', 'product'];
+
 const changeLanguage = (lang: LocaleId, i18n: any) => {
   const cookieLang = getCookie('akai_lng');
-  if (cookieLang && cookieLang !== lang) {
+  if (cookieLang !== lang) {
     setCookie('akai_lng', lang, 10);
     i18n.changeLanguage(lang, () => {
-      if (Router.pathname.indexOf('gallery') !== -1 || Router.pathname.indexOf('about') !== -1) {
+      const shouldReload = reloadPaths.some(p => !!~Router.pathname.indexOf(p));
+      if (shouldReload) {
         window.location.reload();
       }
     });

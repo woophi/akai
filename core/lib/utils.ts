@@ -29,3 +29,7 @@ export const updateProps = <T>(target: T, updater: Partial<T> | ((target: T) => 
     console.error(error);
   }
 };
+
+export const numberWithCommas = (v: number) => {
+  return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};

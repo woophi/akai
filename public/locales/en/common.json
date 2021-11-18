@@ -81,5 +81,15 @@
     "404Sub": "We could not find anything.",
     "others": "Oops... something went wrong..."
   },
-  "typeHere": "Type here..."
+  "typeHere": "Type here...",
+  "shop": {
+    "addToCart": "Add to cart",
+    "categories": "Categories:",
+    "byProduct": "painting by Akai Akaev",
+    "inStock": "In stock",
+    "soldOut": "Sold out",
+    "desc": "Description",
+    "addInfo": "Additional information",
+    "latestP": "LATEST PAINTINGS"
+  }
 }

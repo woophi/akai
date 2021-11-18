@@ -5,10 +5,16 @@ import { ShopCategory } from './shopCategory';
 
 export type ShopItem = Model<ShopItemModel>;
 
+export enum ShopItemParameterTypeOf {
+  Size = 'size',
+  Delivery = 'Delivery',
+}
+
 export type ShopItemParameter = {
   name: string;
   value: string;
   localeId: Locales;
+  typeOf?: ShopItemParameterTypeOf;
 };
 
 export type ShopItemModel = {

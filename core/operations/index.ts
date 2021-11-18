@@ -49,3 +49,6 @@ export const updatePassword = (password: string, linkId: string) =>
 
 export const getResetPassLinkState = (uniqId: string) =>
   callApi<models.LinkState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);
+
+export const getProductData = (productName: string, localeId: models.LocaleId) =>
+  callApi<models.ProductData>('get', `api/guest/product?localeId=${localeId}&name=${productName}`);

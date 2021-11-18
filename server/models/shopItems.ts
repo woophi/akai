@@ -38,6 +38,7 @@ export const ShopItemSchema = new mongoose.Schema(
         name: String,
         value: String,
         localeId: String,
+        typeOf: String,
       },
     ],
     deleted: {

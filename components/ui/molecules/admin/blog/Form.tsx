@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core';
 import { FORM_ERROR } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import { FieldArray } from 'react-final-form-arrays';
-import { BlogData, AlbumModel } from 'core/models';
+import { BlogData, AlbumModel, LocaleId } from 'core/models';
 import { goToSpecific } from 'core/common';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -141,12 +141,12 @@ export const BlogForm = React.memo<Props>(({ blogId, initialValues = {}, albums 
                 creationPictureDate: moment().format('YYYY-MM-DD'),
                 parameters: [
                   {
-                    localeId: 'ru',
+                    localeId: LocaleId.Ru,
                     name: 'Материал',
                     value: '',
                   },
                   {
-                    localeId: 'ru',
+                    localeId: LocaleId.Ru,
                     name: 'Размер',
                     value: '',
                   },

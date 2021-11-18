@@ -81,5 +81,15 @@
     "404Sub": "Nic jsme nenašli.",
     "others": "Jejda! Něco se pokazilo..."
   },
-  "typeHere": "Pište zde..."
+  "typeHere": "Pište zde...",
+  "shop": {
+    "addToCart": "Přidat do košíku",
+    "categories": "Kategorie:",
+    "byProduct": "obraz Akaie Akaeva",
+    "inStock": "Na skladě",
+    "soldOut": "Vyprodáno",
+    "desc": "Popis",
+    "addInfo": "Dodatečné informace",
+    "latestP": "NEJNOVĚJŠÍ OBRAZY"
+  }
 }
