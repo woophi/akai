@@ -35,10 +35,12 @@ export const getSlidesForGuest = async (req: ValidatedRequest<SlidesGet>, res: R
       id: s._id,
       title: s.title?.[req.query.localeId],
       subTitle: s.subTitle?.[req.query.localeId],
-      button: {
-        name: s.button.name?.[req.query.localeId],
-        shopItemHref: s.button.shopItem?.href,
-      },
+      button: s.button
+        ? {
+            name: s.button.name?.[req.query.localeId],
+            shopItemHref: s.button.shopItem?.href,
+          }
+        : {},
     }));
     return res.send(slides).status(HTTPStatus.OK);
   } catch (error) {
