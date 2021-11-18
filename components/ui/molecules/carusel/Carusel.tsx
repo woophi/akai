@@ -1,9 +1,9 @@
+import { Box, Typography, useMediaQuery } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { SlideModel } from 'core/models';
 import * as React from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import { makeStyles } from '@material-ui/core/styles';
 import { LinkButton, Spinner } from 'ui/atoms';
-import { SlideModel } from 'core/models';
-import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 
 type Props = {
   slides: SlideModel[];
@@ -15,7 +15,6 @@ export const Carusel = React.memo<Props>(({ slides = [] }) => {
   if (!slides || !slides.length) {
     return <Spinner withBox />;
   }
-  console.debug('sluids', slides);
   return (
     <Carousel autoPlay={false} infiniteLoop={false} showThumbs={false} showStatus={false} className={classes.carusel}>
       {slides.map((ig, index) => (
