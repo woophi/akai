@@ -15,7 +15,7 @@ type Props = {
 
 const Home = (props: Props) => {
   return (
-    <Layout hideSub>
+    <Layout hideSub={!!props.shopData?.products.length}>
       <Head>
         <meta property="og:title" content="Akai Akaev" />
         {props.data.length && <meta property="og:image" content={props.data[0].src} />}
@@ -23,7 +23,7 @@ const Home = (props: Props) => {
       <BoxMain>
         <Carusel slides={props.data} />
       </BoxMain>
-      {props.shopData?.products.length && <ProductHomeLayout shopData={props.shopData} />}
+      {props.shopData?.products.length ? <ProductHomeLayout shopData={props.shopData} /> : null}
     </Layout>
   );
 };
