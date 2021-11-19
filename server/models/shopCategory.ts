@@ -8,6 +8,10 @@ export const ShopCategorySchema = new mongoose.Schema(
       type: Map,
       of: String,
     },
+    coverPhoto: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.FILES,
+    },
     shopItems: [
       {
         type: mongoose.Schema.Types.ObjectId,

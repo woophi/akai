@@ -26,7 +26,10 @@ interface ShopCategoryGet extends ValidatedRequestSchema {
 
 export const getShopCategory = async (req: ValidatedRequest<ShopCategoryGet>, res: Response, next: NextFunction) => {
   try {
-    const category = await ShopCategoryTable.findById(req.params.id).where('deleted', null).select('name shopItems').lean();
+    const category = await ShopCategoryTable.findById(req.params.id)
+      .where('deleted', null)
+      .select('name shopItems coverPhoto')
+      .lean();
     return res.send(category).status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);

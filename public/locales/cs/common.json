@@ -91,6 +91,9 @@
     "desc": "Popis",
     "addInfo": "Dodatečné informace",
     "related": "Související umění",
-    "viewed": "Nedávno zobrazené umění"
+    "viewed": "Nedávno zobrazené umění",
+    "newArts": "Nová umění",
+    "allArts": "Veškerá umělecká díla",
+    "byCategories": "podle kategorií"
   }
 }

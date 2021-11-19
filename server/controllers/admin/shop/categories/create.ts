@@ -5,12 +5,13 @@ import moment from 'moment';
 import { HTTPStatus } from 'server/lib/models';
 import { ShopCategoryTable } from 'server/models/shopCategory';
 import { ShopItemTable } from 'server/models/shopItems';
-import { LanguageMap, ShopItem } from 'server/models/types';
+import { File, LanguageMap, ShopItem } from 'server/models/types';
 import { languageContent } from 'server/validations';
 
 export const validateShopCategorySave = Joi.object({
   name: languageContent.required(),
   shopItems: Joi.array().items(Joi.string()).required(),
+  coverPhoto: Joi.string().required(),
 });
 export const validateShopCategoryUpdate = validateShopCategorySave.append({
   _id: Joi.string().required(),
@@ -20,6 +21,7 @@ interface ShopCategorySave extends ValidatedRequestSchema {
   [ContainerTypes.Body]: {
     name: LanguageMap;
     shopItems: string[];
+    coverPhoto: string;
   };
 }
 interface ShopCategoryUpdate extends ValidatedRequestSchema {
@@ -27,6 +29,7 @@ interface ShopCategoryUpdate extends ValidatedRequestSchema {
     name: LanguageMap;
     shopItems: string[];
     _id: string;
+    coverPhoto: string;
   };
 }
 interface ShopCategoryGet extends ValidatedRequestSchema {
@@ -60,6 +63,7 @@ export const updateShopCategory = async (req: ValidatedRequest<ShopCategoryUpdat
     }
     const oldShopItems = shopCategory.shopItems;
     shopCategory.name = req.body.name;
+    shopCategory.coverPhoto = req.body.coverPhoto as unknown as File;
     shopCategory.shopItems = req.body.shopItems as unknown as ShopItem[];
     await shopCategory.save();
     for (const itemId of oldShopItems) {

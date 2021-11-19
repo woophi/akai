@@ -40,7 +40,7 @@ export const ModalUpload = React.memo<Props>(
     };
 
     return (
-      <div className={className}>
+      <div className={className} style={{ margin: '0 1rem 1rem' }}>
         <InputLabel style={{ color: '#000', marginBottom: '.5rem' }}>{inputLabel || 'Обложка альбома'}</InputLabel>
         <Button
           variant="contained"

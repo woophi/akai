@@ -91,6 +91,9 @@
     "desc": "Description",
     "addInfo": "Additional information",
     "related": "Related arts",
-    "viewed": "Recently viewed arts"
+    "viewed": "Recently viewed arts",
+    "newArts": "New arts",
+    "allArts": "All artworks",
+    "byCategories": "by categories"
   }
 }

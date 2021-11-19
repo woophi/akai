@@ -48,7 +48,7 @@ export const RecentlyViewedProducts = React.memo<{ data?: ProductData }>(({ data
 
   return (
     <>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom style={{ marginTop: '1rem' }}>
         {t('shop.viewed')}
       </Typography>
       {viewedItems.map(vi => (

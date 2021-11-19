@@ -16,6 +16,7 @@ const Category: React.FC<Props> = ({ data }) => {
     <Layout title={`Category ${data.name}`}>
       <Head>
         <meta property="og:title" content={`Category ${data.name}`} />
+        <meta property="og:image" content={data.coverPhoto} />
       </Head>
       <BoxMain>
         <CategoryLayout data={data} />

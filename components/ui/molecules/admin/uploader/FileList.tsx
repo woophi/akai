@@ -1,3 +1,4 @@
+import { Avatar, ListItemAvatar } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -29,6 +30,9 @@ const Row = (props: ListChildComponentProps) => {
       onClick={handleSelect}
       selected={selectedFile._id === files[index]._id}
     >
+      <ListItemAvatar>
+        <Avatar alt={files[index].name} src={files[index].url} />
+      </ListItemAvatar>
       <ListItemText
         primary={files[index].name}
         primaryTypographyProps={{ noWrap: true }}

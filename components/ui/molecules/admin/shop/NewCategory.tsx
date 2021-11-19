@@ -8,6 +8,7 @@ import { Field, Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { useTranslation } from 'server/lib/i18n';
 import { ButtonsForm, Snakbars, TextField } from 'ui/atoms';
+import { ModalUpload } from '../uploader';
 import { createShopCategory } from './operations';
 import { ProductItemField } from './ProductItemField';
 import { ProductsChooser } from './ProductsChooser';
@@ -23,6 +24,9 @@ const validate = (values: ShopCategorySave, t: (s: string) => string) => {
   }
   if (!values.name[LocaleId.En]) {
     errors.name[LocaleId.En] = t('common:forms.field.required');
+  }
+  if (!values.coverPhoto) {
+    errors.coverPhoto = t('common:forms.field.required');
   }
   return errors;
 };
@@ -111,6 +115,18 @@ export const NewCategory: React.FC = () => {
                   error={Boolean(meta.touched && meta.error)}
                   helperText={meta.touched && meta.error}
                   disabled={submitting}
+                />
+              )}
+            />
+
+            <Field
+              name="coverPhoto"
+              render={({ input, meta }) => (
+                <ModalUpload
+                  error={meta.touched && meta.error}
+                  disabled={submitting}
+                  input={input}
+                  inputLabel="Обложка категории"
                 />
               )}
             />

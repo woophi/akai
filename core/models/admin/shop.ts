@@ -4,6 +4,7 @@ import { LocaleMap, LocaleId } from '../locales';
 export type ShopCategorySave = {
   name: LocaleMap;
   shopItems: string[];
+  coverPhoto: string;
 };
 export type ShopCategoryUpdate = ShopCategorySave & {
   _id: string;
@@ -16,6 +17,7 @@ export type ShopCategoryItem = {
 
 export type ShopCategoryInfo = ShopCategoryItem & {
   shopItems: ShopItemInfo[];
+  coverPhoto: FileItem;
 };
 
 export enum ShopItemParameterTypeOf {

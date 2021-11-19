@@ -9,6 +9,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
 import { ActionButton, ButtonsForm, Snakbars, TextField } from 'ui/atoms';
+import { ModalUpload } from '../uploader';
 import { deleteShopCategory, getShopCategory, updateShopCategory } from './operations';
 import { ProductItemField } from './ProductItemField';
 import { ProductsChooser } from './ProductsChooser';
@@ -25,6 +26,9 @@ const validate = (values: ShopCategoryUpdate, t: (s: string) => string) => {
   if (!values.name[LocaleId.En]) {
     errors.name[LocaleId.En] = t('common:forms.field.required');
   }
+  if (!values.coverPhoto) {
+    errors.coverPhoto = t('common:forms.field.required');
+  }
   return errors;
 };
 
@@ -39,7 +43,7 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
 
   const submit = React.useCallback(async (data: ShopCategoryUpdate) => {
     try {
-      await updateShopCategory({ _id: data._id, name: data.name, shopItems: [...new Set(data.shopItems)] });
+      await updateShopCategory({ ...data, shopItems: [...new Set(data.shopItems)] });
       getShopCategory(data._id).then(d => dispatch(adminShopActions.selectCategory(d)));
     } catch (error) {
       return { [FORM_ERROR]: error };
@@ -131,6 +135,18 @@ export const EditCategory: React.FC<Props> = ({ initialValues }) => {
                     error={Boolean(meta.touched && meta.error)}
                     helperText={meta.touched && meta.error}
                     disabled={submitting}
+                  />
+                )}
+              />
+
+              <Field
+                name="coverPhoto"
+                render={({ input, meta }) => (
+                  <ModalUpload
+                    error={meta.touched && meta.error}
+                    disabled={submitting}
+                    input={input}
+                    inputLabel="Обложка категории"
                   />
                 )}
               />

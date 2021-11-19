@@ -53,7 +53,6 @@ export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData 
 
 const useStyles = makeStyles(theme => ({
   productBox: {
-    marginBottom: '1rem',
     width: '100%',
   },
   content: {

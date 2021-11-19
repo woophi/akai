@@ -65,6 +65,7 @@ export function router(
 
   // shop
   app.get('/api/guest/product', validator.query(controllers.validateGProductGet), controllers.getProductData);
+  app.get('/api/guest/shop/related', validator.query(controllers.validateGShopGet), controllers.getRelatedShopData);
   app.get('/api/guest/category', validator.query(controllers.validateGProductGet), controllers.getCategoryData);
 
   // user

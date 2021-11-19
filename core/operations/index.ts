@@ -51,7 +51,9 @@ export const getResetPassLinkState = (uniqId: string) =>
   callApi<models.LinkState>('get', `api/guest/unsub/state?uniqId=${uniqId}`);
 
 export const getProductData = (productName: string, localeId: models.LocaleId) =>
-  callApi<models.ProductData>('get', `api/guest/product?localeId=${localeId}&name=${productName}`);
+  callApi<models.ProductData>('get', `api/guest/product?localeId=${localeId}&name=${encodeURI(productName)}`);
 
 export const getCategoryData = (categoryName: string, localeId: models.LocaleId) =>
   callApi<models.CategoryData>('get', `api/guest/category?localeId=${localeId}&name=${encodeURI(categoryName)}`);
+export const getShopRelatedData = (localeId: models.LocaleId) =>
+  callApi<models.ShopRelatedData>('get', `api/guest/shop/related?localeId=${localeId}}`);

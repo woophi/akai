@@ -1,5 +1,4 @@
 - trustpilot shop reviews
-- add on main page 8 latest products
 - add on main page categories 3 top clicks
 - add user account
 - add basket (save to LS or user account)

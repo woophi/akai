@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { ContainerTypes, ValidatedRequest, ValidatedRequestSchema } from 'express-joi-validation';
 import Joi from 'joi';
+import moment from 'moment';
 import { HTTPStatus } from 'server/lib/models';
 import { ShopCategoryTable } from 'server/models/shopCategory';
 import { ShopItemTable } from 'server/models/shopItems';
@@ -14,6 +15,15 @@ export const validateGProductGet = Joi.object({
 interface GProductGet extends ValidatedRequestSchema {
   [ContainerTypes.Query]: {
     name: string;
+    localeId: Locales;
+  };
+}
+export const validateGShopGet = Joi.object({
+  localeId: Joi.string().required(),
+});
+
+interface GShopGet extends ValidatedRequestSchema {
+  [ContainerTypes.Query]: {
     localeId: Locales;
   };
 }
@@ -127,7 +137,11 @@ export const getCategoryData = async (req: ValidatedRequest<GProductGet>, res: R
           select: 'name url',
         },
       })
-      .select('shopItems name')
+      .populate({
+        path: 'coverPhoto',
+        select: 'name url',
+      })
+      .select('shopItems name coverPhoto')
       .lean();
 
     if (!category) {
@@ -152,6 +166,7 @@ export const getCategoryData = async (req: ValidatedRequest<GProductGet>, res: R
 
     const data = {
       name: req.query.name,
+      coverPhoto: category.coverPhoto.url,
       recentlyAddedProduct: recentlyAddedProduct
         ? {
             title: recentlyAddedProduct.title[req.query.localeId],
@@ -165,6 +180,44 @@ export const getCategoryData = async (req: ValidatedRequest<GProductGet>, res: R
 
       products: category.shopItems.map(rp => ({
         title: rp.title[req.query.localeId],
+        price: rp.price,
+        stock: rp.stock,
+        file: rp.files[0],
+        href: rp.href,
+        id: rp._id,
+      })),
+    };
+
+    return res.send(data).status(HTTPStatus.OK);
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(HTTPStatus.ServerError);
+  }
+};
+
+export const getRelatedShopData = async (req: ValidatedRequest<GShopGet>, res: Response) => {
+  try {
+    const relatedProducts = await ShopItemTable.find({
+      deleted: null,
+      createdAt: { $gte: moment(new Date().getFullYear()).toDate() },
+    })
+      .sort({ views: -1 })
+      .limit(8)
+      .populate({
+        path: 'files',
+        select: 'name url',
+      })
+      .populate({
+        path: 'categories',
+        select: 'name',
+      })
+      .select('title files categories price stock href')
+      .lean();
+
+    const data = {
+      products: relatedProducts.map(rp => ({
+        title: rp.title[req.query.localeId],
+        categories: rp.categories.map(c => c.name[req.query.localeId]),
         price: rp.price,
         stock: rp.stock,
         file: rp.files[0],

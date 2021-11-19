@@ -10,6 +10,7 @@ import { HeadIntro } from './HeadIntro';
 
 type Props = {
   title?: string;
+  hideSub?: boolean;
 };
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Layout: React.FC<Props> = React.memo(({ title, children }) => {
+export const Layout: React.FC<Props> = React.memo(({ title, children, hideSub = false }) => {
   const classes = useStyles({});
 
   const tt = title ? `Akai Akaev | ${title}` : 'Akai Akaev | Official website';
@@ -36,7 +37,7 @@ export const Layout: React.FC<Props> = React.memo(({ title, children }) => {
       </header>
       <div className={classes.content}>
         {children}
-        <Subscribe onSubscribe={subscribe} />
+        {!hideSub && <Subscribe onSubscribe={subscribe} />}
         <Footer />
       </div>
       <ScrollButton />

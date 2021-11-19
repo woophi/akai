@@ -6,7 +6,7 @@ import { numberWithCommas } from 'core/lib';
 import { ProductData } from 'core/models';
 import React from 'react';
 import { useTranslation } from 'server/lib/i18n';
-import { BoxGrid, LinkButton } from 'ui/atoms';
+import { BoxGrid } from 'ui/atoms';
 import { ProductDescription } from './ProductDescription';
 import { ProductGallery } from './ProductGallery';
 import { RecentlyAddedProduct } from './RecentlyAddedProduct';
