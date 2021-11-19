@@ -1,8 +1,9 @@
 {
   "watch": [
-    "server"
+    "server",
+    "public/locales"
   ],
   "exec": "ts-node --project tsconfig.server.json server/index.ts",
-  "ext": "js ts",
+  "ext": "js ts json",
   "delay": 2500
 }
