@@ -32,8 +32,8 @@ export const RecentlyViewedProducts = React.memo<{ data?: ProductData }>(({ data
 
     if (savedItems.some(si => si.id === data._id)) return;
 
-    if (savedItems.length >= 3) {
-      newItems = [newViewItem, savedItems[0], savedItems[1]];
+    if (savedItems.length >= 5) {
+      newItems = [newViewItem, ...savedItems.slice(0, -1)];
     } else {
       newItems = [newViewItem, ...savedItems];
     }
