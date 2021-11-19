@@ -30,15 +30,17 @@ export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData 
       <CardActionArea onClick={handleClick}>
         <CardMedia className={classes.media} image={data.file.url} />
         <CardContent className={classes.content}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {data.title} - ${numberWithCommas(data.price)}
+          <Typography gutterBottom variant="h5" component="h2" noWrap>
+            {data.title}
           </Typography>
+          <Typography variant="subtitle1">${numberWithCommas(data.price)}</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0}>
           {t('shop.addToCart')} +
         </Button>
+
         {data.stock <= 0 && (
           <Box component="span" marginLeft=".25rem" color={theme.palette.error.main}>
             {t('shop.soldOut')}

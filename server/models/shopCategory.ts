@@ -23,6 +23,7 @@ export const ShopCategorySchema = new mongoose.Schema(
 );
 
 ShopCategorySchema.plugin(timestamps);
+ShopCategorySchema.index({ name: 1 });
 
 export const ShopCategoryTable = mongoose.model<ShopCategory>(
   SchemaNames.SHOP_CATEGORY,

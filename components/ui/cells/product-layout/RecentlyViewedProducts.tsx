@@ -6,7 +6,7 @@ import { ProductData, RelatedProductData } from 'core/models';
 import React from 'react';
 import { useTranslation } from 'server/lib/i18n';
 
-export const RecentlyViewedProducts = React.memo<{ data: ProductData }>(({ data }) => {
+export const RecentlyViewedProducts = React.memo<{ data?: ProductData }>(({ data }) => {
   const classes = useStyles();
   const { t } = useTranslation('common');
   const [viewedItems, setItems] = React.useState<RelatedProductData[]>([]);
@@ -15,6 +15,8 @@ export const RecentlyViewedProducts = React.memo<{ data: ProductData }>(({ data 
     const savedItems = LS.getItem(LS.keys.RecentlyViewed, []);
 
     setItems(savedItems);
+
+    if (!data) return;
 
     const newViewItem: RelatedProductData = {
       categories: data.categories,

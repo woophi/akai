@@ -52,3 +52,6 @@ export const getResetPassLinkState = (uniqId: string) =>
 
 export const getProductData = (productName: string, localeId: models.LocaleId) =>
   callApi<models.ProductData>('get', `api/guest/product?localeId=${localeId}&name=${productName}`);
+
+export const getCategoryData = (categoryName: string, localeId: models.LocaleId) =>
+  callApi<models.CategoryData>('get', `api/guest/category?localeId=${localeId}&name=${encodeURI(categoryName)}`);

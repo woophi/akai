@@ -65,6 +65,7 @@ export function router(
 
   // shop
   app.get('/api/guest/product', validator.query(controllers.validateGProductGet), controllers.getProductData);
+  app.get('/api/guest/category', validator.query(controllers.validateGProductGet), controllers.getCategoryData);
 
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);

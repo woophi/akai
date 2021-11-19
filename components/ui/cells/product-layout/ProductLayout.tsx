@@ -1,11 +1,12 @@
-import { Box, Button, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
+import { Box, Button, Link, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
 import BrushIcon from '@material-ui/icons/Brush';
 import ClearIcon from '@material-ui/icons/Clear';
+import { goToSpecific } from 'core/common';
 import { numberWithCommas } from 'core/lib';
 import { ProductData } from 'core/models';
 import React from 'react';
 import { useTranslation } from 'server/lib/i18n';
-import { BoxGrid } from 'ui/atoms';
+import { BoxGrid, LinkButton } from 'ui/atoms';
 import { ProductDescription } from './ProductDescription';
 import { ProductGallery } from './ProductGallery';
 import { RecentlyAddedProduct } from './RecentlyAddedProduct';
@@ -18,6 +19,10 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
 
   const typeOfParams = data.parameters.filter(f => !!f.typeOf);
   const restParams = data.parameters.filter(f => !f.typeOf);
+
+  const openCategory = React.useCallback((name: string) => {
+    goToSpecific(`/category/${name}`);
+  }, []);
 
   return (
     <BoxGrid>
@@ -54,7 +59,16 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
             )}
             <Box marginY="1rem">
               <b>{t('shop.categories')} </b>
-              <span>{data.categories.join(', ')}</span>
+              {data.categories.map((c, i) => (
+                <React.Fragment key={i}>
+                  <Link href={`/category/${c}`}>
+                    <a className={classes.link}>
+                      {c}
+                      {data.categories.indexOf(c) === data.categories.length - 1 ? '' : ','}
+                    </a>
+                  </Link>{' '}
+                </React.Fragment>
+              ))}
             </Box>
           </Box>
         </Paper>
@@ -94,5 +108,8 @@ const useStyles = makeStyles(theme => ({
   },
   capitalLetter: {
     textTransform: 'capitalize',
+  },
+  link: {
+    color: theme.palette.text.primary,
   },
 }));

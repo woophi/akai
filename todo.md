@@ -1,6 +1,4 @@
 - trustpilot shop reviews
-- Categories add links to pages in product
-- add category page with products
 - add on main page 8 latest products
 - add on main page categories 3 top clicks
 - add user account
