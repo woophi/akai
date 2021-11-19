@@ -9,6 +9,7 @@ import { BoxGrid } from 'ui/atoms';
 import { ProductDescription } from './ProductDescription';
 import { ProductGallery } from './ProductGallery';
 import { RecentlyAddedProduct } from './RecentlyAddedProduct';
+import { RecentlyViewedProducts } from './RecentlyViewedProducts';
 
 export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
   const classes = useStyles();
@@ -75,6 +76,7 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
       </Box>
       <Box width="30%" minWidth="320px">
         <RecentlyAddedProduct data={data.recentlyAddedProduct} />
+        <RecentlyViewedProducts data={data} />
       </Box>
     </BoxGrid>
   );

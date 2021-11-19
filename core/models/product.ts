@@ -30,4 +30,5 @@ export type ProductData = {
   categories: string[];
   recentlyAddedProduct: RecentlyAddedProductData | null;
   relatedProducts: RelatedProductData[];
+  href: string;
 };

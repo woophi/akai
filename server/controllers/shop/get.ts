@@ -40,7 +40,7 @@ export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Re
         path: 'categories',
         select: 'name',
       })
-      .select('title files categories description price stock parameters')
+      .select('title files categories description price stock parameters href')
       .lean();
 
     if (!shopItem) {

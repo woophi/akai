@@ -1,5 +1,4 @@
 - trustpilot shop reviews
-- added recently viewed products save it in LS
 - Categories add links to pages in product
 - add category page with products
 - add on main page 8 latest products
