@@ -105,6 +105,7 @@ export class Auth extends Hashing {
           req.session.cookie.httpOnly = true;
           req.session.cookie.secure = true;
         }
+        req.session.save(() => Logger.debug('save session'));
         res.cookie(SessionCookie.SesId, userToken, cookieOpts);
         onSuccess(payload.accessToken);
       } catch {
