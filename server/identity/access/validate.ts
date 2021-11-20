@@ -12,7 +12,7 @@ const decrypt = new Encryption().decrypt;
 
 export const validateTokenAndCreateNewAccessToken = async (signedCookie: string, userSession: SessionData) => {
   if (!userSession.user || !signedCookie) {
-    Logger.info('Connot validate token -> empty params');
+    Logger.info('Connot validate token -> empty params', !userSession.user ? 'NO SESSION' : 'NO COOKIE');
     return false;
   }
 

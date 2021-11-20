@@ -38,6 +38,7 @@ checkConfiguration(config);
 const whitelist = config.ALLOWED_ORIGINS.split(',');
 
 appNext.prepare().then(async () => {
+  await connection;
   const appExpress = express();
   appExpress.use(urlencoded({ extended: true }) as any);
   appExpress.use(json() as any);
@@ -71,7 +72,6 @@ appNext.prepare().then(async () => {
   appExpress.use(nextI18NextMiddleware(nextI18next));
   // serve locales for client
   appExpress.use('/public/locales', express.static(join(__dirname, '../public/locales')));
-  await connection;
   if (!fs.existsSync(join(__dirname, 'storage/temp'))) {
     fs.mkdirSync(join(__dirname, 'storage/temp'));
   }
