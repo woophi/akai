@@ -16,5 +16,5 @@ export const initExpressSession = () => {
 };
 
 export enum SessionCookie {
-  SesId = 'blogMe.uid',
+  SesId = 'akai.uid',
 }
