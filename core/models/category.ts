@@ -7,10 +7,14 @@ export type CategoryData = {
   recentlyAddedProduct: RecentlyAddedProductData | null;
 };
 
+export type CategoryRelated = {
+  id: string;
+  name: string;
+  productsCount: number;
+  coverPhoto: string;
+};
+
 export type ShopRelatedData = {
   products: RelatedProductData[];
-  categories: {
-    name: string;
-    productCount: number;
-  };
+  categories: CategoryRelated[];
 };

@@ -1,7 +1,6 @@
 import { Box, Button, Link, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
 import BrushIcon from '@material-ui/icons/Brush';
 import ClearIcon from '@material-ui/icons/Clear';
-import { goToSpecific } from 'core/common';
 import { numberWithCommas } from 'core/lib';
 import { ProductData } from 'core/models';
 import React from 'react';
@@ -19,10 +18,6 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
 
   const typeOfParams = data.parameters.filter(f => !!f.typeOf);
   const restParams = data.parameters.filter(f => !f.typeOf);
-
-  const openCategory = React.useCallback((name: string) => {
-    goToSpecific(`/category/${name}`);
-  }, []);
 
   return (
     <BoxGrid>

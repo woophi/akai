@@ -214,6 +214,19 @@ export const getRelatedShopData = async (req: ValidatedRequest<GShopGet>, res: R
       .select('title files categories price stock href')
       .lean();
 
+    const categories = await ShopCategoryTable.find({ deleted: null })
+      .populate({
+        path: 'coverPhoto',
+        select: 'name url',
+      })
+      .populate({
+        path: 'shopItems',
+        select: '_id',
+        match: { deleted: null },
+      })
+      .select('shopItems name coverPhoto')
+      .lean();
+
     const data = {
       products: relatedProducts.map(rp => ({
         title: rp.title[req.query.localeId],
@@ -223,6 +236,13 @@ export const getRelatedShopData = async (req: ValidatedRequest<GShopGet>, res: R
         file: rp.files[0],
         href: rp.href,
         id: rp._id,
+      })),
+
+      categories: categories.map(c => ({
+        id: c._id,
+        name: c.name[req.query.localeId],
+        productsCount: c.shopItems.length,
+        coverPhoto: c.coverPhoto.url,
       })),
     };
 
