@@ -3,15 +3,13 @@ import { Logger } from 'server/logger';
 
 export const fetchUserData = async (userId: string) => {
   try {
-    const user = await UserList.findById(userId)
-      .select('name roles').lean();
+    const user = await UserList.findById(userId).select('name roles email').lean();
 
     return {
-      ...user
-    }
-
+      ...user,
+    };
   } catch (error) {
     Logger.error(error);
     return {};
   }
-}
+};

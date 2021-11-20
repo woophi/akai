@@ -7,4 +7,5 @@ export * from './photos';
 export * from './shop';
 export * from './slider';
 export * from './subscribe';
+export * from './user';
 export * from './visitors';

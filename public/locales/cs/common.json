@@ -61,12 +61,17 @@
   "forms": {
     "field": {
       "required": "Povinné",
-      "invalid": "Neplatný format"
+      "invalid": "Neplatný format",
+      "checkFormat": "Zkontrolujte formát"
     },
     "name": "Jméno",
     "email": "E-mail",
     "message": "Zpráva",
-    "password": "Heslo"
+    "password": "Heslo",
+    "updated": "Aktualizováno",
+    "emailSent": "Na vaši poštu by měl být zaslán dopis",
+    "passChanged": "Heslo změněno",
+    "updatePass": "Změnit heslo"
   },
   "unsub": {
     "title": "Zrušit odběr všech e-mailových oznámení",

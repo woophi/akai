@@ -61,12 +61,17 @@
   "forms": {
     "field": {
       "required": "Please, fill this field",
-      "invalid": "Field is invalid"
+      "invalid": "Field is invalid",
+      "checkFormat": "Check format"
     },
     "name": "Name",
     "email": "E-mail",
     "message": "Message",
-    "password": "Password"
+    "password": "Password",
+    "updated": "Updated",
+    "emailSent": "A letter should be sent to your mail",
+    "passChanged": "Password changed",
+    "updatePass": "Change password"
   },
   "unsub": {
     "title": "Unsubscribe from all e-mail notifications",

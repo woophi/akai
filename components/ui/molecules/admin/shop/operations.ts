@@ -1,4 +1,4 @@
-import { callAdminApi } from 'core/common';
+import { callUserApi } from 'core/common';
 import {
   ShopCategoryInfo,
   ShopCategoryItem,
@@ -9,19 +9,19 @@ import {
   ShopItemUpdate,
 } from 'core/models';
 
-export const createShopItem = (data: ShopItemSave) => callAdminApi('post', 'api/admin/shop/item', data);
-export const getShopItem = (id: string) => callAdminApi<ShopItemInfo>('get', `api/admin/shop/items/${id}`);
-export const updateShopItem = (data: ShopItemUpdate) => callAdminApi('put', 'api/admin/shop/item', data);
-export const deleteShopItem = (id: string) => callAdminApi('delete', `api/admin/shop/items/${id}`);
+export const createShopItem = (data: ShopItemSave) => callUserApi('post', 'api/admin/shop/item', data);
+export const getShopItem = (id: string) => callUserApi<ShopItemInfo>('get', `api/admin/shop/items/${id}`);
+export const updateShopItem = (data: ShopItemUpdate) => callUserApi('put', 'api/admin/shop/item', data);
+export const deleteShopItem = (id: string) => callUserApi('delete', `api/admin/shop/items/${id}`);
 
-export const createShopCategory = (data: ShopCategorySave) => callAdminApi('post', 'api/admin/shop/category', data);
-export const updateShopCategory = (data: ShopCategoryUpdate) => callAdminApi('put', 'api/admin/shop/category', data);
-export const getShopCategory = (id: string) => callAdminApi<ShopCategoryInfo>('get', `api/admin/shop/categories/${id}`);
-export const deleteShopCategory = (id: string) => callAdminApi('delete', `api/admin/shop/categories/${id}`);
+export const createShopCategory = (data: ShopCategorySave) => callUserApi('post', 'api/admin/shop/category', data);
+export const updateShopCategory = (data: ShopCategoryUpdate) => callUserApi('put', 'api/admin/shop/category', data);
+export const getShopCategory = (id: string) => callUserApi<ShopCategoryInfo>('get', `api/admin/shop/categories/${id}`);
+export const deleteShopCategory = (id: string) => callUserApi('delete', `api/admin/shop/categories/${id}`);
 
 export const getShopCategories = async () => {
   try {
-    const data = await callAdminApi<ShopCategoryItem[]>('get', 'api/admin/shop/categories');
+    const data = await callUserApi<ShopCategoryItem[]>('get', 'api/admin/shop/categories');
     return data;
   } catch (error) {
     console.error(error);
@@ -30,7 +30,7 @@ export const getShopCategories = async () => {
 };
 export const getShopProducts = async () => {
   try {
-    const data = await callAdminApi<ShopItemInfo[]>('get', 'api/admin/shop/items');
+    const data = await callUserApi<ShopItemInfo[]>('get', 'api/admin/shop/items');
     return data;
   } catch (error) {
     console.error(error);

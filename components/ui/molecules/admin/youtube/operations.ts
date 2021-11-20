@@ -1,4 +1,4 @@
-import { callAdminApi } from 'core/common';
+import { callUserApi } from 'core/common';
 import { YoutubeItem } from 'core/models';
 import { store } from 'core/store';
 import { getYoutubes } from 'core/operations';
@@ -14,9 +14,9 @@ export const getAllYoutubes = async () => {
   }
 };
 export const updateYoutubes = (youtubes: YoutubeItem[]) =>
-  callAdminApi<void>('post', 'api/admin/update/youtubes', {
+  callUserApi<void>('post', 'api/admin/update/youtubes', {
     youtubes: youtubes.map((y, i) => ({ ...y, ordinal: i })),
   });
 
 export const createYoutube = (youtube: string, title: string) =>
-  callAdminApi<void>('post', 'api/admin/create/youtube', { url: youtube, title });
+  callUserApi<void>('post', 'api/admin/create/youtube', { url: youtube, title });

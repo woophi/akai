@@ -5,5 +5,6 @@ export type AuthData = {
   roles: ROLES[];
   name: string;
   userId: string;
+  email: string;
   fetching?: boolean;
 };

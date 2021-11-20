@@ -69,7 +69,7 @@ export const UpdateForm: React.FC<Props> = ({ linkId }) => {
             />
             <Snakbars
               variant="success"
-              message={done ? 'Пароль изменен' : ''}
+              message={done ? t('common:forms.passChanged') : ''}
               onClose={() => setDone(false)}
               style={{
                 margin: '0 1rem .5rem',

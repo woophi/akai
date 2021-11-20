@@ -1,4 +1,4 @@
-import { callAdminApi } from 'core/common';
+import { callUserApi } from 'core/common';
 import { NewAlbumData, AlbumData } from 'core/models';
 
 export const createNewAlbum = (data: NewAlbumData) => {
@@ -8,23 +8,22 @@ export const createNewAlbum = (data: NewAlbumData) => {
     title: [
       {
         localeId: 'en',
-        content: data.nameEn
+        content: data.nameEn,
       },
       {
         localeId: 'ru',
-        content: data.nameRu
+        content: data.nameRu,
       },
       {
         localeId: 'cs',
-        content: data.nameCs
-      }
-    ]
+        content: data.nameCs,
+      },
+    ],
   };
-  return callAdminApi<string>('post', 'api/admin/new/album', body);
+  return callUserApi<string>('post', 'api/admin/new/album', body);
 };
 
-export const getAlbumData = (albumId: string) =>
-  callAdminApi<AlbumData>('get', `api/admin/get/album?id=${albumId}`);
+export const getAlbumData = (albumId: string) => callUserApi<AlbumData>('get', `api/admin/get/album?id=${albumId}`);
 
 export const editAlbum = (albumId: string, data: AlbumData) => {
   const body = {
@@ -33,20 +32,19 @@ export const editAlbum = (albumId: string, data: AlbumData) => {
     title: [
       {
         localeId: 'en',
-        content: data.nameEn
+        content: data.nameEn,
       },
       {
         localeId: 'ru',
-        content: data.nameRu
+        content: data.nameRu,
       },
       {
         localeId: 'cs',
-        content: data.nameCs
-      }
-    ]
+        content: data.nameCs,
+      },
+    ],
   };
-  callAdminApi<AlbumData>('put', `api/admin/edit/album?id=${albumId}`, body);
-}
+  callUserApi<AlbumData>('put', `api/admin/edit/album?id=${albumId}`, body);
+};
 
-export const deleteAlbum = (albumId: string) =>
-  callAdminApi<void>('delete', `api/admin/delete/album?id=${albumId}`);
+export const deleteAlbum = (albumId: string) => callUserApi<void>('delete', `api/admin/delete/album?id=${albumId}`);

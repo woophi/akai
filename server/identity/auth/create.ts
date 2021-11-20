@@ -7,6 +7,7 @@ import { Logger } from 'server/logger';
 import config from 'server/config';
 import { setAccessToken, setRefreshToken, tenDaysInMS } from '../access';
 import { SessionData } from 'server/lib/models';
+import { SessionCookie } from '../session';
 
 type Data = {
   email: string;
@@ -100,8 +101,9 @@ export class Auth extends Hashing {
         (req.session as unknown as SessionData).accessToken = payload.accessToken;
         if (!config.DEV_MODE) {
           req.session.cookie.httpOnly = true;
+          req.session.cookie.secure = true;
         }
-        res.cookie('akai.uid', userToken, cookieOpts);
+        res.cookie(SessionCookie.SesId, userToken, cookieOpts);
         onSuccess(payload.accessToken);
       } catch {
         return onFail(generalError);

@@ -70,8 +70,16 @@ export function router(
 
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);
-  app.post('/api/app/user/logout', rateLimiterMiddleware, identity.validateToken, auth.logout);
+  app.post('/api/app/user/logout', rateLimiterMiddleware, identity.authorizedForUser, auth.logout);
   app.post('/api/app/user/check', auth.checkUser);
+
+  // me
+  app.put(
+    '/api/app/user/me',
+    identity.authorizedForUser,
+    validator.body(controllers.validateProfileUpdate),
+    controllers.updateProfile
+  );
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);

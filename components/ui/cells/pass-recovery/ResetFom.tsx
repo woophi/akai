@@ -15,10 +15,10 @@ const validate = (values: ResetForm, t: (s: string) => string) => {
   const errors: Partial<ResetForm> = {};
 
   if (!values.email) {
-    errors.email = t('common:forms.field.required');
+    errors.email = t('forms.field.required');
   }
   if (values.email && !testEmail.test(values.email.toLowerCase())) {
-    errors.email = t('common:forms.field.invalid');
+    errors.email = t('forms.field.invalid');
   }
   return errors;
 };
@@ -34,7 +34,7 @@ const onSubmit = async (data: ResetForm) => {
 export const ResetForm: React.FC = () => {
   const classes = useStyles({});
   const [done, setDone] = React.useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
   return (
     <Form
       onSubmit={onSubmit}
@@ -56,15 +56,15 @@ export const ResetForm: React.FC = () => {
               variant="error"
               message={submitError}
               style={{
-                margin: '0 1rem .5rem'
+                margin: '0 1rem .5rem',
               }}
             />
             <Snakbars
               variant="success"
-              message={done ? 'На Вашу почту должно придти письмо' : ''}
+              message={done ? t('form.emailSent') : ''}
               onClose={() => setDone(false)}
               style={{
-                margin: '0 1rem .5rem'
+                margin: '0 1rem .5rem',
               }}
             />
             <Field
@@ -73,7 +73,7 @@ export const ResetForm: React.FC = () => {
                 <TextField
                   {...input}
                   id="outlined-email-input"
-                  label={t('common:forms.email')}
+                  label={t('forms.email')}
                   type="text"
                   name="email"
                   margin="normal"
@@ -86,13 +86,7 @@ export const ResetForm: React.FC = () => {
                 />
               )}
             />
-            <ButtonsForm
-              pristine={pristine}
-              submitting={submitting}
-              both
-              onCancel={form.reset}
-              submitLabel={'common:buttons.send'}
-            />
+            <ButtonsForm pristine={pristine} submitting={submitting} both onCancel={form.reset} />
           </form>
         </>
       )}
@@ -107,6 +101,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     minWidth: '320px',
-    maxWidth: '50%'
-  }
+    maxWidth: '50%',
+  },
 }));

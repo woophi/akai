@@ -1,4 +1,4 @@
-import { callApi, callAdminApi } from 'core/common';
+import { callApi, callUserApi } from 'core/common';
 import * as models from 'core/models';
 import { youtubeActions } from 'core/reducers/youtube';
 import { store } from 'core/store';
@@ -40,7 +40,7 @@ export const getLastChatLiveStreamId = async () => {
   store.dispatch(youtubeActions.setChatId(chatId));
 };
 
-export const saveChatLiveStreamId = (chatId: string) => callAdminApi<void>('post', `api/admin/save/live/chat`, { chatId });
+export const saveChatLiveStreamId = (chatId: string) => callUserApi<void>('post', `api/admin/save/live/chat`, { chatId });
 
 export const resetPassword = (email: string) => callApi<void>('post', 'api/guest/password/reset', { email });
 

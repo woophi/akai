@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { Layout, Carusel, BoxMain, BoxGrid } from 'components/ui';
+import { BoxMain, Carusel, Layout } from 'components/ui';
 import { callApi } from 'core/common';
-import * as models from 'core/models';
-import Head from 'next/head';
-import { GetServerSideProps } from 'next';
 import { getLanguage } from 'core/lib/lang';
-import { ProductHomeLayout } from 'ui/cells/product-layout';
+import * as models from 'core/models';
 import { getShopRelatedData } from 'core/operations';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import * as React from 'react';
+import { ProductHomeLayout } from 'ui/cells/product-layout';
 
 type Props = {
   data: models.SlideModel[];

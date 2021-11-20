@@ -6,3 +6,5 @@ export interface SessionData extends Session {
   userId: string;
   accessToken: string;
 }
+
+export const getSessionData = <T>(session: T) => session as unknown as SessionData;

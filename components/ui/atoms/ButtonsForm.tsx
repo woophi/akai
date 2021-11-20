@@ -7,6 +7,7 @@ import { useTranslation } from 'server/lib/i18n';
 type Props = {
   pristine: boolean;
   submitting: boolean;
+  invalid?: boolean;
   both?: boolean;
   onCancel?: () => void;
   submitLabel?: string;
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export const ButtonsForm = React.memo<Props>(
-  ({ pristine, submitting, both = false, onCancel, submitLabel, noMargin = false }) => {
+  ({ pristine, submitting, both = false, onCancel, submitLabel, noMargin = false, invalid }) => {
     const classes = useStyles({ noMargin });
     const { t } = useTranslation();
     return (
@@ -33,7 +34,7 @@ export const ButtonsForm = React.memo<Props>(
 
         <Button
           type="submit"
-          disabled={pristine || submitting}
+          disabled={pristine || submitting || invalid}
           variant={'contained'}
           color="primary"
           className={classes.sbm}
@@ -43,7 +44,7 @@ export const ButtonsForm = React.memo<Props>(
               className={`fas fa-circle-notch fa-spin`}
               color="action"
               style={{
-                margin: 'auto'
+                margin: 'auto',
               }}
             />
           ) : (
@@ -58,12 +59,12 @@ export const ButtonsForm = React.memo<Props>(
 const useStyles = makeStyles(theme => ({
   button: (props: any) => ({
     margin: props.noMargin ? undefined : '0 auto 1rem',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   }),
   sbm: {
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   cncl: {
-    marginRight: '1rem'
-  }
+    marginRight: '1rem',
+  },
 }));

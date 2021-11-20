@@ -8,6 +8,7 @@ const initialState: AuthData = {
   token: '',
   userId: '',
   fetching: true,
+  email: '',
 };
 
 const userSlice = createSlice({

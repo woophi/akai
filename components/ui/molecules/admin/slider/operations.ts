@@ -1,11 +1,11 @@
-import { callAdminApi } from 'core/common';
+import { callUserApi } from 'core/common';
 import { SlideItem } from 'core/models';
 import { adminListsActions } from 'core/reducers/admin';
 import { store } from 'core/store';
 
 export const getAllSlides = async () => {
   try {
-    const data = await callAdminApi<SlideItem[]>('get', 'api/admin/get/slides');
+    const data = await callUserApi<SlideItem[]>('get', 'api/admin/get/slides');
     store.dispatch(adminListsActions.fetchSlides(data));
     return data;
   } catch (error) {
@@ -21,5 +21,5 @@ export const updateSlides = (slides: SlideItem[]) => {
     subTitle: s.subTitle,
     button: s.button,
   }));
-  return callAdminApi<void>('post', 'api/admin/update/slides', { slides: mapSlides });
+  return callUserApi<void>('post', 'api/admin/update/slides', { slides: mapSlides });
 };

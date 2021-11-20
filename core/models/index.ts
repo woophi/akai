@@ -9,6 +9,7 @@ export * from './locales';
 export * from './message';
 export * from './photos';
 export * from './product';
+export * from './profile';
 export * from './slider';
 export * from './subscribe';
 export * from './translation';

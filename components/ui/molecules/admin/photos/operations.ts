@@ -1,11 +1,11 @@
-import { callAdminApi } from 'core/common';
+import { callUserApi } from 'core/common';
 import { PhotoItem } from 'core/models';
 import { adminListsActions } from 'core/reducers/admin';
 import { store } from 'core/store';
 
 export const getAllPhotos = async () => {
   try {
-    const data = await callAdminApi<PhotoItem[]>('get', 'api/admin/get/photos');
+    const data = await callUserApi<PhotoItem[]>('get', 'api/admin/get/photos');
     store.dispatch(adminListsActions.fetchPhotos(data));
     return data;
   } catch (error) {
@@ -18,5 +18,5 @@ export const updatePhotos = (photos: PhotoItem[]) => {
     ordinal: index,
     fileId: p.file._id,
   }));
-  return callAdminApi<void>('post', 'api/admin/update/photos', { photos: mapPhotos });
+  return callUserApi<void>('post', 'api/admin/update/photos', { photos: mapPhotos });
 };

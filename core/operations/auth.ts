@@ -18,6 +18,7 @@ export const logout = async () => {
       roles: [],
       token: '',
       userId: '',
+      email: '',
     })
   );
   store.dispatch(userActions.setUserFetching(false));
@@ -45,7 +46,7 @@ export const ensureAuthorizedForAdmin = async () => {
   }
 };
 
-export const ensureAuthorizedForCustomer = async () => {
+export const ensureAuthorizedForUser = async () => {
   await checkAuth();
   if (!getUserId(store.getState())) {
     Router.push('/login');
