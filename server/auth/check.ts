@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
-import { Logger } from '../logger';
-import * as identity from '../identity';
+import { Request, Response } from 'express';
 import { HTTPStatus, SessionData } from 'server/lib/models';
+import * as identity from '../identity';
+import { Logger } from '../logger';
 import { fetchUserData } from './operations';
 
-export const checkUser = async (req: Request, res: Response, next: NextFunction) => {
-  Logger.debug('User check from FE');
+export const checkUser = async (req: Request, res: Response) => {
+  Logger.debug('User check from FE', identity.SessionCookie.SesId);
   const cookie = req.signedCookies[identity.SessionCookie.SesId];
 
   const validateTokenResult = await identity.validateTokenAndCreateNewAccessToken(
