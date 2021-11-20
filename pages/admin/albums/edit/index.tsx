@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { AdminLayout, AdminAlbumComponent } from 'ui/index';
 import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
@@ -7,7 +7,7 @@ import { WithRouterProps } from 'next/dist/client/with-router';
 class Album extends React.PureComponent<WithRouterProps> {
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
     } catch (e) {
       console.error('Error in Admin Album edit fetch', e);
     }

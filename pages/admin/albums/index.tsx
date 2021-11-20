@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { AdminLayout, Block, BoxWrap, LinkButton } from 'ui/index';
 import { AlbumModel, LocaleId } from 'core/models';
 import { getAllAlbums } from 'core/operations';
@@ -15,7 +15,7 @@ class Albums extends React.PureComponent<unknown, LocalState> {
   };
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
       const albums = await getAllAlbums(LocaleId.Ru);
       this.setState({ albums });
     } catch (e) {

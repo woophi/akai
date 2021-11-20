@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { AdminLayout, AdminBio } from 'ui/index';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 
 class Bio extends React.PureComponent {
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
     } catch (e) {
       console.error('Error in Admin Bio fetch', e);
     }

@@ -1,4 +1,4 @@
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { AdminEditUser, AdminLayout } from 'ui/index';
@@ -9,7 +9,7 @@ const EditUser: React.FC = () => {
   const userId = String(query.userId);
 
   React.useEffect(() => {
-    ensureNotAuthorized();
+    ensureAuthorizedForAdmin();
     getUser(userId);
   }, [userId]);
   return (

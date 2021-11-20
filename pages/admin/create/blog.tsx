@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AdminLayout, BlogForm, AdminBlogs } from 'ui/index';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { AlbumModel, LocaleId } from 'core/models';
 import { getAllAlbums } from 'core/operations';
 
@@ -14,7 +14,7 @@ class NewBlog extends React.PureComponent<unknown, localState> {
   };
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
       const albums = await getAllAlbums(LocaleId.Ru);
       this.setState({ albums });
     } catch (e) {

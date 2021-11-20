@@ -5,16 +5,17 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MenuIcon from '@material-ui/icons/Menu';
-import Link from 'next/link';
 import * as React from 'react';
 import { useTranslation } from 'server/lib/i18n';
 import { ArrowTooltip, LinkButton, Logo } from '../atoms';
 import { Languages, SelectLanguage } from './Languages';
+import { NavAccount } from './NavAccount';
 
 export const Navigation = React.memo(() => {
   const isSmallEnough = useMediaQuery('(max-width:800px)');
   const { t } = useTranslation();
   const classes = useStyles({});
+
   if (isSmallEnough) {
     return <MobileNavigation />;
   }
@@ -41,11 +42,12 @@ export const Navigation = React.memo(() => {
         <LinkButton href="/contact" label={t('common:navigation.contact')} />
         <SelectLanguage />
       </Box>
+      <NavAccount />
     </nav>
   );
 });
 
-const MobileNavigation: React.FC = React.memo(() => {
+const MobileNavigation = React.memo(() => {
   const { t } = useTranslation();
   const classes = useStyles({});
   const [openedMenu, setOpen] = React.useState(false);
@@ -59,9 +61,7 @@ const MobileNavigation: React.FC = React.memo(() => {
       <Drawer anchor="right" open={openedMenu} onClose={toggle}>
         <div className={classes.mobileContainer}>
           <div className={classes.mobileButtonsHC}>
-            <Link href="/">
-              <IconButton color="primary" className={'fas fa-home'} />
-            </Link>
+            <NavAccount mobile />
             <IconButton color="primary" className={'fas fa-times'} onClick={toggle} />
           </div>
           <LinkButton

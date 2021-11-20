@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { AdminLayout } from 'ui/index';
 import { AdminBlogs } from 'ui/molecules/admin/blog/AdminBlog';
 
 class Blogs extends React.PureComponent {
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
     } catch (e) {
       console.error('Error in Admin Blogs fetch', e);
     }

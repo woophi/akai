@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AdminLayout, BlogForm, AdminBlogs } from 'ui/index';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { withRouter } from 'next/router';
 import { BlogData, AlbumModel } from 'core/models';
 import { getBlogData } from 'ui/molecules/admin/blog/operations';
@@ -18,7 +18,7 @@ class EditBlog extends React.PureComponent<WithRouterProps, localState> {
   };
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
       const blogData = await getBlogData(String(this.props.router.query.id));
       this.setState({ blogData });
     } catch (e) {

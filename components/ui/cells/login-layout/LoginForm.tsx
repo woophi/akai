@@ -6,7 +6,7 @@ import { testEmail } from 'core/lib';
 import { useTranslation } from 'server/lib/i18n';
 import { FORM_ERROR } from 'final-form';
 import { store } from 'core/store';
-import { login, ensureAuthorized } from 'core/operations/auth';
+import { login, checkAuthAndNavigate } from 'core/operations/auth';
 import { userActions } from 'core/reducers/user';
 
 type LoginForm = {
@@ -33,7 +33,7 @@ const onSubmit = async (data: LoginForm) => {
   try {
     const { token } = await login(data.email, data.password);
     store.dispatch(userActions.setUserToken(token));
-    await ensureAuthorized();
+    await checkAuthAndNavigate();
   } catch (error) {
     return { [FORM_ERROR]: error.error };
   }

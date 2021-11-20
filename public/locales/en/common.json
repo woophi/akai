@@ -49,7 +49,14 @@
     "contact": "Contact"
   },
   "login": {
-    "title": "Sign in form"
+    "title": "Sign in form",
+    "resetPass": "Reset password"
+  },
+  "acc": {
+    "profile": "Profile",
+    "logOut": "Log out",
+    "logIn": "Sign in",
+    "registr": "Sign up"
   },
   "forms": {
     "field": {

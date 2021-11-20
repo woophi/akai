@@ -49,7 +49,14 @@
     "contact": "Kontakt"
   },
   "login": {
-    "title": "Přihlašovací formulář"
+    "title": "Přihlašovací formulář",
+    "resetPass": "Obnovit heslo"
+  },
+  "acc": {
+    "profile": "Profil",
+    "logOut": "Odhlásit se",
+    "logIn": "Přihlásit se",
+    "registr": "Registrovat"
   },
   "forms": {
     "field": {

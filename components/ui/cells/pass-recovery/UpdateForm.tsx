@@ -5,7 +5,7 @@ import { Form, Field } from 'react-final-form';
 import { useTranslation } from 'server/lib/i18n';
 import { FORM_ERROR } from 'final-form';
 import { updatePassword } from 'core/operations';
-import { login, ensureAuthorized } from 'core/operations/auth';
+import { login, checkAuthAndNavigate } from 'core/operations/auth';
 import { store } from 'core/store';
 import { userActions } from 'core/reducers/user';
 
@@ -28,7 +28,7 @@ const onSubmit = async (data: UpdateForm, linkId: string) => {
     if (email) {
       const { token } = await login(email, data.password);
       store.dispatch(userActions.setUserToken(token));
-      await ensureAuthorized();
+      await checkAuthAndNavigate();
     }
   } catch (error) {
     return { [FORM_ERROR]: error.error };

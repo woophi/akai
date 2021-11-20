@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { AdminLayout, AdminYoutube } from 'ui/index';
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 
 class Youtube extends React.PureComponent {
-
   async componentDidMount() {
     try {
-      await ensureNotAuthorized();
+      await ensureAuthorizedForAdmin();
     } catch (e) {
       console.error('Error in Youtube fetch', e);
     }

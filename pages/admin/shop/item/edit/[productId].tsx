@@ -1,4 +1,4 @@
-import { ensureNotAuthorized } from 'core/operations/auth';
+import { ensureAuthorizedForAdmin } from 'core/operations/auth';
 import { adminShopActions } from 'core/reducers/admin/shop';
 import { useRouter } from 'next/router';
 import * as React from 'react';
@@ -12,7 +12,7 @@ const EditProduct: React.FC = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    ensureNotAuthorized();
+    ensureAuthorizedForAdmin();
     fetchFiles();
     getShopItem(productId).then(d => dispatch(adminShopActions.selectItem(d)));
   }, [productId]);
