@@ -5,7 +5,13 @@ import { Logger } from '../logger';
 import { fetchUserData } from './operations';
 
 export const checkUser = async (req: Request, res: Response) => {
-  Logger.debug('User check from FE', identity.SessionCookie.SesId, req.signedCookies);
+  Logger.debug(
+    'User check from FE',
+    identity.SessionCookie.SesId,
+    req.signedCookies,
+    req.session,
+    req.signedCookies[identity.SessionCookie.SesId]
+  );
   const cookie = req.signedCookies[identity.SessionCookie.SesId];
 
   const validateTokenResult = await identity.validateTokenAndCreateNewAccessToken(
