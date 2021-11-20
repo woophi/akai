@@ -97,6 +97,7 @@ export class Auth extends Hashing {
           maxAge: tenDaysInMS,
         };
         req.session.cookie.maxAge = tenDaysInMS;
+        req.session.cookie.signed = true;
         (req.session as unknown as SessionData).user = user;
         (req.session as unknown as SessionData).userId = user.id;
         (req.session as unknown as SessionData).accessToken = payload.accessToken;

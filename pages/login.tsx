@@ -1,31 +1,31 @@
+import { getUserFetching, isAdmin, isUserCustomer } from 'core/selectors';
+import { useRouter } from 'next/router';
 import * as React from 'react';
-import { Layout, BoxMain, LoginLayout, Spinner } from 'ui/index';
-import { checkAuthAndNavigate } from 'core/operations/auth';
-import { connect as redux } from 'react-redux';
-import { getUserFetching } from 'core/selectors';
-import { AppState } from 'core/reducers/rootReducer';
+import { useSelector } from 'react-redux';
+import { BoxMain, Layout, LoginLayout, Spinner } from 'ui/index';
 
-type Props = {
-  userFetching: boolean;
+const Login: React.FC = () => {
+  const userFetching = useSelector(getUserFetching);
+  const admin = useSelector(isUserCustomer);
+  const customer = useSelector(isAdmin);
+  const { replace } = useRouter();
+
+  React.useEffect(() => {
+    if (admin) {
+      replace('/admin');
+    } else if (customer) {
+      replace('/me');
+    }
+  }, [admin, customer]);
+
+  return (
+    <Layout>
+      <BoxMain>
+        <LoginLayout />
+        <Spinner isShow={userFetching} />
+      </BoxMain>
+    </Layout>
+  );
 };
 
-class Login extends React.PureComponent<Props> {
-  componentDidMount() {
-    checkAuthAndNavigate();
-  }
-
-  render() {
-    return (
-      <Layout>
-        <BoxMain>
-          <LoginLayout />
-          <Spinner isShow={this.props.userFetching} />
-        </BoxMain>
-      </Layout>
-    );
-  }
-}
-
-export default redux((state: AppState) => ({
-  userFetching: getUserFetching(state),
-}))(Login);
+export default Login;

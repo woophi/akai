@@ -46,13 +46,6 @@ export const ensureAuthorizedForAdmin = async () => {
   }
 };
 
-export const ensureAuthorizedForUser = async () => {
-  await checkAuth();
-  if (!getUserId(store.getState())) {
-    Router.push('/login');
-  }
-};
-
 export const checkAuthAndNavigate = async () => {
   await checkAuth();
   const state = store.getState();

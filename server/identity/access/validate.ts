@@ -8,14 +8,6 @@ import { requireUser } from './claims';
 import { ROLES, tenDaysInMS } from './constants';
 import { verifyToken } from './verify';
 
-export const getToken = (req: Request) => {
-  return (
-    req.headers.authorization ||
-    ((req.session as unknown as SessionData).user && (req.session as unknown as SessionData).accessToken) ||
-    ''
-  );
-};
-
 const decrypt = new Encryption().decrypt;
 
 export const validateTokenAndCreateNewAccessToken = async (signedCookie: string, userSession: SessionData) => {
@@ -74,14 +66,12 @@ export const validateTokenAndCreateNewAccessToken = async (signedCookie: string,
 
 export const authorizedForAdmin = async (req: Request, res: Response, next: NextFunction) => {
   if (!requireUser(req, res)) return;
-  const token = getToken(req);
-  if (!token) return res.status(HTTPStatus.Unauthorized).send({ error: 'Authentication failed' });
 
   const cookie = req.signedCookies[SessionCookie.SesId];
   const validateTokenResult = await validateTokenAndCreateNewAccessToken(cookie, req.session as unknown as SessionData);
 
   if (!validateTokenResult) {
-    return res.status(HTTPStatus.Unauthorized).send({ error: 'Authentication failed' });
+    return res.redirect('/login');
   }
 
   if (!validateTokenResult.roles.find(r => r === ROLES.GODLIKE || r === ROLES.ADMIN))
@@ -91,14 +81,12 @@ export const authorizedForAdmin = async (req: Request, res: Response, next: Next
 
 export const authorizedForSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
   if (!requireUser(req, res)) return;
-  const token = getToken(req);
-  if (!token) return res.status(HTTPStatus.Unauthorized).send({ error: 'Authentication failed' });
 
   const cookie = req.signedCookies[SessionCookie.SesId];
   const validateTokenResult = await validateTokenAndCreateNewAccessToken(cookie, req.session as unknown as SessionData);
 
   if (!validateTokenResult) {
-    return res.status(HTTPStatus.Unauthorized).send({ error: 'Authentication failed' });
+    return res.redirect('/login');
   }
   if (!validateTokenResult.roles.find(r => r === ROLES.GODLIKE))
     return res.send({ error: 'Unable to get data' }).status(HTTPStatus.BadRequest);
@@ -107,14 +95,12 @@ export const authorizedForSuperAdmin = async (req: Request, res: Response, next:
 
 export const authorizedForUser = async (req: Request, res: Response, next: NextFunction) => {
   if (!requireUser(req, res)) return;
-  const token = getToken(req);
-  if (!token) return res.status(HTTPStatus.Unauthorized).send({ error: 'Authentication failed' });
 
   const cookie = req.signedCookies[SessionCookie.SesId];
   const validateTokenResult = await validateTokenAndCreateNewAccessToken(cookie, req.session as unknown as SessionData);
 
   if (!validateTokenResult) {
-    return res.status(HTTPStatus.Unauthorized).send({ error: 'Authentication failed' });
+    return res.redirect('/login');
   }
   next();
 };

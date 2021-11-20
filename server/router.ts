@@ -235,6 +235,11 @@ export function router(
     appNext.render(req, res as any, actualPage, queryParams);
   });
 
+  app.use('/admin/*', identity.authorizedForAdmin);
+  app.use('/admin', identity.authorizedForAdmin);
+  app.use('/me/*', identity.authorizedForUser);
+  app.use('/me', identity.authorizedForUser);
+
   app.get('*', (req, res) => {
     return handle(req, res as any);
   });

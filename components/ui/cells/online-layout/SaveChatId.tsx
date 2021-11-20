@@ -36,9 +36,6 @@ const onSubmit = async (data: ChatIdForm) => {
 export const SaveChatId = React.memo(({}) => {
   const [open, setOpen] = React.useState(false);
   const admin = useAppSelector(isAdmin);
-  React.useEffect(() => {
-    checkAuth();
-  }, []);
 
   const handleToggle = () => setOpen(!open);
 
