@@ -37,14 +37,14 @@ export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData 
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0}>
-          {t('shop.addToCart')} +
-        </Button>
-
-        {data.stock <= 0 && (
-          <Box component="span" marginLeft=".25rem" color={theme.palette.error.main}>
+        {data.stock <= 0 ? (
+          <Box component="span" display="flex" alignItems="center" color={theme.palette.error.main} height="31px">
             {t('shop.soldOut')}
           </Box>
+        ) : (
+          <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0}>
+            {t('shop.addToCart')} +
+          </Button>
         )}
       </CardActions>
     </Card>

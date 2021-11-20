@@ -6,6 +6,7 @@ import { adminListsReducer } from './admin/lists';
 import { adminShopReducer } from './admin/shop';
 import { adminUserReducer } from './admin/users';
 import { BlogsActions, blogsReducer } from './blogs';
+import { shopReducer } from './shop';
 import { UserActions, userReducer } from './user';
 import { YoutubeActions, youtubeReducer } from './youtube';
 
@@ -13,6 +14,7 @@ const uiReducer = combineReducers({
   youtube: youtubeReducer,
   blogs: blogsReducer,
   user: userReducer,
+  shop: shopReducer,
   admin: combineReducers({
     user: adminUserReducer,
     bio: adminBioReducer,
