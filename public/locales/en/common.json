@@ -58,6 +58,9 @@
     "logIn": "Sign in",
     "registr": "Sign up"
   },
+  "register": {
+    "title": "New user"
+  },
   "forms": {
     "field": {
       "required": "Please, fill this field",
@@ -86,7 +89,8 @@
     "login": "Sign in",
     "save": "Save",
     "unsub": "Unsubscribe",
-    "home": "Go to homepage"
+    "home": "Go to homepage",
+    "register": "Sign up"
   },
   "errors": {
     "404": "Page not found",

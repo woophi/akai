@@ -52,6 +52,9 @@
     "title": "Přihlašovací formulář",
     "resetPass": "Obnovit heslo"
   },
+  "register": {
+    "title": "Nový uživatel"
+  },
   "acc": {
     "profile": "Profil",
     "logOut": "Odhlásit se",
@@ -86,7 +89,8 @@
     "login": "Přihlásit se",
     "save": "Ulozit",
     "unsub": "Odhlásit se",
-    "home": "Jít na domovskou stránku"
+    "home": "Jít na domovskou stránku",
+    "register": "Zaregistrovat"
   },
   "errors": {
     "404": "Stránka nenalezena",

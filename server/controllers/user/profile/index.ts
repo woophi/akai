@@ -4,6 +4,7 @@ import Joi from 'joi';
 import { Hashing } from 'server/identity';
 import { getSessionData, HTTPStatus } from 'server/lib/models';
 import { UserTable } from 'server/models/users';
+export * from './register';
 
 export const validateProfileUpdate = Joi.object({
   name: Joi.string().required(),

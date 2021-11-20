@@ -8,7 +8,7 @@ import * as controllers from './controllers';
 import * as identity from './identity';
 import { agenda } from './lib/db';
 import { HTTPStatus, LocalErros } from './lib/models';
-import { rateLimiterMiddleware } from './lib/rate-limiter';
+import { rateLimiterMiddleware, rateLimiterRegister } from './lib/rate-limiter';
 import * as storage from './storage';
 const Agendash = require('agendash');
 import { createValidator } from 'express-joi-validation';
@@ -70,6 +70,12 @@ export function router(
 
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);
+  app.post(
+    '/api/app/user/register',
+    rateLimiterRegister,
+    validator.body(controllers.validateUserRegister),
+    controllers.userRegister
+  );
   app.post('/api/app/user/logout', rateLimiterMiddleware, identity.authorizedForUser, auth.logout);
   app.post('/api/app/user/check', auth.checkUser);
 
