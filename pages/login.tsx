@@ -6,8 +6,8 @@ import { BoxMain, Layout, LoginLayout, Spinner } from 'ui/index';
 
 const Login: React.FC = () => {
   const userFetching = useSelector(getUserFetching);
-  const admin = useSelector(isUserCustomer);
-  const customer = useSelector(isAdmin);
+  const customer = useSelector(isUserCustomer);
+  const admin = useSelector(isAdmin);
   const { replace } = useRouter();
 
   React.useEffect(() => {
