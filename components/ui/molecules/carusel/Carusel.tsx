@@ -16,7 +16,7 @@ export const Carusel = React.memo<Props>(({ slides = [] }) => {
     return <Spinner withBox />;
   }
   return (
-    <Carousel autoPlay={false} infiniteLoop={false} showThumbs={false} showStatus={false} className={classes.carusel}>
+    <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false} className={classes.carusel}>
       {slides.map((ig, index) => (
         <div key={`sl-${index}`} className={classes.carusel} style={{ backgroundImage: `url(${ig.src})` }}>
           <Box position="absolute" className={classes.layoutFront}>
