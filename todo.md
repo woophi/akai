@@ -1,4 +1,3 @@
-- trustpilot shop reviews
-- add user account
+- trustpilot shop reviewss
 - add basket (save to LS or user account)
 - basket finish goes to email notification for akai

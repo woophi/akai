@@ -69,17 +69,17 @@ export const NavAccount = React.memo<{ mobile?: boolean }>(({ mobile = false }) 
         onClose={handleClose}
       >
         {userId ? (
-          <>
+          <div>
             {userAdmin && <MenuItem onClick={gotoAdmin}>Админ</MenuItem>}
             {userGod && <MenuItem onClick={gotoAgenda}>Agenda</MenuItem>}
             <MenuItem onClick={gotoProfile}>{t('acc.profile')}</MenuItem>
             <MenuItem onClick={handleLogout}>{t('acc.logOut')}</MenuItem>
-          </>
+          </div>
         ) : (
-          <>
+          <div>
             <MenuItem onClick={gotoLogin}>{t('acc.logIn')}</MenuItem>
             <MenuItem onClick={gotoRegistration}>{t('acc.registr')}</MenuItem>
-          </>
+          </div>
         )}
       </Menu>
     </Box>
