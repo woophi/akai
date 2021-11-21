@@ -106,6 +106,7 @@ export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Re
             stock: recentlyAddedProduct.stock,
             file: recentlyAddedProduct.files[0],
             href: recentlyAddedProduct.href,
+            id: recentlyAddedProduct._id,
           }
         : null,
 
@@ -175,6 +176,7 @@ export const getCategoryData = async (req: ValidatedRequest<GProductGet>, res: R
             stock: recentlyAddedProduct.stock,
             file: recentlyAddedProduct.files[0],
             href: recentlyAddedProduct.href,
+            id: recentlyAddedProduct._id,
           }
         : null,
 

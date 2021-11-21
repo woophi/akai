@@ -3,7 +3,9 @@ import BrushIcon from '@material-ui/icons/Brush';
 import ClearIcon from '@material-ui/icons/Clear';
 import { numberWithCommas } from 'core/lib';
 import { ProductData } from 'core/models';
+import { shopActions } from 'core/reducers/shop';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
 import { BoxGrid } from 'ui/atoms';
 import { ProductDescription } from './ProductDescription';
@@ -15,9 +17,22 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
   const classes = useStyles();
   const { t } = useTranslation('common');
   const isSmallEnough = useMediaQuery('(max-width:800px)');
+  const dispatch = useDispatch();
 
   const typeOfParams = data.parameters.filter(f => !!f.typeOf);
   const restParams = data.parameters.filter(f => !f.typeOf);
+
+  const addToBasket = React.useCallback(() => {
+    dispatch(
+      shopActions.addProduct({
+        file: data.files[0],
+        id: data._id,
+        name: data.title,
+        price: data.price,
+        href: data.href,
+      })
+    );
+  }, [data._id, data.href, data.title, data.files[0], data.price]);
 
   return (
     <BoxGrid>
@@ -48,7 +63,7 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
               </Box>
             </Box>
             {data.stock > 0 && (
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={addToBasket}>
                 {t('shop.addToCart')} +
               </Button>
             )}

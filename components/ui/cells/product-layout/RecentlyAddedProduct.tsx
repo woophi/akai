@@ -12,16 +12,32 @@ import {
 import { goToSpecific } from 'core/common';
 import { numberWithCommas, theme } from 'core/lib';
 import { RecentlyAddedProductData } from 'core/models';
+import { shopActions } from 'core/reducers/shop';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
 
 export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData | null }>(({ data }) => {
   const classes = useStyles();
   const { t } = useTranslation('common');
+  const dispatch = useDispatch();
 
   const handleClick = React.useCallback(() => {
     goToSpecific(`/product/${data?.href}`);
   }, [data?.href]);
+
+  const addToBasket = React.useCallback(() => {
+    if (!data) return;
+    dispatch(
+      shopActions.addProduct({
+        file: data.file,
+        id: data.id,
+        name: data.title,
+        price: data.price,
+        href: data.href,
+      })
+    );
+  }, [data]);
 
   if (!data) return null;
 
@@ -42,7 +58,7 @@ export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData 
             {t('shop.soldOut')}
           </Box>
         ) : (
-          <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0}>
+          <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0} onClick={addToBasket}>
             {t('shop.addToCart')} +
           </Button>
         )}

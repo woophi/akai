@@ -13,6 +13,7 @@ export type RecentlyAddedProductData = {
   stock: number;
   file: FileItem;
   href: string;
+  id: string;
 };
 
 export type RelatedProductData = RecentlyAddedProductData & {

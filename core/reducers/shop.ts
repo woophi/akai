@@ -7,6 +7,7 @@ type ProductInBasket = {
   price: number;
   name: string;
   file: FileItem;
+  href: string;
 };
 enum CustomerSessionState {
   Open = 'open',

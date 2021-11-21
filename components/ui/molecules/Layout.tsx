@@ -1,12 +1,13 @@
-import * as React from 'react';
-import Head from 'next/head';
-import { Navigation } from './Navigation';
 import { makeStyles } from '@material-ui/core/styles';
-import { ScrollButton } from 'ui/atoms';
-import { Subscribe } from './Subscribe';
 import { subscribe } from 'core/operations';
+import Head from 'next/head';
+import * as React from 'react';
+import { ScrollButton } from 'ui/atoms';
 import { Footer } from './Footer';
 import { HeadIntro } from './HeadIntro';
+import { Navigation } from './Navigation';
+import { ShopCartSlide } from './ShopCartSlide';
+import { Subscribe } from './Subscribe';
 
 type Props = {
   title?: string;
@@ -19,8 +20,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Layout: React.FC<Props> = React.memo(({ title, children, hideSub = false }) => {
-  const classes = useStyles({});
+export const Layout = React.memo<Props>(({ title, children, hideSub = false }) => {
+  const classes = useStyles();
 
   const tt = title ? `Akai Akaev | ${title}` : 'Akai Akaev | Official website';
 
@@ -39,6 +40,7 @@ export const Layout: React.FC<Props> = React.memo(({ title, children, hideSub = 
         {children}
         {!hideSub && <Subscribe onSubscribe={subscribe} />}
         <Footer />
+        <ShopCartSlide />
       </div>
       <ScrollButton />
     </>
