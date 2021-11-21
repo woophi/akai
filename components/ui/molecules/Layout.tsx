@@ -9,10 +9,10 @@ import { Navigation } from './Navigation';
 import { ShopCartSlide } from './ShopCartSlide';
 import { Subscribe } from './Subscribe';
 
-type Props = {
+type Props = React.PropsWithChildren<{
   title?: string;
   hideSub?: boolean;
-};
+}>;
 
 const useStyles = makeStyles(theme => ({
   content: {
