@@ -8,6 +8,7 @@ export * from './register';
 
 export const validateProfileUpdate = Joi.object({
   name: Joi.string().required(),
+  lastName: Joi.string(),
   email: Joi.string().email().lowercase().required(),
   password: Joi.string().allow(null),
 });
@@ -15,6 +16,7 @@ export const validateProfileUpdate = Joi.object({
 interface ProfileUpdate extends ValidatedRequestSchema {
   [ContainerTypes.Body]: {
     name: string;
+    lastName: string;
     email: string;
     password: string | null;
   };
@@ -30,6 +32,7 @@ export const updateProfile = async (req: ValidatedRequest<ProfileUpdate>, res: R
       return res.sendStatus(HTTPStatus.NotFound);
     }
     user.name = userData.name;
+    user.lastName = userData.lastName;
     user.email = userData.email;
     if (userData.password) {
       const hashing = new Hashing();

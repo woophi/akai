@@ -6,6 +6,7 @@ export type UserModel = {
   roles: ROLES[];
   password: string;
   name?: string;
+  lastName?: string;
   avatarUrl?: string;
   refreshToken?: string;
   resetId?: string | null;

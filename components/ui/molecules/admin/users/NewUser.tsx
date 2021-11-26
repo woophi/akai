@@ -24,6 +24,9 @@ const validate = (values: NewUserForm, t: (s: string) => string) => {
   if (!values.name) {
     errors.name = t('common:forms.field.required');
   }
+  if (!values.lastName) {
+    errors.lastName = t('common:forms.field.required');
+  }
   if (!values.role) {
     errors.role = t('common:forms.field.required');
   }
@@ -70,12 +73,30 @@ export const NewUser: React.FC = () => {
               render={({ input, meta }) => (
                 <TextField
                   {...input}
-                  label={'Имя Фамилия'}
+                  label={'Имя'}
                   type="text"
                   name="name"
                   margin="normal"
                   variant="outlined"
                   autoComplete="name"
+                  required
+                  error={Boolean(meta.touched && meta.error)}
+                  helperText={meta.touched && meta.error}
+                  disabled={submitting}
+                />
+              )}
+            />
+            <Field
+              name="lastName"
+              render={({ input, meta }) => (
+                <TextField
+                  {...input}
+                  label={'Фамилия'}
+                  type="text"
+                  name="lastName"
+                  margin="normal"
+                  variant="outlined"
+                  autoComplete="lastName"
                   required
                   error={Boolean(meta.touched && meta.error)}
                   helperText={meta.touched && meta.error}

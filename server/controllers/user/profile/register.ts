@@ -8,6 +8,7 @@ import { UserTable } from 'server/models/users';
 
 export const validateUserRegister = Joi.object({
   name: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string().email().lowercase().required(),
   password: Joi.string().required(),
 });
@@ -15,6 +16,7 @@ export const validateUserRegister = Joi.object({
 interface UserRegister extends ValidatedRequestSchema {
   [ContainerTypes.Body]: {
     name: string;
+    lastName: string;
     email: string;
     password: string;
   };

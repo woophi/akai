@@ -1,6 +1,7 @@
 export type NewUser = {
   email: string;
   name: string;
+  lastName: string;
   password: string;
   role: CreatableRole | string;
 };
@@ -9,6 +10,7 @@ export type EditUser = {
   _id: string;
   email: string;
   name: string;
+  lastName: string;
   password?: string;
   role: CreatableRole | string;
 };
@@ -28,6 +30,7 @@ export type UserModel = {
   createdAt: string;
   email: string;
   name: string;
+  lastName: string;
   roles: ROLES[];
   _id: string;
 };

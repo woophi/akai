@@ -14,6 +14,7 @@ export const AdminEditUser = React.memo(() => {
           role: user.roles[0] as unknown as CreatableRole,
           email: user.email,
           name: user.name,
+          lastName: user.lastName,
         }}
       />
     </Box>

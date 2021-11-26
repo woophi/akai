@@ -23,9 +23,6 @@ export const MeMainLayout = React.memo(() => {
           scrollButtons="on"
         >
           <Tab label={t('acc.profile')} />
-          <Tab label="Комментарии" />
-          <Tab label="Likes" />
-          <Tab label="Пройденные опросы" />
         </Tabs>
       </Paper>
       <Box paddingTop="1rem" paddingX=".25rem">

@@ -13,7 +13,7 @@ enum CustomerSessionState {
   Open = 'open',
   CheckOut = 'check_out',
   Ordered = 'ordered',
-  Paied = 'paied',
+  Paid = 'paid',
 }
 
 type ShopState = {

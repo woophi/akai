@@ -68,6 +68,7 @@
       "checkFormat": "Zkontrolujte formát"
     },
     "name": "Jméno",
+    "lastName": "Příjmení",
     "email": "E-mail",
     "message": "Zpráva",
     "password": "Heslo",

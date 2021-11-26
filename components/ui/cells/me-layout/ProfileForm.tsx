@@ -18,6 +18,9 @@ const validate = (values: ProfileFormModel, t: (s: string) => string) => {
   if (!safeTrim(values.name)) {
     errors.name = t('forms.field.required');
   }
+  if (!safeTrim(values.lastName)) {
+    errors.lastName = t('forms.field.required');
+  }
   if (!safeTrim(values.email)) {
     errors.email = t('forms.field.required');
   }
@@ -32,6 +35,7 @@ const onSubmit = async (data: ProfileFormModel) => {
     await updateUserProfile({
       email: data.email,
       name: data.name,
+      lastName: data.lastName,
     });
   } catch (error) {
     return { [FORM_ERROR]: JSON.stringify(error.error) };
@@ -73,7 +77,6 @@ export const ProfileForm = React.memo(() => {
                 render={({ input, meta }) => (
                   <TextField
                     {...input}
-                    id="outlined-email-input"
                     label={t('forms.email')}
                     type="text"
                     name="email"
@@ -92,10 +95,25 @@ export const ProfileForm = React.memo(() => {
                 render={({ input, meta }) => (
                   <TextField
                     {...input}
-                    id="outlined-name-input"
                     label={t('forms.name')}
                     type="text"
                     name="name"
+                    margin="normal"
+                    variant="outlined"
+                    required
+                    error={Boolean(meta.touched && meta.error)}
+                    helperText={meta.touched && meta.error}
+                    disabled={submitting}
+                  />
+                )}
+              />
+              <Field
+                name="lastName"
+                render={({ input, meta }) => (
+                  <TextField
+                    {...input}
+                    label={t('forms.lastName')}
+                    type="text"
                     margin="normal"
                     variant="outlined"
                     required

@@ -68,6 +68,7 @@
       "checkFormat": "Проверь формат"
     },
     "name": "Имя",
+    "lastName": "Фамилия",
     "email": "E-mail",
     "message": "Сообщение",
     "password": "Пароль",

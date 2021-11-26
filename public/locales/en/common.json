@@ -68,6 +68,7 @@
       "checkFormat": "Check format"
     },
     "name": "Name",
+    "lastName": "Surname",
     "email": "E-mail",
     "message": "Message",
     "password": "Password",

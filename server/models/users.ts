@@ -10,6 +10,7 @@ export const UsersSchema = new mongoose.Schema(
       unique: true,
     },
     name: String,
+    lastName: String,
     avatarUrl: String,
     roles: [],
     password: {

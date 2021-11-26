@@ -17,6 +17,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   const userData = {
     email: req.body.email,
     name: req.body.name,
+    lastName: req.body.lastName,
     password: req.body.password,
     role: req.body.role,
   };
@@ -81,6 +82,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const validateUserEdit = Joi.object({
   _id: Joi.string().required(),
   name: Joi.string().required(),
+  lastName: Joi.string(),
   email: Joi.string().email().lowercase().required(),
   password: Joi.string(),
   role: Joi.string().required(),
@@ -90,6 +92,7 @@ interface UserEdit extends ValidatedRequestSchema {
   [ContainerTypes.Body]: {
     _id: string;
     name: string;
+    lastName: string;
     email: string;
     password?: string;
     role: ROLES;
@@ -105,6 +108,7 @@ export const editUser = async (req: ValidatedRequest<UserEdit>, res: Response, n
       return res.sendStatus(HTTPStatus.NotFound);
     }
     user.name = userData.name;
+    user.lastName = userData.lastName;
     user.email = userData.email;
     user.roles = [userData.role];
     if (userData.password) {

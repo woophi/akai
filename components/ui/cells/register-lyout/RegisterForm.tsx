@@ -10,6 +10,7 @@ import { register } from './operations';
 
 type RegisterForm = {
   name: string;
+  lastName: string;
   email: string;
   password: string;
 };
@@ -19,6 +20,9 @@ const validate = (values: RegisterForm, t: (s: string) => string) => {
 
   if (!values.name) {
     errors.email = t('common:forms.field.required');
+  }
+  if (!values.lastName) {
+    errors.lastName = t('common:forms.field.required');
   }
   if (!values.email) {
     errors.email = t('common:forms.field.required');
@@ -74,6 +78,23 @@ export const RegisterForm: React.FC = () => {
                   {...input}
                   id="outlined-name-input"
                   label={t('common:forms.name')}
+                  type="text"
+                  margin="normal"
+                  variant="outlined"
+                  required
+                  error={Boolean(meta.touched && meta.error)}
+                  helperText={meta.touched && meta.error}
+                  disabled={submitting}
+                />
+              )}
+            />
+            <Field
+              name="lastName"
+              render={({ input, meta }) => (
+                <TextField
+                  {...input}
+                  id="outlined-name-input"
+                  label={t('common:forms.lastName')}
                   type="text"
                   margin="normal"
                   variant="outlined"
