@@ -13,6 +13,7 @@ export * from './photos';
 export * from './schemas';
 export * from './shopCategory';
 export * from './shopItems';
+export * from './shopOrders';
 export * from './slider';
 export * from './streaming';
 export * from './subscribers';

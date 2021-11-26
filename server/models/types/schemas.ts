@@ -16,6 +16,7 @@ export enum SchemaNames {
   LINKS = 'links',
   STREAMING = 'streaming',
   SHOP_ITEMS = 'shop_items',
+  SHOP_ORDERS = 'shop_orders',
   SHOP_CATEGORY = 'shop_category',
 
   APP_SESSIONS = 'app_sessions',

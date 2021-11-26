@@ -1,5 +1,4 @@
 - trustpilot shop reviewss
-- add user model basket db
 - product in basket and remove it
 - click to basket page
 - add basket (save to LS or user account)
