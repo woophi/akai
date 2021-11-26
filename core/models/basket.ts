@@ -39,4 +39,11 @@ export type ShopState = {
   total: number;
   shipAddress?: ShipAddress;
   billAddress?: BillAddress;
+
+  withShipAddress: boolean;
+};
+
+export type AddressFormModel = {
+  shipAddress?: ShipAddress;
+  billAddress?: BillAddress;
 };

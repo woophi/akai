@@ -28,7 +28,7 @@ export const AddOrRemoveProduct = React.memo<{ data: RecentlyAddedProductData; s
     }
   }, [data.id, data.href, data.title, data.file, data.price, hasItem]);
 
-  const label = hasItem ? `${t('shop.removeFromCart')}` : `${t('shop.addToCart')} +`;
+  const label = hasItem ? t('shop.removeFromCart') : `${t('shop.addToCart')} +`;
   return (
     <Button
       size={small ? 'small' : undefined}

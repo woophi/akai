@@ -1,5 +1,10 @@
-- trustpilot shop reviewss
-- product in basket and remove it
-- click to basket page
-- add basket (save to shopOrder if user loggedIn or to LS)
+- trustpilot shop reviews
+- ask Akai about account
+- translations
+- tc -> with admin
+- add confirmation about pp and tc (checkbox)
+- after address create order on b-end and set orderId to LS
+- dont create on repeated step with address
+- if go to last step -> notify admin and user -> remove from LS
+- remove buttons from last step
 - basket finish goes to email notification for akai

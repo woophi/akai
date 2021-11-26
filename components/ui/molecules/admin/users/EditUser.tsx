@@ -79,7 +79,7 @@ export const EditUser: React.FC<Props> = ({ initialValues }) => {
                   name="name"
                   margin="normal"
                   variant="outlined"
-                  autoComplete="name"
+                  autoComplete="given-name"
                   required
                   error={Boolean(meta.touched && meta.error)}
                   helperText={meta.touched && meta.error}
@@ -97,7 +97,7 @@ export const EditUser: React.FC<Props> = ({ initialValues }) => {
                   name="lastName"
                   margin="normal"
                   variant="outlined"
-                  autoComplete="lastName"
+                  autoComplete="family-name"
                   required
                   error={Boolean(meta.touched && meta.error)}
                   helperText={meta.touched && meta.error}
