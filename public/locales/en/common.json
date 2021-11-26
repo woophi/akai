@@ -101,6 +101,7 @@
   "typeHere": "Type here...",
   "shop": {
     "addToCart": "Add to cart",
+    "removeFromCart": "Remove from cart",
     "categories": "Categories:",
     "byProduct": "painting by Akai Akaev",
     "inStock": "In stock",

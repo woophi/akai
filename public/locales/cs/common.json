@@ -101,6 +101,7 @@
   "typeHere": "Pište zde...",
   "shop": {
     "addToCart": "Přidat do košíku",
+    "removeFromCart": "Odebrat z košíku",
     "categories": "Kategorie:",
     "byProduct": "obraz Akaie Akaeva",
     "inStock": "Na skladě",

@@ -1,32 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { updateProps } from 'core/lib';
-import { FileItem } from 'core/models';
+import { objKeys, updateProps } from 'core/lib';
+import { LS } from 'core/LS';
+import { CustomerSessionState, ProductInBasket } from 'core/models';
 
-type ProductInBasket = {
-  id: string;
-  price: number;
-  name: string;
-  file: FileItem;
-  href: string;
-};
-enum CustomerSessionState {
-  Open = 'open',
-  CheckOut = 'check_out',
-  Ordered = 'ordered',
-  Paid = 'paid',
-}
-
-type ShopState = {
-  basket: {
-    [productId: string]: ProductInBasket;
-  };
-  sessionState: CustomerSessionState;
-};
-
-const initialState: ShopState = {
+const initialState = LS.getItem(LS.keys.Basket, {
   sessionState: CustomerSessionState.Open,
   basket: {},
-};
+  total: 0,
+  paidShipping: false,
+});
 
 const shopSlice = createSlice({
   name: 'shop',
@@ -38,12 +20,19 @@ const shopSlice = createSlice({
       } else {
         updateProps(state.basket[a.payload.id], a.payload);
       }
+      state.total = objKeys(state.basket).reduce<number>((sum, pId) => (sum += state.basket[pId].price), 0);
+
+      LS.setItem(LS.keys.Basket, state);
     },
     removeProduct: (state, a: PayloadAction<string>) => {
       delete state.basket[a.payload];
+      state.total = objKeys(state.basket).reduce<number>((sum, pId) => (sum += state.basket[pId].price), 0);
+
+      LS.setItem(LS.keys.Basket, state);
     },
     changeSessionState: (state, a: PayloadAction<CustomerSessionState>) => {
       state.sessionState = a.payload;
+      LS.setItem(LS.keys.Basket, state);
     },
   },
 });

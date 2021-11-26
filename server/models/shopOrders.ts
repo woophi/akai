@@ -32,6 +32,10 @@ export const ShopOrderSchema = new mongoose.Schema(
         ref: SchemaNames.SHOP_ITEMS,
       },
     ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SchemaNames.USERS,
+    },
     orderState: {
       type: String,
       default: ShopOrderState.Open,

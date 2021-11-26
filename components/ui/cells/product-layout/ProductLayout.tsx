@@ -1,13 +1,12 @@
-import { Box, Button, Link, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
+import { Box, Link, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
 import BrushIcon from '@material-ui/icons/Brush';
 import ClearIcon from '@material-ui/icons/Clear';
 import { numberWithCommas } from 'core/lib';
-import { ProductData } from 'core/models';
-import { shopActions } from 'core/reducers/shop';
+import { ProductData, RecentlyAddedProductData } from 'core/models';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
 import { BoxGrid } from 'ui/atoms';
+import { AddOrRemoveProduct } from './AddOrRemoveProduct';
 import { ProductDescription } from './ProductDescription';
 import { ProductGallery } from './ProductGallery';
 import { RecentlyAddedProduct } from './RecentlyAddedProduct';
@@ -17,22 +16,22 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
   const classes = useStyles();
   const { t } = useTranslation('common');
   const isSmallEnough = useMediaQuery('(max-width:800px)');
-  const dispatch = useDispatch();
 
   const typeOfParams = data.parameters.filter(f => !!f.typeOf);
   const restParams = data.parameters.filter(f => !f.typeOf);
 
-  const addToBasket = React.useCallback(() => {
-    dispatch(
-      shopActions.addProduct({
-        file: data.files[0],
-        id: data._id,
-        name: data.title,
-        price: data.price,
-        href: data.href,
-      })
-    );
-  }, [data._id, data.href, data.title, data.files[0], data.price]);
+  const pDat = React.useMemo<RecentlyAddedProductData>(
+    () => ({
+      file: data.files[0],
+      id: data._id,
+      categories: data.categories,
+      href: data.href,
+      price: data.price,
+      stock: data.stock,
+      title: data.title,
+    }),
+    [data]
+  );
 
   return (
     <BoxGrid>
@@ -62,11 +61,7 @@ export const ProductLayout = React.memo<{ data: ProductData }>(({ data }) => {
                 {t(data.stock > 0 ? 'shop.inStock' : 'shop.soldOut')}
               </Box>
             </Box>
-            {data.stock > 0 && (
-              <Button variant="contained" color="primary" onClick={addToBasket}>
-                {t('shop.addToCart')} +
-              </Button>
-            )}
+            {data.stock > 0 && <AddOrRemoveProduct data={pDat} />}
             <Box marginY="1rem">
               <b>{t('shop.categories')} </b>
               {data.categories.map((c, i) => (

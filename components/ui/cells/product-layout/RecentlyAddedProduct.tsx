@@ -16,6 +16,7 @@ import { shopActions } from 'core/reducers/shop';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
+import { AddOrRemoveProduct } from './AddOrRemoveProduct';
 
 export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData | null }>(({ data }) => {
   const classes = useStyles();
@@ -58,9 +59,7 @@ export const RecentlyAddedProduct = React.memo<{ data: RecentlyAddedProductData 
             {t('shop.soldOut')}
           </Box>
         ) : (
-          <Button size="small" color="primary" variant="contained" disabled={data.stock <= 0} onClick={addToBasket}>
-            {t('shop.addToCart')} +
-          </Button>
+          <AddOrRemoveProduct data={data} small />
         )}
       </CardActions>
     </Card>

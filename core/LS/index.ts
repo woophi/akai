@@ -1,11 +1,13 @@
-import { RelatedProductData } from 'core/models';
+import { RelatedProductData, ShopState } from 'core/models';
 
 export enum LSKeys {
   RecentlyViewed = 'recently_viewed',
+  Basket = 'basket',
 }
 
 export type LSData = {
   [LSKeys.RecentlyViewed]: RelatedProductData[];
+  [LSKeys.Basket]: ShopState;
 };
 
 const getItem = <K extends LSKeys>(key: K, defaultValue: LSData[K]): LSData[K] => {

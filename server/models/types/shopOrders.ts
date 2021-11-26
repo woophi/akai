@@ -1,5 +1,6 @@
 import { ShopItem } from './shopItems';
 import { Model } from './mongoModel';
+import { User } from './user';
 
 export type ShopOrder = Model<ShopOrderModel>;
 
@@ -26,6 +27,7 @@ export type BillAddress = ShipAddress & {
 };
 
 export type ShopOrderModel = {
+  user?: User;
   uniqId: string;
   items: ShopItem[];
   orderState: ShopOrderState;

@@ -101,6 +101,7 @@
   "typeHere": "Напишите сюда...",
   "shop": {
     "addToCart": "Добавить в корзину",
+    "removeFromCart": "Убрать из корзины",
     "categories": "Категории:",
     "byProduct": "картина Акая Акаева",
     "inStock": "В наличии",

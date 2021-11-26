@@ -1,5 +1,5 @@
 - trustpilot shop reviewss
 - product in basket and remove it
 - click to basket page
-- add basket (save to LS or user account)
+- add basket (save to shopOrder if user loggedIn or to LS)
 - basket finish goes to email notification for akai
