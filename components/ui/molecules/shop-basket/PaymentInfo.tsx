@@ -4,6 +4,7 @@ import { objKeys } from 'core/lib';
 import { getAddressValues, isWithShipAddress } from 'core/selectors';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'server/lib/i18n';
 import { GreenRadio } from 'ui/atoms/GreenRadio';
 import { BankDetailsTable } from './BankDetailsTable';
 import { ShopBasketPreview } from './ShopBasketPreview';
@@ -12,22 +13,20 @@ export const PaymentInfo = React.memo(() => {
   const classes = useStyles();
   const { billAddress = {}, shipAddress = {} } = useSelector(getAddressValues);
   const withShipAddress = useSelector(isWithShipAddress);
+  const { t } = useTranslation('common');
   return (
     <Box margin="1rem">
-      <Typography variant="h6">Our bank details</Typography>
+      <Typography variant="h6">{t('basket.bankDetail')}</Typography>
       <BankDetailsTable />
-      <FormControlLabel control={<GreenRadio checked />} label="Direct bank transfer" />
-      <Alert severity="warning">
-        Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will
-        not be shipped until the funds have cleared in our account
-      </Alert>
+      <FormControlLabel control={<GreenRadio checked />} label={t('basket.directTransfer')} />
+      <Alert severity="warning">{t('basket.warnDirectTransfer')}</Alert>
       <br />
 
-      <Typography variant="h6">Order details</Typography>
+      <Typography variant="h6">{t('basket.orderDetails')}</Typography>
       <ShopBasketPreview withoutRemove />
       <Box display="flex" flexWrap="wrap">
         <Box marginRight="1rem" marginBottom="1rem">
-          <Typography variant="h6">Billing address</Typography>
+          <Typography variant="h6">{t('basket.billAddress')}</Typography>
           <Paper elevation={4} className={classes.paper}>
             {objKeys(billAddress).map(bKey => (
               <Box key={bKey}>
@@ -38,7 +37,7 @@ export const PaymentInfo = React.memo(() => {
         </Box>
         {withShipAddress && (
           <Box>
-            <Typography variant="h6">Shipping address</Typography>
+            <Typography variant="h6">{t('basket.shipAddress')}</Typography>
             <Paper elevation={4} className={classes.paper}>
               {objKeys(shipAddress).map(sKey => (
                 <Box key={sKey}>

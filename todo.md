@@ -1,6 +1,4 @@
 - trustpilot shop reviews
-- ask Akai about account
-- translations
 - tc -> with admin
 - add confirmation about pp and tc (checkbox)
 - after address create order on b-end and set orderId to LS

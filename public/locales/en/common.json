@@ -75,7 +75,13 @@
     "updated": "Updated",
     "emailSent": "A letter should be sent to your mail",
     "passChanged": "Password changed",
-    "updatePass": "Change password"
+    "updatePass": "Change password",
+    "phone": "Phone",
+    "company": "Company",
+    "country": "Country",
+    "streetAddress": "Street address",
+    "city": "City",
+    "postcode": "Postcode"
   },
   "unsub": {
     "title": "Unsubscribe from all e-mail notifications",
@@ -91,7 +97,10 @@
     "save": "Save",
     "unsub": "Unsubscribe",
     "home": "Go to homepage",
-    "register": "Sign up"
+    "register": "Sign up",
+    "back": "Back",
+    "next": "Next",
+    "placeOrder": "Place order"
   },
   "errors": {
     "404": "Page not found",
@@ -113,5 +122,27 @@
     "newArts": "New arts",
     "allArts": "All artworks",
     "byCategories": "by categories"
+  },
+  "basket": {
+    "bank": "Bank",
+    "accNumber": "Account",
+    "billDetails": "Billing details",
+    "shipTo": "Ship to a different address?",
+    "finished": "Thank you for your order. We will send you an email with order details.",
+    "bankDetail": "Our bank details",
+    "directTransfer": "Direct bank transfer",
+    "warnDirectTransfer": "Make your payment directly into our bank account. Please use your Order ID: {{orderId}} as the payment reference. Your order will not be shipped until the funds have cleared in our account.",
+    "orderDetails": "Order details",
+    "billAddress": "Billing address",
+    "shipAddress": "Shipping address",
+    "shipping": "Shipping",
+    "freeShip": "Free shipping (in tube)",
+    "paidShip": "Paid shipping (on stretcher): {{price}}",
+    "empty": "There is nothing here",
+    "total": "Total:",
+    "basket": "Basket",
+    "enterInfo": "Filling in the data",
+    "payment": "Payment",
+    "orderSent": "Order has been sent"
   }
 }

@@ -53,7 +53,7 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
     return (
       <>
         <Box margin="0 1rem 1rem">
-          <Typography variant="subtitle1">Billing details</Typography>
+          <Typography variant="subtitle1">{t('basket.billDetails')}</Typography>
         </Box>
         <Form
           onSubmit={onSubmit}
@@ -213,7 +213,7 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
 
                 <FormControlLabel
                   control={<Checkbox checked={checkedWithShipAdd} onChange={handleChangeWithShipAdd} color="primary" />}
-                  label="Ship to a different address?"
+                  label={t('basket.shipTo')}
                   className={classes.m1X}
                 />
                 <Collapse in={checkedWithShipAdd} unmountOnExit mountOnEnter>
@@ -333,9 +333,9 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
                   />
                 </Collapse>
                 <div>
-                  <Button onClick={handleBack}>Back</Button>
+                  <Button onClick={handleBack}>{t('buttons.back')}</Button>
                   <Button type="submit" variant="contained" color="primary">
-                    Next
+                    {t('buttons.next')}
                   </Button>
                 </div>
               </Box>

@@ -26,7 +26,7 @@ export const ShopBasketPreview = React.memo<{ withoutRemove?: boolean }>(({ with
   if (!allItems.length) {
     return (
       <Box margin="1rem">
-        <Alert severity="info">Тут ничего нет</Alert>
+        <Alert severity="info">{t('basket.empty')}</Alert>
       </Box>
     );
   }
@@ -63,7 +63,7 @@ export const ShopBasketPreview = React.memo<{ withoutRemove?: boolean }>(({ with
       </Box>
       <ShippingForm />
       <Typography variant="h6" gutterBottom>
-        Total: <b>${numberWithCommas(totalPrice)}</b>
+        {t('basket.total')} <b>${numberWithCommas(totalPrice)}</b>
       </Typography>
     </Box>
   );

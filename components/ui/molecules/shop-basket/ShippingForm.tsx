@@ -22,11 +22,11 @@ export const ShippingForm = React.memo(() => {
     <Box marginBottom=".5rem">
       <FormControl component="fieldset">
         <FormLabel component="legend" className={classes.legend}>
-          Shipping
+          {t('basket.shipping')}
         </FormLabel>
         <RadioGroup aria-label="shipping" name="shipping" value={paidShipping ? 'p' : 'f'} onChange={handleChange}>
-          <FormControlLabel value="f" control={<GreenRadio />} label="Free Shipping (in tube)" />
-          <FormControlLabel value="p" control={<GreenRadio />} label="Paid Shipping (on stretcher): $200.00" />
+          <FormControlLabel value="f" control={<GreenRadio />} label={t('basket.freeShip')} />
+          <FormControlLabel value="p" control={<GreenRadio />} label={t('basket.paidShip', { price: '$200.00' })} />
         </RadioGroup>
       </FormControl>
     </Box>

@@ -7,6 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { bankDetails } from './constants';
+import { useTranslation } from 'server/lib/i18n';
 
 const useStyles = makeStyles({
   table: {
@@ -16,14 +18,15 @@ const useStyles = makeStyles({
 
 export const BankDetailsTable = React.memo(() => {
   const classes = useStyles();
+  const { t } = useTranslation('common');
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Bank</TableCell>
-            <TableCell>Account Number</TableCell>
+            <TableCell>{t('basket.bank')}</TableCell>
+            <TableCell>{t('basket.accNumber')}</TableCell>
             <TableCell>IBAN</TableCell>
             <TableCell>BIC</TableCell>
           </TableRow>
@@ -31,16 +34,16 @@ export const BankDetailsTable = React.memo(() => {
         <TableBody>
           <TableRow>
             <TableCell component="th" scope="row">
-              RF bank
+              {bankDetails.bankName}
             </TableCell>
             <TableCell component="th" scope="row">
-              210012312300/6666
+              {bankDetails.accNumber}
             </TableCell>
             <TableCell component="th" scope="row">
-              CZ23784623482367423742634
+              {bankDetails.IBAN}
             </TableCell>
             <TableCell component="th" scope="row">
-              RFBCZPXXX
+              {bankDetails.BIC}
             </TableCell>
           </TableRow>
         </TableBody>

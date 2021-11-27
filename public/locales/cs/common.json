@@ -75,7 +75,13 @@
     "updated": "Aktualizováno",
     "emailSent": "Na vaši poštu by měl být zaslán dopis",
     "passChanged": "Heslo změněno",
-    "updatePass": "Změnit heslo"
+    "updatePass": "Změnit heslo",
+    "phone": "Telefon",
+    "company": "Společnost",
+    "country": "Země",
+    "streetAddress": "Adresa ulice",
+    "city": "Město",
+    "postcode": "PSČ"
   },
   "unsub": {
     "title": "Zrušit odběr všech e-mailových oznámení",
@@ -91,7 +97,10 @@
     "save": "Ulozit",
     "unsub": "Odhlásit se",
     "home": "Jít na domovskou stránku",
-    "register": "Zaregistrovat"
+    "register": "Zaregistrovat",
+    "back": "Zpátky",
+    "next": "Další",
+    "placeOrder": "Objednat"
   },
   "errors": {
     "404": "Stránka nenalezena",
@@ -113,5 +122,27 @@
     "newArts": "Nová umění",
     "allArts": "Veškerá umělecká díla",
     "byCategories": "podle kategorií"
+  },
+  "basket": {
+    "bank": "Bank",
+    "accNumber": "Účet",
+    "billDetails": "Fakturační údaje",
+    "shipTo": "Odeslat na jinou adresu?",
+    "finished": "Děkujeme za Vaši objednávku. Zašleme vám e-mail s podrobnostmi objednávky.",
+    "bankDetail": "Naše bankovní údaje",
+    "directTransfer": "Přímý bankovní převod",
+    "warnDirectTransfer": "Proveďte platbu přímo na náš bankovní účet. Jako referenční číslo pro platbu prosím použijte své ID objednávky: {{orderId}}. Vaše objednávka nebude odeslána, dokud nebudou peníze připsány na náš účet.",
+    "orderDetails": "Podrobnosti k objednávce",
+    "billAddress": "Fakturační adresa",
+    "shipAddress": "Doručovací adresa",
+    "shipping": "Doprava",
+    "freeShip": "Doprava zdarma (v tubě)",
+    "paidShip": "Placená doprava (v rámečku): {{price}}",
+    "empty": "Tady nic není",
+    "total": "Celkový:",
+    "basket": "Košík",
+    "enterInfo": "Vyplnění údajů",
+    "payment": "Způsob platby",
+    "orderSent": "Objednávka byla odeslána"
   }
 }

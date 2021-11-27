@@ -8,9 +8,9 @@ export const FinishedOrder = React.memo(() => {
   const { t } = useTranslation('common');
   return (
     <Box margin="1rem">
-      <Alert severity="success">Thanks for your order. We will send you an email with order details.</Alert>
+      <Alert severity="success">{t('basket.finished')}</Alert>
       <LinkButton
-        variant={'contained'}
+        variant="contained"
         color="primary"
         fullWidth
         href="/"
