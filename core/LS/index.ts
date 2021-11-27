@@ -14,8 +14,7 @@ const getItem = <K extends LSKeys>(key: K, defaultValue: LSData[K]): LSData[K] =
   try {
     const v = localStorage.getItem(key);
     return v ? JSON.parse(v) : defaultValue;
-  } catch (error) {
-    console.error(error);
+  } catch {
     return defaultValue;
   }
 };
