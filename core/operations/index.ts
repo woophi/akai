@@ -57,3 +57,6 @@ export const getCategoryData = (categoryName: string, localeId: models.LocaleId)
   callApi<models.CategoryData>('get', `api/guest/category?localeId=${localeId}&name=${encodeURI(categoryName)}`);
 export const getShopRelatedData = (localeId: models.LocaleId) =>
   callApi<models.ShopRelatedData>('get', `api/guest/shop/related?localeId=${localeId}`);
+
+export const getTermsAndConditions = (localeId: models.LocaleId) =>
+  callApi<string>('get', `api/guest/t-and-c?localeId=${localeId}`);

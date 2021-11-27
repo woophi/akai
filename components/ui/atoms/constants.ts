@@ -20,5 +20,6 @@ export const toFacebook = () => goToSpecific('/admin/facebook');
 export const toInstagram = () => goToSpecific('/admin/instagram');
 export const toFollowers = () => goToSpecific('/admin/followers');
 export const toUsers = () => goToSpecific('/admin/users');
+export const toTT = () => goToSpecific('/admin/terms-and-conditions');
 export const toAdmin = () => goToSpecific('/admin');
 export const toHome = () => goToSpecific('/');

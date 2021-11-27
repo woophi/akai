@@ -17,5 +17,6 @@ export * from './shopOrders';
 export * from './slider';
 export * from './streaming';
 export * from './subscribers';
+export * from './termsAndConditions';
 export * from './user';
 export * from './youtube';

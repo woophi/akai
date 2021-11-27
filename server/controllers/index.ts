@@ -7,5 +7,6 @@ export * from './photos';
 export * from './shop';
 export * from './slider';
 export * from './subscribe';
+export * from './terms-and-conditions';
 export * from './user';
 export * from './visitors';

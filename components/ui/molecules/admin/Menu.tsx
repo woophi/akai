@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentInd from '@material-ui/icons/AssignmentInd';
 import Block from '@material-ui/icons/Block';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
 import InsertPhoto from '@material-ui/icons/InsertPhoto';
 import PhotoAlbum from '@material-ui/icons/PhotoAlbum';
 import PictureInPicture from '@material-ui/icons/PictureInPicture';
@@ -86,6 +87,13 @@ export const AdminMenu = React.memo(() => {
             <ListItemText primary={'Пользователи'} />
           </ListItem>
         )}
+
+        <ListItem button onClick={constants.toTT}>
+          <ListItemIcon>
+            <ImportantDevicesIcon />
+          </ListItemIcon>
+          <ListItemText primary={'Terms and conditions'} />
+        </ListItem>
       </List>
       <Divider />
       <List>

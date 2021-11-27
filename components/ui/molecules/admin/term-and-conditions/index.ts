@@ -1,0 +1,1 @@
+export { AdminTermsConditions } from './AdminTermsConditions';

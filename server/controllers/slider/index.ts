@@ -1,13 +1,8 @@
 import { NextFunction, Response } from 'express';
 import { ContainerTypes, ValidatedRequest, ValidatedRequestSchema } from 'express-joi-validation';
-import Joi from 'joi';
 import { HTTPStatus } from 'server/lib/models';
 import SliderModel from 'server/models/slider';
 import { Locales } from 'server/models/types';
-
-export const validateSlidesGet = Joi.object({
-  localeId: Joi.string().required(),
-});
 
 interface SlidesGet extends ValidatedRequestSchema {
   [ContainerTypes.Query]: {

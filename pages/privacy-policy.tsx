@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { BoxGrid, BoxMain } from 'ui/atoms';
+import { BoxGrid } from 'ui/atoms';
 import { Layout } from 'ui/molecules';
 
 const PP = () => {

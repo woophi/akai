@@ -12,6 +12,7 @@ import { rateLimiterMiddleware, rateLimiterRegister } from './lib/rate-limiter';
 import * as storage from './storage';
 const Agendash = require('agendash');
 import { createValidator } from 'express-joi-validation';
+import { validateLocaleId } from './validations';
 
 const options = {
   root: join(__dirname, '../assets'),
@@ -35,7 +36,9 @@ export function router(
   app.get('/robots.txt', (_, res) => res.status(HTTPStatus.OK).sendFile('robots.txt', options));
   app.get('/sitemap.xml', (_, res) => res.status(HTTPStatus.OK).sendFile('sitemap.xml', options));
 
-  app.get('/api/guest/slides', validator.query(controllers.validateSlidesGet), controllers.getSlidesForGuest);
+  app.get('/api/guest/t-and-c', validator.query(validateLocaleId), controllers.getGuestTermsAndConditions);
+
+  app.get('/api/guest/slides', validator.query(validateLocaleId), controllers.getSlidesForGuest);
   app.post('/api/guest/subscribe', rateLimiterMiddleware, controllers.subscribeNewVisitor);
   app.post('/api/guest/send/message', rateLimiterMiddleware, controllers.sendMailToAdmins);
   app.get('/api/guest/biography', controllers.getBiography);
@@ -102,6 +105,15 @@ export function router(
     validator.params(controllers.validateUserGet),
     controllers.getUser
   );
+
+  // tc
+  app.post(
+    '/api/admin/t-and-c',
+    identity.authorizedForAdmin,
+    validator.body(controllers.validateTermsAndConditions),
+    controllers.saveTermsAndConditions
+  );
+  app.get('/api/admin/t-and-c', identity.authorizedForAdmin, controllers.getTermsAndConditions);
 
   // shop
   app.get('/api/admin/shop/items', identity.authorizedForAdmin, controllers.getShopItems);

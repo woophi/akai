@@ -18,6 +18,7 @@ export enum SchemaNames {
   SHOP_ITEMS = 'shop_items',
   SHOP_ORDERS = 'shop_orders',
   SHOP_CATEGORY = 'shop_category',
+  TERMS_AND_CONDITIONS = 'terms_and_conditions',
 
   APP_SESSIONS = 'app_sessions',
   JOBS = 'jobs_queue',
