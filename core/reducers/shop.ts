@@ -56,6 +56,7 @@ const shopSlice = createSlice({
       } else {
         updateProps(state.shipAddress, a.payload.shipAddress);
       }
+      state.tandcConfirm = a.payload.tandcConfirm;
       LS.setItem(LS.keys.Basket, state);
     },
   },

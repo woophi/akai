@@ -41,9 +41,11 @@ export type ShopState = {
   billAddress?: BillAddress;
 
   withShipAddress: boolean;
+  tandcConfirm?: boolean;
 };
 
 export type AddressFormModel = {
   shipAddress?: ShipAddress;
   billAddress?: BillAddress;
+  tandcConfirm?: boolean;
 };

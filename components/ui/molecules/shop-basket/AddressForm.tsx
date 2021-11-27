@@ -1,4 +1,13 @@
-import { Button, Checkbox, Collapse, FormControlLabel, makeStyles, Typography } from '@material-ui/core';
+import {
+  Button,
+  Checkbox,
+  Collapse,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { AddressFormModel } from 'core/models';
 import { shopActions } from 'core/reducers/shop';
@@ -11,6 +20,8 @@ import { useTranslation } from 'server/lib/i18n';
 import { TextField } from 'ui/atoms/TextField';
 import { steps } from './constants';
 import { validate } from './operations';
+import Link from 'next/link';
+import { Alert } from '@material-ui/lab';
 
 export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetStateAction<number>> }>(
   ({ setActiveStep }) => {
@@ -332,6 +343,40 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
                     )}
                   />
                 </Collapse>
+                <Box marginX="1rem">
+                  <Alert severity="warning">
+                    {t('basket.ppWarn')}{' '}
+                    <Link href="/privacy-policy">
+                      <a>{t('basket.ppWarnPolicy')}</a>
+                    </Link>
+                  </Alert>
+                </Box>
+
+                <Field
+                  name="tandcConfirm"
+                  render={({ input, meta }) => (
+                    <FormControl
+                      required
+                      error={Boolean(meta.touched && meta.error)}
+                      component="fieldset"
+                      className={classes.fieldSet}
+                    >
+                      <FormControlLabel
+                        control={<Checkbox {...input} checked={!!input.value} color="primary" />}
+                        label={
+                          <>
+                            {t('basket.readTandC')}{' '}
+                            <Link href="/terms-and-conditions">
+                              <a> {t('basket.TandC')}</a>
+                            </Link>
+                          </>
+                        }
+                      />
+                      {meta.touched && meta.error && <FormHelperText>{meta.error}</FormHelperText>}
+                    </FormControl>
+                  )}
+                />
+
                 <div>
                   <Button onClick={handleBack}>{t('buttons.back')}</Button>
                   <Button type="submit" variant="contained" color="primary">
@@ -352,5 +397,8 @@ const useStyles = makeStyles(theme => ({
     margin: '0 .5rem 1rem',
     display: 'flex',
     width: 'fit-content',
+  },
+  fieldSet: {
+    margin: '0 1rem',
   },
 }));

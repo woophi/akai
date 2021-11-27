@@ -37,5 +37,6 @@ export const getAddressValues = createSelector(
       : undefined,
 
     shipAddress: s.withShipAddress ? s.shipAddress : undefined,
+    tandcConfirm: s.tandcConfirm,
   })
 );

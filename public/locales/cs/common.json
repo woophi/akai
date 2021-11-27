@@ -143,6 +143,10 @@
     "basket": "Košík",
     "enterInfo": "Vyplnění údajů",
     "payment": "Způsob platby",
-    "orderSent": "Objednávka byla odeslána"
+    "orderSent": "Objednávka byla odeslána",
+    "ppWarn": "Vaše osobní údaje budou použity ke zpracování vaší objednávky, podpoře vašich zkušeností na tomto webu a k dalším účelům popsaným v našich zásadách",
+    "ppWarnPolicy": "ochrany osobních údajů.",
+    "readTandC": "Přečetl jsem si a souhlasím s",
+    "TandC": "podmínkami webu"
   }
 }

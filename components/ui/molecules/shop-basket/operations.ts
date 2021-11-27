@@ -6,6 +6,9 @@ export const validate = (values: AddressFormModel, t: (s: string) => string, wit
     billAddress: {} as AddressFormModel['billAddress'],
     shipAddress: {} as AddressFormModel['shipAddress'],
   };
+  if (!values.tandcConfirm) {
+    errors.tandcConfirm = t('forms.field.required') as any;
+  }
 
   if (!values.billAddress || !errors.billAddress) return errors;
 

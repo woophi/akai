@@ -143,6 +143,10 @@
     "basket": "Basket",
     "enterInfo": "Filling in the data",
     "payment": "Payment",
-    "orderSent": "Order has been sent"
+    "orderSent": "Order has been sent",
+    "ppWarn": "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our",
+    "ppWarnPolicy": "privacy policy.",
+    "readTandC": "I have read and agree to the website",
+    "TandC": "terms and conditions"
   }
 }

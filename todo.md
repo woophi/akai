@@ -1,6 +1,4 @@
 - trustpilot shop reviews
-- tc -> with admin
-- add confirmation about pp and tc (checkbox)
 - after address create order on b-end and set orderId to LS
 - dont create on repeated step with address
 - if go to last step -> notify admin and user -> remove from LS
