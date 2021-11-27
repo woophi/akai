@@ -9,6 +9,7 @@ const initialState = LS.getItem(LS.keys.Basket, {
   total: 0,
   paidShipping: false,
   withShipAddress: false,
+  orderId: 0,
 });
 
 const shopSlice = createSlice({
@@ -45,19 +46,33 @@ const shopSlice = createSlice({
       state.withShipAddress = a.payload;
       LS.setItem(LS.keys.Basket, state);
     },
-    setAddress: (state, a: PayloadAction<AddressFormModel>) => {
-      if (!state.billAddress && a.payload.billAddress) {
+    setAddress: (state, a: PayloadAction<AddressFormModel & { orderId: number }>) => {
+      if (!state.billAddress) {
         state.billAddress = {} as AddressFormModel['billAddress'];
-      } else {
-        updateProps(state.billAddress, a.payload.billAddress);
       }
-      if (!state.shipAddress && a.payload.shipAddress && state.withShipAddress) {
-        state.shipAddress = {} as AddressFormModel['shipAddress'];
-      } else {
+      updateProps(state.billAddress, a.payload.billAddress);
+
+      if (state.withShipAddress) {
+        if (!state.shipAddress) {
+          state.shipAddress = {} as AddressFormModel['shipAddress'];
+        }
         updateProps(state.shipAddress, a.payload.shipAddress);
       }
+
       state.tandcConfirm = a.payload.tandcConfirm;
+      state.orderId = a.payload.orderId;
       LS.setItem(LS.keys.Basket, state);
+    },
+    resetToDefault: state => {
+      LS.deleteItem(LS.keys.Basket);
+      return {
+        sessionState: state.sessionState,
+        basket: {},
+        total: 0,
+        paidShipping: false,
+        withShipAddress: false,
+        orderId: 0,
+      };
     },
   },
 });

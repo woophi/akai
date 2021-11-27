@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, makeStyles, Paper, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { objKeys } from 'core/lib';
-import { getAddressValues, isWithShipAddress } from 'core/selectors';
+import { getAddressValues, getOrderId, isWithShipAddress } from 'core/selectors';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
@@ -13,13 +13,14 @@ export const PaymentInfo = React.memo(() => {
   const classes = useStyles();
   const { billAddress = {}, shipAddress = {} } = useSelector(getAddressValues);
   const withShipAddress = useSelector(isWithShipAddress);
+  const orderId = useSelector(getOrderId);
   const { t } = useTranslation('common');
   return (
     <Box margin="1rem">
       <Typography variant="h6">{t('basket.bankDetail')}</Typography>
       <BankDetailsTable />
       <FormControlLabel control={<GreenRadio checked />} label={t('basket.directTransfer')} />
-      <Alert severity="warning">{t('basket.warnDirectTransfer')}</Alert>
+      <Alert severity="warning">{t('basket.warnDirectTransfer', { orderId })}</Alert>
       <br />
 
       <Typography variant="h6">{t('basket.orderDetails')}</Typography>

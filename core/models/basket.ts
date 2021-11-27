@@ -42,10 +42,21 @@ export type ShopState = {
 
   withShipAddress: boolean;
   tandcConfirm?: boolean;
+
+  orderId: number;
 };
 
 export type AddressFormModel = {
   shipAddress?: ShipAddress;
   billAddress?: BillAddress;
   tandcConfirm?: boolean;
+};
+
+export type CreateShopOrder = {
+  items: string[];
+  paidShipping: boolean;
+  notes?: string;
+  total: number;
+  shipAddress?: ShipAddress | null;
+  billAddress?: BillAddress;
 };

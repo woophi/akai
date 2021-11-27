@@ -8,7 +8,7 @@ import * as controllers from './controllers';
 import * as identity from './identity';
 import { agenda } from './lib/db';
 import { HTTPStatus, LocalErros } from './lib/models';
-import { rateLimiterMiddleware, rateLimiterRegister } from './lib/rate-limiter';
+import { rateLimiterMiddleware, rateLimiterOrder, rateLimiterRegister } from './lib/rate-limiter';
 import * as storage from './storage';
 const Agendash = require('agendash');
 import { createValidator } from 'express-joi-validation';
@@ -70,6 +70,13 @@ export function router(
   app.get('/api/guest/product', validator.query(controllers.validateGProductGet), controllers.getProductData);
   app.get('/api/guest/shop/related', validator.query(controllers.validateGShopGet), controllers.getRelatedShopData);
   app.get('/api/guest/category', validator.query(controllers.validateGProductGet), controllers.getCategoryData);
+
+  app.post(
+    '/api/guest/order',
+    rateLimiterOrder,
+    validator.body(controllers.createShopOrderValidate),
+    controllers.createShopOrder
+  );
 
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);

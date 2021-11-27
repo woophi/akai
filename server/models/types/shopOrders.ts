@@ -5,8 +5,6 @@ import { User } from './user';
 export type ShopOrder = Model<ShopOrderModel>;
 
 export enum ShopOrderState {
-  Open = 'open',
-  CheckOut = 'check_out',
   Ordered = 'ordered',
   Paid = 'paid',
   Refund = 'refund',
@@ -29,6 +27,7 @@ export type BillAddress = ShipAddress & {
 export type ShopOrderModel = {
   user?: User;
   uniqId: string;
+  orderId: number;
   items: ShopItem[];
   orderState: ShopOrderState;
   finished?: Date;
@@ -36,6 +35,15 @@ export type ShopOrderModel = {
   notes?: string;
   total: number;
   refundReason: string;
+  shipAddress?: ShipAddress;
+  billAddress?: BillAddress;
+};
+
+export type CreateShopOrder = {
+  items: string[];
+  paidShipping: boolean;
+  notes?: string;
+  total: number;
   shipAddress?: ShipAddress;
   billAddress?: BillAddress;
 };

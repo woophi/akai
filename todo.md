@@ -1,6 +1,5 @@
 - trustpilot shop reviews
-- after address create order on b-end and set orderId to LS
-- dont create on repeated step with address
-- if go to last step -> notify admin and user -> remove from LS
-- remove buttons from last step
+
+- if go to last step -> notify admin and user
 - basket finish goes to email notification for akai
+- add notes

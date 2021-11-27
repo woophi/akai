@@ -60,3 +60,6 @@ export const getShopRelatedData = (localeId: models.LocaleId) =>
 
 export const getTermsAndConditions = (localeId: models.LocaleId) =>
   callApi<string>('get', `api/guest/t-and-c?localeId=${localeId}`);
+
+export const createShopOrder = (data: models.CreateShopOrder) =>
+  callApi<{ orderId: number }>('post', `api/guest/order`, data);

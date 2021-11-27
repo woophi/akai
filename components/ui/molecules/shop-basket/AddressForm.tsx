@@ -9,23 +9,27 @@ import {
   Typography,
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import { Alert } from '@material-ui/lab';
 import { AddressFormModel } from 'core/models';
+import { createShopOrder } from 'core/operations';
 import { shopActions } from 'core/reducers/shop';
-import { getAddressValues, isWithShipAddress } from 'core/selectors';
+import { createShopOrderValues, getAddressValues, getOrderId, isWithShipAddress } from 'core/selectors';
 import { FORM_ERROR } from 'final-form';
+import Link from 'next/link';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
+import { Snakbars } from 'ui/atoms';
 import { TextField } from 'ui/atoms/TextField';
 import { steps } from './constants';
 import { validate } from './operations';
-import Link from 'next/link';
-import { Alert } from '@material-ui/lab';
 
 export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetStateAction<number>> }>(
   ({ setActiveStep }) => {
     const intialValues = useSelector(getAddressValues);
+    const orderValues = useSelector(createShopOrderValues);
+    const orderId = useSelector(getOrderId);
     const checkedWithShipAdd = useSelector(isWithShipAddress);
 
     const { t } = useTranslation('common');
@@ -52,14 +56,27 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
       });
     };
 
-    const onSubmit = React.useCallback((data: AddressFormModel) => {
-      try {
-        dispatch(shopActions.setAddress(data));
-        handleNext();
-      } catch (error) {
-        return { [FORM_ERROR]: JSON.stringify(error.error) };
-      }
-    }, []);
+    const onSubmit = React.useCallback(
+      async (data: AddressFormModel) => {
+        try {
+          if (!orderId) {
+            const res = await createShopOrder({
+              ...orderValues,
+              shipAddress: data.shipAddress ?? null,
+              billAddress: data.billAddress,
+            });
+            dispatch(shopActions.setAddress({ ...data, orderId: res.orderId }));
+          } else {
+            dispatch(shopActions.setAddress({ ...data, orderId }));
+          }
+
+          handleNext();
+        } catch (error) {
+          return { [FORM_ERROR]: JSON.stringify(error) };
+        }
+      },
+      [orderValues, orderId]
+    );
 
     return (
       <>
@@ -70,9 +87,18 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
           onSubmit={onSubmit}
           validate={v => validate(v, t, checkedWithShipAdd)}
           initialValues={intialValues}
-          render={({ handleSubmit, submitting }) => (
+          render={({ handleSubmit, submitting, submitError }) => (
             <>
-              <Box onSubmit={handleSubmit} component="form">
+              <Box
+                onSubmit={async event => {
+                  const error = await handleSubmit(event);
+                  if (error) {
+                    return error;
+                  }
+                }}
+                component="form"
+              >
+                <Snakbars variant="error" message={submitError} />
                 <Field
                   name="billAddress.email"
                   render={({ input, meta }) => (
@@ -142,7 +168,7 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
                   )}
                 />
                 <Field
-                  name="billAddress.company"
+                  name="billAddress.companyName"
                   render={({ input, meta }) => (
                     <TextField
                       {...input}
@@ -263,7 +289,7 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
                     )}
                   />
                   <Field
-                    name="shipAddress.company"
+                    name="shipAddress.companyName"
                     render={({ input, meta }) => (
                       <TextField
                         {...input}

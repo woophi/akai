@@ -4,7 +4,7 @@ export const steps = [
   { state: CustomerSessionState.Open, label: 'basket.basket', id: 0 },
   { state: CustomerSessionState.CheckOut, label: 'basket.enterInfo', id: 1 },
   { state: CustomerSessionState.Paid, label: 'basket.payment', id: 2 },
-  { state: CustomerSessionState.Ordered, label: 'basket.orderSent', id: 4 },
+  { state: CustomerSessionState.Ordered, label: 'basket.orderSent', id: 3 },
 ];
 
 export const bankDetails = {

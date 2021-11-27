@@ -26,6 +26,12 @@ export const ShopOrderSchema = new mongoose.Schema(
       default: v4(),
       index: true,
     },
+    orderId: {
+      type: Number,
+      index: true,
+      unique: true,
+      required: true,
+    },
     items: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,7 +44,6 @@ export const ShopOrderSchema = new mongoose.Schema(
     },
     orderState: {
       type: String,
-      default: ShopOrderState.Open,
       index: true,
     },
     finished: Date,

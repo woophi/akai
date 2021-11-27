@@ -1,4 +1,4 @@
-import { AddressFormModel } from 'core/models';
+import { AddressFormModel, CreateShopOrder } from 'core/models';
 import { AppState } from 'core/reducers/rootReducer';
 import { createSelector } from 'reselect';
 import { getUser } from './user';
@@ -15,6 +15,7 @@ export const getSProduct = createSelector(getShopState, s => s.selectedItem);
 export const getShopBasketValues = createSelector(getCustomerShopState, s => Object.values(s.basket));
 export const getActiveStep = createSelector(getCustomerShopState, s => s.sessionState);
 export const isWithShipAddress = createSelector(getCustomerShopState, s => s.withShipAddress);
+export const getOrderId = createSelector(getCustomerShopState, s => s.orderId);
 export const getShopBasketValuesLength = createSelector(getShopBasketValues, v => v.length);
 export const hasBasketItem = createSelector(
   getCustomerShopState,
@@ -38,5 +39,17 @@ export const getAddressValues = createSelector(
 
     shipAddress: s.withShipAddress ? s.shipAddress : undefined,
     tandcConfirm: s.tandcConfirm,
+  })
+);
+
+export const createShopOrderValues = createSelector(
+  getCustomerShopState,
+  (s): CreateShopOrder => ({
+    items: Object.values(s.basket).map(v => v.id),
+    paidShipping: s.paidShipping,
+    total: s.total,
+    notes: s.notes,
+    billAddress: s.billAddress,
+    shipAddress: s.shipAddress ?? null,
   })
 );
