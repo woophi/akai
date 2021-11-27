@@ -19,6 +19,7 @@ export const logout = async () => {
       token: '',
       userId: '',
       email: '',
+      lastName: '',
     })
   );
   store.dispatch(userActions.setUserFetching(false));

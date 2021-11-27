@@ -9,6 +9,7 @@ const initialState: AdminState['users'] = {
     email: '',
     name: '',
     roles: [],
+    lastName: '',
   },
 };
 

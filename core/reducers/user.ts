@@ -9,6 +9,7 @@ const initialState: AuthData = {
   userId: '',
   fetching: true,
   email: '',
+  lastName: '',
 };
 
 const userSlice = createSlice({
