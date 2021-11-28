@@ -77,6 +77,12 @@ export function router(
     validator.body(controllers.createShopOrderValidate),
     controllers.createShopOrder
   );
+  app.put(
+    '/api/guest/order',
+    rateLimiterOrder,
+    validator.body(controllers.updateShopOrderValidate),
+    controllers.updateShopOrder
+  );
 
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);

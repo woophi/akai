@@ -11,7 +11,6 @@ import {
 import Box from '@material-ui/core/Box';
 import { Alert } from '@material-ui/lab';
 import { AddressFormModel } from 'core/models';
-import { createShopOrder } from 'core/operations';
 import { shopActions } from 'core/reducers/shop';
 import { createShopOrderValues, getAddressValues, getOrderId, isWithShipAddress } from 'core/selectors';
 import { FORM_ERROR } from 'final-form';
@@ -23,7 +22,7 @@ import { useTranslation } from 'server/lib/i18n';
 import { Snakbars } from 'ui/atoms';
 import { TextField } from 'ui/atoms/TextField';
 import { steps } from './constants';
-import { validate } from './operations';
+import { createShopOrder, validate } from './operations';
 
 export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetStateAction<number>> }>(
   ({ setActiveStep }) => {

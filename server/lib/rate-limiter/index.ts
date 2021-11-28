@@ -24,7 +24,7 @@ const optsRegister = {
 };
 const optsOrder = {
   storeClient: redisClient,
-  points: config.DEV_MODE ? 1000 : 1, // Number of points
+  points: config.DEV_MODE ? 1000 : 2, // Number of points
   duration: 3600, // Per second(s)
 };
 

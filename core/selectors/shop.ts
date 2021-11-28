@@ -1,4 +1,4 @@
-import { AddressFormModel, CreateShopOrder } from 'core/models';
+import { AddressFormModel, CreateShopOrder, UpdateShopOrder } from 'core/models';
 import { AppState } from 'core/reducers/rootReducer';
 import { createSelector } from 'reselect';
 import { getUser } from './user';
@@ -57,5 +57,13 @@ export const createShopOrderValues = createSelector(
     notes: s.notes,
     billAddress: s.billAddress,
     shipAddress: s.shipAddress ?? null,
+  })
+);
+export const updateShopOrderValues = createSelector(
+  createShopOrderValues,
+  getOrderId,
+  (v, orderId): UpdateShopOrder => ({
+    ...v,
+    orderId,
   })
 );

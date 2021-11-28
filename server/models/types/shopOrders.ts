@@ -5,6 +5,7 @@ import { User } from './user';
 export type ShopOrder = Model<ShopOrderModel>;
 
 export enum ShopOrderState {
+  Open = 'open',
   Ordered = 'ordered',
   Paid = 'paid',
   Refund = 'refund',
@@ -30,7 +31,7 @@ export type ShopOrderModel = {
   orderId: number;
   items: ShopItem[];
   orderState: ShopOrderState;
-  finished?: Date;
+  finished?: Date | null;
   paidShipping: boolean;
   notes?: string;
   total: number;

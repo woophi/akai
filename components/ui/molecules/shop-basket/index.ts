@@ -1,1 +1,3 @@
-export { ShopBasket } from './ShopBasket';
+import { ShopBasket } from './ShopBasket';
+
+export default ShopBasket;

@@ -46,7 +46,10 @@ export const ShopOrderSchema = new mongoose.Schema(
       type: String,
       index: true,
     },
-    finished: Date,
+    finished: {
+      type: Date,
+      default: null,
+    },
     paidShipping: Boolean,
     notes: String,
     total: Number,

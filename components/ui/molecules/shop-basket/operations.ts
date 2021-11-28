@@ -1,5 +1,6 @@
+import { callApi } from 'core/common';
 import { testEmail } from 'core/lib';
-import { AddressFormModel } from 'core/models';
+import { AddressFormModel, CreateShopOrder, UpdateShopOrder } from 'core/models';
 
 export const validate = (values: AddressFormModel, t: (s: string) => string, withShipAdd: boolean) => {
   const errors: Partial<AddressFormModel> = {
@@ -64,3 +65,6 @@ export const validate = (values: AddressFormModel, t: (s: string) => string, wit
 
   return errors;
 };
+
+export const createShopOrder = (data: CreateShopOrder) => callApi<{ orderId: number }>('post', 'api/guest/order', data);
+export const updateShopOrder = (data: UpdateShopOrder) => callApi('put', 'api/guest/order', data);

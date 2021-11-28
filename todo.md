@@ -1,6 +1,6 @@
 - trustpilot shop reviews
 
-- if go to last step -> finish order and update data with request -> notify admin and user
+- if go to last step -> notify admin and user
 - basket finish goes to email notification for akai
 - add orders to admin (list, info)
 

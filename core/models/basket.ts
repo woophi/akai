@@ -61,3 +61,6 @@ export type CreateShopOrder = {
   shipAddress?: ShipAddress | null;
   billAddress?: BillAddress;
 };
+export type UpdateShopOrder = CreateShopOrder & {
+  orderId: number;
+};
