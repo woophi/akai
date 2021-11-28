@@ -181,6 +181,9 @@ export function router(
     controllers.deleteShopCategory
   );
 
+  // orders
+  app.get('/api/admin/orders', identity.authorizedForAdmin, controllers.getAdminShopOrders);
+
   // dashboard
   app.get('/api/admin/dashboard/topBlogs', identity.authorizedForAdmin, controllers.getTopFiveViewBlogs);
 

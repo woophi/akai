@@ -1,7 +1,6 @@
 - trustpilot shop reviews
 
-- basket finish goes to email notification for akai
-- add orders to admin (list, info)
+- add orders to admin (info)
 
 - main screen 5 new orders
 - add order page

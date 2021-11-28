@@ -10,6 +10,7 @@ export const styleTruncate: CSSProperties = {
 export const toAlbums = () => goToSpecific('/admin/albums');
 export const toBlogs = () => goToSpecific('/admin/blogs');
 export const toShop = () => goToSpecific('/admin/shop');
+export const toOrders = () => goToSpecific('/admin/orders');
 export const toSlider = () => goToSpecific('/admin/slider');
 export const toBio = () => goToSpecific('/admin/bio');
 export const toPhotos = () => goToSpecific('/admin/photos');

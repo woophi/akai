@@ -2,54 +2,55 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { goToDeep } from 'core/common';
-import { ROLES, UserModel } from 'core/models/admin';
+import { numberWithCommas } from 'core/lib';
+import { ShopOrderItem } from 'core/models/admin';
 import * as React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { styleTruncate } from 'ui/atoms/constants';
 import { InputSearch } from 'ui/atoms/InputSearch';
-import { getUsers } from './operations';
+import { getOrders } from './operations';
 
 type Props = {
-  users: UserModel[];
+  orders: ShopOrderItem[];
 };
 
 const Row = (props: ListChildComponentProps) => {
   const { index, style, data } = props;
-  const { users } = data as Props;
+  const { orders } = data as Props;
 
-  const isSuperAdmin = users[index].roles.includes(ROLES.GODLIKE);
-
+  const order = orders[index];
   return (
-    <ListItem button style={style as React.CSSProperties} key={index} disabled={isSuperAdmin}>
+    <ListItem button style={style as React.CSSProperties} key={index}>
       <ListItemText
         primaryTypographyProps={{ noWrap: true }}
         style={styleTruncate}
-        onClick={() => goToDeep(`edit/${users[index]._id}`)}
-        primary={users[index].name}
+        onClick={() => goToDeep(`${order.orderId}`)}
+        primary={`(${order.orderId}) ${order.name} - ${order.email} - ${order.orderState}`}
+        secondary={`$${numberWithCommas(order.total)}`}
       />
     </ListItem>
   );
 };
 
-export const UsersList: React.FC = () => {
+export const OrdersList: React.FC = () => {
   const classes = useStyles({});
   const [query, search] = React.useState('');
-  const [users, setList] = React.useState<UserModel[]>([]);
+  const [orders, setList] = React.useState<ShopOrderItem[]>([]);
 
   React.useEffect(() => {
-    getUsers().then(setList).catch(console.error);
+    getOrders().then(setList).catch(console.error);
   }, []);
 
   const getList = () =>
-    users.filter(
+    orders.filter(
       f =>
         f.email.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         f.name.toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
 
   const itemData: Props = {
-    users: getList(),
+    orders: getList(),
   };
 
   return (

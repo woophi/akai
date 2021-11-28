@@ -15,6 +15,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Slideshow from '@material-ui/icons/Slideshow';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 import VideoLibrary from '@material-ui/icons/VideoLibrary';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import Wallpaper from '@material-ui/icons/Wallpaper';
 import { logout } from 'core/operations/auth';
 import { useAppSelector } from 'core/reducers/rootReducer';
@@ -35,6 +36,12 @@ export const AdminMenu = React.memo(() => {
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary={'Магазин'} />
+        </ListItem>
+        <ListItem button onClick={constants.toOrders}>
+          <ListItemIcon>
+            <ViewModuleIcon />
+          </ListItemIcon>
+          <ListItemText primary={'Заказы'} />
         </ListItem>
         <ListItem button onClick={constants.toAlbums}>
           <ListItemIcon>

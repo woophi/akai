@@ -88,6 +88,9 @@ const SpecificRoute: React.FC<SpecificRouteProps> = ({ currentRoute }) => {
   if (currentRoute.indexOf('shop') !== -1) {
     return <StyledBreadcrumb label={'Магазин'} onClick={constants.toShop} />;
   }
+  if (currentRoute.indexOf('orders') !== -1) {
+    return <StyledBreadcrumb label={'Заказы'} onClick={constants.toOrders} />;
+  }
   if (currentRoute.indexOf('terms-and-conditions') !== -1) {
     return <StyledBreadcrumb label={'Terms'} onClick={constants.toTT} />;
   }

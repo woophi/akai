@@ -27,7 +27,7 @@ export const sendShopOrderMailNotificationToAdmins = async (order: ShopOrder) =>
           img: i.files[0].url,
           price: i.price,
         })),
-        orderUrl: `${config.SITE_URI}admin/order/${order.orderId}`,
+        orderUrl: `${config.SITE_URI}admin/orders/${order.orderId}`,
       }
     );
     mailer.performQueue();
