@@ -11,6 +11,7 @@ export const getSCategories = createSelector(getShopState, s => s.categories);
 export const getSProducts = createSelector(getShopState, s => s.products);
 export const getSCategory = createSelector(getShopState, s => s.selectedCategory);
 export const getSProduct = createSelector(getShopState, s => s.selectedItem);
+export const getSOrder = createSelector(getShopState, s => s.selectedOrder);
 
 export const getShopBasketValues = createSelector(getCustomerShopState, s => Object.values(s.basket));
 export const getActiveStep = createSelector(getCustomerShopState, s => s.sessionState);

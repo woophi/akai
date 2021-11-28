@@ -8,6 +8,8 @@ export enum ShopOrderState {
   Open = 'open',
   Ordered = 'ordered',
   Paid = 'paid',
+  Shipping = 'shipping',
+  Shipped = 'shipped',
   Refund = 'refund',
 }
 

@@ -2,6 +2,8 @@ export enum ShopOrderState {
   Open = 'open',
   Ordered = 'ordered',
   Paid = 'paid',
+  Shipping = 'shipping',
+  Shipped = 'shipped',
   Refund = 'refund',
 }
 
@@ -20,7 +22,7 @@ export type OrderBillAddress = OrderShipAddress & {
 };
 
 export type OrderItem = {
-  _id: string;
+  id: string;
   url: string;
   title: string;
   price: number;
@@ -46,4 +48,15 @@ export type ShopOrderItem = {
   total: number;
   email: string;
   name: string;
+};
+
+export type ShopOrderForm = {
+  orderId: number;
+  orderState: ShopOrderState;
+  paidShipping: boolean;
+  notes?: string;
+  total: number;
+  refundReason: string;
+  shipAddress?: OrderShipAddress;
+  billAddress?: OrderBillAddress;
 };

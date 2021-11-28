@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ShopCategoryInfo, ShopCategoryItem, ShopItemInfo } from 'core/models';
+import { ShopCategoryInfo, ShopCategoryItem, ShopItemInfo, ShopOrderModel } from 'core/models';
 
 type ShopState = {
   categories: ShopCategoryItem[];
   products: ShopItemInfo[];
   selectedCategory: ShopCategoryInfo | null;
   selectedItem: ShopItemInfo | null;
+  selectedOrder: ShopOrderModel | null;
 };
 
 const initialState: ShopState = {
@@ -13,6 +14,7 @@ const initialState: ShopState = {
   products: [],
   selectedCategory: null,
   selectedItem: null,
+  selectedOrder: null,
 };
 
 const adminShopSlice = createSlice({
@@ -30,6 +32,9 @@ const adminShopSlice = createSlice({
     },
     selectItem: (state, a: PayloadAction<ShopItemInfo>) => {
       state.selectedItem = a.payload;
+    },
+    selectOrder: (state, a: PayloadAction<ShopOrderModel>) => {
+      state.selectedOrder = a.payload;
     },
   },
 });

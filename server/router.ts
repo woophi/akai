@@ -183,6 +183,12 @@ export function router(
 
   // orders
   app.get('/api/admin/orders', identity.authorizedForAdmin, controllers.getAdminShopOrders);
+  app.get(
+    '/api/admin/orders/:orderId',
+    identity.authorizedForAdmin,
+    validator.params(controllers.validateAdminOrderGet),
+    controllers.getAdminShopOrder
+  );
 
   // dashboard
   app.get('/api/admin/dashboard/topBlogs', identity.authorizedForAdmin, controllers.getTopFiveViewBlogs);
