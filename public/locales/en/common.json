@@ -81,7 +81,9 @@
     "country": "Country",
     "streetAddress": "Street address",
     "city": "City",
-    "postcode": "Postcode"
+    "postcode": "Postcode",
+    "notes": "Notes",
+    "notesPlaceholder": "Notes about your order, e.g. special notes for delivery."
   },
   "unsub": {
     "title": "Unsubscribe from all e-mail notifications",

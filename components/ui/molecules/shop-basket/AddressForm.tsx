@@ -64,6 +64,7 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
               ...orderValues,
               shipAddress: data.shipAddress ?? null,
               billAddress: data.billAddress,
+              notes: data.notes,
             });
             dispatch(shopActions.setAddress({ ...data, orderId: res.orderId }));
           } else {
@@ -369,6 +370,26 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
                     )}
                   />
                 </Collapse>
+
+                <Field
+                  name="notes"
+                  render={({ input, meta }) => (
+                    <TextField
+                      {...input}
+                      variant="outlined"
+                      label={t('forms.notes')}
+                      placeholder={t('form.notesPlaceholder')}
+                      multiline
+                      rows="4"
+                      error={Boolean(meta.touched && meta.error)}
+                      helperText={(meta.touched && meta.error) || `${input.value.length}/256`}
+                      disabled={submitting}
+                      inputProps={{
+                        maxLength: 256,
+                      }}
+                    />
+                  )}
+                />
                 <Box marginX="1rem">
                   <Alert severity="warning">
                     {t('basket.ppWarn')}{' '}

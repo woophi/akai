@@ -81,7 +81,9 @@
     "country": "Země",
     "streetAddress": "Adresa ulice",
     "city": "Město",
-    "postcode": "PSČ"
+    "postcode": "PSČ",
+    "notes": "Poznámky",
+    "notesPlaceholder": "Poznámky k vaší objednávce, např. zvláštní poznámky k doručení."
   },
   "unsub": {
     "title": "Zrušit odběr všech e-mailových oznámení",

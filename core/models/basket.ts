@@ -50,6 +50,7 @@ export type AddressFormModel = {
   shipAddress?: ShipAddress;
   billAddress?: BillAddress;
   tandcConfirm?: boolean;
+  notes?: string;
 };
 
 export type CreateShopOrder = {

@@ -61,6 +61,7 @@ const shopSlice = createSlice({
 
       state.tandcConfirm = a.payload.tandcConfirm;
       state.orderId = a.payload.orderId;
+      state.notes = a.payload.notes;
       LS.setItem(LS.keys.Basket, state);
     },
     resetToDefault: state => {
