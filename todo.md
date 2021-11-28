@@ -1,6 +1,5 @@
 - trustpilot shop reviews
 
-- if go to last step -> notify admin and user
 - basket finish goes to email notification for akai
 - add orders to admin (list, info)
 
@@ -8,3 +7,4 @@
 - add order page
 - add orders to user profile
 - add shop page
+- decrement items count on finished order

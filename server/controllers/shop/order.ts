@@ -5,6 +5,7 @@ import moment from 'moment';
 import { getSessionData, HTTPStatus } from 'server/lib/models';
 import { ShopOrderTable } from 'server/models/shopOrders';
 import { CreateShopOrder, ShopItem, ShopOrderState } from 'server/models/types';
+import { sendShopOrderMailNotificationToAdmins, sendShopOrderMailNotificationToCustomer } from './mails';
 
 const shipAddressJoi = Joi.object({
   name: Joi.string().required(),
@@ -74,6 +75,19 @@ export const updateShopOrder = async (req: ValidatedRequest<UpdateOrder>, res: R
     order.total = req.body.total;
     order.shipAddress = req.body.shipAddress;
     order.billAddress = req.body.billAddress;
+
+    await order.save();
+
+    await order.populate({
+      path: 'items',
+      populate: {
+        path: 'files',
+        select: 'url',
+      },
+      select: 'files price',
+    });
+    sendShopOrderMailNotificationToAdmins(order);
+    sendShopOrderMailNotificationToCustomer(order);
 
     return res.sendStatus(HTTPStatus.OK);
   } catch (error) {
