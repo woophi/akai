@@ -22,6 +22,11 @@ export const hasBasketItem = createSelector(
   (_: AppState, productId: string) => productId,
   (s, pId) => !!s.basket[pId]
 );
+export const isRemoveItemsDisabled = createSelector(
+  getShopBasketValues,
+  getOrderId,
+  (v, orderId) => v.length === 1 && !!orderId
+);
 
 export const getAddressValues = createSelector(
   getCustomerShopState,

@@ -4,7 +4,7 @@ import { Alert } from '@material-ui/lab';
 import { numberWithCommas } from 'core/lib';
 import { useAppSelector } from 'core/reducers/rootReducer';
 import { shopActions } from 'core/reducers/shop';
-import { getShopBasketValues } from 'core/selectors';
+import { isRemoveItemsDisabled, getShopBasketValues } from 'core/selectors';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
@@ -12,6 +12,7 @@ import { ShippingForm } from './ShippingForm';
 
 export const ShopBasketPreview = React.memo<{ withoutRemove?: boolean }>(({ withoutRemove = false }) => {
   const allItems = useAppSelector(getShopBasketValues);
+  const removeDisabled = useAppSelector(isRemoveItemsDisabled);
   const totalPrice = useAppSelector(s => s.ui.shop.total);
   const classes = useStyles();
   const isSmallEnough = useMediaQuery('(max-width:800px)');
@@ -52,7 +53,7 @@ export const ShopBasketPreview = React.memo<{ withoutRemove?: boolean }>(({ with
                 </Typography>
                 <b>${numberWithCommas(cI.price)}</b>
                 {!withoutRemove && (
-                  <IconButton className={classes.remove} onClick={() => removeItem(cI.id)}>
+                  <IconButton disabled={removeDisabled} className={classes.remove} onClick={() => removeItem(cI.id)}>
                     <ClearIcon />
                   </IconButton>
                 )}

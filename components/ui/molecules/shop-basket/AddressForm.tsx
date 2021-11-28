@@ -378,7 +378,7 @@ export const AddressForm = React.memo<{ setActiveStep: React.Dispatch<React.SetS
                       {...input}
                       variant="outlined"
                       label={t('forms.notes')}
-                      placeholder={t('form.notesPlaceholder')}
+                      placeholder={t('forms.notesPlaceholder')}
                       multiline
                       rows="4"
                       error={Boolean(meta.touched && meta.error)}
