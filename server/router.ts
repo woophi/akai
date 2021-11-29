@@ -12,7 +12,7 @@ import { rateLimiterMiddleware, rateLimiterOrder, rateLimiterRegister } from './
 import * as storage from './storage';
 const Agendash = require('agendash');
 import { createValidator } from 'express-joi-validation';
-import { updateShopOrderValidate, validateLocaleId } from './validations';
+import { validateLocaleId } from './validations';
 
 const options = {
   root: join(__dirname, '../assets'),
@@ -78,7 +78,12 @@ export function router(
     controllers.createShopOrder
   );
   app.get('/api/guest/order/:orderId', validator.params(controllers.validateOrderGet), controllers.getCustomerShopOrder);
-  app.put('/api/guest/order', rateLimiterOrder, validator.body(updateShopOrderValidate), controllers.updateShopOrder);
+  app.put(
+    '/api/guest/order',
+    rateLimiterOrder,
+    validator.body(controllers.updateCustomerOrderValidate),
+    controllers.updateShopOrder
+  );
 
   // user
   app.post('/api/app/user/login', rateLimiterMiddleware, auth.login);

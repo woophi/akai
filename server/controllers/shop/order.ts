@@ -5,10 +5,13 @@ import moment from 'moment';
 import { getSessionData, HTTPStatus } from 'server/lib/models';
 import { ShopOrderTable } from 'server/models/shopOrders';
 import { CreateShopOrder, Locales, ShopItem, ShopOrderState } from 'server/models/types';
-import { validateShopOrderBase } from 'server/validations';
+import { updateShopOrderValidate, validateShopOrderBase } from 'server/validations';
 import { sendShopOrderMailNotificationToAdmins, sendShopOrderMailNotificationToCustomer } from './mails';
 
 export const createShopOrderValidate = validateShopOrderBase.append({
+  items: Joi.array().items(Joi.string()).required(),
+});
+export const updateCustomerOrderValidate = updateShopOrderValidate.append({
   items: Joi.array().items(Joi.string()).required(),
 });
 
