@@ -5,34 +5,13 @@ import moment from 'moment';
 import { getSessionData, HTTPStatus } from 'server/lib/models';
 import { ShopOrderTable } from 'server/models/shopOrders';
 import { CreateShopOrder, ShopItem, ShopOrderState } from 'server/models/types';
+import { validateShopOrderBase } from 'server/validations';
 import { sendShopOrderMailNotificationToAdmins, sendShopOrderMailNotificationToCustomer } from './mails';
 
-const shipAddressJoi = Joi.object({
-  name: Joi.string().required(),
-  lastName: Joi.string().required(),
-  country: Joi.string().required(),
-  streetAddress: Joi.string().required(),
-  city: Joi.string().required(),
-  postcode: Joi.string().required(),
-  companyName: Joi.string().empty(''),
-});
-const billAddressJoi = shipAddressJoi.append({
-  phone: Joi.string().required(),
-  email: Joi.string().email().required(),
-});
-
-export const createShopOrderValidate = Joi.object({
+export const createShopOrderValidate = validateShopOrderBase.append({
   items: Joi.array().items(Joi.string()).required(),
-  paidShipping: Joi.boolean().required(),
-  notes: Joi.string().empty(''),
-  total: Joi.number().required(),
-  shipAddress: shipAddressJoi.allow(null),
-  billAddress: billAddressJoi.required(),
 });
 
-export const updateShopOrderValidate = createShopOrderValidate.append({
-  orderId: Joi.number().required(),
-});
 interface CreateOrder extends ValidatedRequestSchema {
   [ContainerTypes.Body]: CreateShopOrder;
 }

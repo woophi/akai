@@ -4,6 +4,7 @@ import { ShopOrderForm, ShopOrderItem, ShopOrderModel } from 'core/models';
 
 export const getOrders = () => callUserApi<ShopOrderItem[]>('get', 'api/admin/orders');
 export const getOrder = (orderId: number) => callUserApi<ShopOrderModel>('get', `api/admin/orders/${orderId}`);
+export const updateOrder = (data: ShopOrderForm) => callUserApi('put', 'api/admin/order', data);
 
 export const validate = (values: ShopOrderForm, t: (s: string) => string) => {
   const errors: Partial<ShopOrderForm> = {

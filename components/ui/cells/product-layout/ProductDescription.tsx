@@ -23,7 +23,7 @@ export const ProductDescription = React.memo<Props>(({ description, params }) =>
         <Tab label={t('shop.addInfo')} wrapped />
       </Tabs>
       <TabPanel value={tabValue} index={0}>
-        <Box minWidth="50vw" padding="1rem" maxWidth="720px">
+        <Box padding="1rem">
           <Typography component="div" gutterBottom>
             <div className="quill ">
               <div className="ql-snow">

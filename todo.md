@@ -1,6 +1,5 @@
 - trustpilot shop reviews
 
-- add orders to admin info - api endpoint to update
 - add order page for customer
 
 - main screen 5 new orders

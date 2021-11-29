@@ -15,6 +15,7 @@ import {
 import Box from '@material-ui/core/Box';
 import { numberWithCommas, theme } from 'core/lib';
 import { ShopOrderForm, ShopOrderState } from 'core/models';
+import { adminShopActions } from 'core/reducers/admin/shop';
 import { FORM_ERROR } from 'final-form';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
@@ -23,7 +24,7 @@ import { useTranslation } from 'server/lib/i18n';
 import { ButtonsForm, Snakbars } from 'ui/atoms';
 import { GreenRadio } from 'ui/atoms/GreenRadio';
 import { TextField } from 'ui/atoms/TextField';
-import { validate } from './operations';
+import { getOrder, updateOrder, validate } from './operations';
 
 export const EditOrder = React.memo<{ initialValues: ShopOrderForm }>(({ initialValues }) => {
   const { t } = useTranslation('common');
@@ -32,6 +33,19 @@ export const EditOrder = React.memo<{ initialValues: ShopOrderForm }>(({ initial
 
   const onSubmit = React.useCallback(async (data: ShopOrderForm) => {
     try {
+      await updateOrder({
+        orderId: data.orderId,
+        orderState: data.orderState,
+        paidShipping: data.paidShipping,
+        refundReason: data.refundReason,
+        total: data.total,
+        billAddress: data.billAddress,
+        notes: data.notes,
+        shipAddress: data.shipAddress,
+      });
+      getOrder(data.orderId)
+        .then(o => dispatch(adminShopActions.selectOrder(o)))
+        .catch(console.error);
     } catch (error) {
       return { [FORM_ERROR]: JSON.stringify(error) };
     }

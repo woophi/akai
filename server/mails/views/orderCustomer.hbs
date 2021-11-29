@@ -37,6 +37,16 @@
           font-size: 14px;
           vertical-align: top;
       }
+
+      .img-pic {
+        marginTop: 16px;
+        border: 1px solid #f6f6f6;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        width: 128px;
+        padding: 4px;
+      }
       /* -------------------------------------
           BODY & CONTAINER
       ------------------------------------- */
@@ -311,14 +321,14 @@
                     <tr>
                       <td>
                         <h1>Pictures:</h1>
-                        <div style="display: flex;">
-                          {{#each items}}
-                            <div style="margin: 16px;">
-                              <b>${{this.price}}</b>
+                        {{#each items}}
+                          <div>
+                            <div class="img-pic">
                               <img src="{{this.img}}" width="120px" />
                             </div>
-                          {{/each}}
-                        </div>
+                            <p><b style="margin-bottom: 4px;">${{this.price}}</b></p>
+                          </div>
+                        {{/each}}
                         <h3>In case you still didn't pay for order, please use direct bank transfer to our account.</h3>
                         <p>Please use your Order ID: <b>{{orderId}}</b> as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
                         <h2>Bank details:</h2>
@@ -347,7 +357,7 @@
                         <p>Street address: {{billAddress.streetAddress}}</p>
                         <p>City: {{billAddress.city}}</p>
                         <p>Postcode: {{billAddress.postcode}}</p>
-                        {{#if shipAddress}}
+                        {{#if shipAddress.streetAddress}}
                           <h2>Shipping Address</h2>
                           <p>Name: {{shipAddress.name}} {{shipAddress.lastName}}</p>
                           {{#if shipAddress.companyName}}

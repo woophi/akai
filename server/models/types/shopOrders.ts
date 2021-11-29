@@ -50,3 +50,8 @@ export type CreateShopOrder = {
   shipAddress?: ShipAddress;
   billAddress?: BillAddress;
 };
+export type UpdateAdminShopOrder = CreateShopOrder & {
+  orderId: number;
+  orderState: ShopOrderState;
+  refundReason: string;
+};

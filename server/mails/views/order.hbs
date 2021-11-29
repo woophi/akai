@@ -37,6 +37,16 @@
           font-size: 14px;
           vertical-align: top;
       }
+
+      .img-pic {
+        marginTop: 16px;
+        border: 1px solid #f6f6f6;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        width: 128px;
+        padding: 4px;
+      }
       /* -------------------------------------
           BODY & CONTAINER
       ------------------------------------- */
@@ -312,14 +322,14 @@
                       <td>
                         <p>На сайте поступил новый заказ</p>
                         <h1>Картины:</h1>
-                        <div style="display: flex;">
-                          {{#each items}}
-                            <div style="margin: 16px;">
-                              <b>${{this.price}}</b>
+                        {{#each items}}
+                          <div>
+                            <div class="img-pic">
                               <img src="{{this.img}}" width="120px" />
                             </div>
-                          {{/each}}
-                        </div>
+                            <p><b style="margin-bottom: 4px;">${{this.price}}</b></p>
+                          </div>
+                        {{/each}}
                         <p><b>Сумма:</b> ${{total}}</p>
                         {{#if paidShipping}}
                           <p>Платная доставка в рамке</p>
@@ -341,7 +351,7 @@
                         <p>Улица: {{billAddress.streetAddress}}</p>
                         <p>Город: {{billAddress.city}}</p>
                         <p>Индекс: {{billAddress.postcode}}</p>
-                        {{#if shipAddress}}
+                        {{#if shipAddress.streetAddress}}
                           <h2>Shipping Address</h2>
                           <p>Имя: {{shipAddress.name}} {{shipAddress.lastName}}</p>
                           {{#if shipAddress.companyName}}

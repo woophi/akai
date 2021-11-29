@@ -76,21 +76,23 @@ export const getProductData = async (req: ValidatedRequest<GProductGet>, res: Re
         .lean()
     )[0];
 
-    const relatedProducts = await ShopItemTable.find({ deleted: null, _id: { $ne: shopItem._id } })
-      .where('categories')
-      .in([shopItem.categories[0]._id])
-      .sort({ views: -1 })
-      .limit(3)
-      .populate({
-        path: 'files',
-        select: 'name url',
-      })
-      .populate({
-        path: 'categories',
-        select: 'name',
-      })
-      .select('title files categories price stock href')
-      .lean();
+    const relatedProducts = shopItem.categories[0]
+      ? await ShopItemTable.find({ deleted: null, _id: { $ne: shopItem._id } })
+          .where('categories')
+          .in([shopItem.categories[0]._id])
+          .sort({ views: -1 })
+          .limit(3)
+          .populate({
+            path: 'files',
+            select: 'name url',
+          })
+          .populate({
+            path: 'categories',
+            select: 'name',
+          })
+          .select('title files categories price stock href')
+          .lean()
+      : [];
 
     const data = {
       ...shopItem,

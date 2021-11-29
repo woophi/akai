@@ -19,5 +19,5 @@ export const checkUser = async (req: Request, res: Response) => {
 
   const userId = (req.session as unknown as SessionData).userId;
   const userData = await fetchUserData(userId);
-  return res.send({ ...userData, token: validateTokenResult, userId });
+  return res.send({ ...userData, token: validateTokenResult.accessToken, userId });
 };
