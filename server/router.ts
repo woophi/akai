@@ -77,6 +77,7 @@ export function router(
     validator.body(controllers.createShopOrderValidate),
     controllers.createShopOrder
   );
+  app.get('/api/guest/order/:orderId', validator.params(controllers.validateOrderGet), controllers.getCustomerShopOrder);
   app.put('/api/guest/order', rateLimiterOrder, validator.body(updateShopOrderValidate), controllers.updateShopOrder);
 
   // user
@@ -181,7 +182,7 @@ export function router(
   app.get(
     '/api/admin/orders/:orderId',
     identity.authorizedForAdmin,
-    validator.params(controllers.validateAdminOrderGet),
+    validator.params(controllers.validateOrderGet),
     controllers.getAdminShopOrder
   );
   app.put(

@@ -29,7 +29,7 @@ export const getAdminShopOrders = async (req: Request, res: Response) => {
   }
 };
 
-export const validateAdminOrderGet = Joi.object({
+export const validateOrderGet = Joi.object({
   orderId: Joi.string().required(),
 });
 

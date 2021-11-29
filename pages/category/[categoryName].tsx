@@ -31,9 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   try {
     const lang = getLanguage(req);
     data = await getCategoryData(categoryName, lang);
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   if (!data) {
     return {

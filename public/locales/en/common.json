@@ -150,5 +150,12 @@
     "ppWarnPolicy": "privacy policy.",
     "readTandC": "I have read and agree to the website",
     "TandC": "terms and conditions"
+  },
+  "order": {
+    "refund": "Refunded",
+    "ordered": "Ordered and waiting for payment",
+    "paid": "Paid and ready for shipping",
+    "shipping": "Sent",
+    "shipped": "Delivered"
   }
 }

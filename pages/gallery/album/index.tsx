@@ -25,9 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   try {
     const lang = getLanguage(req);
     data = await getAlbumData(String(query.id), lang);
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   if (!data) {
     return {

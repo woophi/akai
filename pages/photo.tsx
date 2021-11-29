@@ -22,9 +22,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   let data = null;
   try {
     data = await getPhotos();
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   if (!data) {
     return {

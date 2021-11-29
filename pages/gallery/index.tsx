@@ -24,9 +24,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     const lang = getLanguage(req);
     albums = await getAllAlbums(lang);
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   if (!albums) {
     return {

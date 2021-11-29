@@ -35,9 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const lang = getLanguage(req);
     data = await callApi<models.SlideModel[]>('get', `api/guest/slides?localeId=${lang}`);
     shopData = await getShopRelatedData(lang);
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   return {
     props: { data, shopData },

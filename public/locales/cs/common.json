@@ -150,5 +150,12 @@
     "ppWarnPolicy": "ochrany osobních údajů.",
     "readTandC": "Přečetl jsem si a souhlasím s",
     "TandC": "podmínkami webu"
+  },
+  "order": {
+    "refund": "Vráceno",
+    "ordered": "Objednáno a čeká na platbu",
+    "paid": "Zaplaceno a připraveno k odeslání",
+    "shipping": "Odeslano",
+    "shipped": "Doručeno"
   }
 }

@@ -59,9 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   try {
     const lang = getLanguage(req);
     blog = await getBlogData(String(query.id), lang);
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   if (!blog) {
     return {

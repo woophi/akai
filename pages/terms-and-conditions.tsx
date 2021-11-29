@@ -20,9 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     const lang = getLanguage(req);
     tandc = await getTermsAndConditions(lang);
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   if (!tandc) {
     return {

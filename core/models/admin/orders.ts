@@ -27,6 +27,7 @@ export type OrderItem = {
   title: string;
   price: number;
   stock: number;
+  href: string;
 };
 
 export type ShopOrderModel = {
