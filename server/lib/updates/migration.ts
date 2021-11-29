@@ -17,7 +17,7 @@ mongoose.model(SchemaNames.MIGRATIONS, UpdateModel);
 
 const Update = mongoose.model(SchemaNames.MIGRATIONS);
 
-let updatesPath = path.resolve(__dirname, '../../migration');
+let updatesPath = path.resolve(__dirname, `../../migration${config.DEV_MODE ? '/dev' : ''}`);
 
 if (!fs.existsSync(updatesPath)) {
   console.warn('updatesPath not exist');
