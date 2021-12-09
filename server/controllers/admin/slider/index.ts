@@ -24,11 +24,11 @@ const slideValidate = Joi.object({
   id: Joi.string(),
   ordinal: Joi.number().required(),
   fileId: Joi.string().required(),
-  title: languageContent,
-  subTitle: languageContent,
+  title: languageContent.allow({}),
+  subTitle: languageContent.allow({}),
   button: Joi.object({
     shopItem: Joi.string().allow(null),
-    name: languageContent,
+    name: languageContent.allow({}),
   }),
 });
 

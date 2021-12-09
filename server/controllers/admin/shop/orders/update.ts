@@ -24,6 +24,7 @@ export const updateAdminShopOrder = async (req: ValidatedRequest<AdminOrderUpdat
     }
 
     order.orderState = req.body.orderState;
+    order.refundReason = req.body.refundReason;
     order.paidShipping = req.body.paidShipping;
     order.notes = req.body.notes;
     order.total = req.body.total;
