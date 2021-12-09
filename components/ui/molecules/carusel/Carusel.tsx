@@ -47,8 +47,8 @@ export const Carusel = React.memo<Props>(({ slides = [] }) => {
 
 const useStyles = makeStyles(theme => ({
   carusel: (p: { isMobile: boolean }) => ({
-    height: '80vh',
-    maxHeight: '80vh',
+    height: p.isMobile ? '50vh' : '80vh',
+    maxHeight: p.isMobile ? '50vh' : '80vh',
     position: 'relative',
 
     backgroundRepeat: 'no-repeat',
