@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
 import * as RateLimiter from 'rate-limiter-flexible';
-import { ClientOpts, createClient } from 'redis';
+import { createClient } from 'redis';
 import config from 'server/config';
 import { Logger } from 'server/logger';
 import { HTTPStatus } from '../models';
 
-const redisOps: ClientOpts = {
+const redisOps = {
   enable_offline_queue: false,
   url: config.REDIS_URI,
 };
