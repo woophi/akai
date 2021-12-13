@@ -1,18 +1,33 @@
 import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
 import * as RateLimiter from 'rate-limiter-flexible';
-import { createClient } from 'redis';
+import Redis, { RedisOptions } from 'ioredis';
 import config from 'server/config';
 import { Logger } from 'server/logger';
 import { HTTPStatus } from '../models';
 
-const redisOps = {
-  enable_offline_queue: false,
-  url: config.REDIS_URI,
+export const redisOptsFromUrl = (urlString: string): RedisOptions => {
+  const redisOpts: Redis.RedisOptions = {};
+  try {
+    const redisUrl = new URL(urlString);
+    redisOpts.port = Number(redisUrl.port) || 6379;
+    redisOpts.host = redisUrl.hostname;
+    redisOpts.db = redisUrl.pathname ? Number(redisUrl.pathname.split('/')[1]) : 0;
+    redisOpts.password = redisUrl.password;
+    redisOpts.username = redisUrl.username;
+    if (redisUrl.protocol === 'rediss:') {
+      redisOpts.tls = {};
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+  return redisOpts;
 };
-const redisClient = createClient(redisOps);
 
-redisClient.connect();
+const redisClient = new Redis({
+  enableOfflineQueue: false,
+  ...redisOptsFromUrl(config.REDIS_URI),
+});
 
 redisClient.on('error', err => {
   console.error(err);
