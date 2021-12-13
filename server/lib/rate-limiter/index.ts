@@ -12,6 +12,13 @@ const redisOps = {
 };
 const redisClient = createClient(redisOps);
 
+redisClient.on('error', err => {
+  console.error(err);
+});
+redisClient.on('connect', e => {
+  console.debug('Connected redis', e);
+});
+
 const opts = {
   storeClient: redisClient,
   points: 10, // Number of points
