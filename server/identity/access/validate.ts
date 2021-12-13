@@ -5,7 +5,7 @@ import { Encryption } from '../encryption';
 import { SessionCookie } from '../session';
 import { setAccessToken } from './assign';
 import { requireUser } from './claims';
-import { ROLES, tenDaysInMS } from './constants';
+import { ROLES, dayInMS } from './constants';
 import { verifyToken } from './verify';
 
 const decrypt = new Encryption().decrypt;
@@ -53,7 +53,7 @@ export const validateTokenAndCreateNewAccessToken = async (signedCookie: string,
         roles: userSession.user.roles ?? [],
       });
       userSession.accessToken = accessToken;
-      userSession.cookie.expires = new Date(Date.now() + tenDaysInMS);
+      userSession.cookie.expires = new Date(Date.now() + dayInMS);
       userSession.save(() => Logger.debug('resave session'));
     }
 

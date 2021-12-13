@@ -5,7 +5,7 @@ import { Hashing } from '../hashing';
 import { User } from 'server/models/types';
 import { Logger } from 'server/logger';
 import config from 'server/config';
-import { setAccessToken, setRefreshToken, tenDaysInMS } from '../access';
+import { setAccessToken, setRefreshToken, dayInMS } from '../access';
 import { SessionData } from 'server/lib/models';
 import { SessionCookie } from '../session';
 
@@ -93,9 +93,9 @@ export class Auth extends Hashing {
         const cookieOpts = {
           signed: true,
           httpOnly: !config.DEV_MODE,
-          maxAge: tenDaysInMS,
+          maxAge: dayInMS,
         };
-        req.session.cookie.maxAge = tenDaysInMS;
+        req.session.cookie.maxAge = dayInMS;
         req.session.cookie.signed = true;
         (req.session as unknown as SessionData).user = user;
         (req.session as unknown as SessionData).userId = user.id;

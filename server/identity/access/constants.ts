@@ -12,4 +12,4 @@ export type Claims = {
 export const oneDay = 86400;
 export const tenDays = '10d';
 
-export const tenDaysInMS = 10 * 24 * 60 * 60 * 1000;
+export const dayInMS = 24 * 60 * 60 * 1000;
