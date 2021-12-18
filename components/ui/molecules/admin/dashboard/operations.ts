@@ -1,10 +1,12 @@
 import { callUserApi } from 'core/common';
-import { BlogTopItem } from 'core/models';
+import { BlogTopItem, ShopOrderItem } from 'core/models';
 
-export const getTopBlogs = async () => {
+export const getAdminDashboard = async () => {
   try {
-    const data = await callUserApi<BlogTopItem[]>('get', 'api/admin/dashboard/topBlogs');
-    return data;
+    return Promise.all([
+      callUserApi<BlogTopItem[]>('get', 'api/admin/dashboard/topBlogs'),
+      callUserApi<ShopOrderItem[]>('get', 'api/admin/dashboard/orders'),
+    ]);
   } catch {
     return [];
   }

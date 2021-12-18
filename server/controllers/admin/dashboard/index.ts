@@ -1,7 +1,8 @@
 import BlogsModel from 'server/models/blog';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { Logger } from 'server/logger';
 import { HTTPStatus } from 'server/lib/models';
+import ShopOrderTable from 'server/models/shopOrders';
 
 type ResponseQuery = {
   _id: string;
@@ -15,7 +16,7 @@ type ResponseQuery = {
   }[];
 };
 
-export const getTopFiveViewBlogs = async (req: Request, res: Response, next: NextFunction) => {
+export const getTopFiveViewBlogs = async (req: Request, res: Response) => {
   try {
     const topBlogs = (await BlogsModel.find()
       .where('deleted', undefined)
@@ -35,6 +36,30 @@ export const getTopFiveViewBlogs = async (req: Request, res: Response, next: Nex
     }));
 
     return res.send(payload).status(HTTPStatus.OK);
+  } catch (error) {
+    Logger.error(error);
+    return res.status(HTTPStatus.Empty).send([]);
+  }
+};
+export const getLastFiveOrders = async (req: Request, res: Response) => {
+  try {
+    const lastOrders = await ShopOrderTable.find()
+      .sort({ orderId: -1 })
+      .select('orderId orderState total billAddress total')
+      .limit(5)
+      .lean();
+
+    return res
+      .send(
+        lastOrders.map(s => ({
+          orderId: s.orderId,
+          orderState: s.orderState,
+          total: s.total,
+          email: s.billAddress?.email,
+          name: `${s.billAddress?.name} ${s.billAddress?.lastName}`,
+        }))
+      )
+      .status(HTTPStatus.OK);
   } catch (error) {
     Logger.error(error);
     return res.status(HTTPStatus.Empty).send([]);
