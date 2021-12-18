@@ -95,6 +95,11 @@ export const deleteShopItem = async (req: ValidatedRequest<ShopItemGet>, res: Re
     if (!shopItem) {
       return res.sendStatus(HTTPStatus.NotFound);
     }
+    for (const categoryId of shopItem.categories) {
+      await ShopCategoryTable.findByIdAndUpdate(categoryId, {
+        $pull: { shopItems: shopItem.id },
+      }).exec();
+    }
     shopItem.deleted = moment().toDate();
 
     await shopItem.save();
