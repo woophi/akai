@@ -103,6 +103,7 @@ export function router(
     validator.body(controllers.validateProfileUpdate),
     controllers.updateProfile
   );
+  app.get('/api/app/user/orders', identity.authorizedForUser, controllers.getUserShopOrders);
 
   // admin
   app.post('/api/admin/new/user', identity.authorizedForAdmin, controllers.createUser);

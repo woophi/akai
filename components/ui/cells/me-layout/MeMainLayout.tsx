@@ -1,7 +1,8 @@
-import { Box, Paper, Tabs, Tab } from '@material-ui/core';
+import { Box, Paper, Tab, Tabs } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'server/lib/i18n';
 import { TabPanel } from 'ui/atoms/TabPanel';
+import { UserOrders } from './List';
 import { Profile } from './Profile';
 
 export const MeMainLayout = React.memo(() => {
@@ -23,11 +24,15 @@ export const MeMainLayout = React.memo(() => {
           scrollButtons="on"
         >
           <Tab label={t('acc.profile')} />
+          <Tab label={t('acc.orders')} />
         </Tabs>
       </Paper>
       <Box paddingTop="1rem" paddingX=".25rem">
         <TabPanel value={tabValue} index={0}>
           <Profile />
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <UserOrders />
         </TabPanel>
       </Box>
     </Box>

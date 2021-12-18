@@ -56,7 +56,8 @@
     "profile": "Profile",
     "logOut": "Log out",
     "logIn": "Sign in",
-    "registr": "Sign up"
+    "registr": "Sign up",
+    "orders": "Orders"
   },
   "register": {
     "title": "New user"
