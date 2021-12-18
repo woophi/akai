@@ -46,7 +46,8 @@
     "youtube": "Youtube",
     "video": "Video",
     "photo": "Foto",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "shop": "Obchod"
   },
   "login": {
     "title": "Přihlašovací formulář",
@@ -103,7 +104,9 @@
     "register": "Zaregistrovat",
     "back": "Zpátky",
     "next": "Další",
-    "placeOrder": "Objednat"
+    "placeOrder": "Objednat",
+    "loadMore": "Načíst další",
+    "loading": "Načítání..."
   },
   "errors": {
     "404": "Stránka nenalezena",

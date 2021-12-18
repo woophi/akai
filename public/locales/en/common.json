@@ -46,7 +46,8 @@
     "youtube": "Youtube",
     "video": "Video",
     "photo": "Photo",
-    "contact": "Contact"
+    "contact": "Contact",
+    "shop": "Shop"
   },
   "login": {
     "title": "Sign in form",
@@ -103,7 +104,9 @@
     "register": "Sign up",
     "back": "Back",
     "next": "Next",
-    "placeOrder": "Place order"
+    "placeOrder": "Place order",
+    "loadMore": "Load more",
+    "loading": "Loading..."
   },
   "errors": {
     "404": "Page not found",

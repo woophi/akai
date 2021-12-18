@@ -21,10 +21,19 @@ interface GProductGet extends ValidatedRequestSchema {
 export const validateGShopGet = Joi.object({
   localeId: Joi.string().required(),
 });
+export const validateGShopItemsGet = validateGShopGet.append({
+  offset: Joi.string().required(),
+});
 
 interface GShopGet extends ValidatedRequestSchema {
   [ContainerTypes.Query]: {
     localeId: Locales;
+  };
+}
+interface GShopItemsGet extends ValidatedRequestSchema {
+  [ContainerTypes.Query]: {
+    localeId: Locales;
+    offset: number;
   };
 }
 
@@ -251,6 +260,100 @@ export const getRelatedShopData = async (req: ValidatedRequest<GShopGet>, res: R
     };
 
     return res.send(data).status(HTTPStatus.OK);
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(HTTPStatus.ServerError);
+  }
+};
+export const getGuestShopData = async (req: ValidatedRequest<GShopGet>, res: Response) => {
+  try {
+    const relatedProducts = await ShopItemTable.find({
+      deleted: null,
+    })
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .populate({
+        path: 'files',
+        select: 'name url',
+      })
+      .populate({
+        path: 'categories',
+        select: 'name',
+      })
+      .select('title files categories price stock href')
+      .lean();
+
+    const categories = await ShopCategoryTable.find({ deleted: null })
+      .populate({
+        path: 'coverPhoto',
+        select: 'name url',
+      })
+      .populate({
+        path: 'shopItems',
+        select: '_id',
+        match: { deleted: null },
+      })
+      .select('shopItems name coverPhoto')
+      .lean();
+
+    const data = {
+      products: relatedProducts.map(rp => ({
+        title: rp.title[req.query.localeId],
+        categories: rp.categories.map(c => c.name[req.query.localeId]),
+        price: rp.price,
+        stock: rp.stock,
+        file: rp.files[0],
+        href: rp.href,
+        id: rp._id,
+      })),
+
+      categories: categories.map(c => ({
+        id: c._id,
+        name: c.name[req.query.localeId],
+        productsCount: c.shopItems.length,
+        coverPhoto: c.coverPhoto.url,
+      })),
+    };
+
+    return res.send({ ...data, recentlyAddedProduct: data.products[0], locale: req.query.localeId }).status(HTTPStatus.OK);
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(HTTPStatus.ServerError);
+  }
+};
+
+export const getGuestShopItems = async (req: ValidatedRequest<GShopItemsGet>, res: Response) => {
+  try {
+    const relatedProducts = await ShopItemTable.find({
+      deleted: null,
+    })
+      .sort({ createdAt: -1 })
+      .skip(req.query.offset)
+      .limit(100)
+      .populate({
+        path: 'files',
+        select: 'name url',
+      })
+      .populate({
+        path: 'categories',
+        select: 'name',
+      })
+      .select('title files categories price stock href')
+      .lean();
+
+    return res
+      .send(
+        relatedProducts.map(rp => ({
+          title: rp.title[req.query.localeId],
+          categories: rp.categories.map(c => c.name[req.query.localeId]),
+          price: rp.price,
+          stock: rp.stock,
+          file: rp.files[0],
+          href: rp.href,
+          id: rp._id,
+        }))
+      )
+      .status(HTTPStatus.OK);
   } catch (error) {
     console.error(error);
     return res.sendStatus(HTTPStatus.ServerError);

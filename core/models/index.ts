@@ -11,6 +11,7 @@ export * from './message';
 export * from './photos';
 export * from './product';
 export * from './profile';
+export * from './shop';
 export * from './slider';
 export * from './subscribe';
 export * from './translation';

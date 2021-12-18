@@ -23,6 +23,7 @@ export const Navigation = React.memo(() => {
     <nav className={classes.nav}>
       <Logo />
       <Box margin="auto 0 auto 74px">
+        <LinkButton href="/shop" label={t('common:navigation.shop')} />
         <LinkButton href="/about" label={t('common:navigation.about')} />
         <LinkButton href="/gallery" label={t('common:navigation.gallery')} />
         <ArrowTooltip
@@ -64,6 +65,15 @@ const MobileNavigation = React.memo(() => {
             <NavAccount mobile />
             <IconButton color="primary" className={'fas fa-times'} onClick={toggle} />
           </div>
+          <LinkButton
+            href="/shop"
+            label={t('common:navigation.shop')}
+            variant={'contained'}
+            color="primary"
+            size="small"
+            fullWidth
+            className={classes.alignButton}
+          />
           <LinkButton
             href="/about"
             label={t('common:navigation.about')}

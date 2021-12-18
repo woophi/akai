@@ -5,7 +5,44 @@ import { CategoryRelated } from 'core/models';
 import React from 'react';
 
 export const CategoryButtons: React.FC<{ categories: CategoryRelated[] }> = ({ categories }) => {
-  const classes = useStyles();
+  const classes = useStyles({ column: false });
+
+  const openCategory = React.useCallback((name: string) => {
+    goToSpecific(`/category/${name}`);
+  }, []);
+
+  return (
+    <div className={classes.root}>
+      {categories.map(category => (
+        <ButtonBase
+          focusRipple
+          key={category.id}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          onClick={() => openCategory(category.name)}
+        >
+          <span
+            className={classes.imageSrc}
+            style={{
+              backgroundImage: `url(${category.coverPhoto})`,
+            }}
+          />
+          <span className={classes.imageBackdrop} />
+          <span className={classes.imageButton}>
+            <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
+              <Badge badgeContent={category.productsCount > 99 ? '99+' : category.productsCount} color="error">
+                {category.name}
+              </Badge>
+              <span className={classes.imageMarked} />
+            </Typography>
+          </span>
+        </ButtonBase>
+      ))}
+    </div>
+  );
+};
+export const CategoryButtonsColumn: React.FC<{ categories: CategoryRelated[] }> = ({ categories }) => {
+  const classes = useStyles({ column: true });
 
   const openCategory = React.useCallback((name: string) => {
     goToSpecific(`/category/${name}`);
@@ -44,19 +81,24 @@ export const CategoryButtons: React.FC<{ categories: CategoryRelated[] }> = ({ c
 
 const useStyles = makeStyles(theme =>
   createStyles({
-    root: {
+    root: ({ column }: { column: boolean }) => ({
       display: 'flex',
-      flexWrap: 'wrap',
+      flexWrap: column ? undefined : 'wrap',
       minWidth: 300,
       width: '100%',
       justifyContent: 'center',
       maxWidth: '1200px',
-    },
-    image: {
+      flexDirection: column ? 'column' : undefined,
+    }),
+    image: ({ column }: { column: boolean }) => ({
       position: 'relative',
       height: 200,
-      width: '23%',
-      margin: '.5rem',
+      width: column ? '100%' : '23%',
+      margin: column ? undefined : '.5rem',
+      borderRadius: column ? '4px' : undefined,
+      overflow: column ? 'hidden' : undefined,
+      marginBottom: column ? '.25rem' : undefined,
+      marginTop: column ? '.25rem' : undefined,
       [theme.breakpoints.down('xs')]: {
         width: '100% !important', // Overrides inline-style
         height: 100,
@@ -73,7 +115,7 @@ const useStyles = makeStyles(theme =>
           border: '4px solid currentColor',
         },
       },
-    },
+    }),
     focusVisible: {},
     imageButton: {
       position: 'absolute',
