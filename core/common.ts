@@ -72,8 +72,10 @@ export const uploadFiles = (files: File[]) => {
 
 export const allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
 
-export type GetW = (Window & typeof globalThis) | null;
-export const getWindow = () => {
+export type GetW =
+  | (Window & typeof globalThis & { tp?: (v: 'createInvitation', obj: Record<string, unknown>) => void })
+  | null;
+export const getWindow = (): GetW => {
   if (typeof window !== undefined) {
     return window;
   }

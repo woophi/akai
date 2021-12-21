@@ -1,6 +1,9 @@
 import { Box, Button, Step, StepContent, StepLabel, Stepper } from '@material-ui/core';
+import { getWindow } from 'core/common';
+import { ProductInBasket, UpdateShopOrder } from 'core/models';
 import { shopActions } from 'core/reducers/shop';
 import { getActiveStep, getShopBasketValues, updateShopOrderValues } from 'core/selectors';
+import getConfig from 'next/config';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'server/lib/i18n';
@@ -10,6 +13,27 @@ import { FinishedOrder } from './FinishedOrder';
 import { updateShopOrder } from './operations';
 import { PaymentInfo } from './PaymentInfo';
 import { ShopBasketPreview } from './ShopBasketPreview';
+
+const { publicRuntimeConfig } = getConfig();
+const { SITE_URL } = publicRuntimeConfig;
+
+const tpSendInvite = (values: UpdateShopOrder, allItems: ProductInBasket[]) => {
+  const trustpilot_invitation = {
+    recipientEmail: values.billAddress?.email,
+    recipientName: values.billAddress?.name + ' ' + values.billAddress?.lastName,
+    referenceId: values.orderId,
+    source: 'InvitationScript',
+    productSkus: allItems.map(a => a.id),
+    products: allItems.map(a => ({
+      sku: a.id,
+      productUrl: SITE_URL + 'product/' + a.href,
+      imageUrl: a.file.url,
+      name: a.name,
+    })),
+  };
+
+  getWindow()?.tp?.('createInvitation', trustpilot_invitation);
+};
 
 export const ShopBasket = React.memo(() => {
   const { t } = useTranslation('common');
@@ -28,6 +52,7 @@ export const ShopBasket = React.memo(() => {
   const updateAndThenFinish = React.useCallback(async () => {
     try {
       await updateShopOrder(updateValues);
+      tpSendInvite(updateValues, allItems);
       setActiveStep(prevActiveStep => {
         const nextStep = prevActiveStep + 1;
         dispatch(shopActions.changeSessionState(steps[nextStep].state));
@@ -37,7 +62,7 @@ export const ShopBasket = React.memo(() => {
     } catch (error) {
       console.error(error);
     }
-  }, [updateValues]);
+  }, [updateValues, allItems]);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => {
