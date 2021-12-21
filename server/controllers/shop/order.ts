@@ -3,6 +3,7 @@ import { ContainerTypes, ValidatedRequest, ValidatedRequestSchema } from 'expres
 import Joi from 'joi';
 import moment from 'moment';
 import { getSessionData, HTTPStatus } from 'server/lib/models';
+import ShopItemTable from 'server/models/shopItems';
 import { ShopOrderTable } from 'server/models/shopOrders';
 import { CreateShopOrder, Locales, ShopItem, ShopOrderState } from 'server/models/types';
 import { updateShopOrderValidate, validateShopOrderBase } from 'server/validations';
@@ -64,6 +65,12 @@ export const updateShopOrder = async (req: ValidatedRequest<UpdateOrder>, res: R
     order.billAddress = req.body.billAddress;
 
     await order.save();
+
+    for (const itemId of order.items) {
+      await ShopItemTable.findByIdAndUpdate(itemId, {
+        $inc: { stock: -1 },
+      }).exec();
+    }
 
     await order.populate({
       path: 'items',
