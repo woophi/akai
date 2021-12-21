@@ -17,6 +17,18 @@ class MyDocument extends Document {
           />
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+          <script
+            id="trust-pilot-sc"
+            async
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
+                a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
+                f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
+                tp('register', 'QMJbRDU3KdPO5vEx');
+              `,
+            }}
+          />
         </Head>
         <body>
           <Main />
