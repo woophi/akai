@@ -12,7 +12,6 @@ export * from './InputSearch';
 export * from './Links';
 export * from './Logo';
 export * from './modal';
-export * from './Script';
 export * from './ScrollToTop';
 export * from './Snakbars';
 export * from './SocialButtons';

@@ -4,6 +4,7 @@ import { theme } from 'core/lib';
 import { store } from 'core/store';
 import App from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import * as React from 'react';
 import { Provider as Redux } from 'react-redux';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -27,6 +28,32 @@ class MyApp extends App {
     const { Component, pageProps } = this.props as any;
     return (
       <>
+        <Script id="g-tag-manager" strategy="lazyOnload" src="https://www.googletagmanager.com/gtag/js?id=G-1GNZ6LDGQ1" />
+        <Script
+          id="g-data-layer"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-1GNZ6LDGQ1');          
+              `,
+          }}
+        />
+        <Script
+          id="trust-pilot-sc"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+                (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
+                a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
+                f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
+                tp('register', 'QMJbRDU3KdPO5vEx');
+              `,
+          }}
+        />
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Redux store={store}>

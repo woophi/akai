@@ -1,8 +1,7 @@
-import * as React from 'react';
-import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import * as React from 'react';
 import flush from 'styled-jsx/server';
-import { Script } from 'ui/atoms';
 
 class MyDocument extends Document {
   render() {
@@ -18,20 +17,6 @@ class MyDocument extends Document {
           />
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-          <Script id="g-tag-manager" strategy="lazyOnload" src="https://www.googletagmanager.com/gtag/js?id=G-1GNZ6LDGQ1" />
-          <Script strategy="lazyOnload">{`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-1GNZ6LDGQ1');          
-          `}</Script>
-          <Script strategy="lazyOnload">{`
-           (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
-           a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
-           f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
-           tp('register', 'QMJbRDU3KdPO5vEx');
-          `}</Script>
         </Head>
         <body>
           <Main />
