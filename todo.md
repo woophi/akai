@@ -1,5 +1,2 @@
-- trustpilot shop reviews
-
-
+- trustpilot shop reviews web widget
 - add refund form and admin refunds
-- add review form on order page
