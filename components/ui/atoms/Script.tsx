@@ -1,6 +1,10 @@
-import { FC, ScriptHTMLAttributes } from 'react';
+import NextScript, { ScriptProps } from 'next/script';
+import { FC } from 'react';
 
-export const Script: FC<ScriptHTMLAttributes<HTMLScriptElement>> = ({ children, ...rest }) =>
+export const Script: FC<ScriptProps> = ({ children, ...rest }) =>
   process.env.NODE_ENV !== 'production' ? null : (
-    <script {...rest} dangerouslySetInnerHTML={{ __html: children ? `(() => { ${children.toString()} })();` : '' }}></script>
+    <NextScript
+      {...rest}
+      dangerouslySetInnerHTML={{ __html: children ? `(() => { ${children.toString()} })();` : '' }}
+    ></NextScript>
   );
