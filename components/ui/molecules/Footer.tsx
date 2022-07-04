@@ -28,10 +28,11 @@ export const Footer: React.FC<Props> = React.memo(({ className = '' }) => {
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
         {t('common:footer.developed')}{' '}
-        <Link component="a" variant="body2" href="http://km-webstudio.xyz/contact.html" target="_blank">
+        <Link component="a" variant="body2" href="http://kms.guru/contact" target="_blank">
           {t('common:footer.KM')}
         </Link>
       </Typography>
     </footer>
   );
 });
+
