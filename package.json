@@ -34,7 +34,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "es6-promise": "^4.2.8",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-fileupload": "^1.2.1",
     "express-joi-validation": "^5.0.0",
     "express-session": "^1.17.2",
